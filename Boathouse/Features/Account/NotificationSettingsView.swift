@@ -1,0 +1,82 @@
+import SwiftUI
+import UserNotifications
+
+/// Notification settings view
+struct NotificationSettingsView: View {
+    @StateObject private var viewModel = NotificationSettingsViewModel()
+
+    var body: some View {
+        List {
+            Section {
+                Toggle("Push Notifications", isOn: $viewModel.pushEnabled)
+                    .onChange(of: viewModel.pushEnabled) { _, newValue in
+                        if newValue {
+                            viewModel.requestPermission()
+                        }
+                    }
+            } footer: {
+                Text("Enable push notifications to receive updates about races and results.")
+            }
+
+            if viewModel.pushEnabled {
+                Section("Race Notifications") {
+                    Toggle("Race Starting Soon", isOn: $viewModel.raceStarting)
+                    Toggle("Race Ending Soon", isOn: $viewModel.raceEnding)
+                    Toggle("Results Available", isOn: $viewModel.resultsAvailable)
+                    Toggle("Prize Won", isOn: $viewModel.prizeWon)
+                }
+
+                Section("Activity Notifications") {
+                    Toggle("Activity Imported", isOn: $viewModel.activityImported)
+                    Toggle("Activity Flagged", isOn: $viewModel.activityFlagged)
+                }
+
+                Section("Calendar Reminders") {
+                    Toggle("Add Races to Calendar", isOn: $viewModel.calendarReminders)
+                } footer: {
+                    Text("Automatically add race deadlines to your calendar using EventKit.")
+                }
+            }
+        }
+        .navigationTitle("Notifications")
+        .navigationBarTitleDisplayMode(.inline)
+        .task {
+            await viewModel.checkPermissionStatus()
+        }
+    }
+}
+
+// MARK: - ViewModel
+
+@MainActor
+final class NotificationSettingsViewModel: ObservableObject {
+    @Published var pushEnabled = false
+    @Published var raceStarting = true
+    @Published var raceEnding = true
+    @Published var resultsAvailable = true
+    @Published var prizeWon = true
+    @Published var activityImported = true
+    @Published var activityFlagged = true
+    @Published var calendarReminders = false
+
+    func checkPermissionStatus() async {
+        let center = UNUserNotificationCenter.current()
+        let settings = await center.notificationSettings()
+        pushEnabled = settings.authorizationStatus == .authorized
+    }
+
+    func requestPermission() {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, _ in
+            DispatchQueue.main.async {
+                self.pushEnabled = granted
+            }
+        }
+    }
+}
+
+#Preview {
+    NavigationStack {
+        NotificationSettingsView()
+    }
+}

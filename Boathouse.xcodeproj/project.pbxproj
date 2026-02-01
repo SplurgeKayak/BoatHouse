@@ -1,0 +1,685 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10000000000000000000001 /* BoathouseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000001 /* BoathouseApp.swift */; };
+		A10000000000000000000002 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000002 /* AppState.swift */; };
+		A10000000000000000000003 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000003 /* AppConfig.swift */; };
+		A10000000000000000000004 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000004 /* User.swift */; };
+		A10000000000000000000005 /* Race.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000005 /* Race.swift */; };
+		A10000000000000000000006 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000006 /* Activity.swift */; };
+		A10000000000000000000007 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000007 /* Entry.swift */; };
+		A10000000000000000000008 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000008 /* Wallet.swift */; };
+		A10000000000000000000009 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000009 /* AuthService.swift */; };
+		A10000000000000000000010 /* StravaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000010 /* StravaService.swift */; };
+		A10000000000000000000011 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000011 /* KeychainService.swift */; };
+		A10000000000000000000012 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000012 /* LocationService.swift */; };
+		A10000000000000000000013 /* ModerationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000013 /* ModerationService.swift */; };
+		A10000000000000000000014 /* RaceEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000014 /* RaceEngine.swift */; };
+		A10000000000000000000015 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000015 /* MockData.swift */; };
+		A10000000000000000000050 /* MockStravaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000050 /* MockStravaData.swift */; };
+		A10000000000000000000016 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000016 /* NetworkClient.swift */; };
+		A10000000000000000000017 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000017 /* RootView.swift */; };
+		A10000000000000000000018 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000018 /* MainTabView.swift */; };
+		A10000000000000000000019 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000019 /* ButtonStyles.swift */; };
+		A10000000000000000000020 /* TextFieldStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000020 /* TextFieldStyles.swift */; };
+		A10000000000000000000021 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000021 /* AuthenticationView.swift */; };
+		A10000000000000000000022 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000022 /* AuthViewModel.swift */; };
+		A10000000000000000000023 /* StravaOAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000023 /* StravaOAuthView.swift */; };
+		A10000000000000000000024 /* StravaOAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000024 /* StravaOAuthViewModel.swift */; };
+		A10000000000000000000025 /* StravaWebViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000025 /* StravaWebViewRepresentable.swift */; };
+		A10000000000000000000026 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000026 /* HomeView.swift */; };
+		A10000000000000000000027 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000027 /* HomeViewModel.swift */; };
+		A10000000000000000000028 /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000028 /* LeaderboardView.swift */; };
+		A10000000000000000000029 /* FlagActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000029 /* FlagActivityView.swift */; };
+		A10000000000000000000030 /* RacesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000030 /* RacesView.swift */; };
+		A10000000000000000000031 /* RacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000031 /* RacesViewModel.swift */; };
+		A10000000000000000000032 /* RaceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000032 /* RaceDetailView.swift */; };
+		A10000000000000000000033 /* RaceDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000033 /* RaceDetailViewModel.swift */; };
+		A10000000000000000000034 /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000034 /* EntryView.swift */; };
+		A10000000000000000000035 /* EntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000035 /* EntryViewModel.swift */; };
+		A10000000000000000000036 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000036 /* AccountView.swift */; };
+		A10000000000000000000037 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000037 /* AccountViewModel.swift */; };
+		A10000000000000000000038 /* StravaExplanationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000038 /* StravaExplanationView.swift */; };
+		A10000000000000000000039 /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000039 /* NotificationSettingsView.swift */; };
+		A10000000000000000000040 /* WalletService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000040 /* WalletService.swift */; };
+		A10000000000000000000041 /* WalletSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000041 /* WalletSetupView.swift */; };
+		A10000000000000000000042 /* AddFundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000042 /* AddFundsView.swift */; };
+		A10000000000000000000043 /* TransactionHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000043 /* TransactionHistoryView.swift */; };
+		A10000000000000000000044 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000044 /* OnboardingView.swift */; };
+		A10000000000000000000045 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000045 /* Assets.xcassets */; };
+		A10000000000000000000046 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000046 /* Preview Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		B10000000000000000000000 /* Boathouse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Boathouse.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B10000000000000000000001 /* BoathouseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoathouseApp.swift; sourceTree = "<group>"; };
+		B10000000000000000000002 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		B10000000000000000000003 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		B10000000000000000000004 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		B10000000000000000000005 /* Race.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Race.swift; sourceTree = "<group>"; };
+		B10000000000000000000006 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
+		B10000000000000000000007 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
+		B10000000000000000000008 /* Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallet.swift; sourceTree = "<group>"; };
+		B10000000000000000000009 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		B10000000000000000000010 /* StravaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaService.swift; sourceTree = "<group>"; };
+		B10000000000000000000011 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		B10000000000000000000012 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		B10000000000000000000013 /* ModerationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModerationService.swift; sourceTree = "<group>"; };
+		B10000000000000000000014 /* RaceEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceEngine.swift; sourceTree = "<group>"; };
+		B10000000000000000000015 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		B10000000000000000000050 /* MockStravaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStravaData.swift; sourceTree = "<group>"; };
+		B10000000000000000000016 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
+		B10000000000000000000017 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		B10000000000000000000018 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		B10000000000000000000019 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
+		B10000000000000000000020 /* TextFieldStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldStyles.swift; sourceTree = "<group>"; };
+		B10000000000000000000021 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
+		B10000000000000000000022 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		B10000000000000000000023 /* StravaOAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaOAuthView.swift; sourceTree = "<group>"; };
+		B10000000000000000000024 /* StravaOAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaOAuthViewModel.swift; sourceTree = "<group>"; };
+		B10000000000000000000025 /* StravaWebViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaWebViewRepresentable.swift; sourceTree = "<group>"; };
+		B10000000000000000000026 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		B10000000000000000000027 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		B10000000000000000000028 /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
+		B10000000000000000000029 /* FlagActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagActivityView.swift; sourceTree = "<group>"; };
+		B10000000000000000000030 /* RacesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacesView.swift; sourceTree = "<group>"; };
+		B10000000000000000000031 /* RacesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacesViewModel.swift; sourceTree = "<group>"; };
+		B10000000000000000000032 /* RaceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceDetailView.swift; sourceTree = "<group>"; };
+		B10000000000000000000033 /* RaceDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceDetailViewModel.swift; sourceTree = "<group>"; };
+		B10000000000000000000034 /* EntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryView.swift; sourceTree = "<group>"; };
+		B10000000000000000000035 /* EntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewModel.swift; sourceTree = "<group>"; };
+		B10000000000000000000036 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		B10000000000000000000037 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
+		B10000000000000000000038 /* StravaExplanationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaExplanationView.swift; sourceTree = "<group>"; };
+		B10000000000000000000039 /* NotificationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsView.swift; sourceTree = "<group>"; };
+		B10000000000000000000040 /* WalletService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletService.swift; sourceTree = "<group>"; };
+		B10000000000000000000041 /* WalletSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSetupView.swift; sourceTree = "<group>"; };
+		B10000000000000000000042 /* AddFundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFundsView.swift; sourceTree = "<group>"; };
+		B10000000000000000000043 /* TransactionHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionHistoryView.swift; sourceTree = "<group>"; };
+		B10000000000000000000044 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		B10000000000000000000045 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B10000000000000000000046 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B10000000000000000000047 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C10000000000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D10000000000000000000000 = {
+			isa = PBXGroup;
+			children = (
+				D10000000000000000000001 /* Boathouse */,
+				D10000000000000000000099 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D10000000000000000000099 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000000 /* Boathouse.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000001 /* Boathouse */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000001 /* BoathouseApp.swift */,
+				B10000000000000000000047 /* Info.plist */,
+				D10000000000000000000002 /* App */,
+				D10000000000000000000003 /* Configuration */,
+				D10000000000000000000004 /* Core */,
+				D10000000000000000000010 /* Features */,
+				D10000000000000000000020 /* Networking */,
+				D10000000000000000000021 /* UI */,
+				D10000000000000000000030 /* Resources */,
+			);
+			path = Boathouse;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000002 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000002 /* AppState.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000003 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000003 /* AppConfig.swift */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000004 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				D10000000000000000000005 /* Models */,
+				D10000000000000000000006 /* Services */,
+				D10000000000000000000007 /* MockData */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000005 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000004 /* User.swift */,
+				B10000000000000000000005 /* Race.swift */,
+				B10000000000000000000006 /* Activity.swift */,
+				B10000000000000000000007 /* Entry.swift */,
+				B10000000000000000000008 /* Wallet.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000006 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000009 /* AuthService.swift */,
+				B10000000000000000000010 /* StravaService.swift */,
+				B10000000000000000000011 /* KeychainService.swift */,
+				B10000000000000000000012 /* LocationService.swift */,
+				B10000000000000000000013 /* ModerationService.swift */,
+				B10000000000000000000014 /* RaceEngine.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000007 /* MockData */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000015 /* MockData.swift */,
+				B10000000000000000000050 /* MockStravaData.swift */,
+			);
+			path = MockData;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000010 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				D10000000000000000000011 /* Authentication */,
+				D10000000000000000000012 /* Home */,
+				D10000000000000000000013 /* Races */,
+				D10000000000000000000014 /* Entry */,
+				D10000000000000000000015 /* Account */,
+				D10000000000000000000016 /* Wallet */,
+				D10000000000000000000017 /* Onboarding */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000011 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000021 /* AuthenticationView.swift */,
+				B10000000000000000000022 /* AuthViewModel.swift */,
+				B10000000000000000000023 /* StravaOAuthView.swift */,
+				B10000000000000000000024 /* StravaOAuthViewModel.swift */,
+				B10000000000000000000025 /* StravaWebViewRepresentable.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000012 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000026 /* HomeView.swift */,
+				B10000000000000000000027 /* HomeViewModel.swift */,
+				B10000000000000000000028 /* LeaderboardView.swift */,
+				B10000000000000000000029 /* FlagActivityView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000013 /* Races */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000030 /* RacesView.swift */,
+				B10000000000000000000031 /* RacesViewModel.swift */,
+				B10000000000000000000032 /* RaceDetailView.swift */,
+				B10000000000000000000033 /* RaceDetailViewModel.swift */,
+			);
+			path = Races;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000014 /* Entry */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000034 /* EntryView.swift */,
+				B10000000000000000000035 /* EntryViewModel.swift */,
+			);
+			path = Entry;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000015 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000036 /* AccountView.swift */,
+				B10000000000000000000037 /* AccountViewModel.swift */,
+				B10000000000000000000038 /* StravaExplanationView.swift */,
+				B10000000000000000000039 /* NotificationSettingsView.swift */,
+			);
+			path = Account;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000016 /* Wallet */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000040 /* WalletService.swift */,
+				B10000000000000000000041 /* WalletSetupView.swift */,
+				B10000000000000000000042 /* AddFundsView.swift */,
+				B10000000000000000000043 /* TransactionHistoryView.swift */,
+			);
+			path = Wallet;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000017 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000044 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000020 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000016 /* NetworkClient.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000021 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				D10000000000000000000022 /* Navigation */,
+				D10000000000000000000023 /* Styles */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000022 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000017 /* RootView.swift */,
+				B10000000000000000000018 /* MainTabView.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000023 /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000019 /* ButtonStyles.swift */,
+				B10000000000000000000020 /* TextFieldStyles.swift */,
+			);
+			path = Styles;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000030 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000045 /* Assets.xcassets */,
+				D10000000000000000000031 /* Preview Content */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000031 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000046 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E10000000000000000000001 /* Boathouse */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F10000000000000000000003 /* Build configuration list for PBXNativeTarget "Boathouse" */;
+			buildPhases = (
+				E10000000000000000000002 /* Sources */,
+				C10000000000000000000001 /* Frameworks */,
+				E10000000000000000000003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Boathouse;
+			productName = Boathouse;
+			productReference = B10000000000000000000000 /* Boathouse.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E10000000000000000000000 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					E10000000000000000000001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = F10000000000000000000001 /* Build configuration list for PBXProject "Boathouse" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D10000000000000000000000;
+			productRefGroup = D10000000000000000000099 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E10000000000000000000001 /* Boathouse */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E10000000000000000000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000046 /* Preview Assets.xcassets in Resources */,
+				A10000000000000000000045 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E10000000000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000001 /* BoathouseApp.swift in Sources */,
+				A10000000000000000000002 /* AppState.swift in Sources */,
+				A10000000000000000000003 /* AppConfig.swift in Sources */,
+				A10000000000000000000004 /* User.swift in Sources */,
+				A10000000000000000000005 /* Race.swift in Sources */,
+				A10000000000000000000006 /* Activity.swift in Sources */,
+				A10000000000000000000007 /* Entry.swift in Sources */,
+				A10000000000000000000008 /* Wallet.swift in Sources */,
+				A10000000000000000000009 /* AuthService.swift in Sources */,
+				A10000000000000000000010 /* StravaService.swift in Sources */,
+				A10000000000000000000011 /* KeychainService.swift in Sources */,
+				A10000000000000000000012 /* LocationService.swift in Sources */,
+				A10000000000000000000013 /* ModerationService.swift in Sources */,
+				A10000000000000000000014 /* RaceEngine.swift in Sources */,
+				A10000000000000000000015 /* MockData.swift in Sources */,
+				A10000000000000000000050 /* MockStravaData.swift in Sources */,
+				A10000000000000000000016 /* NetworkClient.swift in Sources */,
+				A10000000000000000000017 /* RootView.swift in Sources */,
+				A10000000000000000000018 /* MainTabView.swift in Sources */,
+				A10000000000000000000019 /* ButtonStyles.swift in Sources */,
+				A10000000000000000000020 /* TextFieldStyles.swift in Sources */,
+				A10000000000000000000021 /* AuthenticationView.swift in Sources */,
+				A10000000000000000000022 /* AuthViewModel.swift in Sources */,
+				A10000000000000000000023 /* StravaOAuthView.swift in Sources */,
+				A10000000000000000000024 /* StravaOAuthViewModel.swift in Sources */,
+				A10000000000000000000025 /* StravaWebViewRepresentable.swift in Sources */,
+				A10000000000000000000026 /* HomeView.swift in Sources */,
+				A10000000000000000000027 /* HomeViewModel.swift in Sources */,
+				A10000000000000000000028 /* LeaderboardView.swift in Sources */,
+				A10000000000000000000029 /* FlagActivityView.swift in Sources */,
+				A10000000000000000000030 /* RacesView.swift in Sources */,
+				A10000000000000000000031 /* RacesViewModel.swift in Sources */,
+				A10000000000000000000032 /* RaceDetailView.swift in Sources */,
+				A10000000000000000000033 /* RaceDetailViewModel.swift in Sources */,
+				A10000000000000000000034 /* EntryView.swift in Sources */,
+				A10000000000000000000035 /* EntryViewModel.swift in Sources */,
+				A10000000000000000000036 /* AccountView.swift in Sources */,
+				A10000000000000000000037 /* AccountViewModel.swift in Sources */,
+				A10000000000000000000038 /* StravaExplanationView.swift in Sources */,
+				A10000000000000000000039 /* NotificationSettingsView.swift in Sources */,
+				A10000000000000000000040 /* WalletService.swift in Sources */,
+				A10000000000000000000041 /* WalletSetupView.swift in Sources */,
+				A10000000000000000000042 /* AddFundsView.swift in Sources */,
+				A10000000000000000000043 /* TransactionHistoryView.swift in Sources */,
+				A10000000000000000000044 /* OnboardingView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F10000000000000000000011 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F10000000000000000000012 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F10000000000000000000021 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Boathouse/Resources/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Boathouse/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Boathouse;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.boathouse.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		F10000000000000000000022 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Boathouse/Resources/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Boathouse/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Boathouse;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.boathouse.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F10000000000000000000001 /* Build configuration list for PBXProject "Boathouse" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F10000000000000000000011 /* Debug */,
+				F10000000000000000000012 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F10000000000000000000003 /* Build configuration list for PBXNativeTarget "Boathouse" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F10000000000000000000021 /* Debug */,
+				F10000000000000000000022 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E10000000000000000000000 /* Project object */;
+}
