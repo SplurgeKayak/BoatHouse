@@ -46,47 +46,84 @@ jobs:
         xcrun simctl list devices booted
 
     - name: Build for Simulator
+      id: build
+      continue-on-error: true
       run: |
         set -o pipefail
 
-        # Enable verbose Swift compiler diagnostics
+        echo "=========================================="
+        echo "Starting xcodebuild with full diagnostics"
+        echo "=========================================="
+
+        # Run xcodebuild with verbose diagnostics
+        # - showBuildTimingSummary: shows timing for each build phase
+        # - debug-time-function-bodies: prints Swift function compile times
+        # - No xcpretty, raw output preserved
         xcodebuild build \
           -project Boathouse.xcodeproj \
           -scheme Boathouse \
           -destination "platform=iOS Simulator,id=${{ steps.simulator.outputs.udid }}" \
           -configuration Debug \
           -derivedDataPath ./DerivedData \
+          -showBuildTimingSummary \
           CODE_SIGNING_ALLOWED=NO \
           ONLY_ACTIVE_ARCH=YES \
-          OTHER_SWIFT_FLAGS="-Xfrontend -warn-long-expression-type-checking=200 -Xfrontend -warn-long-function-bodies=200" \
+          OTHER_SWIFT_FLAGS="-Xfrontend -debug-time-function-bodies" \
           GCC_WARN_INHIBIT_ALL_WARNINGS=NO \
           SWIFT_SUPPRESS_WARNINGS=NO \
-          2>&1 | tee build.log
+          COMPILER_INDEX_STORE_ENABLE=NO \
+          2>&1 | tee xcodebuild.log
 
         BUILD_EXIT_CODE=${PIPESTATUS[0]}
+        echo "build_exit_code=$BUILD_EXIT_CODE" >> $GITHUB_OUTPUT
+
+    - name: Display Build Results
+      if: always()
+      run: |
+        BUILD_EXIT_CODE=${{ steps.build.outputs.build_exit_code }}
 
         echo ""
         echo "=========================================="
-        echo "Build completed with exit code: $BUILD_EXIT_CODE"
+        echo "BUILD EXIT CODE: $BUILD_EXIT_CODE"
         echo "=========================================="
 
-        if [ $BUILD_EXIT_CODE -eq 0 ]; then
+        if [ "$BUILD_EXIT_CODE" = "0" ]; then
           echo "✅ Build succeeded!"
         else
-          echo "❌ Build failed with exit code $BUILD_EXIT_CODE"
+          echo "❌ Build FAILED with exit code $BUILD_EXIT_CODE"
           echo ""
           echo "=========================================="
-          echo "COMPILER ERRORS AND WARNINGS:"
+          echo "SWIFT COMPILER ERRORS (file:line:column):"
           echo "=========================================="
-          # Extract and display all error and warning lines with context
-          grep -E "(error:|warning:|note:)" build.log || echo "No explicit error/warning lines found"
+          # Show all Swift errors with full path info
+          grep -E "^/.+\.swift:[0-9]+:[0-9]+: error:" xcodebuild.log | head -50 || true
           echo ""
           echo "=========================================="
-          echo "LAST 200 LINES OF BUILD LOG:"
+          echo "ALL ERRORS:"
           echo "=========================================="
-          tail -200 build.log
-          exit $BUILD_EXIT_CODE
+          grep -i "error:" xcodebuild.log | head -100 || echo "No error lines found"
+          echo ""
+          echo "=========================================="
+          echo "ALL WARNINGS:"
+          echo "=========================================="
+          grep -i "warning:" xcodebuild.log | head -50 || echo "No warning lines found"
+          echo ""
+          echo "=========================================="
+          echo "FAILED COMMANDS:"
+          echo "=========================================="
+          grep -E "(CompileSwift|SwiftCompile|Ld|CompileC).*failed" xcodebuild.log || echo "No failed command lines found"
+          echo ""
+          echo "=========================================="
+          echo "LAST 300 LINES OF RAW BUILD LOG:"
+          echo "=========================================="
+          tail -300 xcodebuild.log
         fi
+
+    - name: Fail if build failed
+      if: steps.build.outputs.build_exit_code != '0'
+      run: |
+        echo "Build failed - see logs above for Swift compiler errors"
+        exit ${{ steps.build.outputs.build_exit_code }}
 
     - name: Find built app
       id: find_app
@@ -171,9 +208,9 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: build-log
-        path: build.log
-        if-no-files-found: ignore
+        name: xcodebuild-log
+        path: xcodebuild.log
+        if-no-files-found: warn
 
     - name: Upload DerivedData (on failure)
       if: failure()
