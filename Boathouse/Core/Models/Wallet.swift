@@ -42,7 +42,7 @@ struct PayoutDetails: Codable, Equatable {
     }
 }
 
-struct Transaction: Identifiable, Codable, Equatable {
+struct WalletTransaction: Identifiable, Codable, Equatable {
     let id: String
     let walletId: String
     let type: TransactionType

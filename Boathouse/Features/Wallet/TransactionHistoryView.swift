@@ -68,7 +68,7 @@ struct TransactionHistoryView: View {
         .listStyle(.insetGrouped)
     }
 
-    private var groupedTransactions: [Date: [Transaction]] {
+    private var groupedTransactions: [Date: [WalletTransaction]] {
         Dictionary(grouping: viewModel.transactions) { transaction in
             Calendar.current.startOfDay(for: transaction.createdAt)
         }
@@ -89,7 +89,7 @@ struct TransactionHistoryView: View {
 }
 
 struct TransactionRow: View {
-    let transaction: Transaction
+    let transaction: WalletTransaction
 
     var body: some View {
         HStack(spacing: 16) {
@@ -141,7 +141,7 @@ struct TransactionRow: View {
 
 @MainActor
 final class TransactionHistoryViewModel: ObservableObject {
-    @Published var transactions: [Transaction] = []
+    @Published var transactions: [WalletTransaction] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
 

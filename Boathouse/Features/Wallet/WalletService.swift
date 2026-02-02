@@ -5,9 +5,9 @@ import PassKit
 protocol WalletServiceProtocol {
     func createWallet(userId: String) async throws -> Wallet
     func getWallet(walletId: String) async throws -> Wallet
-    func addFunds(walletId: String, amount: Decimal, paymentMethod: PaymentMethod) async throws -> Transaction
-    func withdraw(walletId: String, amount: Decimal) async throws -> Transaction
-    func getTransactions(walletId: String, page: Int) async throws -> [Transaction]
+    func addFunds(walletId: String, amount: Decimal, paymentMethod: PaymentMethod) async throws -> WalletTransaction
+    func withdraw(walletId: String, amount: Decimal) async throws -> WalletTransaction
+    func getTransactions(walletId: String, page: Int) async throws -> [WalletTransaction]
     func updateAutoPayoutSetting(walletId: String, enabled: Bool) async throws
     func setupPayoutDetails(walletId: String, details: PayoutDetails) async throws
 }
@@ -41,9 +41,9 @@ final class WalletService: WalletServiceProtocol {
         return MockData.wallet
     }
 
-    func addFunds(walletId: String, amount: Decimal, paymentMethod: PaymentMethod) async throws -> Transaction {
+    func addFunds(walletId: String, amount: Decimal, paymentMethod: PaymentMethod) async throws -> WalletTransaction {
         // TODO: Replace with actual API call + Apple Pay integration
-        let transaction = Transaction(
+        let transaction = WalletTransaction(
             id: UUID().uuidString,
             walletId: walletId,
             type: .deposit,
@@ -57,9 +57,9 @@ final class WalletService: WalletServiceProtocol {
         return transaction
     }
 
-    func withdraw(walletId: String, amount: Decimal) async throws -> Transaction {
+    func withdraw(walletId: String, amount: Decimal) async throws -> WalletTransaction {
         // TODO: Replace with actual API call
-        let transaction = Transaction(
+        let transaction = WalletTransaction(
             id: UUID().uuidString,
             walletId: walletId,
             type: .withdrawal,
@@ -73,7 +73,7 @@ final class WalletService: WalletServiceProtocol {
         return transaction
     }
 
-    func getTransactions(walletId: String, page: Int) async throws -> [Transaction] {
+    func getTransactions(walletId: String, page: Int) async throws -> [WalletTransaction] {
         // TODO: Replace with actual API call
         return MockData.transactions
     }

@@ -86,9 +86,9 @@ enum MockData {
 
     // MARK: - Transactions
 
-    static var transactions: [Transaction] {
+    static var transactions: [WalletTransaction] {
         [
-            Transaction(
+            WalletTransaction(
                 id: "txn-001",
                 walletId: "wallet-001",
                 type: .deposit,
@@ -99,7 +99,7 @@ enum MockData {
                 relatedEntryId: nil,
                 createdAt: Date().addingTimeInterval(-86400 * 7)
             ),
-            Transaction(
+            WalletTransaction(
                 id: "txn-002",
                 walletId: "wallet-001",
                 type: .entryFee,
@@ -110,7 +110,7 @@ enum MockData {
                 relatedEntryId: "entry-001",
                 createdAt: Date().addingTimeInterval(-86400 * 5)
             ),
-            Transaction(
+            WalletTransaction(
                 id: "txn-003",
                 walletId: "wallet-001",
                 type: .prize,
