@@ -599,6 +599,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Boathouse/Resources/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
+				EXECUTABLE_NAME = Boathouse;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Boathouse/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Boathouse;
@@ -612,15 +613,18 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MACH_O_TYPE = mh_execute;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boathouse.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = NO;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
+				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
@@ -633,6 +637,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Boathouse/Resources/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
+				EXECUTABLE_NAME = Boathouse;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Boathouse/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Boathouse;
@@ -646,15 +651,18 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MACH_O_TYPE = mh_execute;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boathouse.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = NO;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
+				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};

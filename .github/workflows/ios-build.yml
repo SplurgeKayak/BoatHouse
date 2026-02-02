@@ -21,11 +21,29 @@ jobs:
     - name: Show Xcode version
       run: xcodebuild -version
 
-    - name: Show available destinations
-      run: xcodebuild -project Boathouse.xcodeproj -scheme Boathouse -showdestinations 2>/dev/null | head -50 || true
-
     - name: List available simulators
-      run: xcrun simctl list devices available | grep -E "iPhone|iPad" | head -20
+      run: xcrun simctl list devices available | grep -E "iPhone 15" | head -10
+
+    - name: Create and boot simulator
+      id: simulator
+      run: |
+        # Get the iPhone 15 simulator UDID
+        UDID=$(xcrun simctl list devices available | grep "iPhone 15 Pro," | head -1 | grep -oE '[0-9A-F-]{36}')
+        if [ -z "$UDID" ]; then
+          UDID=$(xcrun simctl list devices available | grep "iPhone 15," | head -1 | grep -oE '[0-9A-F-]{36}')
+        fi
+        echo "Using simulator UDID: $UDID"
+        echo "udid=$UDID" >> $GITHUB_OUTPUT
+
+        # Boot the simulator
+        xcrun simctl boot "$UDID" 2>/dev/null || true
+
+        # Wait for simulator to fully boot
+        echo "Waiting for simulator to boot..."
+        sleep 10
+
+        # Verify it's booted
+        xcrun simctl list devices booted
 
     - name: Build for Simulator
       run: |
@@ -33,54 +51,91 @@ jobs:
         xcodebuild build \
           -project Boathouse.xcodeproj \
           -scheme Boathouse \
-          -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.2' \
+          -destination "platform=iOS Simulator,id=${{ steps.simulator.outputs.udid }}" \
           -configuration Debug \
+          -derivedDataPath ./DerivedData \
           CODE_SIGNING_ALLOWED=NO \
           ONLY_ACTIVE_ARCH=YES \
           2>&1 | tee build.log
-      continue-on-error: true
 
-    - name: Check build result
-      run: |
+        echo "Build completed, checking status..."
         if grep -q "BUILD SUCCEEDED" build.log; then
-          echo "Build succeeded!"
+          echo "✅ Build succeeded!"
         else
-          echo "Build may have issues, checking for app..."
+          echo "❌ Build may have failed"
+          tail -100 build.log
         fi
 
     - name: Find built app
       id: find_app
       run: |
-        APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData -name "Boathouse.app" -type d 2>/dev/null | head -1)
-        if [ -n "$APP_PATH" ]; then
+        APP_PATH="./DerivedData/Build/Products/Debug-iphonesimulator/Boathouse.app"
+        if [ -d "$APP_PATH" ]; then
           echo "app_path=$APP_PATH" >> $GITHUB_OUTPUT
-          echo "Found app at: $APP_PATH"
+          echo "✅ Found app at: $APP_PATH"
+          ls -la "$APP_PATH"
+          # Verify binary exists
+          if [ -f "$APP_PATH/Boathouse" ]; then
+            echo "✅ Binary exists!"
+          else
+            echo "❌ Binary missing!"
+            ls -la "$APP_PATH/"
+          fi
         else
-          echo "App not found in DerivedData"
+          echo "❌ App not found at expected path"
+          find ./DerivedData -name "*.app" -type d 2>/dev/null || echo "No .app found"
           echo "app_path=" >> $GITHUB_OUTPUT
         fi
 
-    - name: Boot Simulator
+    - name: Install App on Simulator
       if: steps.find_app.outputs.app_path != ''
       run: |
-        xcrun simctl boot "iPhone 15" 2>/dev/null || true
-        sleep 5
-        xcrun simctl list devices booted
-
-    - name: Install and Launch App
-      if: steps.find_app.outputs.app_path != ''
-      run: |
+        echo "Installing app on simulator..."
         xcrun simctl install booted "${{ steps.find_app.outputs.app_path }}"
-        xcrun simctl launch booted com.boathouse.app
-        sleep 3
+        echo "✅ App installed"
 
-    - name: Take Screenshots
+    - name: Launch App and Take Screenshots
       if: steps.find_app.outputs.app_path != ''
       run: |
         mkdir -p screenshots
-        xcrun simctl io booted screenshot screenshots/01-app-launch.png
-        sleep 2
-        xcrun simctl io booted screenshot screenshots/02-app-loaded.png
+
+        # Set status bar to a consistent time for clean screenshots
+        xcrun simctl status_bar booted override --time "9:41" --batteryLevel 100 --batteryState charged
+
+        echo "Launching app..."
+        xcrun simctl launch booted com.boathouse.app
+
+        # Wait for app to fully launch and render
+        echo "Waiting for app to load..."
+        sleep 5
+
+        # Take screenshot of launch/loading screen
+        echo "Taking screenshot 1 - Initial load..."
+        xcrun simctl io booted screenshot screenshots/01-initial-load.png
+
+        # Wait for content to load
+        sleep 5
+
+        # Take screenshot of main content
+        echo "Taking screenshot 2 - Main content..."
+        xcrun simctl io booted screenshot screenshots/02-main-screen.png
+
+        # Wait a bit more
+        sleep 3
+
+        # Take another screenshot
+        echo "Taking screenshot 3 - App ready..."
+        xcrun simctl io booted screenshot screenshots/03-app-ready.png
+
+        echo "Screenshots taken:"
+        ls -la screenshots/
+
+    - name: Take Simulator Screenshot (fallback)
+      if: always()
+      run: |
+        mkdir -p screenshots
+        # Try to take a screenshot of whatever is on screen
+        xcrun simctl io booted screenshot screenshots/00-simulator-state.png 2>/dev/null || echo "Could not capture simulator screenshot"
 
     - name: Upload Screenshots
       if: always()
@@ -88,7 +143,7 @@ jobs:
       with:
         name: ios-screenshots
         path: screenshots/
-        if-no-files-found: ignore
+        if-no-files-found: warn
 
     - name: Upload Build Log
       if: always()
@@ -96,4 +151,14 @@ jobs:
       with:
         name: build-log
         path: build.log
+        if-no-files-found: ignore
+
+    - name: Upload DerivedData (on failure)
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: derived-data-debug
+        path: |
+          ./DerivedData/Build/Products/
+          ./DerivedData/Logs/
         if-no-files-found: ignore
