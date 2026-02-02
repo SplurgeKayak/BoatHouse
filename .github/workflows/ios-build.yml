@@ -28,9 +28,9 @@ jobs:
       id: simulator
       run: |
         # Get the iPhone 15 simulator UDID
-        UDID=$(xcrun simctl list devices available | grep "iPhone 15 Pro," | head -1 | grep -oE '[0-9A-F-]{36}')
+        UDID=$(xcrun simctl list devices available | grep "iPhone 15 Pro (" | head -1 | sed -E 's/.*\(([A-F0-9-]+)\).*/\1/')
         if [ -z "$UDID" ]; then
-          UDID=$(xcrun simctl list devices available | grep "iPhone 15," | head -1 | grep -oE '[0-9A-F-]{36}')
+          UDID=$(xcrun simctl list devices available | grep "iPhone 15 (" | head -1 | sed -E 's/.*\(([A-F0-9-]+)\).*/\1/')
         fi
         echo "Using simulator UDID: $UDID"
         echo "udid=$UDID" >> $GITHUB_OUTPUT
