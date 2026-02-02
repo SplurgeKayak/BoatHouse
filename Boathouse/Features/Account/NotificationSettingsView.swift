@@ -31,8 +31,10 @@ struct NotificationSettingsView: View {
                     Toggle("Activity Flagged", isOn: $viewModel.activityFlagged)
                 }
 
-                Section("Calendar Reminders") {
+                Section {
                     Toggle("Add Races to Calendar", isOn: $viewModel.calendarReminders)
+                } header: {
+                    Text("Calendar Reminders")
                 } footer: {
                     Text("Automatically add race deadlines to your calendar using EventKit.")
                 }

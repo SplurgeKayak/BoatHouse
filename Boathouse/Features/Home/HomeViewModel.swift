@@ -140,9 +140,12 @@ final class ActivityService: ActivityServiceProtocol {
         // Filter for canoe/kayak activities only
         let filteredActivities = stravaActivities.filter { $0.isCanoeOrKayak }
 
+        // Get userId on MainActor before mapping
+        let userId = await MainActor.run { AppState.shared?.currentUser?.id ?? "" }
+
         // TODO: Convert Strava activities to app activities and save to backend
         return filteredActivities.map { stravaActivity in
-            mapStravaActivity(stravaActivity)
+            mapStravaActivity(stravaActivity, userId: userId)
         }
     }
 
@@ -150,7 +153,7 @@ final class ActivityService: ActivityServiceProtocol {
         // TODO: Implement API call to flag activity
     }
 
-    private func mapStravaActivity(_ stravaActivity: StravaActivity) -> Activity {
+    private func mapStravaActivity(_ stravaActivity: StravaActivity, userId: String) -> Activity {
         let startCoord: Coordinate? = stravaActivity.startLatlng.map {
             Coordinate(latitude: $0[0], longitude: $0[1])
         }
@@ -163,7 +166,7 @@ final class ActivityService: ActivityServiceProtocol {
         return Activity(
             id: UUID().uuidString,
             stravaId: stravaActivity.id,
-            userId: AppState.shared?.currentUser?.id ?? "",
+            userId: userId,
             name: stravaActivity.name,
             activityType: activityType,
             startDate: stravaActivity.startDate,
