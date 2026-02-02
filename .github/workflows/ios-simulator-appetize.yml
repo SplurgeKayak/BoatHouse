@@ -1,0 +1,195 @@
+# ============================================================================
+# iOS Simulator Build for Appetize.io
+# ============================================================================
+# This workflow builds an iOS Simulator .app bundle and packages it as a .zip
+# suitable for upload to Appetize.io.
+#
+# HOW TO USE THE ARTIFACT:
+# 1. Go to Actions tab → select this workflow run
+# 2. Download "Boathouse-Simulator-App" artifact (contains Boathouse.zip)
+# 3. Go to https://appetize.io/upload
+# 4. Upload the Boathouse.zip file
+# 5. You'll get a shareable link to run your app in a browser simulator
+#
+# CONFIGURATION:
+# - Project: Boathouse.xcodeproj
+# - Scheme: Boathouse
+# - No CocoaPods/SPM dependencies detected
+# ============================================================================
+
+name: iOS Simulator Build (Appetize)
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+env:
+  PROJECT_PATH: Boathouse.xcodeproj
+  SCHEME_NAME: Boathouse
+  APP_NAME: Boathouse
+  CONFIGURATION: Debug
+  DERIVED_DATA: ${{ github.workspace }}/DerivedData
+
+jobs:
+  build-simulator:
+    name: Build iOS Simulator App
+    runs-on: macos-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Show environment info
+        run: |
+          echo "=== macOS Version ==="
+          sw_vers
+          echo ""
+          echo "=== Available Xcode Versions ==="
+          ls -1 /Applications | grep Xcode || true
+          echo ""
+          echo "=== Current Xcode ==="
+          xcode-select -p
+          xcodebuild -version
+          echo ""
+          echo "=== Project Structure ==="
+          ls -la
+          echo ""
+          echo "=== Scheme Info ==="
+          xcodebuild -project "$PROJECT_PATH" -list 2>/dev/null || echo "Could not list schemes"
+
+      - name: Build for iOS Simulator
+        id: build
+        run: |
+          set -o pipefail
+
+          echo "=== Starting Build ==="
+          echo "Project: $PROJECT_PATH"
+          echo "Scheme: $SCHEME_NAME"
+          echo "Configuration: $CONFIGURATION"
+          echo "DerivedData: $DERIVED_DATA"
+          echo ""
+
+          # Build command
+          xcodebuild build \
+            -project "$PROJECT_PATH" \
+            -scheme "$SCHEME_NAME" \
+            -sdk iphonesimulator \
+            -configuration "$CONFIGURATION" \
+            -derivedDataPath "$DERIVED_DATA" \
+            -destination 'generic/platform=iOS Simulator' \
+            -parallelizeTargets \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGN_IDENTITY="-" \
+            ONLY_ACTIVE_ARCH=NO \
+            2>&1 | tee build.log
+
+          BUILD_RESULT=${PIPESTATUS[0]}
+
+          echo ""
+          echo "=== Build Exit Code: $BUILD_RESULT ==="
+
+          if [ $BUILD_RESULT -ne 0 ]; then
+            echo ""
+            echo "=== BUILD FAILED - Showing errors ==="
+            grep -E "error:|warning:" build.log | head -50 || true
+            echo ""
+            echo "=== Last 100 lines of build log ==="
+            tail -100 build.log
+            exit $BUILD_RESULT
+          fi
+
+          echo "build_success=true" >> $GITHUB_OUTPUT
+
+      - name: Locate and package .app bundle
+        if: steps.build.outputs.build_success == 'true'
+        id: package
+        run: |
+          echo "=== Searching for .app bundle ==="
+
+          APP_DIR="$DERIVED_DATA/Build/Products/$CONFIGURATION-iphonesimulator"
+          APP_PATH="$APP_DIR/$APP_NAME.app"
+
+          echo "Expected path: $APP_PATH"
+
+          if [ ! -d "$APP_PATH" ]; then
+            echo "App not found at expected path. Searching..."
+            find "$DERIVED_DATA" -name "*.app" -type d 2>/dev/null || true
+            echo "ERROR: Could not find $APP_NAME.app"
+            exit 1
+          fi
+
+          echo ""
+          echo "=== App Bundle Found ==="
+          ls -la "$APP_PATH"
+
+          echo ""
+          echo "=== Verifying binary ==="
+          if [ -f "$APP_PATH/$APP_NAME" ]; then
+            file "$APP_PATH/$APP_NAME"
+            echo "✅ Binary exists"
+          else
+            echo "❌ Binary missing inside .app bundle"
+            ls -la "$APP_PATH/"
+            exit 1
+          fi
+
+          echo ""
+          echo "=== Creating zip for Appetize ==="
+          cd "$APP_DIR"
+          zip -r -y "$APP_NAME.zip" "$APP_NAME.app"
+
+          ZIP_PATH="$APP_DIR/$APP_NAME.zip"
+          ZIP_SIZE=$(ls -lh "$ZIP_PATH" | awk '{print $5}')
+
+          echo ""
+          echo "=== Package Complete ==="
+          echo "Zip path: $ZIP_PATH"
+          echo "Zip size: $ZIP_SIZE"
+
+          # Output for artifact upload
+          echo "zip_path=$ZIP_PATH" >> $GITHUB_OUTPUT
+          echo "zip_name=$APP_NAME.zip" >> $GITHUB_OUTPUT
+
+      - name: Upload Appetize-ready artifact
+        if: steps.package.outputs.zip_path != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.APP_NAME }}-Simulator-App
+          path: ${{ steps.package.outputs.zip_path }}
+          retention-days: 14
+          if-no-files-found: error
+
+      - name: Upload build log (always)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build.log
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## iOS Simulator Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.build.outputs.build_success }}" == "true" ]; then
+            echo "✅ **Build Status:** Success" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Artifact" >> $GITHUB_STEP_SUMMARY
+            echo "- **Name:** ${{ env.APP_NAME }}-Simulator-App" >> $GITHUB_STEP_SUMMARY
+            echo "- **File:** ${{ steps.package.outputs.zip_name }}" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Upload to Appetize" >> $GITHUB_STEP_SUMMARY
+            echo "1. Download the artifact from the Actions tab" >> $GITHUB_STEP_SUMMARY
+            echo "2. Go to [appetize.io/upload](https://appetize.io/upload)" >> $GITHUB_STEP_SUMMARY
+            echo "3. Upload the zip file" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Build Status:** Failed" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Check the build-log artifact for details." >> $GITHUB_STEP_SUMMARY
+          fi
