@@ -59,14 +59,14 @@ enum AppConfig {
     }
 }
 
-// MARK: - Environment
+// MARK: - App Environment
 
-enum Environment {
+enum AppEnvironment {
     case development
     case staging
     case production
 
-    static var current: Environment {
+    static var current: AppEnvironment {
         #if DEBUG
         return .development
         #else
