@@ -48,6 +48,8 @@ jobs:
     - name: Build for Simulator
       run: |
         set -o pipefail
+
+        # Enable verbose Swift compiler diagnostics
         xcodebuild build \
           -project Boathouse.xcodeproj \
           -scheme Boathouse \
@@ -56,14 +58,34 @@ jobs:
           -derivedDataPath ./DerivedData \
           CODE_SIGNING_ALLOWED=NO \
           ONLY_ACTIVE_ARCH=YES \
+          OTHER_SWIFT_FLAGS="-Xfrontend -warn-long-expression-type-checking=200 -Xfrontend -warn-long-function-bodies=200" \
+          GCC_WARN_INHIBIT_ALL_WARNINGS=NO \
+          SWIFT_SUPPRESS_WARNINGS=NO \
           2>&1 | tee build.log
 
-        echo "Build completed, checking status..."
-        if grep -q "BUILD SUCCEEDED" build.log; then
+        BUILD_EXIT_CODE=${PIPESTATUS[0]}
+
+        echo ""
+        echo "=========================================="
+        echo "Build completed with exit code: $BUILD_EXIT_CODE"
+        echo "=========================================="
+
+        if [ $BUILD_EXIT_CODE -eq 0 ]; then
           echo "✅ Build succeeded!"
         else
-          echo "❌ Build may have failed"
-          tail -100 build.log
+          echo "❌ Build failed with exit code $BUILD_EXIT_CODE"
+          echo ""
+          echo "=========================================="
+          echo "COMPILER ERRORS AND WARNINGS:"
+          echo "=========================================="
+          # Extract and display all error and warning lines with context
+          grep -E "(error:|warning:|note:)" build.log || echo "No explicit error/warning lines found"
+          echo ""
+          echo "=========================================="
+          echo "LAST 200 LINES OF BUILD LOG:"
+          echo "=========================================="
+          tail -200 build.log
+          exit $BUILD_EXIT_CODE
         fi
 
     - name: Find built app
