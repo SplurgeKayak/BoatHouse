@@ -1,0 +1,76 @@
+name: Build Appetize Bundle
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-appetize:
+    runs-on: macos-14
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Select Xcode version
+      run: sudo xcode-select -s /Applications/Xcode_15.2.app/Contents/Developer
+
+    - name: Show Xcode version
+      run: xcodebuild -version
+
+    - name: Build for iOS Simulator
+      run: |
+        set -o pipefail
+        xcodebuild build \
+          -project Boathouse.xcodeproj \
+          -scheme Boathouse \
+          -destination 'generic/platform=iOS Simulator' \
+          -configuration Debug \
+          -derivedDataPath ./DerivedData \
+          CODE_SIGNING_ALLOWED=NO \
+          ONLY_ACTIVE_ARCH=NO \
+          2>&1 | tee build.log
+
+    - name: Verify .app bundle
+      run: |
+        APP_PATH="./DerivedData/Build/Products/Debug-iphonesimulator/Boathouse.app"
+        if [ -d "$APP_PATH" ]; then
+          echo "✅ App bundle found"
+          ls -la "$APP_PATH"
+          # Verify binary exists
+          if [ -f "$APP_PATH/Boathouse" ]; then
+            echo "✅ Binary exists"
+            file "$APP_PATH/Boathouse"
+          else
+            echo "❌ Binary missing"
+            exit 1
+          fi
+        else
+          echo "❌ App bundle not found"
+          exit 1
+        fi
+
+    - name: Create Appetize zip
+      run: |
+        cd ./DerivedData/Build/Products/Debug-iphonesimulator
+        zip -r -y Boathouse.app.zip Boathouse.app
+        mv Boathouse.app.zip ../../../../Boathouse.app.zip
+        cd ../../../../
+        echo "✅ Created Boathouse.app.zip"
+        ls -lh Boathouse.app.zip
+
+    - name: Upload Appetize Bundle
+      uses: actions/upload-artifact@v4
+      with:
+        name: Boathouse-Appetize-Bundle
+        path: Boathouse.app.zip
+        retention-days: 30
+
+    - name: Upload Build Log (on failure)
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-log
+        path: build.log
+        if-no-files-found: ignore
