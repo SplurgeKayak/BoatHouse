@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A10000000000000000000001 /* BoathouseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000001 /* BoathouseApp.swift */; };
+		A10000000000000000000051 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000051 /* ContentView.swift */; };
 		A10000000000000000000002 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000002 /* AppState.swift */; };
 		A10000000000000000000003 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000003 /* AppConfig.swift */; };
 		A10000000000000000000004 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000004 /* User.swift */; };
@@ -22,7 +23,6 @@
 		A10000000000000000000013 /* ModerationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000013 /* ModerationService.swift */; };
 		A10000000000000000000014 /* RaceEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000014 /* RaceEngine.swift */; };
 		A10000000000000000000015 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000015 /* MockData.swift */; };
-		A10000000000000000000050 /* MockStravaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000050 /* MockStravaData.swift */; };
 		A10000000000000000000016 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000016 /* NetworkClient.swift */; };
 		A10000000000000000000017 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000017 /* RootView.swift */; };
 		A10000000000000000000018 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000018 /* MainTabView.swift */; };
@@ -59,6 +59,7 @@
 /* Begin PBXFileReference section */
 		B10000000000000000000000 /* Boathouse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Boathouse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B10000000000000000000001 /* BoathouseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoathouseApp.swift; sourceTree = "<group>"; };
+		B10000000000000000000051 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B10000000000000000000002 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		B10000000000000000000003 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		B10000000000000000000004 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -73,7 +74,6 @@
 		B10000000000000000000013 /* ModerationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModerationService.swift; sourceTree = "<group>"; };
 		B10000000000000000000014 /* RaceEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceEngine.swift; sourceTree = "<group>"; };
 		B10000000000000000000015 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
-		B10000000000000000000050 /* MockStravaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStravaData.swift; sourceTree = "<group>"; };
 		B10000000000000000000016 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		B10000000000000000000017 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		B10000000000000000000018 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
@@ -139,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				B10000000000000000000001 /* BoathouseApp.swift */,
+				B10000000000000000000051 /* ContentView.swift */,
 				B10000000000000000000047 /* Info.plist */,
 				D10000000000000000000002 /* App */,
 				D10000000000000000000003 /* Configuration */,
@@ -206,7 +207,6 @@
 			isa = PBXGroup;
 			children = (
 				B10000000000000000000015 /* MockData.swift */,
-				B10000000000000000000050 /* MockStravaData.swift */,
 			);
 			path = MockData;
 			sourceTree = "<group>";
@@ -421,6 +421,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A10000000000000000000001 /* BoathouseApp.swift in Sources */,
+				A10000000000000000000051 /* ContentView.swift in Sources */,
 				A10000000000000000000002 /* AppState.swift in Sources */,
 				A10000000000000000000003 /* AppConfig.swift in Sources */,
 				A10000000000000000000004 /* User.swift in Sources */,
@@ -435,7 +436,6 @@
 				A10000000000000000000013 /* ModerationService.swift in Sources */,
 				A10000000000000000000014 /* RaceEngine.swift in Sources */,
 				A10000000000000000000015 /* MockData.swift in Sources */,
-				A10000000000000000000050 /* MockStravaData.swift in Sources */,
 				A10000000000000000000016 /* NetworkClient.swift in Sources */,
 				A10000000000000000000017 /* RootView.swift in Sources */,
 				A10000000000000000000018 /* MainTabView.swift in Sources */,

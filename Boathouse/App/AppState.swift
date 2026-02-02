@@ -7,8 +7,11 @@ final class AppState: ObservableObject {
     @Published var isAuthenticated = false
     @Published var currentUser: User?
     @Published var selectedTab: Tab = .home
-    @Published var isLoading = false
+    @Published var isLoading = true
     @Published var showOnboarding = false
+
+    /// Shared instance for global access (set by App)
+    static var shared: AppState?
 
     enum Tab: Int, CaseIterable {
         case home = 0
@@ -33,6 +36,10 @@ final class AppState: ObservableObject {
             case .account: return "person.fill"
             }
         }
+    }
+
+    init() {
+        // Default initialization
     }
 
     var isRacer: Bool {

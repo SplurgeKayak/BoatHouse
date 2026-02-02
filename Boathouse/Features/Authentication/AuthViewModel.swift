@@ -1,5 +1,4 @@
 import SwiftUI
-import AuthenticationServices
 
 /// ViewModel handling authentication flows for email and Strava OAuth
 @MainActor
@@ -17,15 +16,8 @@ final class AuthViewModel: ObservableObject {
         case register
     }
 
-    private let authService: AuthServiceProtocol
-    private let keychainService: KeychainServiceProtocol
-
-    init(
-        authService: AuthServiceProtocol = AuthService.shared,
-        keychainService: KeychainServiceProtocol = KeychainService.shared
-    ) {
-        self.authService = authService
-        self.keychainService = keychainService
+    init() {
+        // Default initialization
     }
 
     var isFormValid: Bool {
@@ -40,21 +32,8 @@ final class AuthViewModel: ObservableObject {
     }
 
     func checkAuthState() async {
-        guard let token = keychainService.retrieveToken(for: .authToken),
-              let userId = keychainService.retrieveToken(for: .userId) else {
-            return
-        }
-
-        isLoading = true
-        defer { isLoading = false }
-
-        do {
-            let user = try await authService.validateSession(token: token, userId: userId)
-            await updateAppState(user: user)
-        } catch {
-            keychainService.deleteToken(for: .authToken)
-            keychainService.deleteToken(for: .userId)
-        }
+        // TODO: Check keychain for existing auth token
+        isLoading = false
     }
 
     func login() async {
@@ -66,16 +45,15 @@ final class AuthViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
 
-        do {
-            let user = try await authService.login(email: email, password: password)
-            await updateAppState(user: user)
-        } catch let error as AuthError {
-            errorMessage = error.localizedDescription
-        } catch {
-            errorMessage = "An unexpected error occurred"
-        }
+        // Simulate network delay
+        try? await Task.sleep(nanoseconds: 1_000_000_000)
 
-        isLoading = false
+        // For demo, just succeed with mock user
+        await MainActor.run {
+            AppState.shared?.currentUser = MockData.racerUser
+            AppState.shared?.isAuthenticated = true
+            isLoading = false
+        }
     }
 
     func register(as userType: User.UserType) async {
@@ -87,37 +65,24 @@ final class AuthViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
 
-        do {
-            let user = try await authService.register(
-                email: email,
-                password: password,
-                userType: userType
-            )
-            await updateAppState(user: user, showOnboarding: true)
-        } catch let error as AuthError {
-            errorMessage = error.localizedDescription
-        } catch {
-            errorMessage = "An unexpected error occurred"
-        }
+        // Simulate network delay
+        try? await Task.sleep(nanoseconds: 1_000_000_000)
 
-        isLoading = false
+        // For demo, succeed with mock user
+        await MainActor.run {
+            if userType == .racer {
+                AppState.shared?.currentUser = MockData.racerUser
+            } else {
+                AppState.shared?.currentUser = MockData.spectatorUser
+            }
+            AppState.shared?.isAuthenticated = true
+            AppState.shared?.showOnboarding = true
+            isLoading = false
+        }
     }
 
     func logout() async {
-        do {
-            try await authService.logout()
-        } catch {
-            // Continue with local logout even if server logout fails
-        }
-
-        keychainService.deleteToken(for: .authToken)
-        keychainService.deleteToken(for: .userId)
-        keychainService.deleteToken(for: .stravaAccessToken)
-        keychainService.deleteToken(for: .stravaRefreshToken)
-
-        await MainActor.run {
-            AppState.shared?.logout()
-        }
+        AppState.shared?.logout()
     }
 
     func clearForm() {
@@ -126,19 +91,6 @@ final class AuthViewModel: ObservableObject {
         confirmPassword = ""
         errorMessage = nil
     }
-
-    private func updateAppState(user: User, showOnboarding: Bool = false) async {
-        await MainActor.run {
-            AppState.shared?.currentUser = user
-            AppState.shared?.isAuthenticated = true
-            AppState.shared?.showOnboarding = showOnboarding
-            AppState.shared?.isLoading = false
-        }
-    }
-}
-
-extension AppState {
-    static var shared: AppState?
 }
 
 enum AuthError: LocalizedError {
