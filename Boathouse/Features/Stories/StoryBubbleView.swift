@@ -2,11 +2,11 @@ import SwiftUI
 
 /// App color constants
 enum AppColors {
-    static let accent = Color(red: 252/255, green: 82/255, blue: 0/255) // Strava orange #FC5200
+    static let accent = Color(red: 252/255, green: 76/255, blue: 2/255) // Strava orange #FC4C02
     static let accentGradient = LinearGradient(
         colors: [
-            Color(red: 252/255, green: 82/255, blue: 0/255),
-            Color(red: 252/255, green: 143/255, blue: 0/255)
+            Color(red: 252/255, green: 76/255, blue: 2/255),
+            Color(red: 252/255, green: 120/255, blue: 2/255)
         ],
         startPoint: .topLeading,
         endPoint: .bottomTrailing

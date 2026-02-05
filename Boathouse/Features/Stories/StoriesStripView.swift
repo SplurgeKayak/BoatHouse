@@ -7,7 +7,7 @@ struct StoriesStripView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Stories")
+            Text("Recent Sessions")
                 .font(.headline)
                 .padding(.horizontal)
 

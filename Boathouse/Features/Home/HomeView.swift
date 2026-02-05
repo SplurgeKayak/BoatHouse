@@ -34,7 +34,7 @@ struct HomeView: View {
                     rankingSection
                 }
             }
-            .navigationTitle("Home")
+            .navigationTitle("Club Room")
             .refreshable {
                 await viewModel.refresh()
                 storyViewModel.updateStories(from: viewModel.activities)

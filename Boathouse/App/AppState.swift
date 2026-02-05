@@ -20,7 +20,7 @@ final class AppState: ObservableObject {
 
         var title: String {
             switch self {
-            case .home: return "Home"
+            case .home: return "Club Room"
             case .races: return "Races"
             case .entry: return "My Entries"
             case .account: return "Account"
