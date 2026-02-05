@@ -1,11 +1,10 @@
 import SwiftUI
 
 /// ViewModel for My Entries screen
-@MainActor
 final class EntryViewModel: ObservableObject {
     @Published var entries: [Entry] = []
     @Published var races: [Race] = []
-    @Published var isLoading = false
+    @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
     private let raceService: RaceServiceProtocol
@@ -18,10 +17,11 @@ final class EntryViewModel: ObservableObject {
         entries.filter { $0.status != .active }
     }
 
-    nonisolated init(raceService: RaceServiceProtocol = RaceService.shared) {
+    init(raceService: RaceServiceProtocol = RaceService.shared) {
         self.raceService = raceService
     }
 
+    @MainActor
     func loadEntries(userId: String) async {
         isLoading = true
         defer { isLoading = false }

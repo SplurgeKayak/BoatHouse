@@ -139,18 +139,18 @@ struct TransactionRow: View {
 
 // MARK: - ViewModel
 
-@MainActor
 final class TransactionHistoryViewModel: ObservableObject {
     @Published var transactions: [WalletTransaction] = []
-    @Published var isLoading = false
+    @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
     private let walletService: WalletServiceProtocol
 
-    nonisolated init(walletService: WalletServiceProtocol = WalletService.shared) {
+    init(walletService: WalletServiceProtocol = WalletService.shared) {
         self.walletService = walletService
     }
 
+    @MainActor
     func loadTransactions(walletId: String) async {
         isLoading = true
         defer { isLoading = false }

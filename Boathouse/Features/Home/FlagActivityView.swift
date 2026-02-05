@@ -135,21 +135,21 @@ struct FlagReasonRow: View {
 
 // MARK: - ViewModel
 
-@MainActor
 final class FlagActivityViewModel: ObservableObject {
     @Published var selectedReason: FlagReason?
-    @Published var notes = ""
-    @Published var isLoading = false
-    @Published var showingSuccess = false
-    @Published var showingError = false
+    @Published var notes: String = ""
+    @Published var isLoading: Bool = false
+    @Published var showingSuccess: Bool = false
+    @Published var showingError: Bool = false
     @Published var errorMessage: String?
 
     private let moderationService: ModerationServiceProtocol
 
-    nonisolated init(moderationService: ModerationServiceProtocol = ModerationService.shared) {
+    init(moderationService: ModerationServiceProtocol = ModerationService.shared) {
         self.moderationService = moderationService
     }
 
+    @MainActor
     func submitFlag(activityId: String) async {
         guard let reason = selectedReason else { return }
 

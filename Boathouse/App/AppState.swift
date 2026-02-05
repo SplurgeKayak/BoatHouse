@@ -2,17 +2,15 @@ import SwiftUI
 import Combine
 
 /// Global app state managing user session and navigation
-@MainActor
 final class AppState: ObservableObject {
-    @Published var isAuthenticated = false
+    @Published var isAuthenticated: Bool = false
     @Published var currentUser: User?
     @Published var selectedTab: Tab = .home
-    @Published var isLoading = true
-    @Published var showOnboarding = false
+    @Published var isLoading: Bool = true
+    @Published var showOnboarding: Bool = false
 
     /// Shared instance for global access
-    /// Note: Access only from @MainActor contexts
-    nonisolated(unsafe) static var shared: AppState?
+    static var shared: AppState?
 
     enum Tab: Int, CaseIterable {
         case home = 0
@@ -39,8 +37,8 @@ final class AppState: ObservableObject {
         }
     }
 
-    nonisolated init() {
-        // Default initialization - nonisolated to work with @StateObject
+    init() {
+        // Default initialization
     }
 
     var isRacer: Bool {
@@ -51,6 +49,7 @@ final class AppState: ObservableObject {
         currentUser?.userType == .spectator
     }
 
+    @MainActor
     func logout() {
         currentUser = nil
         isAuthenticated = false

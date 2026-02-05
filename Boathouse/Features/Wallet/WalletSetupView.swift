@@ -203,7 +203,6 @@ struct PaymentMethodButton: View {
 
 // MARK: - ViewModel
 
-@MainActor
 final class WalletSetupViewModel: ObservableObject {
     enum SetupStep {
         case initial
@@ -213,16 +212,17 @@ final class WalletSetupViewModel: ObservableObject {
 
     @Published var step: SetupStep = .initial
     @Published var selectedMethod: PaymentMethod?
-    @Published var isLoading = false
-    @Published var showingError = false
+    @Published var isLoading: Bool = false
+    @Published var showingError: Bool = false
     @Published var errorMessage: String?
 
     private let walletService: WalletServiceProtocol
 
-    nonisolated init(walletService: WalletServiceProtocol = WalletService.shared) {
+    init(walletService: WalletServiceProtocol = WalletService.shared) {
         self.walletService = walletService
     }
 
+    @MainActor
     func setupWallet(userId: String) async {
         isLoading = true
         defer { isLoading = false }

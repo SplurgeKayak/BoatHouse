@@ -50,19 +50,19 @@ struct NotificationSettingsView: View {
 
 // MARK: - ViewModel
 
-@MainActor
 final class NotificationSettingsViewModel: ObservableObject {
-    @Published var pushEnabled = false
-    @Published var raceStarting = true
-    @Published var raceEnding = true
-    @Published var resultsAvailable = true
-    @Published var prizeWon = true
-    @Published var activityImported = true
-    @Published var activityFlagged = true
-    @Published var calendarReminders = false
+    @Published var pushEnabled: Bool = false
+    @Published var raceStarting: Bool = true
+    @Published var raceEnding: Bool = true
+    @Published var resultsAvailable: Bool = true
+    @Published var prizeWon: Bool = true
+    @Published var activityImported: Bool = true
+    @Published var activityFlagged: Bool = true
+    @Published var calendarReminders: Bool = false
 
-    nonisolated init() {}
+    init() {}
 
+    @MainActor
     func checkPermissionStatus() async {
         let center = UNUserNotificationCenter.current()
         let settings = await center.notificationSettings()

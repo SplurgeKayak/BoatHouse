@@ -2,13 +2,12 @@ import SwiftUI
 import Combine
 
 /// ViewModel for the Races screen
-@MainActor
 final class RacesViewModel: ObservableObject {
     @Published var races: [Race] = []
     @Published var selectedDuration: RaceDuration?
     @Published var selectedRaceType: RaceType?
     @Published var selectedCategory: RaceCategory?
-    @Published var isLoading = false
+    @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
     private let raceService: RaceServiceProtocol
@@ -34,10 +33,11 @@ final class RacesViewModel: ObservableObject {
         }
     }
 
-    nonisolated init(raceService: RaceServiceProtocol = RaceService.shared) {
+    init(raceService: RaceServiceProtocol = RaceService.shared) {
         self.raceService = raceService
     }
 
+    @MainActor
     func loadRaces() async {
         isLoading = true
         defer { isLoading = false }

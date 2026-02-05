@@ -1,25 +1,26 @@
 import SwiftUI
 
 /// ViewModel for Account screen
-@MainActor
 final class AccountViewModel: ObservableObject {
-    @Published var showingStravaOAuth = false
-    @Published var showingWalletSetup = false
-    @Published var showingTransactionHistory = false
-    @Published var isLoading = false
+    @Published var showingStravaOAuth: Bool = false
+    @Published var showingWalletSetup: Bool = false
+    @Published var showingTransactionHistory: Bool = false
+    @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
     private let stravaOAuthViewModel = StravaOAuthViewModel()
     private let walletService: WalletServiceProtocol
 
-    nonisolated init(walletService: WalletServiceProtocol = WalletService.shared) {
+    init(walletService: WalletServiceProtocol = WalletService.shared) {
         self.walletService = walletService
     }
 
+    @MainActor
     func disconnectStrava() async {
         await stravaOAuthViewModel.disconnect()
     }
 
+    @MainActor
     func toggleAutoPayout() async {
         guard let walletId = AppState.shared?.currentUser?.wallet?.id else { return }
 

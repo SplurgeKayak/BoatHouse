@@ -1,20 +1,19 @@
 import SwiftUI
 
 /// ViewModel for race detail screen
-@MainActor
 final class RaceDetailViewModel: ObservableObject {
     @Published var leaderboard: Leaderboard?
-    @Published var isLoading = false
-    @Published var isProcessing = false
-    @Published var showingEntryConfirmation = false
-    @Published var showingSuccess = false
-    @Published var showingError = false
+    @Published var isLoading: Bool = false
+    @Published var isProcessing: Bool = false
+    @Published var showingEntryConfirmation: Bool = false
+    @Published var showingSuccess: Bool = false
+    @Published var showingError: Bool = false
     @Published var errorMessage: String?
 
     private let raceService: RaceServiceProtocol
     private let walletService: WalletServiceProtocol
 
-    nonisolated init(
+    init(
         raceService: RaceServiceProtocol = RaceService.shared,
         walletService: WalletServiceProtocol = WalletService.shared
     ) {
@@ -22,6 +21,7 @@ final class RaceDetailViewModel: ObservableObject {
         self.walletService = walletService
     }
 
+    @MainActor
     func loadLeaderboard(for raceId: String) async {
         isLoading = true
         defer { isLoading = false }
@@ -33,6 +33,7 @@ final class RaceDetailViewModel: ObservableObject {
         }
     }
 
+    @MainActor
     func enterRace(raceId: String, userId: String) async {
         isProcessing = true
         defer { isProcessing = false }

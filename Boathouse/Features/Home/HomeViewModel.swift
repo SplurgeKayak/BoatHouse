@@ -2,47 +2,42 @@ import SwiftUI
 import Combine
 
 /// ViewModel for the Home screen
-@MainActor
 final class HomeViewModel: ObservableObject {
     @Published var activities: [Activity] = []
     @Published var recentActivities: [Activity] = []
     @Published var currentLeaderboard: Leaderboard?
     @Published var selectedDuration: RaceDuration = .daily
     @Published var selectedRaceType: RaceType = .topSpeed
-    @Published var isLoading = false
+    @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
     private let activityService: ActivityServiceProtocol
     private let raceService: RaceServiceProtocol
     private var cancellables = Set<AnyCancellable>()
 
-    nonisolated init(
+    init(
         activityService: ActivityServiceProtocol = ActivityService.shared,
         raceService: RaceServiceProtocol = RaceService.shared
     ) {
         self.activityService = activityService
         self.raceService = raceService
+        setupBindings()
     }
 
-    private var isConfigured = false
-
     private func setupBindings() {
-        guard !isConfigured else { return }
-        isConfigured = true
-
         $selectedDuration
             .combineLatest($selectedRaceType)
             .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
             .sink { [weak self] _, _ in
-                Swift.Task { @MainActor in
+                Task { @MainActor in
                     await self?.loadLeaderboard()
                 }
             }
             .store(in: &cancellables)
     }
 
+    @MainActor
     func loadInitialData() async {
-        setupBindings()
         isLoading = true
 
         async let activitiesTask = loadActivities()

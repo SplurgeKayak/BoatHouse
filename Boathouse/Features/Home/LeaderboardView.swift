@@ -114,17 +114,17 @@ struct LeaderboardFullRow: View {
 
 // MARK: - ViewModel
 
-@MainActor
 final class LeaderboardViewModel: ObservableObject {
     @Published var leaderboard: Leaderboard?
-    @Published var isLoading = false
+    @Published var isLoading: Bool = false
 
     private let raceService: RaceServiceProtocol
 
-    nonisolated init(raceService: RaceServiceProtocol = RaceService.shared) {
+    init(raceService: RaceServiceProtocol = RaceService.shared) {
         self.raceService = raceService
     }
 
+    @MainActor
     func loadLeaderboard(duration: RaceDuration, raceType: RaceType) async {
         isLoading = true
         defer { isLoading = false }

@@ -190,14 +190,13 @@ struct ApplePayButton: View {
 
 // MARK: - ViewModel
 
-@MainActor
 final class AddFundsViewModel: ObservableObject {
     @Published var selectedAmount: Decimal?
     @Published var customAmount: Decimal?
     @Published var paymentMethod: PaymentMethod = .applePay
-    @Published var isLoading = false
-    @Published var showingSuccess = false
-    @Published var showingError = false
+    @Published var isLoading: Bool = false
+    @Published var showingSuccess: Bool = false
+    @Published var showingError: Bool = false
     @Published var errorMessage: String?
 
     private let walletService: WalletServiceProtocol
@@ -218,10 +217,11 @@ final class AddFundsViewModel: ObservableObject {
         return formatter.string(from: amount as NSDecimalNumber) ?? "£0.00"
     }
 
-    nonisolated init(walletService: WalletServiceProtocol = WalletService.shared) {
+    init(walletService: WalletServiceProtocol = WalletService.shared) {
         self.walletService = walletService
     }
 
+    @MainActor
     func addFunds(walletId: String) async {
         guard isValid else { return }
 

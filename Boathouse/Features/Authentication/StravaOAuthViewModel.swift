@@ -2,14 +2,13 @@ import SwiftUI
 import AuthenticationServices
 
 /// ViewModel for Strava OAuth2 authentication flow
-@MainActor
 final class StravaOAuthViewModel: ObservableObject {
-    @Published var isLoading = false
-    @Published var showError = false
+    @Published var isLoading: Bool = false
+    @Published var showError: Bool = false
     @Published var errorMessage: String?
-    @Published var showWebAuth = false
+    @Published var showWebAuth: Bool = false
     @Published var authorizationURL: URL?
-    @Published var isConnected = false
+    @Published var isConnected: Bool = false
 
     private let stravaService: StravaServiceProtocol
     private let keychainService: KeychainServiceProtocol
@@ -19,7 +18,7 @@ final class StravaOAuthViewModel: ObservableObject {
     private let redirectURI = StravaConfig.redirectURI
     private let scope = "read,activity:read_all,profile:read_all"
 
-    nonisolated init(
+    init(
         stravaService: StravaServiceProtocol = StravaService.shared,
         keychainService: KeychainServiceProtocol = KeychainService.shared
     ) {

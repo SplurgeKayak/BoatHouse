@@ -1,14 +1,13 @@
 import SwiftUI
 
 /// ViewModel handling authentication flows for email and Strava OAuth
-@MainActor
 final class AuthViewModel: ObservableObject {
-    @Published var email = ""
-    @Published var password = ""
-    @Published var confirmPassword = ""
-    @Published var isLoading = false
+    @Published var email: String = ""
+    @Published var password: String = ""
+    @Published var confirmPassword: String = ""
+    @Published var isLoading: Bool = false
     @Published var errorMessage: String?
-    @Published var showingStravaOAuth = false
+    @Published var showingStravaOAuth: Bool = false
     @Published var authMode: AuthMode = .login
 
     enum AuthMode {
@@ -16,8 +15,8 @@ final class AuthViewModel: ObservableObject {
         case register
     }
 
-    nonisolated init() {
-        // Default initialization - nonisolated to work with @StateObject
+    init() {
+        // Default initialization
     }
 
     var isFormValid: Bool {
@@ -36,6 +35,7 @@ final class AuthViewModel: ObservableObject {
         isLoading = false
     }
 
+    @MainActor
     func login() async {
         guard isFormValid else {
             errorMessage = "Please enter a valid email and password"
@@ -54,6 +54,7 @@ final class AuthViewModel: ObservableObject {
         isLoading = false
     }
 
+    @MainActor
     func register(as userType: User.UserType) async {
         guard isFormValid else {
             errorMessage = "Please fill in all fields correctly"
@@ -77,6 +78,7 @@ final class AuthViewModel: ObservableObject {
         isLoading = false
     }
 
+    @MainActor
     func logout() async {
         AppState.shared?.logout()
     }
