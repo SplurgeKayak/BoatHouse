@@ -54,6 +54,12 @@
 		A10000000000000000000044 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000044 /* OnboardingView.swift */; };
 		A10000000000000000000045 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000045 /* Assets.xcassets */; };
 		A10000000000000000000046 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000046 /* Preview Assets.xcassets */; };
+		A10000000000000000000060 /* SeenActivityStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000060 /* SeenActivityStore.swift */; };
+		A10000000000000000000061 /* StoryFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000061 /* StoryFeedViewModel.swift */; };
+		A10000000000000000000062 /* StoryBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000062 /* StoryBubbleView.swift */; };
+		A10000000000000000000063 /* StoriesStripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000063 /* StoriesStripView.swift */; };
+		A10000000000000000000064 /* StoryProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000064 /* StoryProgressBarView.swift */; };
+		A10000000000000000000065 /* StoryViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000065 /* StoryViewerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,6 +112,12 @@
 		B10000000000000000000045 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B10000000000000000000046 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B10000000000000000000047 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B10000000000000000000060 /* SeenActivityStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeenActivityStore.swift; sourceTree = "<group>"; };
+		B10000000000000000000061 /* StoryFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryFeedViewModel.swift; sourceTree = "<group>"; };
+		B10000000000000000000062 /* StoryBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryBubbleView.swift; sourceTree = "<group>"; };
+		B10000000000000000000063 /* StoriesStripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesStripView.swift; sourceTree = "<group>"; };
+		B10000000000000000000064 /* StoryProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryProgressBarView.swift; sourceTree = "<group>"; };
+		B10000000000000000000065 /* StoryViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +233,7 @@
 				D10000000000000000000015 /* Account */,
 				D10000000000000000000016 /* Wallet */,
 				D10000000000000000000017 /* Onboarding */,
+				D10000000000000000000040 /* Stories */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -296,6 +309,19 @@
 				B10000000000000000000044 /* OnboardingView.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000040 /* Stories */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000060 /* SeenActivityStore.swift */,
+				B10000000000000000000061 /* StoryFeedViewModel.swift */,
+				B10000000000000000000062 /* StoryBubbleView.swift */,
+				B10000000000000000000063 /* StoriesStripView.swift */,
+				B10000000000000000000064 /* StoryProgressBarView.swift */,
+				B10000000000000000000065 /* StoryViewerView.swift */,
+			);
+			path = Stories;
 			sourceTree = "<group>";
 		};
 		D10000000000000000000020 /* Networking */ = {
@@ -465,6 +491,12 @@
 				A10000000000000000000042 /* AddFundsView.swift in Sources */,
 				A10000000000000000000043 /* TransactionHistoryView.swift in Sources */,
 				A10000000000000000000044 /* OnboardingView.swift in Sources */,
+				A10000000000000000000060 /* SeenActivityStore.swift in Sources */,
+				A10000000000000000000061 /* StoryFeedViewModel.swift in Sources */,
+				A10000000000000000000062 /* StoryBubbleView.swift in Sources */,
+				A10000000000000000000063 /* StoriesStripView.swift in Sources */,
+				A10000000000000000000064 /* StoryProgressBarView.swift in Sources */,
+				A10000000000000000000065 /* StoryViewerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
