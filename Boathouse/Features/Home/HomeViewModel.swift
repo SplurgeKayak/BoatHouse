@@ -29,7 +29,7 @@ final class HomeViewModel: ObservableObject {
             .combineLatest($selectedRaceType)
             .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
             .sink { [weak self] _, _ in
-                Task { @MainActor in
+                Task { @MainActor [weak self] in
                     await self?.loadLeaderboard()
                 }
             }
@@ -40,9 +40,9 @@ final class HomeViewModel: ObservableObject {
     func loadInitialData() async {
         isLoading = true
 
-        async let activitiesTask = loadActivities()
-        async let recentTask = loadRecentActivities()
-        async let leaderboardTask = loadLeaderboard()
+        async let activitiesTask: Void = loadActivities()
+        async let recentTask: Void = loadRecentActivities()
+        async let leaderboardTask: Void = loadLeaderboard()
 
         _ = await (activitiesTask, recentTask, leaderboardTask)
 
