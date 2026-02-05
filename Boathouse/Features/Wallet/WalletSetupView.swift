@@ -219,7 +219,7 @@ final class WalletSetupViewModel: ObservableObject {
 
     private let walletService: WalletServiceProtocol
 
-    init(walletService: WalletServiceProtocol = WalletService.shared) {
+    nonisolated init(walletService: WalletServiceProtocol = WalletService.shared) {
         self.walletService = walletService
     }
 

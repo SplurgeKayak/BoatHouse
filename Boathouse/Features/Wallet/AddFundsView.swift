@@ -218,7 +218,7 @@ final class AddFundsViewModel: ObservableObject {
         return formatter.string(from: amount as NSDecimalNumber) ?? "£0.00"
     }
 
-    init(walletService: WalletServiceProtocol = WalletService.shared) {
+    nonisolated init(walletService: WalletServiceProtocol = WalletService.shared) {
         self.walletService = walletService
     }
 

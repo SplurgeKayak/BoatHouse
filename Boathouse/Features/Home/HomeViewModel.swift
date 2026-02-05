@@ -16,21 +16,25 @@ final class HomeViewModel: ObservableObject {
     private let raceService: RaceServiceProtocol
     private var cancellables = Set<AnyCancellable>()
 
-    init(
+    nonisolated init(
         activityService: ActivityServiceProtocol = ActivityService.shared,
         raceService: RaceServiceProtocol = RaceService.shared
     ) {
         self.activityService = activityService
         self.raceService = raceService
-        setupBindings()
     }
 
+    private var isConfigured = false
+
     private func setupBindings() {
+        guard !isConfigured else { return }
+        isConfigured = true
+
         $selectedDuration
             .combineLatest($selectedRaceType)
             .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
             .sink { [weak self] _, _ in
-                Task {
+                Swift.Task { @MainActor in
                     await self?.loadLeaderboard()
                 }
             }
@@ -38,6 +42,7 @@ final class HomeViewModel: ObservableObject {
     }
 
     func loadInitialData() async {
+        setupBindings()
         isLoading = true
 
         async let activitiesTask = loadActivities()

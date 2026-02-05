@@ -146,7 +146,7 @@ final class FlagActivityViewModel: ObservableObject {
 
     private let moderationService: ModerationServiceProtocol
 
-    init(moderationService: ModerationServiceProtocol = ModerationService.shared) {
+    nonisolated init(moderationService: ModerationServiceProtocol = ModerationService.shared) {
         self.moderationService = moderationService
     }
 

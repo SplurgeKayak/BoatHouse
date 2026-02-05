@@ -19,7 +19,7 @@ final class StravaOAuthViewModel: ObservableObject {
     private let redirectURI = StravaConfig.redirectURI
     private let scope = "read,activity:read_all,profile:read_all"
 
-    init(
+    nonisolated init(
         stravaService: StravaServiceProtocol = StravaService.shared,
         keychainService: KeychainServiceProtocol = KeychainService.shared
     ) {

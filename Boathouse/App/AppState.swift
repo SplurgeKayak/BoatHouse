@@ -10,8 +10,9 @@ final class AppState: ObservableObject {
     @Published var isLoading = true
     @Published var showOnboarding = false
 
-    /// Shared instance for global access (set by App)
-    static var shared: AppState?
+    /// Shared instance for global access
+    /// Note: Access only from @MainActor contexts
+    nonisolated(unsafe) static var shared: AppState?
 
     enum Tab: Int, CaseIterable {
         case home = 0
@@ -38,8 +39,8 @@ final class AppState: ObservableObject {
         }
     }
 
-    init() {
-        // Default initialization
+    nonisolated init() {
+        // Default initialization - nonisolated to work with @StateObject
     }
 
     var isRacer: Bool {

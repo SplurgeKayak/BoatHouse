@@ -14,7 +14,7 @@ final class RaceDetailViewModel: ObservableObject {
     private let raceService: RaceServiceProtocol
     private let walletService: WalletServiceProtocol
 
-    init(
+    nonisolated init(
         raceService: RaceServiceProtocol = RaceService.shared,
         walletService: WalletServiceProtocol = WalletService.shared
     ) {

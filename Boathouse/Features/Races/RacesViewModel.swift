@@ -34,7 +34,7 @@ final class RacesViewModel: ObservableObject {
         }
     }
 
-    init(raceService: RaceServiceProtocol = RaceService.shared) {
+    nonisolated init(raceService: RaceServiceProtocol = RaceService.shared) {
         self.raceService = raceService
     }
 

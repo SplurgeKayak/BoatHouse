@@ -16,8 +16,8 @@ final class AuthViewModel: ObservableObject {
         case register
     }
 
-    init() {
-        // Default initialization
+    nonisolated init() {
+        // Default initialization - nonisolated to work with @StateObject
     }
 
     var isFormValid: Bool {
@@ -49,11 +49,9 @@ final class AuthViewModel: ObservableObject {
         try? await Task.sleep(nanoseconds: 1_000_000_000)
 
         // For demo, just succeed with mock user
-        await MainActor.run {
-            AppState.shared?.currentUser = MockData.racerUser
-            AppState.shared?.isAuthenticated = true
-            isLoading = false
-        }
+        AppState.shared?.currentUser = MockData.racerUser
+        AppState.shared?.isAuthenticated = true
+        isLoading = false
     }
 
     func register(as userType: User.UserType) async {
@@ -69,16 +67,14 @@ final class AuthViewModel: ObservableObject {
         try? await Task.sleep(nanoseconds: 1_000_000_000)
 
         // For demo, succeed with mock user
-        await MainActor.run {
-            if userType == .racer {
-                AppState.shared?.currentUser = MockData.racerUser
-            } else {
-                AppState.shared?.currentUser = MockData.spectatorUser
-            }
-            AppState.shared?.isAuthenticated = true
-            AppState.shared?.showOnboarding = true
-            isLoading = false
+        if userType == .racer {
+            AppState.shared?.currentUser = MockData.racerUser
+        } else {
+            AppState.shared?.currentUser = MockData.spectatorUser
         }
+        AppState.shared?.isAuthenticated = true
+        AppState.shared?.showOnboarding = true
+        isLoading = false
     }
 
     func logout() async {

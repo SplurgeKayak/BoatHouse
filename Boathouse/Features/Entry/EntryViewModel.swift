@@ -18,7 +18,7 @@ final class EntryViewModel: ObservableObject {
         entries.filter { $0.status != .active }
     }
 
-    init(raceService: RaceServiceProtocol = RaceService.shared) {
+    nonisolated init(raceService: RaceServiceProtocol = RaceService.shared) {
         self.raceService = raceService
     }
 

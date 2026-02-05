@@ -61,6 +61,8 @@ final class NotificationSettingsViewModel: ObservableObject {
     @Published var activityFlagged = true
     @Published var calendarReminders = false
 
+    nonisolated init() {}
+
     func checkPermissionStatus() async {
         let center = UNUserNotificationCenter.current()
         let settings = await center.notificationSettings()

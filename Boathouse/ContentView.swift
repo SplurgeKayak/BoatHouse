@@ -23,16 +23,15 @@ struct ContentView: View {
         }
     }
 
+    @MainActor
     private func checkInitialState() async {
         // Simulate initial loading
         try? await Task.sleep(nanoseconds: 500_000_000)
 
         // For demo purposes, skip auth and show main app with mock data
-        await MainActor.run {
-            appState.currentUser = MockData.racerUser
-            appState.isAuthenticated = true
-            appState.isLoading = false
-        }
+        appState.currentUser = MockData.racerUser
+        appState.isAuthenticated = true
+        appState.isLoading = false
     }
 }
 
