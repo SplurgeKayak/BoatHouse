@@ -1,15 +1,16 @@
-name: iOS Build & Screenshot
+name: iOS Build
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: macos-14
+    timeout-minutes: 10
 
     steps:
     - name: Checkout code
@@ -18,206 +19,41 @@ jobs:
     - name: Select Xcode version
       run: sudo xcode-select -s /Applications/Xcode_15.2.app/Contents/Developer
 
-    - name: Show Xcode version
-      run: xcodebuild -version
-
-    - name: List available simulators
-      run: xcrun simctl list devices available | grep -E "iPhone 15" | head -10
-
-    - name: Create and boot simulator
-      id: simulator
-      run: |
-        # Get the iPhone 15 simulator UDID
-        UDID=$(xcrun simctl list devices available | grep "iPhone 15 Pro (" | head -1 | sed -E 's/.*\(([A-F0-9-]+)\).*/\1/')
-        if [ -z "$UDID" ]; then
-          UDID=$(xcrun simctl list devices available | grep "iPhone 15 (" | head -1 | sed -E 's/.*\(([A-F0-9-]+)\).*/\1/')
-        fi
-        echo "Using simulator UDID: $UDID"
-        echo "udid=$UDID" >> $GITHUB_OUTPUT
-
-        # Boot the simulator
-        xcrun simctl boot "$UDID" 2>/dev/null || true
-
-        # Wait for simulator to fully boot
-        echo "Waiting for simulator to boot..."
-        sleep 10
-
-        # Verify it's booted
-        xcrun simctl list devices booted
-
     - name: Build for Simulator
-      id: build
-      continue-on-error: true
       run: |
-        set -o pipefail
-
-        echo "=========================================="
-        echo "Starting xcodebuild with full diagnostics"
-        echo "=========================================="
-
-        # Run xcodebuild with verbose diagnostics
-        # - showBuildTimingSummary: shows timing for each build phase
-        # - debug-time-function-bodies: prints Swift function compile times
-        # - No xcpretty, raw output preserved
         xcodebuild build \
           -project Boathouse.xcodeproj \
           -scheme Boathouse \
-          -destination "platform=iOS Simulator,id=${{ steps.simulator.outputs.udid }}" \
+          -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
           -configuration Debug \
           -derivedDataPath ./DerivedData \
-          -showBuildTimingSummary \
           CODE_SIGNING_ALLOWED=NO \
-          ONLY_ACTIVE_ARCH=YES \
-          OTHER_SWIFT_FLAGS="-Xfrontend -debug-time-function-bodies" \
-          GCC_WARN_INHIBIT_ALL_WARNINGS=NO \
-          SWIFT_SUPPRESS_WARNINGS=NO \
-          COMPILER_INDEX_STORE_ENABLE=NO \
-          2>&1 | tee xcodebuild.log
+          2>&1 | tee build.log
 
-        BUILD_EXIT_CODE=${PIPESTATUS[0]}
-        echo "build_exit_code=$BUILD_EXIT_CODE" >> $GITHUB_OUTPUT
-
-    - name: Display Build Results
-      if: always()
+    - name: Boot Simulator
       run: |
-        BUILD_EXIT_CODE=${{ steps.build.outputs.build_exit_code }}
+        xcrun simctl boot "iPhone 15" 2>/dev/null || true
+        sleep 5
 
-        echo ""
-        echo "=========================================="
-        echo "BUILD EXIT CODE: $BUILD_EXIT_CODE"
-        echo "=========================================="
-
-        if [ "$BUILD_EXIT_CODE" = "0" ]; then
-          echo "✅ Build succeeded!"
-        else
-          echo "❌ Build FAILED with exit code $BUILD_EXIT_CODE"
-          echo ""
-          echo "=========================================="
-          echo "SWIFT COMPILER ERRORS (file:line:column):"
-          echo "=========================================="
-          # Show all Swift errors with full path info
-          grep -E "^/.+\.swift:[0-9]+:[0-9]+: error:" xcodebuild.log | head -50 || true
-          echo ""
-          echo "=========================================="
-          echo "ALL ERRORS:"
-          echo "=========================================="
-          grep -i "error:" xcodebuild.log | head -100 || echo "No error lines found"
-          echo ""
-          echo "=========================================="
-          echo "ALL WARNINGS:"
-          echo "=========================================="
-          grep -i "warning:" xcodebuild.log | head -50 || echo "No warning lines found"
-          echo ""
-          echo "=========================================="
-          echo "FAILED COMMANDS:"
-          echo "=========================================="
-          grep -E "(CompileSwift|SwiftCompile|Ld|CompileC).*failed" xcodebuild.log || echo "No failed command lines found"
-          echo ""
-          echo "=========================================="
-          echo "LAST 300 LINES OF RAW BUILD LOG:"
-          echo "=========================================="
-          tail -300 xcodebuild.log
-        fi
-
-    - name: Fail if build failed
-      if: steps.build.outputs.build_exit_code != '0'
+    - name: Install App
       run: |
-        echo "Build failed - see logs above for Swift compiler errors"
-        exit ${{ steps.build.outputs.build_exit_code }}
+        xcrun simctl install booted ./DerivedData/Build/Products/Debug-iphonesimulator/Boathouse.app
 
-    - name: Find built app
-      id: find_app
+    - name: Capture Home Screen
       run: |
-        APP_PATH="./DerivedData/Build/Products/Debug-iphonesimulator/Boathouse.app"
-        if [ -d "$APP_PATH" ]; then
-          echo "app_path=$APP_PATH" >> $GITHUB_OUTPUT
-          echo "✅ Found app at: $APP_PATH"
-          ls -la "$APP_PATH"
-          # Verify binary exists
-          if [ -f "$APP_PATH/Boathouse" ]; then
-            echo "✅ Binary exists!"
-          else
-            echo "❌ Binary missing!"
-            ls -la "$APP_PATH/"
-          fi
-        else
-          echo "❌ App not found at expected path"
-          find ./DerivedData -name "*.app" -type d 2>/dev/null || echo "No .app found"
-          echo "app_path=" >> $GITHUB_OUTPUT
-        fi
-
-    - name: Install App on Simulator
-      if: steps.find_app.outputs.app_path != ''
-      run: |
-        echo "Installing app on simulator..."
-        xcrun simctl install booted "${{ steps.find_app.outputs.app_path }}"
-        echo "✅ App installed"
-
-    - name: Launch App and Take Screenshots
-      if: steps.find_app.outputs.app_path != ''
-      run: |
-        mkdir -p screenshots
-
-        # Set status bar to a consistent time for clean screenshots
-        xcrun simctl status_bar booted override --time "9:41" --batteryLevel 100 --batteryState charged
-
-        echo "Launching app..."
         xcrun simctl launch booted com.boathouse.app
-
-        # Wait for app to fully launch and render
-        echo "Waiting for app to load..."
-        sleep 5
-
-        # Take screenshot of launch/loading screen
-        echo "Taking screenshot 1 - Initial load..."
-        xcrun simctl io booted screenshot screenshots/01-initial-load.png
-
-        # Wait for content to load
-        sleep 5
-
-        # Take screenshot of main content
-        echo "Taking screenshot 2 - Main content..."
-        xcrun simctl io booted screenshot screenshots/02-main-screen.png
-
-        # Wait a bit more
         sleep 3
+        xcrun simctl io booted screenshot home-screen.png
 
-        # Take another screenshot
-        echo "Taking screenshot 3 - App ready..."
-        xcrun simctl io booted screenshot screenshots/03-app-ready.png
-
-        echo "Screenshots taken:"
-        ls -la screenshots/
-
-    - name: Take Simulator Screenshot (fallback)
-      if: always()
-      run: |
-        mkdir -p screenshots
-        # Try to take a screenshot of whatever is on screen
-        xcrun simctl io booted screenshot screenshots/00-simulator-state.png 2>/dev/null || echo "Could not capture simulator screenshot"
-
-    - name: Upload Screenshots
-      if: always()
+    - name: Upload Screenshot
       uses: actions/upload-artifact@v4
       with:
-        name: ios-screenshots
-        path: screenshots/
-        if-no-files-found: warn
+        name: home-screen
+        path: home-screen.png
 
     - name: Upload Build Log
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: xcodebuild-log
-        path: xcodebuild.log
-        if-no-files-found: warn
-
-    - name: Upload DerivedData (on failure)
       if: failure()
       uses: actions/upload-artifact@v4
       with:
-        name: derived-data-debug
-        path: |
-          ./DerivedData/Build/Products/
-          ./DerivedData/Logs/
-        if-no-files-found: ignore
+        name: build-log
+        path: build.log
