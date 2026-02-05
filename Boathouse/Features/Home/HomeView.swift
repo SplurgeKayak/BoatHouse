@@ -3,12 +3,22 @@ import SwiftUI
 /// Home screen with Instagram/Strava inspired activity feed
 struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
+    @StateObject private var storyViewModel = StoryFeedViewModel()
     @EnvironmentObject var appState: AppState
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 0) {
+                    // Stories strip at the very top
+                    if storyViewModel.hasStories {
+                        StoriesStripView(stories: storyViewModel.stories) { story in
+                            storyViewModel.selectStory(story)
+                        }
+
+                        Divider()
+                    }
+
                     latestActivitiesBanner
 
                     filterSection
@@ -27,9 +37,24 @@ struct HomeView: View {
             .navigationTitle("Home")
             .refreshable {
                 await viewModel.refresh()
+                storyViewModel.updateStories(from: viewModel.activities)
             }
             .task {
                 await viewModel.loadInitialData()
+                storyViewModel.updateStories(from: viewModel.activities)
+            }
+            .fullScreenCover(isPresented: $storyViewModel.isShowingStoryViewer) {
+                if let selectedStory = storyViewModel.selectedStory {
+                    StoryViewerView(
+                        story: selectedStory,
+                        onDismiss: {
+                            storyViewModel.dismissStoryViewer()
+                        },
+                        onMarkSeen: { activityIds in
+                            storyViewModel.markActivitiesAsSeen(activityIds, activities: viewModel.activities)
+                        }
+                    )
+                }
             }
         }
     }
