@@ -1,0 +1,70 @@
+SRun BUILD_EXIT_CODE=
+
+==========================================
+BUILD EXIT CODE: 
+==========================================
+❌ Build FAILED with exit code 
+
+==========================================
+SWIFT COMPILER ERRORS (file:line:column):
+==========================================
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/App/AppState.swift:15:16: error: expected 'var' keyword in property declaration
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/App/AppState.swift:15:24: error: consecutive declarations on a line must be separated by ';'
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/App/AppState.swift:15:16: error: expected 'var' keyword in property declaration
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/App/AppState.swift:15:24: error: consecutive declarations on a line must be separated by ';'
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:37:17: error: module 'Swift' has no member named 'Task'
+
+==========================================
+ALL ERRORS:
+==========================================
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/App/AppState.swift:15:16: error: expected 'var' keyword in property declaration
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/App/AppState.swift:15:24: error: consecutive declarations on a line must be separated by ';'
+1.41ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:55:14	instance method webView(_:didFail:withError:)
+0.46ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:60:14	instance method webView(_:didFailProvisionalNavigation:withError:)
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/App/AppState.swift:15:16: error: expected 'var' keyword in property declaration
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/App/AppState.swift:15:24: error: consecutive declarations on a line must be separated by ';'
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:37:17: error: module 'Swift' has no member named 'Task'
+
+==========================================
+ALL WARNINGS:
+==========================================
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:48:19: warning: constant 'activitiesTask' inferred to have type '()', which may be unexpected
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:49:19: warning: constant 'recentTask' inferred to have type '()', which may be unexpected
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:50:19: warning: constant 'leaderboardTask' inferred to have type '()', which may be unexpected
+
+==========================================
+FAILED COMMANDS:
+==========================================
+Command SwiftCompile failed with a nonzero exit code
+
+==========================================
+LAST 300 LINES OF RAW BUILD LOG:
+==========================================
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:6:13	deinitializer deinit
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:101:16	getter shared
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:103:17	getter networkClient
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:104:17	getter stravaService
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:105:17	getter keychainService
+0.13ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:107:5	initializer init(networkClient:stravaService:keychainService:)
+0.06ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:117:10	instance method fetchFeedActivities(page:)
+0.65ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:123:10	instance method fetchRecentActivities(limit:)
+6.31ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:128:10	instance method fetchUserActivities(userId:page:)
+2.09ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:133:10	instance method importStravaActivities()
+0.07ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:157:10	instance method flagActivity(activityId:reason:)
+8.96ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:161:18	instance method mapStravaActivity(_:userId:)
+5.32ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:194:18	instance method isLocationInUK(_:)
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:100:13	deinitializer deinit
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/LeaderboardView.swift:5:9	getter duration
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/LeaderboardView.swift:6:9	getter raceType
+0.02ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/LeaderboardView.swift:8:30	getter viewModel
+0s
+0s
+14s
+0s
+2m 39s
+1m 12s
+5s
+4s
+4s
+1m 21s

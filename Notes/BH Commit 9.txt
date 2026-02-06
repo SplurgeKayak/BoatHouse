@@ -1,0 +1,68 @@
+
+Run set -o pipefail
+Command line invocation:
+    /Applications/Xcode_15.2.app/Contents/Developer/usr/bin/xcodebuild build -project Boathouse.xcodeproj -scheme Boathouse -destination "platform=iOS Simulator,id=9067E3B9-6E86-4A17-ACF6-B0CAFCB5451F" -configuration Debug -derivedDataPath ./DerivedData CODE_SIGNING_ALLOWED=NO ONLY_ACTIVE_ARCH=YES "OTHER_SWIFT_FLAGS=-Xfrontend -warn-long-expression-type-checking=200 -Xfrontend -warn-long-function-bodies=200" GCC_WARN_INHIBIT_ALL_WARNINGS=NO SWIFT_SUPPRESS_WARNINGS=NO
+
+User defaults from command line:
+    IDEDerivedDataPathOverride = /Users/runner/work/BoatHouse/BoatHouse/DerivedData
+    IDEPackageSupportUseBuiltinSCM = YES
+
+Build settings from command line:
+    CODE_SIGNING_ALLOWED = NO
+    GCC_WARN_INHIBIT_ALL_WARNINGS = NO
+    ONLY_ACTIVE_ARCH = YES
+    OTHER_SWIFT_FLAGS = -Xfrontend -warn-long-expression-type-checking=200 -Xfrontend -warn-long-function-bodies=200
+    SWIFT_SUPPRESS_WARNINGS = NO
+
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:iOS Simulator, id:9067E3B9-6E86-4A17-ACF6-B0CAFCB5451F, OS:17.0.1, name:iPhone 15 Pro }
+{ platform:iOS Simulator, id:9067E3B9-6E86-4A17-ACF6-B0CAFCB5451F, OS:17.0.1, name:iPhone 15 Pro }
+Prepare packages
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (1 target)
+    Target 'Boathouse' in project 'Boathouse' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+Build description signature: 9eb4971b69637b84cfc80fa6a984c4a0
+Build description path: /Users/runner/work/BoatHouse/BoatHouse/DerivedData/Build/Intermediates.noindex/XCBuildData/9eb4971b69637b84cfc80fa6a984c4a0.xcbuilddata
+
+ClangStatCache /Applications/Xcode_15.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode_15.2.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator17.2.sdk /Users/runner/work/BoatHouse/BoatHouse/DerivedData/SDKStatCaches.noindex/iphonesimulator17.2-21C52-bd555baa4c1b75672563f919b418beec.sdkstatcache
+    cd /Users/runner/work/BoatHouse/BoatHouse/Boathouse.xcodeproj
+    /Applications/Xcode_15.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode_15.2.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator17.2.sdk -o /Users/runner/work/BoatHouse/BoatHouse/DerivedData/SDKStatCaches.noindex/iphonesimulator17.2-21C52-bd555baa4c1b75672563f919b418beec.sdkstatcache
+
+CreateBuildDirectory /Users/runner/work/BoatHouse/BoatHouse/DerivedData/Build/Products
+    cd /Users/runner/work/BoatHouse/BoatHouse/Boathouse.xcodeproj
+    builtin-create-build-directory /Users/runner/work/BoatHouse/BoatHouse/DerivedData/Build/Products
+
+CreateBuildDirectory /Users/runner/work/BoatHouse/BoatHouse/DerivedData/Build/Intermediates.noindex
+    cd /Users/runner/work/BoatHouse/BoatHouse/Boathouse.xcodeproj
+    builtin-create-build-directory /Users/runner/work/BoatHouse/BoatHouse/DerivedData/Build/Intermediates.noindex
+
+CreateBuildDirectory /Users/runner/work/BoatHouse/BoatHouse/DerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+    cd /Users/runner/work/BoatHouse/BoatHouse/Boathouse.xcodeproj
+    builtin-create-build-directory /Users/runner/work/BoatHouse/BoatHouse/DerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+
+CreateBuildDirectory /Users/runner/work/BoatHouse/BoatHouse/DerivedData/Build/Products/Debug-iphonesimulator
+    cd /Users/runner/work/BoatHouse/BoatHouse/Boathouse.xcodeproj
+    builtin-create-build-directory /Users/runner/work/BoatHouse/BoatHouse/DerivedData/Build/Products/Debug-iphonesimulator
+
+MkDir /Users/runner/work/BoatHouse/BoatHouse/DerivedData/Build/Products/Debug-iphonesimulator/Boathouse.app (in target 'Boathouse' from project 'Boathouse')
+    cd /Users/runner/work/BoatHouse/BoatHouse
+    /bin/mkdir -p /Users/runner/work/BoatHouse/BoatHouse/DerivedData/Build/Products/Debug-iphonesimulator/Boathouse.app
+
+ValidateDevelopmentAssets /Users/runner/work/BoatHouse/BoatHouse/DerivedData/Build/Intermediates.noindex/Boathouse.build/Debug-iphonesimulator/Boathouse.build (in target 'Boathouse' from project 'Boathouse')
+    cd /Users/runner/work/BoatHouse/BoatHouse
+    builtin-validate-development-assets --validate YES_ERROR /Users/runner/work/BoatHouse/BoatHouse/Boathouse/Resources/Preview\ Content
+0s
+0s
+0s
+11s
+5s
+2s
+2s
+1s
+13s

@@ -1,0 +1,69 @@
+
+==========================================
+BUILD EXIT CODE: 
+==========================================
+❌ Build FAILED with exit code 
+
+==========================================
+SWIFT COMPILER ERRORS (file:line:column):
+==========================================
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:33:27: error: reference to captured var 'self' in concurrently-executing code
+
+==========================================
+ALL ERRORS:
+==========================================
+1.00ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:55:14	instance method webView(_:didFail:withError:)
+1.41ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:60:14	instance method webView(_:didFailProvisionalNavigation:withError:)
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:33:27: error: reference to captured var 'self' in concurrently-executing code
+
+==========================================
+ALL WARNINGS:
+==========================================
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:43:19: warning: constant 'activitiesTask' inferred to have type '()', which may be unexpected
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:44:19: warning: constant 'recentTask' inferred to have type '()', which may be unexpected
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:45:19: warning: constant 'leaderboardTask' inferred to have type '()', which may be unexpected
+
+==========================================
+FAILED COMMANDS:
+==========================================
+Command SwiftCompile failed with a nonzero exit code
+Command SwiftCompile failed with a nonzero exit code
+
+==========================================
+LAST 300 LINES OF RAW BUILD LOG:
+==========================================
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RacesView.swift:132:28	getter _appState
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RacesView.swift:132:28	setter _appState
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RacesView.swift:132:28	_modify accessor _appState
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RacesView.swift:177:24	(closure)
+37.79ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RacesView.swift:134:25	getter body
+7.77ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RacesView.swift:208:18	instance method formatTimeRemaining(_:)
+0.02ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RacesView.swift:226:9	getter title
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RacesView.swift:227:9	getter value
+2.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RacesView.swift:229:25	getter body
+0.01ms	@__swiftmacro_9Boathouse33_A2F809EF8D967F132EA1C491AA3D5569Ll7PreviewfMf0_.swift:3:16	getter fileID
+0.01ms	@__swiftmacro_9Boathouse33_A2F809EF8D967F132EA1C491AA3D5569Ll7PreviewfMf0_.swift:4:16	getter line
+0.01ms	@__swiftmacro_9Boathouse33_A2F809EF8D967F132EA1C491AA3D5569Ll7PreviewfMf0_.swift:5:16	getter column
+0.62ms	@__swiftmacro_9Boathouse33_A2F809EF8D967F132EA1C491AA3D5569Ll7PreviewfMf0_.swift:7:17	static method makePreview()
+0.01ms	@__swiftmacro_9Boathouse33_A2F809EF8D967F132EA1C491AA3D5569Ll7PreviewfMf0_.swift:2:8	initializer init()
+0.30ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RacesViewModel.swift:6:20	getter races
+0.14ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RacesViewModel.swift:6:20	setter races
+0.12ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RacesViewModel.swift:6:20	_modify accessor races
+0.02ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RacesViewModel.swift:6:20	getter $races
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RacesViewModel.swift:6:20	setter $races
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RacesViewModel.swift:6:20	_modify accessor $races
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RacesViewModel.swift:6:20	getter _races
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RacesViewModel.swift:6:20	setter _races
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RacesViewModel.swift:6:20	_modify accessor _races
+0.16ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RacesViewModel.swift:7:20	getter selectedDuration
+0s
+1s
+14s
+0s
+5s
+2s
+1s
+0s
+1s
+10s

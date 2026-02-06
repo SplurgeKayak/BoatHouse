@@ -1,0 +1,60 @@
+Run BUILD_EXIT_CODE=
+
+==========================================
+BUILD EXIT CODE: 
+==========================================
+❌ Build FAILED with exit code 
+
+==========================================
+SWIFT COMPILER ERRORS (file:line:column):
+==========================================
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeView.swift:6:47: error: cannot find 'StoryFeedViewModel' in scope
+
+==========================================
+ALL ERRORS:
+==========================================
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeView.swift:6:47: error: cannot find 'StoryFeedViewModel' in scope
+
+==========================================
+ALL WARNINGS:
+==========================================
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+
+==========================================
+FAILED COMMANDS:
+==========================================
+Command SwiftCompile failed with a nonzero exit code
+
+==========================================
+LAST 300 LINES OF RAW BUILD LOG:
+==========================================
+8.63ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:260:25	getter body
+2.11ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:288:35	getter medalColor
+1.32ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:297:38	getter positionText
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:308:9	getter icon
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:309:9	getter text
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:310:9	getter color
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:310:9	setter color
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:310:9	_modify accessor color
+1.44ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:312:25	getter body
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:325:9	getter entry
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:326:9	getter raceType
+14.72ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:328:25	getter body
+1.74ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:358:35	getter medalColor
+0.02ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:370:9	getter race
+0.05ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:371:25	getter viewModel
+0.05ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:371:25	setter viewModel
+0.02ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:371:25	_modify accessor viewModel
+0.04ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:371:25	getter $viewModel
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:371:25	getter _viewModel
+0.08ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:371:25	setter _viewModel
+0.02ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:371:25	_modify accessor _viewModel
+0.05ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:372:28	getter appState
+0.02ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:372:28	getter $appState
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:372:28	getter _appState
+0.02ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:372:28	setter _appState
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:372:28	_modify accessor _appState
+0.03ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:373:41	getter dismiss
+0.03ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:373:41	getter _dismiss
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:373:41	setter _dismiss
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Races/RaceDetailView.swift:373:41	_modify accessor _dismiss

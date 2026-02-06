@@ -1,0 +1,88 @@
+Skip to content
+SplurgeKayak
+BoatHouse
+Repository navigation
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+iOS Build & Screenshot
+ci: force full Swift compiler diagnostics in GitHub Actions #10
+All jobs
+Run details
+
+Run BUILD_EXIT_CODE=
+
+==========================================
+BUILD EXIT CODE: 
+==========================================
+❌ Build FAILED with exit code 
+
+==========================================
+SWIFT COMPILER ERRORS (file:line:column):
+==========================================
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Account/NotificationSettingsView.swift:34:17: error: generic parameter 'Content' could not be inferred
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Account/NotificationSettingsView.swift:34:24: error: missing argument label 'content:' in call
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Account/NotificationSettingsView.swift:34:25: error: cannot convert value of type 'String' to expected argument type '() -> Content'
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:166:38: error: main actor-isolated property 'currentUser' can not be referenced from a non-isolated context
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:166:30: error: main actor-isolated static property 'shared' can not be referenced from a non-isolated context
+
+==========================================
+ALL ERRORS:
+==========================================
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Account/NotificationSettingsView.swift:34:17: error: generic parameter 'Content' could not be inferred
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Account/NotificationSettingsView.swift:34:24: error: missing argument label 'content:' in call
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Account/NotificationSettingsView.swift:34:25: error: cannot convert value of type 'String' to expected argument type '() -> Content'
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:166:38: error: main actor-isolated property 'currentUser' can not be referenced from a non-isolated context
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:166:30: error: main actor-isolated static property 'shared' can not be referenced from a non-isolated context
+5.51ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:55:14	instance method webView(_:didFail:withError:)
+0.52ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:60:14	instance method webView(_:didFailProvisionalNavigation:withError:)
+
+==========================================
+ALL WARNINGS:
+==========================================
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:43:19: warning: constant 'activitiesTask' inferred to have type '()', which may be unexpected
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:44:19: warning: constant 'recentTask' inferred to have type '()', which may be unexpected
+/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeViewModel.swift:45:19: warning: constant 'leaderboardTask' inferred to have type '()', which may be unexpected
+
+==========================================
+FAILED COMMANDS:
+==========================================
+No failed command lines found
+
+==========================================
+LAST 300 LINES OF RAW BUILD LOG:
+==========================================
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:6:25	_modify accessor viewModel
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:6:25	getter $viewModel
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:6:25	getter _viewModel
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:6:25	setter _viewModel
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:6:25	_modify accessor _viewModel
+16.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:8:10	instance method makeUIView(context:)
+0.09ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:20:10	instance method updateUIView(_:context:)
+0.45ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:22:10	instance method makeCoordinator()
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:27:13	getter viewModel
+0.15ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:29:9	initializer init(viewModel:)
+6.70ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:33:14	instance method webView(_:decidePolicyFor:decisionHandler:)
+5.51ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:55:14	instance method webView(_:didFail:withError:)
+0.52ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:60:14	instance method webView(_:didFailProvisionalNavigation:withError:)
+0.15ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:26:55	initializer init()
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Authentication/StravaWebViewRepresentable.swift:26:11	deinitializer deinit
+0.04ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeView.swift:5:30	getter viewModel
+0.01ms	/Users/runner/work/BoatHouse/BoatHouse/Boathouse/Features/Home/HomeView.swift:5:30	getter $viewModel
+0s
+0s
+11s
+0s
+10s
+2s
+1s
+1s
+1s
+12s

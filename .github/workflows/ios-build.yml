@@ -21,12 +21,14 @@ jobs:
 
     - name: Build for Simulator
       run: |
+        set -o pipefail
         xcodebuild build \
           -project Boathouse.xcodeproj \
           -scheme Boathouse \
           -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
           -configuration Debug \
           -derivedDataPath ./DerivedData \
+          -resultBundlePath ./ResultBundle.xcresult \
           CODE_SIGNING_ALLOWED=NO \
           2>&1 | tee build.log
 
@@ -51,8 +53,46 @@ jobs:
         name: home-screen
         path: home-screen.png
 
-    - name: Upload Build Log
-      if: failure()
+    - name: Collect post-build diagnostics
+      if: always()
+      run: |
+        mkdir -p diagnostics
+
+        # Full xcodebuild log (already captured via tee)
+        cp build.log diagnostics/build.log 2>/dev/null || echo "No build.log found" > diagnostics/build.log
+
+        # Xcode build logs from DerivedData
+        if [ -d "./DerivedData/Logs/Build" ]; then
+          cp -R ./DerivedData/Logs/Build diagnostics/xcode-build-logs
+        fi
+
+        # Result bundle (contains structured build diagnostics)
+        if [ -d "./ResultBundle.xcresult" ]; then
+          cp -R ./ResultBundle.xcresult diagnostics/ResultBundle.xcresult
+        fi
+
+        # Simulator system log (last 500 lines — crash/launch clues)
+        xcrun simctl spawn booted log show --last 5m --style compact \
+          > diagnostics/simulator-system.log 2>&1 || true
+
+        # Crash reports
+        if ls ~/Library/Logs/DiagnosticReports/*.crash 1>/dev/null 2>&1; then
+          cp ~/Library/Logs/DiagnosticReports/*.crash diagnostics/ 2>/dev/null || true
+        fi
+
+        echo "=== Diagnostics collected ==="
+        find diagnostics -type f | head -50
+
+    - name: Upload diagnostics
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-diagnostics
+        path: diagnostics/
+        retention-days: 14
+
+    - name: Upload build log
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: build-log
