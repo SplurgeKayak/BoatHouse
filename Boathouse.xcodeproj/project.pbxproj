@@ -60,7 +60,6 @@
 		A10000000000000000000063 /* StoriesStripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000063 /* StoriesStripView.swift */; };
 		A10000000000000000000064 /* StoryProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000064 /* StoryProgressBarView.swift */; };
 		A10000000000000000000065 /* StoryViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000065 /* StoryViewerView.swift */; };
-		A10000000000000000000070 /* StravaColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000070 /* StravaColors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -119,7 +118,6 @@
 		B10000000000000000000063 /* StoriesStripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesStripView.swift; sourceTree = "<group>"; };
 		B10000000000000000000064 /* StoryProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryProgressBarView.swift; sourceTree = "<group>"; };
 		B10000000000000000000065 /* StoryViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewerView.swift; sourceTree = "<group>"; };
-		B10000000000000000000070 /* StravaColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaColors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -339,7 +337,6 @@
 			children = (
 				D10000000000000000000022 /* Navigation */,
 				D10000000000000000000023 /* Styles */,
-				B10000000000000000000070 /* StravaColors.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -500,7 +497,6 @@
 				A10000000000000000000063 /* StoriesStripView.swift in Sources */,
 				A10000000000000000000064 /* StoryProgressBarView.swift in Sources */,
 				A10000000000000000000065 /* StoryViewerView.swift in Sources */,
-				A10000000000000000000070 /* StravaColors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
