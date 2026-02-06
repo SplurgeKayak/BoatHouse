@@ -232,7 +232,7 @@ struct EntryCard: View {
             return String(format: "%.1f km/h", score)
         case .furthestDistance:
             return String(format: "%.2f km", score)
-        case .fastest1km, .fastest5km:
+        case .fastest1km, .fastest5km, .fastest10km:
             let minutes = Int(score) / 60
             let seconds = Int(score) % 60
             return String(format: "%d:%02d", minutes, seconds)

@@ -56,36 +56,12 @@ struct StoryBubbleView: View {
     }
 
     private var avatarView: some View {
-        Group {
-            if let avatarURL = story.athleteAvatarURL {
-                AsyncImage(url: avatarURL) { phase in
-                    switch phase {
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .scaledToFill()
-                    case .failure, .empty:
-                        initialsView
-                    @unknown default:
-                        initialsView
-                    }
-                }
-            } else {
-                initialsView
-            }
-        }
-        .frame(width: avatarSize, height: avatarSize)
-        .clipShape(Circle())
-    }
-
-    private var initialsView: some View {
-        Circle()
-            .fill(avatarBackgroundColor)
-            .overlay {
-                Text(story.initials)
-                    .font(.system(size: 22, weight: .semibold))
-                    .foregroundStyle(.white)
-            }
+        AvatarView(
+            url: story.athleteAvatarURL,
+            initials: story.initials,
+            id: story.athleteId,
+            size: avatarSize
+        )
     }
 
     private var badgeView: some View {
@@ -98,14 +74,6 @@ struct StoryBubbleView: View {
             .clipShape(Capsule())
     }
 
-    private var avatarBackgroundColor: Color {
-        // Generate consistent color based on athlete ID
-        let colors: [Color] = [
-            .blue, .purple, .green, .orange, .pink, .teal, .indigo
-        ]
-        let hash = abs(story.athleteId.hashValue)
-        return colors[hash % colors.count]
-    }
 }
 
 #Preview {

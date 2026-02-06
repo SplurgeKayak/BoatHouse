@@ -22,6 +22,9 @@ struct Activity: Identifiable, Codable, Equatable {
     var flagCount: Int
     var status: ActivityStatus
     let importedAt: Date
+    var fastest1kmTime: TimeInterval?
+    var fastest5kmTime: TimeInterval?
+    var fastest10kmTime: TimeInterval?
 
     var distanceKm: Double {
         distance / 1000.0
@@ -74,6 +77,28 @@ struct Activity: Identifiable, Codable, Equatable {
         isGPSVerified && isUKActivity && status == .verified
     }
 
+    var formattedFastest1km: String? {
+        guard let time = fastest1kmTime else { return nil }
+        return Self.formatSegmentTime(time)
+    }
+
+    var formattedFastest5km: String? {
+        guard let time = fastest5kmTime else { return nil }
+        return Self.formatSegmentTime(time)
+    }
+
+    var formattedFastest10km: String? {
+        guard let time = fastest10kmTime else { return nil }
+        return Self.formatSegmentTime(time)
+    }
+
+    private static func formatSegmentTime(_ time: TimeInterval) -> String {
+        let totalSeconds = Int(time)
+        let minutes = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        return String(format: "%d:%02d", minutes, seconds)
+    }
+
     /// Calculate pace for 1km segment
     func pacePerKm() -> TimeInterval? {
         guard distance > 0 else { return nil }
@@ -94,6 +119,13 @@ struct Activity: Identifiable, Codable, Equatable {
         // TODO: Implement segment analysis from polyline
         guard let pace = pacePerKm() else { return nil }
         return pace * 5
+    }
+
+    /// Extract best 10km time from activity
+    func best10kmTime() -> TimeInterval? {
+        guard distanceKm >= 10.0 else { return nil }
+        guard let pace = pacePerKm() else { return nil }
+        return pace * 10
     }
 }
 

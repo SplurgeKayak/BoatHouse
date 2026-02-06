@@ -86,6 +86,7 @@ enum RaceType: String, Codable, CaseIterable, Identifiable {
     case furthestDistance = "furthest_distance"
     case fastest1km = "fastest_1km"
     case fastest5km = "fastest_5km"
+    case fastest10km = "fastest_10km"
 
     var id: String { rawValue }
 
@@ -95,6 +96,17 @@ enum RaceType: String, Codable, CaseIterable, Identifiable {
         case .furthestDistance: return "Furthest Distance"
         case .fastest1km: return "Fastest 1km"
         case .fastest5km: return "Fastest 5km"
+        case .fastest10km: return "Fastest 10km"
+        }
+    }
+
+    var shortName: String {
+        switch self {
+        case .topSpeed: return "Speed"
+        case .furthestDistance: return "Distance"
+        case .fastest1km: return "1km"
+        case .fastest5km: return "5km"
+        case .fastest10km: return "10km"
         }
     }
 
@@ -104,6 +116,7 @@ enum RaceType: String, Codable, CaseIterable, Identifiable {
         case .furthestDistance: return "arrow.left.and.right"
         case .fastest1km: return "1.circle.fill"
         case .fastest5km: return "5.circle.fill"
+        case .fastest10km: return "10.circle.fill"
         }
     }
 
@@ -111,8 +124,13 @@ enum RaceType: String, Codable, CaseIterable, Identifiable {
         switch self {
         case .topSpeed: return "km/h"
         case .furthestDistance: return "km"
-        case .fastest1km, .fastest5km: return "min"
+        case .fastest1km, .fastest5km, .fastest10km: return "min"
         }
+    }
+
+    /// Distance filter options shown on the Club Room screen
+    static var distanceFilters: [RaceType] {
+        [.fastest1km, .fastest5km, .fastest10km]
     }
 }
 
@@ -120,14 +138,16 @@ enum RaceDuration: String, Codable, CaseIterable, Identifiable {
     case daily
     case weekly
     case monthly
+    case yearly
 
     var id: String { rawValue }
 
     var displayName: String {
         switch self {
-        case .daily: return "Daily"
-        case .weekly: return "Weekly"
-        case .monthly: return "Monthly"
+        case .daily: return "Day"
+        case .weekly: return "Week"
+        case .monthly: return "Month"
+        case .yearly: return "This Year"
         }
     }
 
@@ -136,6 +156,7 @@ enum RaceDuration: String, Codable, CaseIterable, Identifiable {
         case .daily: return 1.00
         case .weekly: return 4.99
         case .monthly: return 15.99
+        case .yearly: return 15.99
         }
     }
 
@@ -143,7 +164,7 @@ enum RaceDuration: String, Codable, CaseIterable, Identifiable {
         switch self {
         case .daily: return "sun.max.fill"
         case .weekly: return "calendar"
-        case .monthly: return "calendar.badge.clock"
+        case .monthly, .yearly: return "calendar.badge.clock"
         }
     }
 }

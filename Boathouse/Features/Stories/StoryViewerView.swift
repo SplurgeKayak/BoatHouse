@@ -87,14 +87,12 @@ struct StoryViewerView: View {
             // User info and close button
             HStack(spacing: 12) {
                 // Avatar
-                Circle()
-                    .fill(avatarColor)
-                    .frame(width: 36, height: 36)
-                    .overlay {
-                        Text(story.initials)
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(.white)
-                    }
+                AvatarView(
+                    url: story.athleteAvatarURL,
+                    initials: story.initials,
+                    id: story.athleteId,
+                    size: 36
+                )
 
                 // Name and time
                 VStack(alignment: .leading, spacing: 2) {
@@ -156,12 +154,6 @@ struct StoryViewerView: View {
             }
             .padding(.top, 20)
         }
-    }
-
-    private var avatarColor: Color {
-        let colors: [Color] = [.blue, .purple, .green, .orange, .pink, .teal, .indigo]
-        let hash = abs(story.athleteId.hashValue)
-        return colors[hash % colors.count]
     }
 
     // MARK: - Actions

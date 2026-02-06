@@ -7,9 +7,10 @@ struct StoriesStripView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Recent Sessions")
+            Text("Club Group Sessions")
                 .font(.headline)
                 .padding(.horizontal)
+                .accessibilityLabel("Club Group Sessions")
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
@@ -20,6 +21,7 @@ struct StoriesStripView: View {
                     }
                 }
                 .padding(.horizontal)
+                .padding(.top, 4)
                 .padding(.bottom, 4)
             }
         }

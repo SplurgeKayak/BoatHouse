@@ -53,26 +53,12 @@ struct LeaderboardFullRow: View {
             }
             .frame(width: 40)
 
-            if let url = entry.userProfileURL {
-                AsyncImage(url: url) { image in
-                    image
-                        .resizable()
-                        .scaledToFill()
-                } placeholder: {
-                    Circle()
-                        .fill(Color(.systemGray5))
-                }
-                .frame(width: 44, height: 44)
-                .clipShape(Circle())
-            } else {
-                Circle()
-                    .fill(Color(.systemGray5))
-                    .frame(width: 44, height: 44)
-                    .overlay {
-                        Text(String(entry.userName.prefix(1)))
-                            .font(.headline)
-                    }
-            }
+            AvatarView(
+                url: entry.userProfileURL,
+                initials: String(entry.userName.prefix(1)),
+                id: entry.userId,
+                size: 44
+            )
 
             VStack(alignment: .leading, spacing: 4) {
                 HStack {

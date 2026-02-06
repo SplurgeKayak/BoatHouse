@@ -20,6 +20,9 @@ final class RaceEngine {
 
         case .fastest5km:
             return activity.best5kmTime()
+
+        case .fastest10km:
+            return activity.best10kmTime()
         }
     }
 
@@ -30,7 +33,7 @@ final class RaceEngine {
             // Higher is better
             return score1 > score2
 
-        case .fastest1km, .fastest5km:
+        case .fastest1km, .fastest5km, .fastest10km:
             // Lower is better (faster time)
             return score1 < score2
         }
@@ -44,7 +47,7 @@ final class RaceEngine {
         switch raceType {
         case .topSpeed, .furthestDistance:
             sorted = scoredEntries.sorted { ($0.score ?? 0) > ($1.score ?? 0) }
-        case .fastest1km, .fastest5km:
+        case .fastest1km, .fastest5km, .fastest10km:
             sorted = scoredEntries.sorted { ($0.score ?? .infinity) < ($1.score ?? .infinity) }
         }
 
@@ -115,6 +118,10 @@ final class RaceEngine {
         case .fastest5km:
             guard activity.distanceKm >= 5.0 else {
                 return .ineligible(reason: "Activity must be at least 5km")
+            }
+        case .fastest10km:
+            guard activity.distanceKm >= 10.0 else {
+                return .ineligible(reason: "Activity must be at least 10km")
             }
         default:
             break

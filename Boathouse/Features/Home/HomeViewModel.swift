@@ -4,10 +4,9 @@ import Combine
 /// ViewModel for the Home screen
 final class HomeViewModel: ObservableObject {
     @Published var activities: [Activity] = []
-    @Published var recentActivities: [Activity] = []
     @Published var currentLeaderboard: Leaderboard?
-    @Published var selectedDuration: RaceDuration = .daily
-    @Published var selectedRaceType: RaceType = .topSpeed
+    @Published var selectedDuration: RaceDuration = .weekly
+    @Published var selectedRaceType: RaceType = .fastest1km
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
@@ -23,6 +22,62 @@ final class HomeViewModel: ObservableObject {
         self.raceService = raceService
         setupBindings()
     }
+
+    // MARK: - Filtered activities
+
+    /// Activities filtered by time period and sorted by the selected distance metric.
+    /// Time filters narrow the list; distance filters sort and exclude activities
+    /// that lack the corresponding segment time.
+    var filteredActivities: [Activity] {
+        let calendar = Calendar.current
+        let now = Date()
+
+        // 1. Time-period filter
+        let timeFiltered = activities.filter { activity in
+            switch selectedDuration {
+            case .daily:
+                return calendar.isDateInToday(activity.startDate)
+            case .weekly:
+                return calendar.isDate(activity.startDate, equalTo: now, toGranularity: .weekOfYear)
+            case .monthly:
+                return calendar.isDate(activity.startDate, equalTo: now, toGranularity: .month)
+            case .yearly:
+                return calendar.isDate(activity.startDate, equalTo: now, toGranularity: .year)
+            }
+        }
+
+        // 2. Distance sort (ascending = fastest first) with deterministic tiebreaker
+        switch selectedRaceType {
+        case .fastest1km:
+            return timeFiltered
+                .filter { $0.fastest1kmTime != nil }
+                .sorted { a, b in
+                    let at = a.fastest1kmTime ?? .infinity
+                    let bt = b.fastest1kmTime ?? .infinity
+                    return at != bt ? at < bt : a.id < b.id
+                }
+        case .fastest5km:
+            return timeFiltered
+                .filter { $0.fastest5kmTime != nil }
+                .sorted { a, b in
+                    let at = a.fastest5kmTime ?? .infinity
+                    let bt = b.fastest5kmTime ?? .infinity
+                    return at != bt ? at < bt : a.id < b.id
+                }
+        case .fastest10km:
+            return timeFiltered
+                .filter { $0.fastest10kmTime != nil }
+                .sorted { a, b in
+                    let at = a.fastest10kmTime ?? .infinity
+                    let bt = b.fastest10kmTime ?? .infinity
+                    return at != bt ? at < bt : a.id < b.id
+                }
+        default:
+            return timeFiltered.sorted { $0.startDate > $1.startDate }
+        }
+    }
+
+    // MARK: - Data loading
 
     private func setupBindings() {
         $selectedDuration
@@ -41,10 +96,9 @@ final class HomeViewModel: ObservableObject {
         isLoading = true
 
         async let activitiesTask: Void = loadActivities()
-        async let recentTask: Void = loadRecentActivities()
         async let leaderboardTask: Void = loadLeaderboard()
 
-        _ = await (activitiesTask, recentTask, leaderboardTask)
+        _ = await (activitiesTask, leaderboardTask)
 
         isLoading = false
     }
@@ -58,14 +112,6 @@ final class HomeViewModel: ObservableObject {
             activities = try await activityService.fetchFeedActivities(page: 1)
         } catch {
             errorMessage = "Failed to load activities"
-        }
-    }
-
-    private func loadRecentActivities() async {
-        do {
-            recentActivities = try await activityService.fetchRecentActivities(limit: 10)
-        } catch {
-            // Silently fail for recent activities
         }
     }
 

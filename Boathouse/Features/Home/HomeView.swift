@@ -19,13 +19,11 @@ struct HomeView: View {
                         Divider()
                     }
 
-                    latestActivitiesBanner
-
                     filterSection
 
                     if viewModel.isLoading {
                         loadingView
-                    } else if viewModel.activities.isEmpty {
+                    } else if viewModel.filteredActivities.isEmpty {
                         emptyStateView
                     } else {
                         activityFeed
@@ -59,43 +57,28 @@ struct HomeView: View {
         }
     }
 
-    private var latestActivitiesBanner: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Recent Activity")
-                .font(.headline)
-                .padding(.horizontal)
-
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                    ForEach(viewModel.recentActivities) { activity in
-                        RecentActivityCard(activity: activity)
-                    }
-                }
-                .padding(.horizontal)
-            }
-        }
-        .padding(.vertical)
-        .background(Color(.systemBackground))
-    }
+    // MARK: - Filters
 
     private var filterSection: some View {
         VStack(spacing: 12) {
-            Picker("Duration", selection: $viewModel.selectedDuration) {
+            Picker("Time Period", selection: $viewModel.selectedDuration) {
                 ForEach(RaceDuration.allCases) { duration in
                     Text(duration.displayName).tag(duration)
                 }
             }
             .pickerStyle(.segmented)
             .padding(.horizontal)
+            .accessibilityLabel("Time period filter")
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
-                    ForEach(RaceType.allCases) { type in
+                    ForEach(RaceType.distanceFilters) { type in
                         FilterChip(
-                            title: type.displayName,
+                            title: type.shortName,
                             isSelected: viewModel.selectedRaceType == type,
                             action: { viewModel.selectedRaceType = type }
                         )
+                        .accessibilityLabel("Sort by \(type.displayName)")
                     }
                 }
                 .padding(.horizontal)
@@ -105,15 +88,19 @@ struct HomeView: View {
         .background(Color(.systemGray6))
     }
 
+    // MARK: - Unified activity feed
+
     private var activityFeed: some View {
         LazyVStack(spacing: 16) {
-            ForEach(viewModel.activities) { activity in
+            ForEach(viewModel.filteredActivities) { activity in
                 ActivityCard(activity: activity)
                     .padding(.horizontal)
             }
         }
         .padding(.vertical)
     }
+
+    // MARK: - Rankings
 
     private var rankingSection: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -145,6 +132,8 @@ struct HomeView: View {
         .padding(.vertical)
         .background(Color(.systemBackground))
     }
+
+    // MARK: - States
 
     private var loadingView: some View {
         VStack(spacing: 16) {
@@ -183,35 +172,6 @@ struct HomeView: View {
 
 // MARK: - Supporting Views
 
-struct RecentActivityCard: View {
-    let activity: Activity
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Image(systemName: activity.activityType.icon)
-                    .foregroundStyle(.accent)
-
-                Text(activity.name)
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-                    .lineLimit(1)
-            }
-
-            HStack(spacing: 12) {
-                Label(activity.formattedDistance, systemImage: "arrow.left.and.right")
-                Label(activity.formattedDuration, systemImage: "clock")
-            }
-            .font(.caption)
-            .foregroundStyle(.secondary)
-        }
-        .padding()
-        .frame(width: 180)
-        .background(Color(.systemGray6))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-    }
-}
-
 struct ActivityCard: View {
     let activity: Activity
 
@@ -243,10 +203,20 @@ struct ActivityCard: View {
                 }
             }
 
+            // Core stats
             HStack(spacing: 20) {
                 StatView(title: "Distance", value: activity.formattedDistance)
                 StatView(title: "Duration", value: activity.formattedDuration)
-                StatView(title: "Max Speed", value: activity.formattedMaxSpeed)
+            }
+
+            // Segment times (only rows that have data)
+            let segments = segmentStats
+            if !segments.isEmpty {
+                HStack(spacing: 20) {
+                    ForEach(segments, id: \.title) { stat in
+                        StatView(title: stat.title, value: stat.value)
+                    }
+                }
             }
 
             if let _ = activity.polyline {
@@ -287,6 +257,14 @@ struct ActivityCard: View {
         .background(Color(.systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .shadow(color: .black.opacity(0.05), radius: 8, y: 4)
+    }
+
+    private var segmentStats: [(title: String, value: String)] {
+        var stats: [(title: String, value: String)] = []
+        if let t = activity.formattedFastest1km  { stats.append(("Fastest 1km", t)) }
+        if let t = activity.formattedFastest5km  { stats.append(("Fastest 5km", t)) }
+        if let t = activity.formattedFastest10km { stats.append(("Fastest 10km", t)) }
+        return stats
     }
 }
 
@@ -336,14 +314,12 @@ struct LeaderboardRow: View {
                 .frame(width: 30)
                 .foregroundStyle(medalColor)
 
-            Circle()
-                .fill(Color(.systemGray5))
-                .frame(width: 36, height: 36)
-                .overlay {
-                    Text(String(entry.userName.prefix(1)))
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                }
+            AvatarView(
+                url: entry.userProfileURL,
+                initials: String(entry.userName.prefix(1)),
+                id: entry.userId,
+                size: 36
+            )
 
             Text(entry.userName)
                 .font(.subheadline)

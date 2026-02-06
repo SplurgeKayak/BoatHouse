@@ -180,10 +180,15 @@ enum MockData {
     }
 
     // MARK: - Activities
+    //
+    // Date spread (assuming today ≈ 2026-02-06):
+    //   Today:      activities 001, 004, 006, 007, 009, 010
+    //   This week:  activities 002, 003, 005, 008, 011
+    //   This year:  activities 012, 013 (last month / earlier)
 
     static var activities: [Activity] {
         [
-            // User 001 - James Wilson
+            // ── User 001 – James Wilson ───────────────────────
             Activity(
                 id: "activity-001",
                 stravaId: 10000001,
@@ -203,7 +208,9 @@ enum MockData {
                 isUKActivity: true,
                 flagCount: 0,
                 status: .verified,
-                importedAt: Date().addingTimeInterval(-3600 * 3)
+                importedAt: Date().addingTimeInterval(-3600 * 3),
+                fastest1kmTime: 245,
+                fastest5kmTime: 1280
             ),
             Activity(
                 id: "activity-002",
@@ -224,7 +231,9 @@ enum MockData {
                 isUKActivity: true,
                 flagCount: 0,
                 status: .verified,
-                importedAt: Date().addingTimeInterval(-86400 + 3600)
+                importedAt: Date().addingTimeInterval(-86400 + 3600),
+                fastest1kmTime: 230,
+                fastest5kmTime: 1210
             ),
             Activity(
                 id: "activity-003",
@@ -245,9 +254,13 @@ enum MockData {
                 isUKActivity: true,
                 flagCount: 0,
                 status: .verified,
-                importedAt: Date().addingTimeInterval(-86400 * 2 + 7200)
+                importedAt: Date().addingTimeInterval(-86400 * 2 + 7200),
+                fastest1kmTime: 235,
+                fastest5kmTime: 1190,
+                fastest10kmTime: 2420
             ),
-            // User 002 - Sarah Chen
+
+            // ── User 002 – Sarah Chen ────────────────────────
             Activity(
                 id: "activity-004",
                 stravaId: 10000004,
@@ -267,7 +280,10 @@ enum MockData {
                 isUKActivity: true,
                 flagCount: 0,
                 status: .verified,
-                importedAt: Date().addingTimeInterval(-3600)
+                importedAt: Date().addingTimeInterval(-3600),
+                fastest1kmTime: 220,
+                fastest5kmTime: 1150,
+                fastest10kmTime: 2350
             ),
             Activity(
                 id: "activity-005",
@@ -288,9 +304,36 @@ enum MockData {
                 isUKActivity: true,
                 flagCount: 0,
                 status: .verified,
-                importedAt: Date().addingTimeInterval(-3600 * 10)
+                importedAt: Date().addingTimeInterval(-3600 * 10),
+                fastest1kmTime: 248
             ),
-            // User 003 - Mike Johnson
+            // Sarah's activity from last month (for year filter testing)
+            Activity(
+                id: "activity-012",
+                stravaId: 10000012,
+                userId: "user-002",
+                name: "New Year Resolution Paddle",
+                activityType: .kayaking,
+                startDate: Date().addingTimeInterval(-86400 * 14),
+                elapsedTime: 6000,
+                movingTime: 5700,
+                distance: 14200.0,
+                maxSpeed: 5.0,
+                averageSpeed: 2.49,
+                startLocation: Coordinate(latitude: 54.4609, longitude: -3.0886),
+                endLocation: Coordinate(latitude: 54.4712, longitude: -3.0734),
+                polyline: nil,
+                isGPSVerified: true,
+                isUKActivity: true,
+                flagCount: 0,
+                status: .verified,
+                importedAt: Date().addingTimeInterval(-86400 * 13),
+                fastest1kmTime: 242,
+                fastest5kmTime: 1240,
+                fastest10kmTime: 2480
+            ),
+
+            // ── User 003 – Mike Johnson ──────────────────────
             Activity(
                 id: "activity-006",
                 stravaId: 10000006,
@@ -310,7 +353,10 @@ enum MockData {
                 isUKActivity: true,
                 flagCount: 0,
                 status: .verified,
-                importedAt: Date().addingTimeInterval(-3600 * 5)
+                importedAt: Date().addingTimeInterval(-3600 * 5),
+                fastest1kmTime: 258,
+                fastest5kmTime: 1320,
+                fastest10kmTime: 2680
             ),
             Activity(
                 id: "activity-007",
@@ -331,7 +377,9 @@ enum MockData {
                 isUKActivity: true,
                 flagCount: 0,
                 status: .verified,
-                importedAt: Date().addingTimeInterval(-3600 * 7)
+                importedAt: Date().addingTimeInterval(-3600 * 7),
+                fastest1kmTime: 225,
+                fastest5kmTime: 1170
             ),
             Activity(
                 id: "activity-008",
@@ -352,9 +400,13 @@ enum MockData {
                 isUKActivity: true,
                 flagCount: 0,
                 status: .verified,
-                importedAt: Date().addingTimeInterval(-86400)
+                importedAt: Date().addingTimeInterval(-86400),
+                fastest1kmTime: 218,
+                fastest5kmTime: 1110,
+                fastest10kmTime: 2260
             ),
-            // User 004 - Emma Davis
+
+            // ── User 004 – Emma Davis ────────────────────────
             Activity(
                 id: "activity-009",
                 stravaId: 10000009,
@@ -374,9 +426,37 @@ enum MockData {
                 isUKActivity: true,
                 flagCount: 0,
                 status: .verified,
-                importedAt: Date().addingTimeInterval(-1800)
+                importedAt: Date().addingTimeInterval(-1800),
+                fastest1kmTime: 250,
+                fastest5kmTime: 1290
             ),
-            // User 005 - Tom Roberts
+            // Emma's activity from early January (for year filter testing)
+            Activity(
+                id: "activity-013",
+                stravaId: 10000013,
+                userId: "user-004",
+                name: "Winter Solstice Row",
+                activityType: .rowing,
+                startDate: Date().addingTimeInterval(-86400 * 35),
+                elapsedTime: 7800,
+                movingTime: 7400,
+                distance: 18200.0,
+                maxSpeed: 4.6,
+                averageSpeed: 2.46,
+                startLocation: Coordinate(latitude: 52.2053, longitude: 0.1218),
+                endLocation: Coordinate(latitude: 52.2112, longitude: 0.1156),
+                polyline: nil,
+                isGPSVerified: true,
+                isUKActivity: true,
+                flagCount: 0,
+                status: .verified,
+                importedAt: Date().addingTimeInterval(-86400 * 34),
+                fastest1kmTime: 255,
+                fastest5kmTime: 1300,
+                fastest10kmTime: 2620
+            ),
+
+            // ── User 005 – Tom Roberts ───────────────────────
             Activity(
                 id: "activity-010",
                 stravaId: 10000010,
@@ -396,7 +476,10 @@ enum MockData {
                 isUKActivity: true,
                 flagCount: 0,
                 status: .verified,
-                importedAt: Date().addingTimeInterval(-3600 * 2)
+                importedAt: Date().addingTimeInterval(-3600 * 2),
+                fastest1kmTime: 238,
+                fastest5kmTime: 1220,
+                fastest10kmTime: 2500
             ),
             Activity(
                 id: "activity-011",
@@ -417,7 +500,9 @@ enum MockData {
                 isUKActivity: true,
                 flagCount: 0,
                 status: .verified,
-                importedAt: Date().addingTimeInterval(-86400 + 3600)
+                importedAt: Date().addingTimeInterval(-86400 + 3600),
+                fastest1kmTime: 260,
+                fastest5kmTime: 1350
             )
         ]
     }
