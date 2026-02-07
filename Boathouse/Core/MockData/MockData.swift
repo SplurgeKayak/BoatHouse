@@ -6,7 +6,7 @@ enum MockData {
 
     // MARK: - Users
 
-    static var racerUser: User {
+    static let racerUser: User = {
         User(
             id: "user-001",
             email: "james.wilson@example.com",
@@ -48,9 +48,9 @@ enum MockData {
             createdAt: Date().addingTimeInterval(-86400 * 120),
             updatedAt: Date()
         )
-    }
+    }()
 
-    static var spectatorUser: User {
+    static let spectatorUser: User = {
         User(
             id: "user-006",
             email: "spectator@example.com",
@@ -64,11 +64,11 @@ enum MockData {
             createdAt: Date().addingTimeInterval(-86400 * 14),
             updatedAt: Date()
         )
-    }
+    }()
 
     // MARK: - Wallet
 
-    static var wallet: Wallet {
+    static let wallet: Wallet = {
         Wallet(
             id: "wallet-001",
             userId: "user-001",
@@ -83,11 +83,11 @@ enum MockData {
             createdAt: Date().addingTimeInterval(-86400 * 120),
             updatedAt: Date()
         )
-    }
+    }()
 
     // MARK: - Transactions
 
-    static var transactions: [WalletTransaction] {
+    static let transactions: [WalletTransaction] = {
         [
             WalletTransaction(
                 id: "txn-001",
@@ -123,11 +123,11 @@ enum MockData {
                 createdAt: Date().addingTimeInterval(-86400 * 2)
             )
         ]
-    }
+    }()
 
     // MARK: - Races
 
-    static var races: [Race] {
+    static let races: [Race] = {
         [
             Race(
                 id: "race-001",
@@ -178,7 +178,7 @@ enum MockData {
                 createdAt: Date().addingTimeInterval(-86400 * 3)
             )
         ]
-    }
+    }()
 
     // MARK: - Sessions (formerly Activities)
     //
@@ -187,7 +187,7 @@ enum MockData {
     //   This week:  sessions 002, 003, 005, 008, 011
     //   This year:  sessions 012, 013 (last month / earlier)
 
-    static var sessions: [Session] {
+    static let sessions: [Session] = {
         let thamesStart = Coordinate(latitude: 51.4615, longitude: -0.3015)
         let thamesEnd = Coordinate(latitude: 51.4812, longitude: -0.2734)
         let leeValleyStart = Coordinate(latitude: 51.5742, longitude: -0.0356)
@@ -537,11 +537,11 @@ enum MockData {
                 fastest5kmTime: 1350
             )
         ]
-    }
+    }()
 
     // MARK: - Entries
 
-    static var entries: [Entry] {
+    static let entries: [Entry] = {
         [
             Entry(
                 id: "entry-001",
@@ -568,11 +568,11 @@ enum MockData {
                 transactionId: nil
             )
         ]
-    }
+    }()
 
     // MARK: - Leaderboard
 
-    static var leaderboard: Leaderboard {
+    static let leaderboard: Leaderboard = {
         Leaderboard(
             id: "leaderboard-001",
             raceId: "race-002",
@@ -630,5 +630,5 @@ enum MockData {
             ],
             updatedAt: Date()
         )
-    }
+    }()
 }

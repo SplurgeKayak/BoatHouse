@@ -1,5 +1,4 @@
 import SwiftUI
-import AuthenticationServices
 
 /// Strava OAuth connection view with explanation
 struct StravaOAuthView: View {

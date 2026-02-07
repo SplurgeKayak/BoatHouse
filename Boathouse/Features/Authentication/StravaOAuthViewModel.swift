@@ -1,5 +1,4 @@
 import SwiftUI
-import AuthenticationServices
 
 /// ViewModel for Strava OAuth2 authentication flow
 final class StravaOAuthViewModel: ObservableObject {

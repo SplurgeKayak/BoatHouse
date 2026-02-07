@@ -1,5 +1,5 @@
 import SwiftUI
-import MapKit
+import CoreLocation
 
 /// Home screen with Instagram/Strava inspired session feed
 struct HomeView: View {
