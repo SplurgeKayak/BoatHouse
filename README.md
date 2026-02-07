@@ -1,4 +1,4 @@
-# Boathouse - Digital Canoe & Kayak Racing
+# Racepace - Digital Canoe & Kayak Racing
 
 A UK-based digital racing platform where users compete using their Strava canoe and kayaking activities for real prize money.
 
