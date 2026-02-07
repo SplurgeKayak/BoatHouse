@@ -101,7 +101,7 @@ final class RaceService: RaceServiceProtocol {
             id: UUID().uuidString,
             userId: userId,
             raceId: raceId,
-            activityId: nil,
+            sessionId: nil,
             enteredAt: Date(),
             score: nil,
             rank: nil,
