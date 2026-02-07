@@ -63,6 +63,10 @@
 		A10000000000000000000071 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000071 /* AvatarView.swift */; };
 		A10000000000000000000080 /* PolylineCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000080 /* PolylineCodec.swift */; };
 		A10000000000000000000081 /* SessionMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000081 /* SessionMapView.swift */; };
+		A10000000000000000000082 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000082 /* LaunchScreenView.swift */; };
+		A10000000000000000000083 /* HomeComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000083 /* HomeComponents.swift */; };
+		A10000000000000000000084 /* SessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000084 /* SessionService.swift */; };
+		A10000000000000000000085 /* RaceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000085 /* RaceService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -124,6 +128,10 @@
 		B10000000000000000000071 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		B10000000000000000000080 /* PolylineCodec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolylineCodec.swift; sourceTree = "<group>"; };
 		B10000000000000000000081 /* SessionMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionMapView.swift; sourceTree = "<group>"; };
+		B10000000000000000000082 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
+		B10000000000000000000083 /* HomeComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeComponents.swift; sourceTree = "<group>"; };
+		B10000000000000000000084 /* SessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionService.swift; sourceTree = "<group>"; };
+		B10000000000000000000085 /* RaceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +166,7 @@
 			children = (
 				B10000000000000000000001 /* BoathouseApp.swift */,
 				B10000000000000000000051 /* ContentView.swift */,
+				B10000000000000000000082 /* LaunchScreenView.swift */,
 				B10000000000000000000047 /* Info.plist */,
 				D10000000000000000000002 /* App */,
 				D10000000000000000000003 /* Configuration */,
@@ -218,6 +227,8 @@
 				B10000000000000000000013 /* ModerationService.swift */,
 				B10000000000000000000014 /* RaceEngine.swift */,
 				B10000000000000000000080 /* PolylineCodec.swift */,
+				B10000000000000000000084 /* SessionService.swift */,
+				B10000000000000000000085 /* RaceService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -261,6 +272,7 @@
 			isa = PBXGroup;
 			children = (
 				B10000000000000000000026 /* HomeView.swift */,
+				B10000000000000000000083 /* HomeComponents.swift */,
 				B10000000000000000000027 /* HomeViewModel.swift */,
 				B10000000000000000000028 /* LeaderboardView.swift */,
 				B10000000000000000000029 /* FlagActivityView.swift */,
@@ -509,6 +521,10 @@
 				A10000000000000000000071 /* AvatarView.swift in Sources */,
 				A10000000000000000000080 /* PolylineCodec.swift in Sources */,
 				A10000000000000000000081 /* SessionMapView.swift in Sources */,
+				A10000000000000000000082 /* LaunchScreenView.swift in Sources */,
+				A10000000000000000000083 /* HomeComponents.swift in Sources */,
+				A10000000000000000000084 /* SessionService.swift in Sources */,
+				A10000000000000000000085 /* RaceService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -680,7 +696,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Boathouse/Resources/Preview Content\"";
-				ENABLE_PREVIEWS = YES;
+				ENABLE_PREVIEWS = NO;
 				EXECUTABLE_NAME = Boathouse;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Boathouse/Info.plist;

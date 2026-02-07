@@ -1,5 +1,4 @@
 import SwiftUI
-import PassKit
 
 /// Wallet setup view with Apple Pay integration
 struct WalletSetupView: View {

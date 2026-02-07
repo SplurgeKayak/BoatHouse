@@ -1,5 +1,4 @@
 import SwiftUI
-import PassKit
 
 /// View for adding funds to wallet with Apple Pay
 struct AddFundsView: View {
