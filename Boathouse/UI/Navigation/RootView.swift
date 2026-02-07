@@ -35,7 +35,7 @@ struct LaunchScreen: View {
                     .font(.system(size: 80))
                     .foregroundStyle(.white)
 
-                Text("Boathouse")
+                Text("Race Pace")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundStyle(.white)

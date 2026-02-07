@@ -2,15 +2,15 @@ import Foundation
 import SwiftUI
 import Combine
 
-/// Represents a user/athlete with their unseen activities for the Stories strip
+/// Represents a user/athlete with their unseen sessions for the Stories strip
 struct AthleteStory: Identifiable, Equatable {
     let id: String
     let athleteId: String
     let athleteName: String
     let athleteAvatarURL: URL?
-    let unseenActivities: [Activity]
+    let unseenSessions: [Session]
 
-    var unseenCount: Int { unseenActivities.count }
+    var unseenCount: Int { unseenSessions.count }
 
     var firstName: String {
         athleteName.components(separatedBy: " ").first ?? athleteName
@@ -35,46 +35,43 @@ final class StoryFeedViewModel: ObservableObject {
     @Published var selectedStory: AthleteStory?
     @Published var isShowingStoryViewer: Bool = false
 
-    private let seenStore: SeenActivityStore
+    private let seenStore: SeenSessionStore
     private var cancellables = Set<AnyCancellable>()
 
-    // Mock user data for demo purposes
+    // Mock user data for demo purposes (with avatar URLs for some)
     private let mockUsers: [String: (name: String, avatarURL: URL?)] = [
-        "user-001": ("James Wilson", nil),
-        "user-002": ("Sarah Chen", nil),
-        "user-003": ("Mike Johnson", nil),
-        "user-004": ("Emma Davis", nil),
-        "user-005": ("Tom Roberts", nil),
+        "user-001": ("James Wilson", URL(string: "https://i.pravatar.cc/150?u=user-001")),
+        "user-002": ("Sarah Chen", URL(string: "https://i.pravatar.cc/150?u=user-002")),
+        "user-003": ("Mike Johnson", URL(string: "https://i.pravatar.cc/150?u=user-003")),
+        "user-004": ("Emma Davis", URL(string: "https://i.pravatar.cc/150?u=user-004")),
+        "user-005": ("Tom Roberts", URL(string: "https://i.pravatar.cc/150?u=user-005")),
         "user-010": ("David Henderson", nil),
         "user-011": ("Michael Roberts", nil),
         "user-012": ("Christopher Lee", nil)
     ]
 
-    init(seenStore: SeenActivityStore = .shared) {
+    init(seenStore: SeenSessionStore = .shared) {
         self.seenStore = seenStore
 
-        // Listen for changes to seen activities
-        seenStore.$seenActivityIDs
+        seenStore.$seenSessionIDs
             .sink { [weak self] _ in
                 self?.objectWillChange.send()
             }
             .store(in: &cancellables)
     }
 
-    /// Update stories based on the current activities
+    /// Update stories based on the current sessions
     @MainActor
-    func updateStories(from activities: [Activity]) {
-        // Group activities by user
-        let groupedByUser = Dictionary(grouping: activities) { $0.userId }
+    func updateStories(from sessions: [Session]) {
+        let groupedByUser = Dictionary(grouping: sessions) { $0.userId }
 
-        // Create stories for users with unseen activities
         var newStories: [AthleteStory] = []
 
-        for (userId, userActivities) in groupedByUser {
-            let unseenActivities = seenStore.unseenActivities(from: userActivities)
-                .sorted { $0.startDate > $1.startDate } // Most recent first
+        for (userId, userSessions) in groupedByUser {
+            let unseenSessions = seenStore.unseenSessions(from: userSessions)
+                .sorted { $0.startDate > $1.startDate }
 
-            guard !unseenActivities.isEmpty else { continue }
+            guard !unseenSessions.isEmpty else { continue }
 
             let userData = mockUsers[userId] ?? (name: "Athlete", avatarURL: nil)
 
@@ -83,41 +80,36 @@ final class StoryFeedViewModel: ObservableObject {
                 athleteId: userId,
                 athleteName: userData.name,
                 athleteAvatarURL: userData.avatarURL,
-                unseenActivities: unseenActivities
+                unseenSessions: unseenSessions
             )
 
             newStories.append(story)
         }
 
-        // Sort by most recent activity
         stories = newStories.sorted {
-            ($0.unseenActivities.first?.startDate ?? .distantPast) >
-            ($1.unseenActivities.first?.startDate ?? .distantPast)
+            ($0.unseenSessions.first?.startDate ?? .distantPast) >
+            ($1.unseenSessions.first?.startDate ?? .distantPast)
         }
     }
 
-    /// Called when user taps on a story bubble
     @MainActor
     func selectStory(_ story: AthleteStory) {
         selectedStory = story
         isShowingStoryViewer = true
     }
 
-    /// Called when story viewer is dismissed
     @MainActor
     func dismissStoryViewer() {
         isShowingStoryViewer = false
         selectedStory = nil
     }
 
-    /// Mark activities as seen and refresh stories
     @MainActor
-    func markActivitiesAsSeen(_ activityIds: [String], activities: [Activity]) {
-        seenStore.markSeen(activityIds: activityIds)
-        updateStories(from: activities)
+    func markSessionsAsSeen(_ sessionIds: [String], sessions: [Session]) {
+        seenStore.markSeen(sessionIds: sessionIds)
+        updateStories(from: sessions)
     }
 
-    /// Check if there are any stories to show
     var hasStories: Bool {
         !stories.isEmpty
     }

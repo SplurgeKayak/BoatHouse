@@ -1,34 +1,31 @@
 import SwiftUI
 
-/// Full-screen story viewer showing activities one by one (like Instagram Stories)
+/// Full-screen story viewer showing sessions one by one (like Instagram Stories)
 struct StoryViewerView: View {
     let story: AthleteStory
     let onDismiss: () -> Void
     let onMarkSeen: ([String]) -> Void
 
     @State private var currentIndex: Int = 0
-    @State private var seenActivityIds: Set<String> = []
+    @State private var seenSessionIds: Set<String> = []
     @State private var showAllCaughtUp: Bool = false
 
-    private var activities: [Activity] {
-        story.unseenActivities
+    private var sessions: [Session] {
+        story.unseenSessions
     }
 
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Background
                 Color.black.ignoresSafeArea()
 
-                // Content
                 if showAllCaughtUp {
                     allCaughtUpView
-                } else if !activities.isEmpty {
-                    // Paged content
+                } else if !sessions.isEmpty {
                     TabView(selection: $currentIndex) {
-                        ForEach(Array(activities.enumerated()), id: \.element.id) { index, activity in
-                            StoryActivityDetailView(
-                                activity: activity,
+                        ForEach(Array(sessions.enumerated()), id: \.element.id) { index, session in
+                            StorySessionDetailView(
+                                session: session,
                                 athleteName: story.athleteName,
                                 athleteInitials: story.initials
                             )
@@ -38,16 +35,13 @@ struct StoryViewerView: View {
                     .tabViewStyle(.page(indexDisplayMode: .never))
                     .ignoresSafeArea()
 
-                    // Tap zones for navigation
                     HStack(spacing: 0) {
-                        // Left tap zone - go back
                         Color.clear
                             .contentShape(Rectangle())
                             .onTapGesture {
                                 goToPrevious()
                             }
 
-                        // Right tap zone - go forward
                         Color.clear
                             .contentShape(Rectangle())
                             .onTapGesture {
@@ -56,7 +50,6 @@ struct StoryViewerView: View {
                     }
                 }
 
-                // Header overlay
                 VStack {
                     headerView
                         .padding(.top, geometry.safeAreaInsets.top + 8)
@@ -77,16 +70,13 @@ struct StoryViewerView: View {
 
     private var headerView: some View {
         VStack(spacing: 12) {
-            // Progress bar
             StoryProgressBarView(
-                totalCount: activities.count,
+                totalCount: sessions.count,
                 currentIndex: currentIndex,
                 progress: 1.0
             )
 
-            // User info and close button
             HStack(spacing: 12) {
-                // Avatar
                 AvatarView(
                     url: story.athleteAvatarURL,
                     initials: story.initials,
@@ -94,15 +84,14 @@ struct StoryViewerView: View {
                     size: 36
                 )
 
-                // Name and time
                 VStack(alignment: .leading, spacing: 2) {
                     Text(story.athleteName)
                         .font(.subheadline)
                         .fontWeight(.semibold)
                         .foregroundStyle(.white)
 
-                    if currentIndex < activities.count {
-                        Text(activities[currentIndex].startDate, style: .relative)
+                    if currentIndex < sessions.count {
+                        Text(sessions[currentIndex].startDate, style: .relative)
                             .font(.caption)
                             .foregroundStyle(.white.opacity(0.7))
                     }
@@ -110,7 +99,6 @@ struct StoryViewerView: View {
 
                 Spacer()
 
-                // Close button
                 Button {
                     dismissViewer()
                 } label: {
@@ -136,7 +124,7 @@ struct StoryViewerView: View {
                 .fontWeight(.bold)
                 .foregroundStyle(.white)
 
-            Text("You've seen all of \(story.firstName)'s recent activities")
+            Text("You've seen all of \(story.firstName)'s recent sessions")
                 .font(.subheadline)
                 .foregroundStyle(.white.opacity(0.7))
                 .multilineTextAlignment(.center)
@@ -167,17 +155,15 @@ struct StoryViewerView: View {
     }
 
     private func goToNext() {
-        if currentIndex < activities.count - 1 {
+        if currentIndex < sessions.count - 1 {
             withAnimation(.easeInOut(duration: 0.2)) {
                 currentIndex += 1
             }
         } else {
-            // Last activity - show all caught up
             withAnimation {
                 showAllCaughtUp = true
             }
 
-            // Auto-dismiss after delay
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 dismissViewer()
             }
@@ -185,24 +171,23 @@ struct StoryViewerView: View {
     }
 
     private func markCurrentAsSeen(index: Int) {
-        guard index < activities.count else { return }
-        let activityId = activities[index].id
-        if !seenActivityIds.contains(activityId) {
-            seenActivityIds.insert(activityId)
-            onMarkSeen([activityId])
+        guard index < sessions.count else { return }
+        let sessionId = sessions[index].id
+        if !seenSessionIds.contains(sessionId) {
+            seenSessionIds.insert(sessionId)
+            onMarkSeen([sessionId])
         }
     }
 
     private func dismissViewer() {
-        // Mark all viewed activities as seen
-        onMarkSeen(Array(seenActivityIds))
+        onMarkSeen(Array(seenSessionIds))
         onDismiss()
     }
 }
 
-/// Activity detail card shown in story viewer
-struct StoryActivityDetailView: View {
-    let activity: Activity
+/// Session detail card shown in story viewer
+struct StorySessionDetailView: View {
+    let session: Session
     let athleteName: String
     let athleteInitials: String
 
@@ -211,52 +196,46 @@ struct StoryActivityDetailView: View {
             VStack {
                 Spacer()
 
-                // Activity card
                 VStack(alignment: .leading, spacing: 16) {
-                    // Header with activity type
                     HStack {
-                        Image(systemName: activity.activityType.icon)
+                        Image(systemName: session.sessionType.icon)
                             .font(.title2)
                             .foregroundStyle(AppColors.accent)
 
-                        Text(activity.activityType.displayName)
+                        Text(session.sessionType.displayName)
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
 
                         Spacer()
 
-                        if activity.isGPSVerified {
+                        if session.isGPSVerified {
                             Label("GPS Verified", systemImage: "checkmark.shield.fill")
                                 .font(.caption)
                                 .foregroundStyle(.green)
                         }
                     }
 
-                    // Activity title
-                    Text(activity.name)
+                    Text(session.name)
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundStyle(.primary)
 
-                    // Time ago
-                    Text(activity.startDate, style: .relative)
+                    Text(session.startDate, style: .relative)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
 
                     Divider()
 
-                    // Stats grid
                     HStack(spacing: 0) {
-                        statItem(title: "Distance", value: activity.formattedDistance)
-                        statItem(title: "Duration", value: activity.formattedDuration)
-                        statItem(title: "Avg Speed", value: activity.formattedAverageSpeed)
+                        statItem(title: "Distance", value: session.formattedDistance)
+                        statItem(title: "Duration", value: session.formattedDuration)
+                        statItem(title: "Avg Speed", value: session.formattedAverageSpeed)
                     }
 
-                    // Additional stats
                     HStack(spacing: 0) {
-                        statItem(title: "Max Speed", value: activity.formattedMaxSpeed)
-                        statItem(title: "Moving Time", value: formatMovingTime(activity.movingTime))
-                        if activity.isUKActivity {
+                        statItem(title: "Max Speed", value: session.formattedMaxSpeed)
+                        statItem(title: "Moving Time", value: formatMovingTime(session.movingTime))
+                        if session.isUKSession {
                             statItem(title: "Location", value: "UK")
                         } else {
                             Spacer()
@@ -307,14 +286,14 @@ struct StoryActivityDetailView: View {
             id: "story-1",
             athleteId: "user-001",
             athleteName: "James Wilson",
-            athleteAvatarURL: nil,
-            unseenActivities: [
-                Activity(
-                    id: "act-1",
+            athleteAvatarURL: URL(string: "https://i.pravatar.cc/150?u=user-001"),
+            unseenSessions: [
+                Session(
+                    id: "sess-1",
                     stravaId: 1,
                     userId: "user-001",
                     name: "Morning Thames Paddle",
-                    activityType: .kayaking,
+                    sessionType: .kayaking,
                     startDate: Date().addingTimeInterval(-3600),
                     elapsedTime: 3845,
                     movingTime: 3602,
@@ -325,28 +304,7 @@ struct StoryActivityDetailView: View {
                     endLocation: nil,
                     polyline: nil,
                     isGPSVerified: true,
-                    isUKActivity: true,
-                    flagCount: 0,
-                    status: .verified,
-                    importedAt: Date()
-                ),
-                Activity(
-                    id: "act-2",
-                    stravaId: 2,
-                    userId: "user-001",
-                    name: "Evening Sprint Session",
-                    activityType: .canoeing,
-                    startDate: Date().addingTimeInterval(-86400),
-                    elapsedTime: 2456,
-                    movingTime: 2312,
-                    distance: 5890.2,
-                    maxSpeed: 5.2,
-                    averageSpeed: 2.55,
-                    startLocation: nil,
-                    endLocation: nil,
-                    polyline: nil,
-                    isGPSVerified: true,
-                    isUKActivity: true,
+                    isUKSession: true,
                     flagCount: 0,
                     status: .verified,
                     importedAt: Date()

@@ -4,25 +4,25 @@ import Foundation
 final class RaceEngine {
     static let shared = RaceEngine()
 
-    /// Calculate the score for an activity based on race type
-    func calculateScore(for activity: Activity, raceType: RaceType) -> Double? {
-        guard activity.isEligibleForRaces else { return nil }
+    /// Calculate the score for a session based on race type
+    func calculateScore(for session: Session, raceType: RaceType) -> Double? {
+        guard session.isEligibleForRaces else { return nil }
 
         switch raceType {
         case .topSpeed:
-            return activity.maxSpeedKmh
+            return session.maxSpeedKmh
 
         case .furthestDistance:
-            return activity.distanceKm
+            return session.distanceKm
 
         case .fastest1km:
-            return activity.best1kmTime()
+            return session.best1kmTime()
 
         case .fastest5km:
-            return activity.best5kmTime()
+            return session.best5kmTime()
 
         case .fastest10km:
-            return activity.best10kmTime()
+            return session.best10kmTime()
         }
     }
 
@@ -30,11 +30,9 @@ final class RaceEngine {
     func isBetterScore(_ score1: Double, than score2: Double, for raceType: RaceType) -> Bool {
         switch raceType {
         case .topSpeed, .furthestDistance:
-            // Higher is better
             return score1 > score2
 
         case .fastest1km, .fastest5km, .fastest10km:
-            // Lower is better (faster time)
             return score1 < score2
         }
     }
@@ -81,47 +79,41 @@ final class RaceEngine {
         return distributions
     }
 
-    /// Check if an activity is eligible for a race
-    func isActivityEligible(activity: Activity, for race: Race) -> ActivityEligibility {
-        // Check if activity is within race time window
-        guard activity.startDate >= race.startDate,
-              activity.startDate <= race.endDate else {
-            return .ineligible(reason: "Activity is outside race time window")
+    /// Check if a session is eligible for a race
+    func isSessionEligible(session: Session, for race: Race) -> SessionEligibility {
+        guard session.startDate >= race.startDate,
+              session.startDate <= race.endDate else {
+            return .ineligible(reason: "Session is outside race time window")
         }
 
-        // Check GPS verification
-        guard activity.isGPSVerified else {
-            return .ineligible(reason: "Activity requires GPS verification")
+        guard session.isGPSVerified else {
+            return .ineligible(reason: "Session requires GPS verification")
         }
 
-        // Check UK location
-        guard activity.isUKActivity else {
-            return .ineligible(reason: "Activity must be completed in the UK")
+        guard session.isUKSession else {
+            return .ineligible(reason: "Session must be completed in the UK")
         }
 
-        // Check activity type
-        guard activity.activityType.isEligible else {
-            return .ineligible(reason: "Only canoe and kayak activities are eligible")
+        guard session.sessionType.isEligible else {
+            return .ineligible(reason: "Only canoe and kayak sessions are eligible")
         }
 
-        // Check activity status
-        guard activity.status == .verified else {
-            return .ineligible(reason: "Activity must be verified")
+        guard session.status == .verified else {
+            return .ineligible(reason: "Session must be verified")
         }
 
-        // Check minimum distance for timed races
         switch race.type {
         case .fastest1km:
-            guard activity.distanceKm >= 1.0 else {
-                return .ineligible(reason: "Activity must be at least 1km")
+            guard session.distanceKm >= 1.0 else {
+                return .ineligible(reason: "Session must be at least 1km")
             }
         case .fastest5km:
-            guard activity.distanceKm >= 5.0 else {
-                return .ineligible(reason: "Activity must be at least 5km")
+            guard session.distanceKm >= 5.0 else {
+                return .ineligible(reason: "Session must be at least 5km")
             }
         case .fastest10km:
-            guard activity.distanceKm >= 10.0 else {
-                return .ineligible(reason: "Activity must be at least 10km")
+            guard session.distanceKm >= 10.0 else {
+                return .ineligible(reason: "Session must be at least 10km")
             }
         default:
             break
@@ -137,15 +129,9 @@ final class RaceEngine {
 
     /// Process race ending - calculate final rankings and distribute prizes
     func processRaceEnd(race: Race, entries: [Entry]) async throws -> RaceResult {
-        // Calculate final rankings
         let rankedEntries = calculateRankings(entries: entries, raceType: race.type)
 
-        // Calculate prizes
         let prizeDistributions = distributePrizes(race: race, rankedEntries: rankedEntries)
-
-        // TODO: Update entries in database with final ranks
-        // TODO: Credit wallets with prize money
-        // TODO: Create prize transactions
 
         return RaceResult(
             raceId: race.id,
@@ -162,7 +148,7 @@ final class RaceEngine {
 
 // MARK: - Supporting Types
 
-enum ActivityEligibility: Equatable {
+enum SessionEligibility: Equatable {
     case eligible
     case ineligible(reason: String)
 

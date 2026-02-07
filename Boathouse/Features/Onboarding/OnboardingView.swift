@@ -8,13 +8,13 @@ struct OnboardingView: View {
     private let pages: [OnboardingPage] = [
         OnboardingPage(
             icon: "figure.rowing",
-            title: "Welcome to Boathouse",
-            description: "The UK's digital canoe and kayak racing platform. Compete for real prizes using your Strava activities."
+            title: "Welcome to Race Pace",
+            description: "The UK's digital canoe and kayak racing platform. Compete for real prizes using your Strava sessions."
         ),
         OnboardingPage(
             icon: "link",
             title: "Connect Strava",
-            description: "Link your Strava account to automatically import your canoe and kayak activities."
+            description: "Link your Strava account to automatically import your canoe and kayak sessions."
         ),
         OnboardingPage(
             icon: "trophy.fill",
@@ -23,8 +23,8 @@ struct OnboardingView: View {
         ),
         OnboardingPage(
             icon: "location.fill",
-            title: "UK Activities Only",
-            description: "Only GPS-verified activities completed in the United Kingdom qualify for races."
+            title: "UK Sessions Only",
+            description: "Only GPS-verified sessions completed in the United Kingdom qualify for races."
         )
     ]
 

@@ -63,8 +63,8 @@ struct StravaOAuthView: View {
             VStack(alignment: .leading, spacing: 12) {
                 ExplanationRow(
                     icon: "arrow.down.circle.fill",
-                    title: "Import Activities",
-                    description: "Your canoe and kayak activities are automatically imported"
+                    title: "Import Sessions",
+                    description: "Your canoe and kayak sessions are automatically imported"
                 )
 
                 ExplanationRow(
@@ -76,7 +76,7 @@ struct StravaOAuthView: View {
                 ExplanationRow(
                     icon: "location.fill",
                     title: "UK Verification",
-                    description: "Only UK-based activities qualify for races"
+                    description: "Only UK-based sessions qualify for races"
                 )
 
                 ExplanationRow(
@@ -97,9 +97,9 @@ struct StravaOAuthView: View {
                 .font(.headline)
 
             VStack(alignment: .leading, spacing: 8) {
-                PermissionRow(text: "Read your activity data", granted: true)
+                PermissionRow(text: "Read your session data", granted: true)
                 PermissionRow(text: "Read your profile information", granted: true)
-                PermissionRow(text: "Read activity GPS data", granted: true)
+                PermissionRow(text: "Read session GPS data", granted: true)
             }
 
             Text("We never post to your Strava account or share your data with third parties.")

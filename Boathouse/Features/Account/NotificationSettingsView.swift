@@ -26,9 +26,9 @@ struct NotificationSettingsView: View {
                     Toggle("Prize Won", isOn: $viewModel.prizeWon)
                 }
 
-                Section("Activity Notifications") {
-                    Toggle("Activity Imported", isOn: $viewModel.activityImported)
-                    Toggle("Activity Flagged", isOn: $viewModel.activityFlagged)
+                Section("Session Notifications") {
+                    Toggle("Session Imported", isOn: $viewModel.sessionImported)
+                    Toggle("Session Flagged", isOn: $viewModel.sessionFlagged)
                 }
 
                 Section {
@@ -56,8 +56,8 @@ final class NotificationSettingsViewModel: ObservableObject {
     @Published var raceEnding: Bool = true
     @Published var resultsAvailable: Bool = true
     @Published var prizeWon: Bool = true
-    @Published var activityImported: Bool = true
-    @Published var activityFlagged: Bool = true
+    @Published var sessionImported: Bool = true
+    @Published var sessionFlagged: Bool = true
     @Published var calendarReminders: Bool = false
 
     init() {}

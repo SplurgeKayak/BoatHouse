@@ -5,7 +5,7 @@ struct Entry: Identifiable, Codable, Equatable {
     let id: String
     let userId: String
     let raceId: String
-    let activityId: String?
+    let sessionId: String?
     let enteredAt: Date
     var score: Double?
     var rank: Int?
@@ -13,8 +13,14 @@ struct Entry: Identifiable, Codable, Equatable {
     var prizeWon: Decimal?
     var transactionId: String?
 
-    var hasActivity: Bool {
-        activityId != nil
+    enum CodingKeys: String, CodingKey {
+        case id, userId, raceId
+        case sessionId = "activityId"
+        case enteredAt, score, rank, status, prizeWon, transactionId
+    }
+
+    var hasSession: Bool {
+        sessionId != nil
     }
 
     var isWinner: Bool {
@@ -61,8 +67,14 @@ struct LeaderboardEntry: Identifiable, Codable, Equatable {
     let userName: String
     let userProfileURL: URL?
     let score: Double
-    let activityId: String?
+    let sessionId: String?
     let raceType: RaceType
+
+    enum CodingKeys: String, CodingKey {
+        case id, rank, userId, userName, userProfileURL, score
+        case sessionId = "activityId"
+        case raceType
+    }
 
     var formattedScore: String {
         switch raceType {

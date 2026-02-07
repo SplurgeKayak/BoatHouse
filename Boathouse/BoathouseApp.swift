@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct BoathouseApp: App {
+struct RacePaceApp: App {
     @StateObject private var appState: AppState = AppState()
     @StateObject private var authViewModel: AuthViewModel = AuthViewModel()
 

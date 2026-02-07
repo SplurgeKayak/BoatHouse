@@ -3,51 +3,64 @@ import Combine
 
 /// ViewModel for the Home screen
 final class HomeViewModel: ObservableObject {
-    @Published var activities: [Activity] = []
+    @Published var sessions: [Session] = []
     @Published var currentLeaderboard: Leaderboard?
     @Published var selectedDuration: RaceDuration = .weekly
     @Published var selectedRaceType: RaceType = .fastest1km
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
-    private let activityService: ActivityServiceProtocol
+    private let sessionService: SessionServiceProtocol
     private let raceService: RaceServiceProtocol
     private var cancellables = Set<AnyCancellable>()
 
     init(
-        activityService: ActivityServiceProtocol = ActivityService.shared,
+        sessionService: SessionServiceProtocol = SessionService.shared,
         raceService: RaceServiceProtocol = RaceService.shared
     ) {
-        self.activityService = activityService
+        self.sessionService = sessionService
         self.raceService = raceService
         setupBindings()
     }
 
-    // MARK: - Filtered activities
+    // MARK: - Filtered sessions
 
-    /// Activities filtered by time period and sorted by the selected distance metric.
-    /// Time filters narrow the list; distance filters sort and exclude activities
-    /// that lack the corresponding segment time.
-    var filteredActivities: [Activity] {
-        let calendar = Calendar.current
-        let now = Date()
+    /// Sessions filtered by time period and sorted by the selected distance metric.
+    var filteredSessions: [Session] {
+        Self.filterSessions(
+            sessions: sessions,
+            timeFilter: selectedDuration,
+            distanceFilter: selectedRaceType,
+            now: Date(),
+            calendar: .current
+        )
+    }
 
+    /// Pure function for filtering and sorting sessions.
+    /// Testable independently of the ViewModel.
+    static func filterSessions(
+        sessions: [Session],
+        timeFilter: RaceDuration,
+        distanceFilter: RaceType,
+        now: Date,
+        calendar: Calendar
+    ) -> [Session] {
         // 1. Time-period filter
-        let timeFiltered = activities.filter { activity in
-            switch selectedDuration {
+        let timeFiltered = sessions.filter { session in
+            switch timeFilter {
             case .daily:
-                return calendar.isDateInToday(activity.startDate)
+                return calendar.isDateInToday(session.startDate)
             case .weekly:
-                return calendar.isDate(activity.startDate, equalTo: now, toGranularity: .weekOfYear)
+                return calendar.isDate(session.startDate, equalTo: now, toGranularity: .weekOfYear)
             case .monthly:
-                return calendar.isDate(activity.startDate, equalTo: now, toGranularity: .month)
+                return calendar.isDate(session.startDate, equalTo: now, toGranularity: .month)
             case .yearly:
-                return calendar.isDate(activity.startDate, equalTo: now, toGranularity: .year)
+                return calendar.isDate(session.startDate, equalTo: now, toGranularity: .year)
             }
         }
 
-        // 2. Distance sort (ascending = fastest first) with deterministic tiebreaker
-        switch selectedRaceType {
+        // 2. Distance filter + sort (ascending = fastest first) with deterministic tiebreaker
+        switch distanceFilter {
         case .fastest1km:
             return timeFiltered
                 .filter { $0.fastest1kmTime != nil }
@@ -95,10 +108,10 @@ final class HomeViewModel: ObservableObject {
     func loadInitialData() async {
         isLoading = true
 
-        async let activitiesTask: Void = loadActivities()
+        async let sessionsTask: Void = loadSessions()
         async let leaderboardTask: Void = loadLeaderboard()
 
-        _ = await (activitiesTask, leaderboardTask)
+        _ = await (sessionsTask, leaderboardTask)
 
         isLoading = false
     }
@@ -107,11 +120,11 @@ final class HomeViewModel: ObservableObject {
         await loadInitialData()
     }
 
-    private func loadActivities() async {
+    private func loadSessions() async {
         do {
-            activities = try await activityService.fetchFeedActivities(page: 1)
+            sessions = try await sessionService.fetchFeedSessions(page: 1)
         } catch {
-            errorMessage = "Failed to load activities"
+            errorMessage = "Failed to load sessions"
         }
     }
 
@@ -127,19 +140,19 @@ final class HomeViewModel: ObservableObject {
     }
 }
 
-// MARK: - Activity Service Protocol
+// MARK: - Session Service Protocol
 
-protocol ActivityServiceProtocol {
-    func fetchFeedActivities(page: Int) async throws -> [Activity]
-    func fetchRecentActivities(limit: Int) async throws -> [Activity]
-    func fetchUserActivities(userId: String, page: Int) async throws -> [Activity]
-    func importStravaActivities() async throws -> [Activity]
-    func flagActivity(activityId: String, reason: String) async throws
+protocol SessionServiceProtocol {
+    func fetchFeedSessions(page: Int) async throws -> [Session]
+    func fetchRecentSessions(limit: Int) async throws -> [Session]
+    func fetchUserSessions(userId: String, page: Int) async throws -> [Session]
+    func importStravaSessions() async throws -> [Session]
+    func flagSession(sessionId: String, reason: String) async throws
 }
 
-/// Service for activity operations
-final class ActivityService: ActivityServiceProtocol {
-    static let shared = ActivityService()
+/// Service for session operations
+final class SessionService: SessionServiceProtocol {
+    static let shared = SessionService()
 
     private let networkClient: NetworkClientProtocol
     private let stravaService: StravaServiceProtocol
@@ -155,23 +168,22 @@ final class ActivityService: ActivityServiceProtocol {
         self.keychainService = keychainService
     }
 
-    func fetchFeedActivities(page: Int) async throws -> [Activity] {
+    func fetchFeedSessions(page: Int) async throws -> [Session] {
         // TODO: Replace with actual API call
-        // For now, return mock data
-        return MockData.activities
+        return MockData.sessions
     }
 
-    func fetchRecentActivities(limit: Int) async throws -> [Activity] {
+    func fetchRecentSessions(limit: Int) async throws -> [Session] {
         // TODO: Replace with actual API call
-        return Array(MockData.activities.prefix(limit))
+        return Array(MockData.sessions.prefix(limit))
     }
 
-    func fetchUserActivities(userId: String, page: Int) async throws -> [Activity] {
+    func fetchUserSessions(userId: String, page: Int) async throws -> [Session] {
         // TODO: Replace with actual API call
-        return MockData.activities.filter { $0.userId == userId }
+        return MockData.sessions.filter { $0.userId == userId }
     }
 
-    func importStravaActivities() async throws -> [Activity] {
+    func importStravaSessions() async throws -> [Session] {
         guard let accessToken = keychainService.retrieveToken(for: .stravaAccessToken) else {
             throw StravaError.notAuthenticated
         }
@@ -183,23 +195,21 @@ final class ActivityService: ActivityServiceProtocol {
             page: 1
         )
 
-        // Filter for canoe/kayak activities only
+        // Filter for canoe/kayak sessions only
         let filteredActivities = stravaActivities.filter { $0.isCanoeOrKayak }
 
-        // Get userId on MainActor before mapping
         let userId = await MainActor.run { AppState.shared?.currentUser?.id ?? "" }
 
-        // TODO: Convert Strava activities to app activities and save to backend
         return filteredActivities.map { stravaActivity in
-            mapStravaActivity(stravaActivity, userId: userId)
+            mapStravaSession(stravaActivity, userId: userId)
         }
     }
 
-    func flagActivity(activityId: String, reason: String) async throws {
-        // TODO: Implement API call to flag activity
+    func flagSession(sessionId: String, reason: String) async throws {
+        // TODO: Implement API call to flag session
     }
 
-    private func mapStravaActivity(_ stravaActivity: StravaActivity, userId: String) -> Activity {
+    private func mapStravaSession(_ stravaActivity: StravaActivity, userId: String) -> Session {
         let startCoord: Coordinate? = stravaActivity.startLatlng.map {
             Coordinate(latitude: $0[0], longitude: $0[1])
         }
@@ -207,14 +217,14 @@ final class ActivityService: ActivityServiceProtocol {
             Coordinate(latitude: $0[0], longitude: $0[1])
         }
 
-        let activityType: ActivityType = stravaActivity.type == "Kayaking" ? .kayaking : .canoeing
+        let sessionType: SessionType = stravaActivity.type == "Kayaking" ? .kayaking : .canoeing
 
-        return Activity(
+        return Session(
             id: UUID().uuidString,
             stravaId: stravaActivity.id,
             userId: userId,
             name: stravaActivity.name,
-            activityType: activityType,
+            sessionType: sessionType,
             startDate: stravaActivity.startDate,
             elapsedTime: TimeInterval(stravaActivity.elapsedTime),
             movingTime: TimeInterval(stravaActivity.movingTime),
@@ -225,7 +235,7 @@ final class ActivityService: ActivityServiceProtocol {
             endLocation: endCoord,
             polyline: stravaActivity.map?.summaryPolyline,
             isGPSVerified: stravaActivity.startLatlng != nil,
-            isUKActivity: isLocationInUK(startCoord),
+            isUKSession: isLocationInUK(startCoord),
             flagCount: 0,
             status: .pending,
             importedAt: Date()
@@ -235,7 +245,6 @@ final class ActivityService: ActivityServiceProtocol {
     private func isLocationInUK(_ coordinate: Coordinate?) -> Bool {
         guard let coord = coordinate else { return false }
 
-        // UK bounding box (approximate)
         let ukBounds = (
             minLat: 49.8,
             maxLat: 60.9,

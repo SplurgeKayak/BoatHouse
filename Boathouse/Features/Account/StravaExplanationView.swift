@@ -39,15 +39,15 @@ struct StravaExplanationView: View {
             Text("Why Connect Strava?")
                 .font(.headline)
 
-            Text("Boathouse uses Strava to import your canoe and kayak activities. This allows us to:")
+            Text("Race Pace uses Strava to import your canoe and kayak sessions. This allows us to:")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
 
             VStack(alignment: .leading, spacing: 8) {
-                BulletPoint(text: "Automatically import eligible activities")
+                BulletPoint(text: "Automatically import eligible sessions")
                 BulletPoint(text: "Verify GPS data for fair competition")
                 BulletPoint(text: "Determine your age category from your profile")
-                BulletPoint(text: "Confirm activities are completed in the UK")
+                BulletPoint(text: "Confirm sessions are completed in the UK")
             }
         }
     }
@@ -57,14 +57,14 @@ struct StravaExplanationView: View {
             Text("How OAuth Works")
                 .font(.headline)
 
-            Text("When you connect Strava, you'll be redirected to Strava's website to authorise Boathouse. This is a secure process called OAuth 2.0:")
+            Text("When you connect Strava, you'll be redirected to Strava's website to authorise Race Pace. This is a secure process called OAuth 2.0:")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
 
             VStack(alignment: .leading, spacing: 16) {
                 StepRow(number: 1, title: "Authorise", description: "You log in to Strava and grant permission")
                 StepRow(number: 2, title: "Token Exchange", description: "Strava gives us a secure access token")
-                StepRow(number: 3, title: "Data Access", description: "We use the token to read your activities")
+                StepRow(number: 3, title: "Data Access", description: "We use the token to read your sessions")
                 StepRow(number: 4, title: "Token Refresh", description: "Tokens expire and are automatically refreshed")
             }
 
@@ -84,7 +84,7 @@ struct StravaExplanationView: View {
 
             VStack(alignment: .leading, spacing: 8) {
                 DataAccessRow(item: "Profile information", icon: "person.fill", access: "Read only")
-                DataAccessRow(item: "Activity data", icon: "figure.rowing", access: "Read only")
+                DataAccessRow(item: "Session data", icon: "figure.rowing", access: "Read only")
                 DataAccessRow(item: "GPS routes", icon: "location.fill", access: "Read only")
             }
 
@@ -107,8 +107,8 @@ struct StravaExplanationView: View {
 
             VStack(alignment: .leading, spacing: 16) {
                 FAQItem(
-                    question: "What activities are imported?",
-                    answer: "Only activities marked as 'Canoeing' or 'Kayaking' on Strava are imported."
+                    question: "What sessions are imported?",
+                    answer: "Only sessions marked as 'Canoeing' or 'Kayaking' on Strava are imported."
                 )
 
                 FAQItem(
@@ -118,12 +118,12 @@ struct StravaExplanationView: View {
 
                 FAQItem(
                     question: "Can I disconnect Strava?",
-                    answer: "Yes, you can disconnect at any time from your Account settings. This will prevent new activities from being imported."
+                    answer: "Yes, you can disconnect at any time from your Account settings. This will prevent new sessions from being imported."
                 )
 
                 FAQItem(
-                    question: "How often are activities synced?",
-                    answer: "Activities are synced automatically when you open the app and can be refreshed manually by pulling down on the Home screen."
+                    question: "How often are sessions synced?",
+                    answer: "Sessions are synced automatically when you open the app and can be refreshed manually by pulling down on the Home screen."
                 )
             }
         }

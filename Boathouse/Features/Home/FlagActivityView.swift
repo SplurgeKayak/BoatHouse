@@ -1,10 +1,10 @@
 import SwiftUI
 
-/// View for flagging a suspicious activity
-struct FlagActivityView: View {
-    let activity: Activity
+/// View for flagging a suspicious session
+struct FlagSessionView: View {
+    let session: Session
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var viewModel = FlagActivityViewModel()
+    @StateObject private var viewModel = FlagSessionViewModel()
 
     var body: some View {
         NavigationStack {
@@ -20,17 +20,17 @@ struct FlagActivityView: View {
                 submitButton
             }
             .padding(24)
-            .navigationTitle("Flag Activity")
+            .navigationTitle("Flag Session")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Cancel") { dismiss() }
                 }
             }
-            .alert("Activity Flagged", isPresented: $viewModel.showingSuccess) {
+            .alert("Session Flagged", isPresented: $viewModel.showingSuccess) {
                 Button("OK") { dismiss() }
             } message: {
-                Text("Thank you for helping keep races fair. The activity will be reviewed if it receives multiple flags.")
+                Text("Thank you for helping keep races fair. The session will be reviewed if it receives multiple flags.")
             }
             .alert("Error", isPresented: $viewModel.showingError) {
                 Button("OK", role: .cancel) { }
@@ -46,11 +46,11 @@ struct FlagActivityView: View {
                 .font(.system(size: 48))
                 .foregroundStyle(.orange)
 
-            Text("Report Suspicious Activity")
+            Text("Report Suspicious Session")
                 .font(.title3)
                 .fontWeight(.bold)
 
-            Text("Help maintain fair competition by flagging activities that may violate race rules.")
+            Text("Help maintain fair competition by flagging sessions that may violate race rules.")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -88,7 +88,7 @@ struct FlagActivityView: View {
     private var submitButton: some View {
         Button {
             Task {
-                await viewModel.submitFlag(activityId: activity.id)
+                await viewModel.submitFlag(sessionId: session.id)
             }
         } label: {
             if viewModel.isLoading {
@@ -135,7 +135,7 @@ struct FlagReasonRow: View {
 
 // MARK: - ViewModel
 
-final class FlagActivityViewModel: ObservableObject {
+final class FlagSessionViewModel: ObservableObject {
     @Published var selectedReason: FlagReason?
     @Published var notes: String = ""
     @Published var isLoading: Bool = false
@@ -150,15 +150,15 @@ final class FlagActivityViewModel: ObservableObject {
     }
 
     @MainActor
-    func submitFlag(activityId: String) async {
+    func submitFlag(sessionId: String) async {
         guard let reason = selectedReason else { return }
 
         isLoading = true
         defer { isLoading = false }
 
         do {
-            try await moderationService.flagActivity(
-                activityId: activityId,
+            try await moderationService.flagSession(
+                sessionId: sessionId,
                 userId: AppState.shared?.currentUser?.id ?? "",
                 reason: reason
             )
@@ -171,5 +171,5 @@ final class FlagActivityViewModel: ObservableObject {
 }
 
 #Preview {
-    FlagActivityView(activity: MockData.activities[0])
+    FlagSessionView(session: MockData.sessions[0])
 }

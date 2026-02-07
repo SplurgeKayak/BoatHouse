@@ -1,13 +1,13 @@
 import Foundation
 import CoreLocation
 
-/// Activity model representing a Strava canoe/kayak activity
-struct Activity: Identifiable, Codable, Equatable {
+/// Session model representing a Strava canoe/kayak session (formerly Activity)
+struct Session: Identifiable, Codable, Equatable {
     let id: String
     let stravaId: Int
     let userId: String
     let name: String
-    let activityType: ActivityType
+    let sessionType: SessionType
     let startDate: Date
     let elapsedTime: TimeInterval
     let movingTime: TimeInterval
@@ -18,13 +18,29 @@ struct Activity: Identifiable, Codable, Equatable {
     let endLocation: Coordinate?
     let polyline: String?
     var isGPSVerified: Bool
-    var isUKActivity: Bool
+    var isUKSession: Bool
     var flagCount: Int
-    var status: ActivityStatus
+    var status: SessionStatus
     let importedAt: Date
     var fastest1kmTime: TimeInterval?
     var fastest5kmTime: TimeInterval?
     var fastest10kmTime: TimeInterval?
+
+    // MARK: - CodingKeys for JSON backward compatibility
+
+    enum CodingKeys: String, CodingKey {
+        case id, stravaId, userId, name
+        case sessionType = "activityType"
+        case startDate, elapsedTime, movingTime, distance
+        case maxSpeed, averageSpeed
+        case startLocation, endLocation, polyline
+        case isGPSVerified
+        case isUKSession = "isUKActivity"
+        case flagCount, status, importedAt
+        case fastest1kmTime, fastest5kmTime, fastest10kmTime
+    }
+
+    // MARK: - Computed Properties
 
     var distanceKm: Double {
         distance / 1000.0
@@ -74,7 +90,7 @@ struct Activity: Identifiable, Codable, Equatable {
     }
 
     var isEligibleForRaces: Bool {
-        isGPSVerified && isUKActivity && status == .verified
+        isGPSVerified && isUKSession && status == .verified
     }
 
     var formattedFastest1km: String? {
@@ -92,6 +108,12 @@ struct Activity: Identifiable, Codable, Equatable {
         return Self.formatSegmentTime(time)
     }
 
+    /// Decoded route coordinates from the polyline string
+    var decodedRouteCoordinates: [CLLocationCoordinate2D] {
+        guard let polyline = polyline else { return [] }
+        return PolylineCodec.decode(polyline)
+    }
+
     private static func formatSegmentTime(_ time: TimeInterval) -> String {
         let totalSeconds = Int(time)
         let minutes = totalSeconds / 60
@@ -105,23 +127,20 @@ struct Activity: Identifiable, Codable, Equatable {
         return movingTime / distanceKm
     }
 
-    /// Extract best 1km time from activity
+    /// Extract best 1km time from session
     func best1kmTime() -> TimeInterval? {
         guard distanceKm >= 1.0 else { return nil }
-        // TODO: Implement segment analysis from polyline
-        // For now, estimate from average pace
         return pacePerKm()
     }
 
-    /// Extract best 5km time from activity
+    /// Extract best 5km time from session
     func best5kmTime() -> TimeInterval? {
         guard distanceKm >= 5.0 else { return nil }
-        // TODO: Implement segment analysis from polyline
         guard let pace = pacePerKm() else { return nil }
         return pace * 5
     }
 
-    /// Extract best 10km time from activity
+    /// Extract best 10km time from session
     func best10kmTime() -> TimeInterval? {
         guard distanceKm >= 10.0 else { return nil }
         guard let pace = pacePerKm() else { return nil }
@@ -138,7 +157,7 @@ struct Coordinate: Codable, Equatable {
     }
 }
 
-enum ActivityType: String, Codable, CaseIterable {
+enum SessionType: String, Codable, CaseIterable {
     case canoeing = "Canoeing"
     case kayaking = "Kayaking"
     case rowing = "Rowing"
@@ -161,16 +180,16 @@ enum ActivityType: String, Codable, CaseIterable {
         }
     }
 
-    static var eligibleTypes: [ActivityType] {
+    static var eligibleTypes: [SessionType] {
         [.canoeing, .kayaking]
     }
 
     var isEligible: Bool {
-        ActivityType.eligibleTypes.contains(self)
+        SessionType.eligibleTypes.contains(self)
     }
 }
 
-enum ActivityStatus: String, Codable {
+enum SessionStatus: String, Codable {
     case pending
     case verified
     case flagged

@@ -133,7 +133,7 @@ final class ApplePayHandler: NSObject {
 
         request.paymentSummaryItems = [
             PKPaymentSummaryItem(
-                label: "Boathouse Wallet Top-up",
+                label: "RacePace Wallet Top-up",
                 amount: NSDecimalNumber(decimal: amount)
             )
         ]

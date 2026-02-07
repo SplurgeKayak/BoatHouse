@@ -26,7 +26,6 @@ struct StoryBubbleView: View {
         Button(action: onTap) {
             VStack(spacing: 6) {
                 ZStack(alignment: .topTrailing) {
-                    // Avatar with ring
                     avatarView
                         .overlay {
                             if story.unseenCount > 0 {
@@ -36,14 +35,12 @@ struct StoryBubbleView: View {
                             }
                         }
 
-                    // Badge showing unseen count
                     if story.unseenCount > 0 {
                         badgeView
                             .offset(x: 4, y: -4)
                     }
                 }
 
-                // Name label
                 Text(story.firstName)
                     .font(.caption)
                     .fontWeight(.medium)
@@ -83,8 +80,8 @@ struct StoryBubbleView: View {
                 id: "story-1",
                 athleteId: "user-001",
                 athleteName: "James Wilson",
-                athleteAvatarURL: nil,
-                unseenActivities: []
+                athleteAvatarURL: URL(string: "https://i.pravatar.cc/150?u=user-001"),
+                unseenSessions: []
             ),
             onTap: {}
         )
@@ -94,13 +91,13 @@ struct StoryBubbleView: View {
                 id: "story-2",
                 athleteId: "user-002",
                 athleteName: "Sarah Chen",
-                athleteAvatarURL: nil,
-                unseenActivities: Array(repeating: Activity(
-                    id: "act-1",
+                athleteAvatarURL: URL(string: "https://i.pravatar.cc/150?u=user-002"),
+                unseenSessions: Array(repeating: Session(
+                    id: "sess-1",
                     stravaId: 1,
                     userId: "user-002",
                     name: "Morning Paddle",
-                    activityType: .kayaking,
+                    sessionType: .kayaking,
                     startDate: Date(),
                     elapsedTime: 3600,
                     movingTime: 3400,
@@ -111,42 +108,11 @@ struct StoryBubbleView: View {
                     endLocation: nil,
                     polyline: nil,
                     isGPSVerified: true,
-                    isUKActivity: true,
+                    isUKSession: true,
                     flagCount: 0,
                     status: .verified,
                     importedAt: Date()
                 ), count: 3)
-            ),
-            onTap: {}
-        )
-
-        StoryBubbleView(
-            story: AthleteStory(
-                id: "story-3",
-                athleteId: "user-003",
-                athleteName: "Mike Johnson",
-                athleteAvatarURL: nil,
-                unseenActivities: Array(repeating: Activity(
-                    id: "act-2",
-                    stravaId: 2,
-                    userId: "user-003",
-                    name: "Evening Row",
-                    activityType: .rowing,
-                    startDate: Date(),
-                    elapsedTime: 7200,
-                    movingTime: 6800,
-                    distance: 12000,
-                    maxSpeed: 5.0,
-                    averageSpeed: 4.0,
-                    startLocation: nil,
-                    endLocation: nil,
-                    polyline: nil,
-                    isGPSVerified: true,
-                    isUKActivity: true,
-                    flagCount: 0,
-                    status: .verified,
-                    importedAt: Date()
-                ), count: 12)
             ),
             onTap: {}
         )

@@ -1,6 +1,7 @@
 import SwiftUI
+import MapKit
 
-/// Home screen with Instagram/Strava inspired activity feed
+/// Home screen with Instagram/Strava inspired session feed
 struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
     @StateObject private var storyViewModel = StoryFeedViewModel()
@@ -10,7 +11,10 @@ struct HomeView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 0) {
-                    // Stories strip at the very top
+                    // App headers
+                    headerSection
+
+                    // Stories strip
                     if storyViewModel.hasStories {
                         StoriesStripView(stories: storyViewModel.stories) { story in
                             storyViewModel.selectStory(story)
@@ -23,23 +27,22 @@ struct HomeView: View {
 
                     if viewModel.isLoading {
                         loadingView
-                    } else if viewModel.filteredActivities.isEmpty {
+                    } else if viewModel.filteredSessions.isEmpty {
                         emptyStateView
                     } else {
-                        activityFeed
+                        sessionFeed
                     }
 
                     rankingSection
                 }
             }
-            .navigationTitle("Club Room")
             .refreshable {
                 await viewModel.refresh()
-                storyViewModel.updateStories(from: viewModel.activities)
+                storyViewModel.updateStories(from: viewModel.sessions)
             }
             .task {
                 await viewModel.loadInitialData()
-                storyViewModel.updateStories(from: viewModel.activities)
+                storyViewModel.updateStories(from: viewModel.sessions)
             }
             .fullScreenCover(isPresented: $storyViewModel.isShowingStoryViewer) {
                 if let selectedStory = storyViewModel.selectedStory {
@@ -48,13 +51,32 @@ struct HomeView: View {
                         onDismiss: {
                             storyViewModel.dismissStoryViewer()
                         },
-                        onMarkSeen: { activityIds in
-                            storyViewModel.markActivitiesAsSeen(activityIds, activities: viewModel.activities)
+                        onMarkSeen: { sessionIds in
+                            storyViewModel.markSessionsAsSeen(sessionIds, sessions: viewModel.sessions)
                         }
                     )
                 }
             }
         }
+    }
+
+    // MARK: - Header
+
+    private var headerSection: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("Race Pace")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+
+            Text("Club Room")
+                .font(.title2)
+                .fontWeight(.semibold)
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal)
+        .padding(.top, 12)
+        .padding(.bottom, 8)
     }
 
     // MARK: - Filters
@@ -88,12 +110,12 @@ struct HomeView: View {
         .background(Color(.systemGray6))
     }
 
-    // MARK: - Unified activity feed
+    // MARK: - Unified session feed
 
-    private var activityFeed: some View {
+    private var sessionFeed: some View {
         LazyVStack(spacing: 16) {
-            ForEach(viewModel.filteredActivities) { activity in
-                ActivityCard(activity: activity)
+            ForEach(viewModel.filteredSessions) { session in
+                SessionCard(session: session)
                     .padding(.horizontal)
             }
         }
@@ -138,7 +160,7 @@ struct HomeView: View {
     private var loadingView: some View {
         VStack(spacing: 16) {
             ProgressView()
-            Text("Loading activities...")
+            Text("Loading sessions...")
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity)
@@ -151,16 +173,16 @@ struct HomeView: View {
                 .font(.system(size: 48))
                 .foregroundStyle(.secondary)
 
-            Text("No Activities Yet")
+            Text("No Sessions Yet")
                 .font(.headline)
 
             if appState.isRacer {
-                Text("Connect Strava to import your canoe and kayak activities")
+                Text("Connect Strava to import your canoe and kayak sessions")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             } else {
-                Text("Follow racers to see their activities here")
+                Text("Follow racers to see their sessions here")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
@@ -172,8 +194,8 @@ struct HomeView: View {
 
 // MARK: - Supporting Views
 
-struct ActivityCard: View {
-    let activity: Activity
+struct SessionCard: View {
+    let session: Session
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -182,22 +204,22 @@ struct ActivityCard: View {
                     .fill(Color.accentColor.opacity(0.2))
                     .frame(width: 40, height: 40)
                     .overlay {
-                        Image(systemName: activity.activityType.icon)
+                        Image(systemName: session.sessionType.icon)
                             .foregroundStyle(.accent)
                     }
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(activity.name)
+                    Text(session.name)
                         .font(.headline)
 
-                    Text(activity.startDate, style: .relative)
+                    Text(session.startDate, style: .relative)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
 
                 Spacer()
 
-                if activity.isFlagged {
+                if session.isFlagged {
                     Image(systemName: "flag.fill")
                         .foregroundStyle(.orange)
                 }
@@ -205,8 +227,8 @@ struct ActivityCard: View {
 
             // Core stats
             HStack(spacing: 20) {
-                StatView(title: "Distance", value: activity.formattedDistance)
-                StatView(title: "Duration", value: activity.formattedDuration)
+                StatView(title: "Distance", value: session.formattedDistance)
+                StatView(title: "Duration", value: session.formattedDuration)
             }
 
             // Segment times (only rows that have data)
@@ -219,25 +241,20 @@ struct ActivityCard: View {
                 }
             }
 
-            if let _ = activity.polyline {
-                // TODO: Add mini map preview
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color(.systemGray5))
-                    .frame(height: 120)
-                    .overlay {
-                        Image(systemName: "map")
-                            .foregroundStyle(.secondary)
-                    }
+            // Map preview
+            if !session.decodedRouteCoordinates.isEmpty {
+                SessionMapView(coordinates: session.decodedRouteCoordinates)
+                    .frame(height: 160)
             }
 
             HStack {
-                if activity.isGPSVerified {
+                if session.isGPSVerified {
                     Label("GPS Verified", systemImage: "checkmark.shield.fill")
                         .font(.caption)
                         .foregroundStyle(.green)
                 }
 
-                if activity.isUKActivity {
+                if session.isUKSession {
                     Label("UK", systemImage: "location.fill")
                         .font(.caption)
                         .foregroundStyle(.accent)
@@ -261,9 +278,9 @@ struct ActivityCard: View {
 
     private var segmentStats: [(title: String, value: String)] {
         var stats: [(title: String, value: String)] = []
-        if let t = activity.formattedFastest1km  { stats.append(("Fastest 1km", t)) }
-        if let t = activity.formattedFastest5km  { stats.append(("Fastest 5km", t)) }
-        if let t = activity.formattedFastest10km { stats.append(("Fastest 10km", t)) }
+        if let t = session.formattedFastest1km  { stats.append(("Fastest 1km", t)) }
+        if let t = session.formattedFastest5km  { stats.append(("Fastest 5km", t)) }
+        if let t = session.formattedFastest10km { stats.append(("Fastest 10km", t)) }
         return stats
     }
 }

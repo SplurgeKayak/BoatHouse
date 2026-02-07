@@ -41,7 +41,7 @@ struct AuthenticationView: View {
                 .foregroundStyle(.accent)
                 .padding(.top, 32)
 
-            Text("Boathouse")
+            Text("Race Pace")
                 .font(.largeTitle)
                 .fontWeight(.bold)
 

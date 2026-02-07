@@ -2,6 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <!-- App Display Name -->
+    <key>CFBundleDisplayName</key>
+    <string>RacePace</string>
+
+    <key>CFBundleName</key>
+    <string>RacePace</string>
+
     <!-- URL Schemes for Strava OAuth callback -->
     <key>CFBundleURLTypes</key>
     <array>
@@ -34,11 +41,11 @@
 
     <!-- Location Usage (for future map features) -->
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Boathouse needs access to your location to verify activity locations.</string>
+    <string>RacePace needs access to your location to verify session locations.</string>
 
     <!-- Calendar Usage (for race reminders) -->
     <key>NSCalendarsUsageDescription</key>
-    <string>Boathouse can add race deadlines to your calendar as reminders.</string>
+    <string>RacePace can add race deadlines to your calendar as reminders.</string>
 
     <!-- Supported Interface Orientations -->
     <key>UISupportedInterfaceOrientations</key>

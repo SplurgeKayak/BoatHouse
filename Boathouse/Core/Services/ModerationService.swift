@@ -2,55 +2,36 @@ import Foundation
 
 /// Protocol for moderation operations
 protocol ModerationServiceProtocol {
-    func flagActivity(activityId: String, userId: String, reason: FlagReason) async throws
-    func reviewActivity(activityId: String, decision: ModerationDecision) async throws
-    func getFlaggedActivities() async throws -> [FlaggedActivity]
+    func flagSession(sessionId: String, userId: String, reason: FlagReason) async throws
+    func reviewSession(sessionId: String, decision: ModerationDecision) async throws
+    func getFlaggedSessions() async throws -> [FlaggedSession]
 }
 
-/// Service for activity moderation and anti-cheat
+/// Service for session moderation and anti-cheat
 final class ModerationService: ModerationServiceProtocol {
     static let shared = ModerationService()
 
     private let networkClient: NetworkClientProtocol
 
-    // Threshold for requiring admin review
     static let reviewThreshold = 3
 
     init(networkClient: NetworkClientProtocol = NetworkClient.shared) {
         self.networkClient = networkClient
     }
 
-    func flagActivity(activityId: String, userId: String, reason: FlagReason) async throws {
+    func flagSession(sessionId: String, userId: String, reason: FlagReason) async throws {
         // TODO: Replace with actual API call
-        // POST /moderation/flag
-        // Body: { activityId, userId, reason }
-
-        // Server should:
-        // 1. Check if user has already flagged this activity
-        // 2. Increment flag count
-        // 3. If flag count >= 3, mark for review
     }
 
-    func reviewActivity(activityId: String, decision: ModerationDecision) async throws {
+    func reviewSession(sessionId: String, decision: ModerationDecision) async throws {
         // TODO: Replace with actual API call
-        // POST /moderation/review (admin only)
-        // Body: { activityId, decision, notes }
-
-        // Server should:
-        // 1. Update activity status based on decision
-        // 2. If disqualified:
-        //    - Remove from any active race entries
-        //    - Refund entry fees
-        // 3. If approved, clear flags and mark as verified
     }
 
-    func getFlaggedActivities() async throws -> [FlaggedActivity] {
+    func getFlaggedSessions() async throws -> [FlaggedSession] {
         // TODO: Replace with actual API call
-        // GET /moderation/flagged (admin only)
         return []
     }
 
-    /// Check if an activity should be reviewed
     func requiresReview(flagCount: Int) -> Bool {
         flagCount >= Self.reviewThreshold
     }
@@ -62,7 +43,7 @@ enum FlagReason: String, Codable, CaseIterable {
     case suspiciousSpeed = "suspicious_speed"
     case motorizedAssistance = "motorized_assistance"
     case impossibleRoute = "impossible_route"
-    case fakeActivity = "fake_activity"
+    case fakeSession = "fake_activity"
     case other = "other"
 
     var displayName: String {
@@ -70,7 +51,7 @@ enum FlagReason: String, Codable, CaseIterable {
         case .suspiciousSpeed: return "Suspicious Speed"
         case .motorizedAssistance: return "Motorized Assistance"
         case .impossibleRoute: return "Impossible Route"
-        case .fakeActivity: return "Fake Activity"
+        case .fakeSession: return "Fake Session"
         case .other: return "Other"
         }
     }
@@ -90,15 +71,23 @@ enum ModerationDecision: String, Codable {
     }
 }
 
-struct FlaggedActivity: Identifiable, Codable {
+struct FlaggedSession: Identifiable, Codable {
     let id: String
-    let activityId: String
+    let sessionId: String
     let userId: String
     let userName: String
     let flagCount: Int
     let reasons: [FlagReason]
-    let activityDetails: Activity
+    let sessionDetails: Session
     let createdAt: Date
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case sessionId = "activityId"
+        case userId, userName, flagCount, reasons
+        case sessionDetails = "activityDetails"
+        case createdAt
+    }
 
     var needsReview: Bool {
         flagCount >= ModerationService.reviewThreshold
@@ -107,9 +96,15 @@ struct FlaggedActivity: Identifiable, Codable {
 
 struct Flag: Identifiable, Codable {
     let id: String
-    let activityId: String
+    let sessionId: String
     let flaggedByUserId: String
     let reason: FlagReason
     let notes: String?
     let createdAt: Date
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case sessionId = "activityId"
+        case flaggedByUserId, reason, notes, createdAt
+    }
 }

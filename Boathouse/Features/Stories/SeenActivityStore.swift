@@ -1,62 +1,57 @@
 import Foundation
 import SwiftUI
 
-/// Persistence layer for tracking seen activity IDs using UserDefaults
-final class SeenActivityStore: ObservableObject {
+/// Persistence layer for tracking seen session IDs using UserDefaults
+final class SeenSessionStore: ObservableObject {
     private let storageKey = "seenActivityIDs"
 
-    @Published private(set) var seenActivityIDs: Set<String> = []
+    @Published private(set) var seenSessionIDs: Set<String> = []
 
-    static let shared = SeenActivityStore()
+    static let shared = SeenSessionStore()
 
     init() {
-        loadSeenActivities()
+        loadSeenSessions()
     }
 
     // MARK: - Public Methods
 
-    /// Check if an activity has been seen
-    func isSeen(activityId: String) -> Bool {
-        seenActivityIDs.contains(activityId)
+    func isSeen(sessionId: String) -> Bool {
+        seenSessionIDs.contains(sessionId)
     }
 
-    /// Mark multiple activities as seen
-    func markSeen(activityIds: [String]) {
-        let newIds = Set(activityIds)
-        seenActivityIDs.formUnion(newIds)
-        saveSeenActivities()
+    func markSeen(sessionIds: [String]) {
+        let newIds = Set(sessionIds)
+        seenSessionIDs.formUnion(newIds)
+        saveSeenSessions()
     }
 
-    /// Mark a single activity as seen
-    func markSeen(activityId: String) {
-        seenActivityIDs.insert(activityId)
-        saveSeenActivities()
+    func markSeen(sessionId: String) {
+        seenSessionIDs.insert(sessionId)
+        saveSeenSessions()
     }
 
-    /// Filter activities to return only unseen ones
-    func unseenActivities(from allActivities: [Activity]) -> [Activity] {
-        allActivities.filter { !isSeen(activityId: $0.id) }
+    func unseenSessions(from allSessions: [Session]) -> [Session] {
+        allSessions.filter { !isSeen(sessionId: $0.id) }
     }
 
-    /// Clear all seen activities (useful for testing)
     func clearAll() {
-        seenActivityIDs.removeAll()
-        saveSeenActivities()
+        seenSessionIDs.removeAll()
+        saveSeenSessions()
     }
 
     // MARK: - Private Methods
 
-    private func loadSeenActivities() {
+    private func loadSeenSessions() {
         guard let data = UserDefaults.standard.data(forKey: storageKey),
               let ids = try? JSONDecoder().decode(Set<String>.self, from: data) else {
-            seenActivityIDs = []
+            seenSessionIDs = []
             return
         }
-        seenActivityIDs = ids
+        seenSessionIDs = ids
     }
 
-    private func saveSeenActivities() {
-        guard let data = try? JSONEncoder().encode(seenActivityIDs) else { return }
+    private func saveSeenSessions() {
+        guard let data = try? JSONEncoder().encode(seenSessionIDs) else { return }
         UserDefaults.standard.set(data, forKey: storageKey)
     }
 }

@@ -31,20 +31,20 @@ final class LocationService {
         isInUK(latitude: coordinate.latitude, longitude: coordinate.longitude)
     }
 
-    /// Validate an activity's location is within the UK
-    func validateActivityLocation(activity: Activity) -> Bool {
+    /// Validate a session's location is within the UK
+    func validateSessionLocation(session: Session) -> Bool {
         // Check start location
-        if let start = activity.startLocation {
+        if let start = session.startLocation {
             guard isInUK(coordinate: start) else { return false }
         }
 
         // Check end location
-        if let end = activity.endLocation {
+        if let end = session.endLocation {
             guard isInUK(coordinate: end) else { return false }
         }
 
         // If no locations provided, cannot validate
-        guard activity.startLocation != nil || activity.endLocation != nil else {
+        guard session.startLocation != nil || session.endLocation != nil else {
             return false
         }
 

@@ -37,14 +37,14 @@ struct StoriesStripView: View {
                 id: "story-1",
                 athleteId: "user-001",
                 athleteName: "James Wilson",
-                athleteAvatarURL: nil,
-                unseenActivities: [
-                    Activity(
-                        id: "act-1",
+                athleteAvatarURL: URL(string: "https://i.pravatar.cc/150?u=user-001"),
+                unseenSessions: [
+                    Session(
+                        id: "sess-1",
                         stravaId: 1,
                         userId: "user-001",
                         name: "Morning Paddle",
-                        activityType: .kayaking,
+                        sessionType: .kayaking,
                         startDate: Date(),
                         elapsedTime: 3600,
                         movingTime: 3400,
@@ -55,7 +55,7 @@ struct StoriesStripView: View {
                         endLocation: nil,
                         polyline: nil,
                         isGPSVerified: true,
-                        isUKActivity: true,
+                        isUKSession: true,
                         flagCount: 0,
                         status: .verified,
                         importedAt: Date()
@@ -66,14 +66,14 @@ struct StoriesStripView: View {
                 id: "story-2",
                 athleteId: "user-002",
                 athleteName: "Sarah Chen",
-                athleteAvatarURL: nil,
-                unseenActivities: [
-                    Activity(
-                        id: "act-2",
+                athleteAvatarURL: URL(string: "https://i.pravatar.cc/150?u=user-002"),
+                unseenSessions: [
+                    Session(
+                        id: "sess-2",
                         stravaId: 2,
                         userId: "user-002",
                         name: "Evening Row",
-                        activityType: .rowing,
+                        sessionType: .rowing,
                         startDate: Date(),
                         elapsedTime: 7200,
                         movingTime: 6800,
@@ -84,57 +84,7 @@ struct StoriesStripView: View {
                         endLocation: nil,
                         polyline: nil,
                         isGPSVerified: true,
-                        isUKActivity: true,
-                        flagCount: 0,
-                        status: .verified,
-                        importedAt: Date()
-                    ),
-                    Activity(
-                        id: "act-3",
-                        stravaId: 3,
-                        userId: "user-002",
-                        name: "Weekend Canoe",
-                        activityType: .canoeing,
-                        startDate: Date().addingTimeInterval(-86400),
-                        elapsedTime: 5400,
-                        movingTime: 5000,
-                        distance: 8000,
-                        maxSpeed: 4.2,
-                        averageSpeed: 3.5,
-                        startLocation: nil,
-                        endLocation: nil,
-                        polyline: nil,
-                        isGPSVerified: true,
-                        isUKActivity: true,
-                        flagCount: 0,
-                        status: .verified,
-                        importedAt: Date()
-                    )
-                ]
-            ),
-            AthleteStory(
-                id: "story-3",
-                athleteId: "user-003",
-                athleteName: "Mike Johnson",
-                athleteAvatarURL: nil,
-                unseenActivities: [
-                    Activity(
-                        id: "act-4",
-                        stravaId: 4,
-                        userId: "user-003",
-                        name: "Quick Sprint",
-                        activityType: .kayaking,
-                        startDate: Date(),
-                        elapsedTime: 1800,
-                        movingTime: 1700,
-                        distance: 3000,
-                        maxSpeed: 5.5,
-                        averageSpeed: 4.5,
-                        startLocation: nil,
-                        endLocation: nil,
-                        polyline: nil,
-                        isGPSVerified: true,
-                        isUKActivity: true,
+                        isUKSession: true,
                         flagCount: 0,
                         status: .verified,
                         importedAt: Date()
