@@ -61,6 +61,8 @@
 		A10000000000000000000064 /* StoryProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000064 /* StoryProgressBarView.swift */; };
 		A10000000000000000000065 /* StoryViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000065 /* StoryViewerView.swift */; };
 		A10000000000000000000071 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000071 /* AvatarView.swift */; };
+		A10000000000000000000080 /* PolylineCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000080 /* PolylineCodec.swift */; };
+		A10000000000000000000081 /* SessionMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000081 /* SessionMapView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -120,6 +122,8 @@
 		B10000000000000000000064 /* StoryProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryProgressBarView.swift; sourceTree = "<group>"; };
 		B10000000000000000000065 /* StoryViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewerView.swift; sourceTree = "<group>"; };
 		B10000000000000000000071 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
+		B10000000000000000000080 /* PolylineCodec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolylineCodec.swift; sourceTree = "<group>"; };
+		B10000000000000000000081 /* SessionMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionMapView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +217,7 @@
 				B10000000000000000000012 /* LocationService.swift */,
 				B10000000000000000000013 /* ModerationService.swift */,
 				B10000000000000000000014 /* RaceEngine.swift */,
+				B10000000000000000000080 /* PolylineCodec.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -259,6 +264,7 @@
 				B10000000000000000000027 /* HomeViewModel.swift */,
 				B10000000000000000000028 /* LeaderboardView.swift */,
 				B10000000000000000000029 /* FlagActivityView.swift */,
+				B10000000000000000000081 /* SessionMapView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -501,6 +507,8 @@
 				A10000000000000000000064 /* StoryProgressBarView.swift in Sources */,
 				A10000000000000000000065 /* StoryViewerView.swift in Sources */,
 				A10000000000000000000071 /* AvatarView.swift in Sources */,
+				A10000000000000000000080 /* PolylineCodec.swift in Sources */,
+				A10000000000000000000081 /* SessionMapView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
