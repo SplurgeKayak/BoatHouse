@@ -1,15 +1,12 @@
 import SwiftUI
 import CoreLocation
 
-/// Home screen: state-based goals-first rendering.
-/// State A: no goals → inline goal entry.
-/// State B: goals saved → goals dashboard + activity feed.
+/// Home screen: Club Room activity feed with stories, filters, and rankings.
+/// Goals are shown via the GoalsOverlayView (center target button in bottom nav).
 struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
-    @StateObject private var goalsViewModel = GoalsViewModel()
     @StateObject private var storyViewModel = StoryFeedViewModel()
     @EnvironmentObject var appState: AppState
-    @State private var showGoalEntry = false
     @State private var selectedSession: Session?
 
     var body: some View {
@@ -18,37 +15,37 @@ struct HomeView: View {
                 VStack(spacing: 0) {
                     headerSection
 
-                    if goalsViewModel.hasGoals {
-                        // State B: Goals dashboard + activity feed
-                        stateB
-                    } else {
-                        // State A: Goal entry (lightweight, no heavy Strava fetch)
-                        stateA
+                    // Stories strip
+                    if storyViewModel.hasStories {
+                        StoriesStripView(stories: storyViewModel.stories) { story in
+                            storyViewModel.selectStory(story)
+                        }
+                        Divider()
                     }
+
+                    // Filters
+                    filterSection
+
+                    // Activity feed
+                    if viewModel.isLoading {
+                        loadingView
+                    } else if viewModel.filteredSessions.isEmpty {
+                        emptyStateView
+                    } else {
+                        sessionFeed
+                    }
+
+                    // Rankings
+                    rankingSection
                 }
             }
             .refreshable {
                 await viewModel.refresh()
-                await goalsViewModel.loadGoals()
                 storyViewModel.updateStories(from: viewModel.sessions)
             }
             .task {
-                await goalsViewModel.loadGoals()
-                if goalsViewModel.hasGoals {
-                    await viewModel.loadInitialData()
-                    storyViewModel.updateStories(from: viewModel.sessions)
-                }
-            }
-            .sheet(isPresented: $showGoalEntry) {
-                GoalEntrySheet { goals in
-                    Task { await goalsViewModel.saveAndReload(goals) }
-                    // Also load activity data now that goals exist
-                    Task {
-                        await viewModel.loadInitialData()
-                        storyViewModel.updateStories(from: viewModel.sessions)
-                    }
-                    appState.hasCompletedGoals = true
-                }
+                await viewModel.loadInitialData()
+                storyViewModel.updateStories(from: viewModel.sessions)
             }
             .fullScreenCover(item: $selectedSession) { session in
                 ActivityDetailView(
@@ -68,7 +65,7 @@ struct HomeView: View {
         }
     }
 
-    // MARK: - Header with My Goals icon
+    // MARK: - Header
 
     private var headerSection: some View {
         HStack {
@@ -77,107 +74,17 @@ struct HomeView: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
 
-                Text(goalsViewModel.hasGoals ? "Your Goals" : "Club Room")
+                Text("Club Room")
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundStyle(.secondary)
             }
 
             Spacer()
-
-            // My Goals icon — always returns to goals dashboard
-            Button {
-                if goalsViewModel.hasGoals {
-                    // Scroll to top / already on goals
-                } else {
-                    showGoalEntry = true
-                }
-            } label: {
-                Image(systemName: "target")
-                    .font(.title2)
-                    .foregroundStyle(AppColors.accent)
-            }
         }
         .padding(.horizontal)
         .padding(.top, 12)
         .padding(.bottom, 8)
-    }
-
-    // MARK: - State A: No goals — lightweight entry
-
-    private var stateA: some View {
-        VStack(spacing: 24) {
-            // Inline goal entry prompt
-            VStack(spacing: 16) {
-                Image(systemName: "flag.checkered")
-                    .font(.system(size: 48))
-                    .foregroundStyle(AppColors.accent)
-
-                Text("Set Your Paddling Goals")
-                    .font(.title2)
-                    .fontWeight(.bold)
-
-                Text("Track your progress with personal time targets for 1km, 5km, and 10km distances.")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-
-                Button {
-                    showGoalEntry = true
-                } label: {
-                    Text("Set Goals")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 14)
-                }
-                .buttonStyle(.borderedProminent)
-                .tint(AppColors.accent)
-            }
-            .padding(24)
-            .background(Color(.systemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 16))
-            .shadow(color: .black.opacity(0.05), radius: 8, y: 4)
-            .padding(.horizontal)
-            .padding(.top, 20)
-        }
-    }
-
-    // MARK: - State B: Goals dashboard + feed
-
-    private var stateB: some View {
-        VStack(spacing: 0) {
-            // Goals dashboard
-            GoalsDashboardView(
-                viewModel: goalsViewModel,
-                showGoalEntry: $showGoalEntry
-            )
-
-            Divider()
-                .padding(.vertical, 8)
-
-            // Stories strip
-            if storyViewModel.hasStories {
-                StoriesStripView(stories: storyViewModel.stories) { story in
-                    storyViewModel.selectStory(story)
-                }
-                Divider()
-            }
-
-            // Filters
-            filterSection
-
-            // Activity feed
-            if viewModel.isLoading {
-                loadingView
-            } else if viewModel.filteredSessions.isEmpty {
-                emptyStateView
-            } else {
-                sessionFeed
-            }
-
-            // Rankings
-            rankingSection
-        }
     }
 
     // MARK: - Filters

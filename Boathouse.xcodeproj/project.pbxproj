@@ -81,6 +81,7 @@
 		A10000000000000000000097 /* ActivityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000097 /* ActivityDetailView.swift */; };
 		A10000000000000000000098 /* GoalsSplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000098 /* GoalsSplashView.swift */; };
 		A10000000000000000000099 /* DummyUserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000099 /* DummyUserStore.swift */; };
+		A10000000000000000000100 /* GoalsOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000100 /* GoalsOverlayView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -160,6 +161,7 @@
 		B10000000000000000000097 /* ActivityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailView.swift; sourceTree = "<group>"; };
 		B10000000000000000000098 /* GoalsSplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsSplashView.swift; sourceTree = "<group>"; };
 		B10000000000000000000099 /* DummyUserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyUserStore.swift; sourceTree = "<group>"; };
+		B10000000000000000000100 /* GoalsOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsOverlayView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -299,6 +301,7 @@
 				B10000000000000000000095 /* GoalCardView.swift */,
 				B10000000000000000000096 /* GoalsDashboardView.swift */,
 				B10000000000000000000098 /* GoalsSplashView.swift */,
+				B10000000000000000000100 /* GoalsOverlayView.swift */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
@@ -597,6 +600,7 @@
 				A10000000000000000000097 /* ActivityDetailView.swift in Sources */,
 				A10000000000000000000098 /* GoalsSplashView.swift in Sources */,
 				A10000000000000000000099 /* DummyUserStore.swift in Sources */,
+				A10000000000000000000100 /* GoalsOverlayView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
