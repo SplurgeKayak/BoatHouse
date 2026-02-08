@@ -71,6 +71,7 @@
 		A10000000000000000000087 /* GoalsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000087 /* GoalsStore.swift */; };
 		A10000000000000000000088 /* YourGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000088 /* YourGoalsView.swift */; };
 		A10000000000000000000089 /* RoutePreviewShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000089 /* RoutePreviewShape.swift */; };
+		A10000000000000000000090 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000090 /* FlowLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -140,6 +141,7 @@
 		B10000000000000000000087 /* GoalsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsStore.swift; sourceTree = "<group>"; };
 		B10000000000000000000088 /* YourGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourGoalsView.swift; sourceTree = "<group>"; };
 		B10000000000000000000089 /* RoutePreviewShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePreviewShape.swift; sourceTree = "<group>"; };
+		B10000000000000000000090 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -377,9 +379,18 @@
 			children = (
 				D10000000000000000000022 /* Navigation */,
 				D10000000000000000000023 /* Styles */,
+				D10000000000000000000051 /* Layouts */,
 				B10000000000000000000071 /* AvatarView.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000051 /* Layouts */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000090 /* FlowLayout.swift */,
+			);
+			path = Layouts;
 			sourceTree = "<group>";
 		};
 		D10000000000000000000022 /* Navigation */ = {
@@ -549,6 +560,7 @@
 				A10000000000000000000087 /* GoalsStore.swift in Sources */,
 				A10000000000000000000088 /* YourGoalsView.swift in Sources */,
 				A10000000000000000000089 /* RoutePreviewShape.swift in Sources */,
+				A10000000000000000000090 /* FlowLayout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
