@@ -53,7 +53,6 @@
 		A10000000000000000000043 /* TransactionHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000043 /* TransactionHistoryView.swift */; };
 		A10000000000000000000044 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000044 /* OnboardingView.swift */; };
 		A10000000000000000000045 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000045 /* Assets.xcassets */; };
-		A10000000000000000000046 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000046 /* Preview Assets.xcassets */; };
 		A10000000000000000000060 /* SeenActivityStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000060 /* SeenActivityStore.swift */; };
 		A10000000000000000000061 /* StoryFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000061 /* StoryFeedViewModel.swift */; };
 		A10000000000000000000062 /* StoryBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000062 /* StoryBubbleView.swift */; };
@@ -132,7 +131,6 @@
 		B10000000000000000000043 /* TransactionHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionHistoryView.swift; sourceTree = "<group>"; };
 		B10000000000000000000044 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		B10000000000000000000045 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		B10000000000000000000046 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B10000000000000000000047 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B10000000000000000000060 /* SeenActivityStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeenActivityStore.swift; sourceTree = "<group>"; };
 		B10000000000000000000061 /* StoryFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryFeedViewModel.swift; sourceTree = "<group>"; };
@@ -445,17 +443,8 @@
 			isa = PBXGroup;
 			children = (
 				B10000000000000000000045 /* Assets.xcassets */,
-				D10000000000000000000031 /* Preview Content */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		D10000000000000000000031 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				B10000000000000000000046 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -516,7 +505,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A10000000000000000000046 /* Preview Assets.xcassets in Resources */,
 				A10000000000000000000045 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -733,7 +721,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Boathouse/Resources/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				EXECUTABLE_NAME = Boathouse;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -771,7 +758,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Boathouse/Resources/Preview Content\"";
 				ENABLE_PREVIEWS = NO;
 				EXECUTABLE_NAME = Boathouse;
 				GENERATE_INFOPLIST_FILE = YES;
