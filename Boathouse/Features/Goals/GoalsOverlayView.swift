@@ -263,25 +263,32 @@ struct DarkGoalCardView: View {
 // MARK: - Dark Gauge View
 
 /// Gauge chart styled for dark blue background.
+/// Uses Circle().trim() for a 270° arc (from bottom-left to bottom-right).
 /// Track uses dark blue; progress and success colors stay vivid for contrast.
 struct DarkGaugeView: View {
     let progressFraction: Double
     let averageFraction: Double?
     let isGoalMet: Bool
 
-    private let startAngle: Angle = .degrees(135)
-    private let endAngle: Angle = .degrees(405)
+    /// 270° arc = 0.75 of a full circle
+    private let arcFraction: Double = 0.75
+    /// Rotate so the arc starts at bottom-left (135° from 3-o'clock)
+    private let rotationOffset: Angle = .degrees(135)
     private let lineWidth: CGFloat = 12
 
     var body: some View {
         ZStack {
             // Track (dark blue background)
-            ArcShape(startAngle: startAngle, endAngle: endAngle, lineWidth: lineWidth)
+            Circle()
+                .trim(from: 0, to: arcFraction)
                 .stroke(GoalColors.trackBlue, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
+                .rotationEffect(rotationOffset)
 
             // Progress fill
-            ArcShape(startAngle: startAngle, endAngle: progressEndAngle, lineWidth: lineWidth)
+            Circle()
+                .trim(from: 0, to: arcFraction * min(progressFraction, 1.0))
                 .stroke(progressColor, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
+                .rotationEffect(rotationOffset)
 
             // Average marker
             if let avg = averageFraction, avg > 0 {
@@ -289,12 +296,6 @@ struct DarkGaugeView: View {
             }
         }
         .aspectRatio(1, contentMode: .fit)
-    }
-
-    private var progressEndAngle: Angle {
-        let sweep: Double = endAngle.degrees - startAngle.degrees
-        let clamped: Double = min(progressFraction, 1.0)
-        return Angle(degrees: startAngle.degrees + sweep * clamped)
     }
 
     private var progressColor: Color {
@@ -315,8 +316,8 @@ struct DarkGaugeView: View {
             let cx: CGFloat = size / 2
             let cy: CGFloat = size / 2
             let r: CGFloat = (size / 2) - lineWidth / 2
-            let sweep: Double = endAngle.degrees - startAngle.degrees
-            let a: Double = (startAngle.degrees + sweep * fraction) * .pi / 180
+            // 135° start + 270° sweep * fraction, converted to radians
+            let a: Double = (135.0 + 270.0 * fraction) * .pi / 180.0
             let x: CGFloat = cx + r * CGFloat(cos(a))
             let y: CGFloat = cy + r * CGFloat(sin(a))
 
