@@ -12,6 +12,12 @@ struct ContentView: View {
         Group {
             if appState.isLoading {
                 LaunchScreenView()
+            } else if appState.showGoalsSplash {
+                GoalsSplashView {
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        appState.showGoalsSplash = false
+                    }
+                }
             } else if !appState.isAuthenticated {
                 AuthenticationView()
             } else if appState.showOnboarding {
@@ -21,6 +27,7 @@ struct ContentView: View {
             }
         }
         .animation(.easeInOut(duration: 0.3), value: appState.isAuthenticated)
+        .animation(.easeInOut(duration: 0.3), value: appState.showGoalsSplash)
         .task {
             await checkInitialState()
         }

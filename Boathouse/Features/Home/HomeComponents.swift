@@ -3,31 +3,42 @@ import CoreLocation
 
 // MARK: - Session Card (Redesigned)
 
-/// Activity card with new visual hierarchy:
-/// 1) User context (name at top)
-/// 2) Key performance metric (filter-aware, Strava orange)
-/// 3) Time of activity (Strava orange call-out)
-/// 4) Secondary details (de-emphasized)
+/// Activity card with visual hierarchy:
+/// 1) Header: avatar + name/title + filtered metric badge (top-right)
+/// 2) Recorded timestamp
+/// 3) Secondary details (de-emphasized)
+/// 4) Route preview + badges
 /// 5) Tappable → opens full activity detail
 struct SessionCard: View {
     let session: Session
     var activeFilter: RaceType? = nil
 
+    /// Looked-up user for avatar display
+    private var user: User? { MockData.user(for: session.userId) }
+
+    private var userInitials: String {
+        let name = user?.displayName ?? session.userId
+        let parts = name.components(separatedBy: " ")
+        if parts.count >= 2 {
+            return String(parts[0].prefix(1) + parts[1].prefix(1)).uppercased()
+        }
+        return String(name.prefix(2)).uppercased()
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            // 1) User context: profile name + activity type
-            HStack {
-                Circle()
-                    .fill(Color.accentColor.opacity(0.2))
-                    .frame(width: 36, height: 36)
-                    .overlay {
-                        Image(systemName: session.sessionType.icon)
-                            .font(.callout)
-                            .foregroundStyle(.accent)
-                    }
+            // 1) Header: avatar + user context + filtered metric badge
+            HStack(alignment: .top) {
+                // Profile picture (replaces old Circle placeholder)
+                AvatarView(
+                    url: user?.profileImageURL,
+                    initials: userInitials,
+                    id: session.userId,
+                    size: 36
+                )
 
                 VStack(alignment: .leading, spacing: 1) {
-                    Text(session.userId.replacingOccurrences(of: "user-", with: "Athlete "))
+                    Text(user?.displayName ?? session.userId.replacingOccurrences(of: "user-", with: "Athlete "))
                         .font(.subheadline)
                         .fontWeight(.semibold)
 
@@ -38,15 +49,23 @@ struct SessionCard: View {
 
                 Spacer()
 
-                if session.isFlagged {
+                // Filtered metric badge in header-right ("green area")
+                if let metric = filterAwareMetric, isDistanceFilter {
+                    FilteredMetricBadge(label: metric.label, value: metric.value)
+                } else if session.isFlagged {
                     Image(systemName: "flag.fill")
                         .foregroundStyle(.orange)
                         .font(.caption)
                 }
             }
 
-            // 2) Key performance metric (filter-aware, Strava orange)
-            if let metric = filterAwareMetric {
+            // 2) Recorded timestamp
+            Text("Recorded: \(session.startDate.formatted(date: .abbreviated, time: .shortened))")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            // 3) Key metric (only when NOT a distance filter — avoids duplication)
+            if !isDistanceFilter, let metric = filterAwareMetric {
                 HStack(alignment: .firstTextBaseline) {
                     Text(metric.value)
                         .font(.system(size: 28, weight: .bold, design: .rounded))
@@ -57,12 +76,6 @@ struct SessionCard: View {
                         .foregroundStyle(AppColors.accent.opacity(0.8))
                 }
             }
-
-            // 3) Time of activity (Strava orange emphasis)
-            Text(session.startDate, style: .relative)
-                .font(.caption)
-                .fontWeight(.medium)
-                .foregroundStyle(AppColors.accent)
 
             // 4) Secondary details (de-emphasized)
             HStack(spacing: 16) {
@@ -102,7 +115,15 @@ struct SessionCard: View {
         .background(Color(.systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .shadow(color: .black.opacity(0.05), radius: 8, y: 4)
-        .contentShape(Rectangle()) // Make entire card tappable
+        .contentShape(Rectangle())
+    }
+
+    /// Whether the active filter is a distance-specific filter (1km/5km/10km)
+    private var isDistanceFilter: Bool {
+        switch activeFilter {
+        case .fastest1km, .fastest5km, .fastest10km: return true
+        default: return false
+        }
     }
 
     /// Extract the key metric based on active filter.
@@ -119,6 +140,39 @@ struct SessionCard: View {
             return ("Fastest 10km", t)
         default:
             return ("Duration", session.formattedDuration)
+        }
+    }
+}
+
+// MARK: - Filtered Metric Badge
+
+/// Prominent Strava-orange badge shown in the top-right of the activity card header
+/// when a distance filter (1km/5km/10km) is active.
+struct FilteredMetricBadge: View {
+    let label: String
+    let value: String
+
+    var body: some View {
+        VStack(spacing: 2) {
+            // Strava-orange icon container
+            ZStack {
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(AppColors.accent)
+                    .frame(width: 32, height: 32)
+                    .shadow(color: AppColors.accent.opacity(0.3), radius: 4, y: 2)
+
+                Image(systemName: "flame.fill")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(.white)
+            }
+
+            Text(value)
+                .font(.system(size: 14, weight: .bold, design: .rounded))
+                .foregroundStyle(AppColors.accent)
+
+            Text(label)
+                .font(.system(size: 9))
+                .foregroundStyle(.secondary)
         }
     }
 }

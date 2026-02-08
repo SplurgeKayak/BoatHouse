@@ -79,6 +79,8 @@
 		A10000000000000000000095 /* GoalCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000095 /* GoalCardView.swift */; };
 		A10000000000000000000096 /* GoalsDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000096 /* GoalsDashboardView.swift */; };
 		A10000000000000000000097 /* ActivityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000097 /* ActivityDetailView.swift */; };
+		A10000000000000000000098 /* GoalsSplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000098 /* GoalsSplashView.swift */; };
+		A10000000000000000000099 /* DummyUserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000099 /* DummyUserStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -156,6 +158,8 @@
 		B10000000000000000000095 /* GoalCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCardView.swift; sourceTree = "<group>"; };
 		B10000000000000000000096 /* GoalsDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsDashboardView.swift; sourceTree = "<group>"; };
 		B10000000000000000000097 /* ActivityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailView.swift; sourceTree = "<group>"; };
+		B10000000000000000000098 /* GoalsSplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsSplashView.swift; sourceTree = "<group>"; };
+		B10000000000000000000099 /* DummyUserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyUserStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,6 +261,7 @@
 				B10000000000000000000085 /* RaceService.swift */,
 				B10000000000000000000087 /* GoalsStore.swift */,
 				B10000000000000000000092 /* GoalProgressService.swift */,
+				B10000000000000000000099 /* DummyUserStore.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -293,6 +298,7 @@
 				B10000000000000000000094 /* GaugeChartView.swift */,
 				B10000000000000000000095 /* GoalCardView.swift */,
 				B10000000000000000000096 /* GoalsDashboardView.swift */,
+				B10000000000000000000098 /* GoalsSplashView.swift */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
@@ -589,6 +595,8 @@
 				A10000000000000000000095 /* GoalCardView.swift in Sources */,
 				A10000000000000000000096 /* GoalsDashboardView.swift in Sources */,
 				A10000000000000000000097 /* ActivityDetailView.swift in Sources */,
+				A10000000000000000000098 /* GoalsSplashView.swift in Sources */,
+				A10000000000000000000099 /* DummyUserStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

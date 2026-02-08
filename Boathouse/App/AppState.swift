@@ -10,6 +10,9 @@ final class AppState: ObservableObject {
     @Published var showOnboarding: Bool = false
     @Published var hasCompletedGoals: Bool = GoalsStore.shared.hasCompletedGoals
 
+    /// Goals splash shows on every cold launch, unconditionally.
+    @Published var showGoalsSplash: Bool = true
+
     /// Shared instance for global access
     static var shared: AppState?
 

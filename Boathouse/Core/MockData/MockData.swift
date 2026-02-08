@@ -173,12 +173,24 @@ enum MockData {
                 ),
                 dateOfBirth: dob,
                 gender: spec.gender,
-                profileImageURL: nil,
+                profileImageURL: URL(string: "https://i.pravatar.cc/150?u=\(userId)"),
                 createdAt: Date().addingTimeInterval(-86400 * Double.random(in: 60...400, using: &rng)),
                 updatedAt: Date()
             )
         }
     }()
+
+    // MARK: - User Lookup
+
+    /// Cached dictionary for O(1) user lookups by id.
+    private static let userMap: [String: User] = {
+        Dictionary(uniqueKeysWithValues: users.map { ($0.id, $0) })
+    }()
+
+    /// Look up a user by their id. Returns nil for unknown ids.
+    static func user(for id: String) -> User? {
+        userMap[id]
+    }
 
     // MARK: - Convenience Aliases
 

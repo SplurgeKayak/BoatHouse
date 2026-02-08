@@ -48,8 +48,11 @@ final class AuthViewModel: ObservableObject {
         // Simulate network delay
         try? await Task.sleep(nanoseconds: 1_000_000_000)
 
-        // For demo, just succeed with mock user
-        AppState.shared?.currentUser = MockData.racerUser
+        // Look up user by email in the dummy store, fall back to default racer
+        let store = DummyUserStore.shared
+        let user = store.user(byEmail: email) ?? MockData.racerUser
+
+        AppState.shared?.currentUser = user
         AppState.shared?.isAuthenticated = true
         isLoading = false
     }
@@ -67,12 +70,24 @@ final class AuthViewModel: ObservableObject {
         // Simulate network delay
         try? await Task.sleep(nanoseconds: 1_000_000_000)
 
-        // For demo, succeed with mock user
-        if userType == .racer {
-            AppState.shared?.currentUser = MockData.racerUser
-        } else {
-            AppState.shared?.currentUser = MockData.spectatorUser
-        }
+        // Create a real User from the form input and persist to dummy store
+        let newUser = User(
+            id: "user-\(UUID().uuidString.prefix(8).lowercased())",
+            email: email,
+            displayName: email.components(separatedBy: "@").first?.capitalized ?? "New User",
+            userType: userType,
+            stravaConnection: nil,
+            wallet: nil,
+            dateOfBirth: nil,
+            gender: nil,
+            profileImageURL: nil,
+            createdAt: Date(),
+            updatedAt: Date()
+        )
+
+        DummyUserStore.shared.addUser(newUser)
+
+        AppState.shared?.currentUser = newUser
         AppState.shared?.isAuthenticated = true
         AppState.shared?.showOnboarding = true
         isLoading = false
