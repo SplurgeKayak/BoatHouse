@@ -1,4 +1,7 @@
 import SwiftUI
+import os.signpost
+
+private let launchLog = OSLog(subsystem: "com.boathouse.app", category: "Launch")
 
 /// Main content view that handles navigation based on auth state
 struct ContentView: View {
@@ -13,6 +16,8 @@ struct ContentView: View {
                 AuthenticationView()
             } else if appState.showOnboarding {
                 OnboardingView()
+            } else if !appState.hasCompletedGoals {
+                YourGoalsView()
             } else {
                 MainTabView()
             }
@@ -25,13 +30,24 @@ struct ContentView: View {
 
     @MainActor
     private func checkInitialState() async {
-        // Show splash for a bit while "loading"
-        try? await Task.sleep(nanoseconds: 2_000_000_000)
+        os_signpost(.begin, log: launchLog, name: "checkInitialState")
 
-        // For demo purposes, skip auth and show main app with mock data
-        appState.currentUser = MockData.racerUser
+        // Load mock user off the main actor's critical path
+        let user = await Task.detached(priority: .userInitiated) {
+            os_signpost(.begin, log: launchLog, name: "MockData.init")
+            let u = MockData.racerUser
+            os_signpost(.end, log: launchLog, name: "MockData.init")
+            return u
+        }.value
+
+        // Brief splash so the animation is visible (≤0.6s vs old 2s)
+        try? await Task.sleep(nanoseconds: 600_000_000)
+
+        appState.currentUser = user
         appState.isAuthenticated = true
         appState.isLoading = false
+
+        os_signpost(.end, log: launchLog, name: "checkInitialState")
     }
 }
 

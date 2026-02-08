@@ -10,6 +10,9 @@ final class HomeViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
+    /// Cached filtered result — updated only when sessions or filters change.
+    @Published private(set) var filteredSessions: [Session] = []
+
     private let sessionService: SessionServiceProtocol
     private let raceService: RaceServiceProtocol
     private var cancellables = Set<AnyCancellable>()
@@ -24,17 +27,6 @@ final class HomeViewModel: ObservableObject {
     }
 
     // MARK: - Filtered sessions
-
-    /// Sessions filtered by time period and sorted by the selected distance metric.
-    var filteredSessions: [Session] {
-        Self.filterSessions(
-            sessions: sessions,
-            timeFilter: selectedDuration,
-            distanceFilter: selectedRaceType,
-            now: Date(),
-            calendar: .current
-        )
-    }
 
     /// Pure function for filtering and sorting sessions.
     /// Testable independently of the ViewModel.
@@ -93,6 +85,22 @@ final class HomeViewModel: ObservableObject {
     // MARK: - Data loading
 
     private func setupBindings() {
+        // Recompute filtered list whenever sessions or filters change
+        $sessions
+            .combineLatest($selectedDuration, $selectedRaceType)
+            .map { sessions, duration, raceType in
+                Self.filterSessions(
+                    sessions: sessions,
+                    timeFilter: duration,
+                    distanceFilter: raceType,
+                    now: Date(),
+                    calendar: .current
+                )
+            }
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$filteredSessions)
+
+        // Reload leaderboard when filters change (debounced)
         $selectedDuration
             .combineLatest($selectedRaceType)
             .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)

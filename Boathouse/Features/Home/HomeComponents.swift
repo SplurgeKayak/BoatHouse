@@ -50,9 +50,9 @@ struct SessionCard: View {
                 }
             }
 
-            // Map preview
+            // Route preview (lightweight Canvas instead of MapKit)
             if !session.decodedRouteCoordinates.isEmpty {
-                SessionMapView(coordinates: session.decodedRouteCoordinates)
+                RoutePreviewShape(coordinates: session.decodedRouteCoordinates)
                     .frame(height: 160)
             }
 

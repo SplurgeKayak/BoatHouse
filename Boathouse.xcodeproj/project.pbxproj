@@ -67,6 +67,10 @@
 		A10000000000000000000083 /* HomeComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000083 /* HomeComponents.swift */; };
 		A10000000000000000000084 /* SessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000084 /* SessionService.swift */; };
 		A10000000000000000000085 /* RaceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000085 /* RaceService.swift */; };
+		A10000000000000000000086 /* KayakingGoals.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000086 /* KayakingGoals.swift */; };
+		A10000000000000000000087 /* GoalsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000087 /* GoalsStore.swift */; };
+		A10000000000000000000088 /* YourGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000088 /* YourGoalsView.swift */; };
+		A10000000000000000000089 /* RoutePreviewShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000089 /* RoutePreviewShape.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -132,6 +136,10 @@
 		B10000000000000000000083 /* HomeComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeComponents.swift; sourceTree = "<group>"; };
 		B10000000000000000000084 /* SessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionService.swift; sourceTree = "<group>"; };
 		B10000000000000000000085 /* RaceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceService.swift; sourceTree = "<group>"; };
+		B10000000000000000000086 /* KayakingGoals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KayakingGoals.swift; sourceTree = "<group>"; };
+		B10000000000000000000087 /* GoalsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsStore.swift; sourceTree = "<group>"; };
+		B10000000000000000000088 /* YourGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourGoalsView.swift; sourceTree = "<group>"; };
+		B10000000000000000000089 /* RoutePreviewShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePreviewShape.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +221,7 @@
 				B10000000000000000000006 /* Activity.swift */,
 				B10000000000000000000007 /* Entry.swift */,
 				B10000000000000000000008 /* Wallet.swift */,
+				B10000000000000000000086 /* KayakingGoals.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -229,6 +238,7 @@
 				B10000000000000000000080 /* PolylineCodec.swift */,
 				B10000000000000000000084 /* SessionService.swift */,
 				B10000000000000000000085 /* RaceService.swift */,
+				B10000000000000000000087 /* GoalsStore.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -252,8 +262,17 @@
 				D10000000000000000000016 /* Wallet */,
 				D10000000000000000000017 /* Onboarding */,
 				D10000000000000000000040 /* Stories */,
+				D10000000000000000000050 /* Goals */,
 			);
 			path = Features;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000050 /* Goals */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000088 /* YourGoalsView.swift */,
+			);
+			path = Goals;
 			sourceTree = "<group>";
 		};
 		D10000000000000000000011 /* Authentication */ = {
@@ -277,6 +296,7 @@
 				B10000000000000000000028 /* LeaderboardView.swift */,
 				B10000000000000000000029 /* FlagActivityView.swift */,
 				B10000000000000000000081 /* SessionMapView.swift */,
+				B10000000000000000000089 /* RoutePreviewShape.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -525,6 +545,10 @@
 				A10000000000000000000083 /* HomeComponents.swift in Sources */,
 				A10000000000000000000084 /* SessionService.swift in Sources */,
 				A10000000000000000000085 /* RaceService.swift in Sources */,
+				A10000000000000000000086 /* KayakingGoals.swift in Sources */,
+				A10000000000000000000087 /* GoalsStore.swift in Sources */,
+				A10000000000000000000088 /* YourGoalsView.swift in Sources */,
+				A10000000000000000000089 /* RoutePreviewShape.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

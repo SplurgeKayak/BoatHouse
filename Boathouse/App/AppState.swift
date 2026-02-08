@@ -8,6 +8,7 @@ final class AppState: ObservableObject {
     @Published var selectedTab: Tab = .home
     @Published var isLoading: Bool = true
     @Published var showOnboarding: Bool = false
+    @Published var hasCompletedGoals: Bool = GoalsStore.shared.hasCompletedGoals
 
     /// Shared instance for global access
     static var shared: AppState?
