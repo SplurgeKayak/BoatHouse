@@ -72,6 +72,13 @@
 		A10000000000000000000088 /* YourGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000088 /* YourGoalsView.swift */; };
 		A10000000000000000000089 /* RoutePreviewShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000089 /* RoutePreviewShape.swift */; };
 		A10000000000000000000090 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000090 /* FlowLayout.swift */; };
+		A10000000000000000000091 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000091 /* Goal.swift */; };
+		A10000000000000000000092 /* GoalProgressService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000092 /* GoalProgressService.swift */; };
+		A10000000000000000000093 /* GoalsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000093 /* GoalsViewModel.swift */; };
+		A10000000000000000000094 /* GaugeChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000094 /* GaugeChartView.swift */; };
+		A10000000000000000000095 /* GoalCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000095 /* GoalCardView.swift */; };
+		A10000000000000000000096 /* GoalsDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000096 /* GoalsDashboardView.swift */; };
+		A10000000000000000000097 /* ActivityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000097 /* ActivityDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -142,6 +149,13 @@
 		B10000000000000000000088 /* YourGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourGoalsView.swift; sourceTree = "<group>"; };
 		B10000000000000000000089 /* RoutePreviewShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePreviewShape.swift; sourceTree = "<group>"; };
 		B10000000000000000000090 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
+		B10000000000000000000091 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
+		B10000000000000000000092 /* GoalProgressService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalProgressService.swift; sourceTree = "<group>"; };
+		B10000000000000000000093 /* GoalsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewModel.swift; sourceTree = "<group>"; };
+		B10000000000000000000094 /* GaugeChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeChartView.swift; sourceTree = "<group>"; };
+		B10000000000000000000095 /* GoalCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCardView.swift; sourceTree = "<group>"; };
+		B10000000000000000000096 /* GoalsDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsDashboardView.swift; sourceTree = "<group>"; };
+		B10000000000000000000097 /* ActivityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,6 +238,7 @@
 				B10000000000000000000007 /* Entry.swift */,
 				B10000000000000000000008 /* Wallet.swift */,
 				B10000000000000000000086 /* KayakingGoals.swift */,
+				B10000000000000000000091 /* Goal.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -241,6 +256,7 @@
 				B10000000000000000000084 /* SessionService.swift */,
 				B10000000000000000000085 /* RaceService.swift */,
 				B10000000000000000000087 /* GoalsStore.swift */,
+				B10000000000000000000092 /* GoalProgressService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -273,6 +289,10 @@
 			isa = PBXGroup;
 			children = (
 				B10000000000000000000088 /* YourGoalsView.swift */,
+				B10000000000000000000093 /* GoalsViewModel.swift */,
+				B10000000000000000000094 /* GaugeChartView.swift */,
+				B10000000000000000000095 /* GoalCardView.swift */,
+				B10000000000000000000096 /* GoalsDashboardView.swift */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
@@ -299,6 +319,7 @@
 				B10000000000000000000029 /* FlagActivityView.swift */,
 				B10000000000000000000081 /* SessionMapView.swift */,
 				B10000000000000000000089 /* RoutePreviewShape.swift */,
+				B10000000000000000000097 /* ActivityDetailView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -561,6 +582,13 @@
 				A10000000000000000000088 /* YourGoalsView.swift in Sources */,
 				A10000000000000000000089 /* RoutePreviewShape.swift in Sources */,
 				A10000000000000000000090 /* FlowLayout.swift in Sources */,
+				A10000000000000000000091 /* Goal.swift in Sources */,
+				A10000000000000000000092 /* GoalProgressService.swift in Sources */,
+				A10000000000000000000093 /* GoalsViewModel.swift in Sources */,
+				A10000000000000000000094 /* GaugeChartView.swift in Sources */,
+				A10000000000000000000095 /* GoalCardView.swift in Sources */,
+				A10000000000000000000096 /* GoalsDashboardView.swift in Sources */,
+				A10000000000000000000097 /* ActivityDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,8 +16,6 @@ struct ContentView: View {
                 AuthenticationView()
             } else if appState.showOnboarding {
                 OnboardingView()
-            } else if !appState.hasCompletedGoals {
-                YourGoalsView()
             } else {
                 MainTabView()
             }

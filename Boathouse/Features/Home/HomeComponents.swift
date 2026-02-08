@@ -1,27 +1,37 @@
 import SwiftUI
 import CoreLocation
 
-// MARK: - Session Card
+// MARK: - Session Card (Redesigned)
 
+/// Activity card with new visual hierarchy:
+/// 1) User context (name at top)
+/// 2) Key performance metric (filter-aware, Strava orange)
+/// 3) Time of activity (Strava orange call-out)
+/// 4) Secondary details (de-emphasized)
+/// 5) Tappable → opens full activity detail
 struct SessionCard: View {
     let session: Session
+    var activeFilter: RaceType? = nil
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 10) {
+            // 1) User context: profile name + activity type
             HStack {
                 Circle()
                     .fill(Color.accentColor.opacity(0.2))
-                    .frame(width: 40, height: 40)
+                    .frame(width: 36, height: 36)
                     .overlay {
                         Image(systemName: session.sessionType.icon)
+                            .font(.callout)
                             .foregroundStyle(.accent)
                     }
 
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(session.name)
-                        .font(.headline)
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(session.userId.replacingOccurrences(of: "user-", with: "Athlete "))
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
 
-                    Text(session.startDate, style: .relative)
+                    Text(session.name)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -31,66 +41,85 @@ struct SessionCard: View {
                 if session.isFlagged {
                     Image(systemName: "flag.fill")
                         .foregroundStyle(.orange)
+                        .font(.caption)
                 }
             }
 
-            // Core stats
-            HStack(spacing: 20) {
+            // 2) Key performance metric (filter-aware, Strava orange)
+            if let metric = filterAwareMetric {
+                HStack(alignment: .firstTextBaseline) {
+                    Text(metric.value)
+                        .font(.system(size: 28, weight: .bold, design: .rounded))
+                        .foregroundStyle(AppColors.accent)
+
+                    Text(metric.label)
+                        .font(.caption)
+                        .foregroundStyle(AppColors.accent.opacity(0.8))
+                }
+            }
+
+            // 3) Time of activity (Strava orange emphasis)
+            Text(session.startDate, style: .relative)
+                .font(.caption)
+                .fontWeight(.medium)
+                .foregroundStyle(AppColors.accent)
+
+            // 4) Secondary details (de-emphasized)
+            HStack(spacing: 16) {
                 StatView(title: "Distance", value: session.formattedDistance)
                 StatView(title: "Duration", value: session.formattedDuration)
-            }
-
-            // Segment times (only rows that have data)
-            let segments = segmentStats
-            if !segments.isEmpty {
-                HStack(spacing: 20) {
-                    ForEach(segments, id: \.title) { stat in
-                        StatView(title: stat.title, value: stat.value)
-                    }
+                if let speed = session.averageSpeedKmh {
+                    StatView(title: "Avg Speed", value: String(format: "%.1f km/h", speed))
                 }
             }
+            .foregroundStyle(.secondary)
 
-            // Route preview (lightweight Canvas instead of MapKit)
+            // Route preview
             if !session.decodedRouteCoordinates.isEmpty {
                 RoutePreviewShape(coordinates: session.decodedRouteCoordinates)
-                    .frame(height: 160)
+                    .frame(height: 120)
             }
 
-            HStack {
+            // Badges
+            HStack(spacing: 8) {
                 if session.isGPSVerified {
-                    Label("GPS Verified", systemImage: "checkmark.shield.fill")
-                        .font(.caption)
+                    Label("GPS", systemImage: "checkmark.shield.fill")
+                        .font(.caption2)
                         .foregroundStyle(.green)
                 }
-
                 if session.isUKSession {
                     Label("UK", systemImage: "location.fill")
-                        .font(.caption)
+                        .font(.caption2)
                         .foregroundStyle(.accent)
                 }
-
                 Spacer()
-
-                Button {
-                    // TODO: Implement flag action
-                } label: {
-                    Image(systemName: "flag")
-                }
-                .buttonStyle(.plain)
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
             }
         }
         .padding()
         .background(Color(.systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .shadow(color: .black.opacity(0.05), radius: 8, y: 4)
+        .contentShape(Rectangle()) // Make entire card tappable
     }
 
-    private var segmentStats: [(title: String, value: String)] {
-        var stats: [(title: String, value: String)] = []
-        if let t = session.formattedFastest1km  { stats.append(("Fastest 1km", t)) }
-        if let t = session.formattedFastest5km  { stats.append(("Fastest 5km", t)) }
-        if let t = session.formattedFastest10km { stats.append(("Fastest 10km", t)) }
-        return stats
+    /// Extract the key metric based on active filter.
+    private var filterAwareMetric: (label: String, value: String)? {
+        switch activeFilter {
+        case .fastest1km:
+            guard let t = session.formattedFastest1km else { return nil }
+            return ("Fastest 1km", t)
+        case .fastest5km:
+            guard let t = session.formattedFastest5km else { return nil }
+            return ("Fastest 5km", t)
+        case .fastest10km:
+            guard let t = session.formattedFastest10km else { return nil }
+            return ("Fastest 10km", t)
+        default:
+            return ("Duration", session.formattedDuration)
+        }
     }
 }
 
