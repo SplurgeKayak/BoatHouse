@@ -15,15 +15,20 @@ struct GaugeChartView: View {
     var body: some View {
         ZStack {
             // Track (background arc)
-            arcPath(fraction: 1.0)
-                .stroke(Color(.systemGray5), style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
+            ArcShape(
+                startAngle: startAngle,
+                endAngle: endAngle,
+                lineWidth: lineWidth
+            )
+            .stroke(Color(.systemGray5), style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
 
             // Progress fill
-            arcPath(fraction: min(progressFraction, 1.0))
-                .stroke(
-                    progressColor,
-                    style: StrokeStyle(lineWidth: lineWidth, lineCap: .round)
-                )
+            ArcShape(
+                startAngle: startAngle,
+                endAngle: progressEndAngle,
+                lineWidth: lineWidth
+            )
+            .stroke(progressColor, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
 
             // Average marker (small dot on arc)
             if let avg = averageFraction, avg > 0 {
@@ -31,6 +36,12 @@ struct GaugeChartView: View {
             }
         }
         .aspectRatio(1, contentMode: .fit)
+    }
+
+    private var progressEndAngle: Angle {
+        let sweep: Double = endAngle.degrees - startAngle.degrees
+        let clamped: Double = min(progressFraction, 1.0)
+        return Angle(degrees: startAngle.degrees + sweep * clamped)
     }
 
     private var progressColor: Color {
@@ -45,33 +56,16 @@ struct GaugeChartView: View {
         }
     }
 
-    private func arcPath(fraction: Double) -> Path {
-        let sweep = endAngle.degrees - startAngle.degrees
-        let end = Angle(degrees: startAngle.degrees + sweep * fraction)
-
-        return Path { path in
-            path.addArc(
-                center: CGPoint(x: 0.5, y: 0.5),
-                radius: 0.5 - lineWidth / 200,
-                startAngle: startAngle,
-                endAngle: end,
-                clockwise: false
-            )
-        }
-        .applying(CGAffineTransform(scaleX: 200, y: 200))
-        .applying(CGAffineTransform(translationX: -100 + lineWidth / 2, y: -100 + lineWidth / 2))
-        .offsetBy(dx: 100 - lineWidth / 2, dy: 100 - lineWidth / 2)
-    }
-
     private func averageMarker(fraction: Double) -> some View {
         GeometryReader { geo in
-            let size = min(geo.size.width, geo.size.height)
-            let center = CGPoint(x: size / 2, y: size / 2)
-            let radius = (size / 2) - lineWidth / 2
-            let sweep = endAngle.degrees - startAngle.degrees
-            let angle = Angle(degrees: startAngle.degrees + sweep * fraction)
-            let x = center.x + radius * cos(CGFloat(angle.radians))
-            let y = center.y + radius * sin(CGFloat(angle.radians))
+            let size: CGFloat = min(geo.size.width, geo.size.height)
+            let cx: CGFloat = size / 2
+            let cy: CGFloat = size / 2
+            let r: CGFloat = (size / 2) - lineWidth / 2
+            let sweep: Double = endAngle.degrees - startAngle.degrees
+            let a: Double = (startAngle.degrees + sweep * fraction) * .pi / 180
+            let x: CGFloat = cx + r * CGFloat(cos(a))
+            let y: CGFloat = cy + r * CGFloat(sin(a))
 
             Circle()
                 .fill(Color.white)
@@ -82,9 +76,27 @@ struct GaugeChartView: View {
     }
 }
 
-// Helper for Path offset
-private extension Path {
-    func offsetBy(dx: CGFloat, dy: CGFloat) -> Path {
-        applying(CGAffineTransform(translationX: dx, dy: dy))
+// MARK: - Arc Shape
+
+/// Draws a single arc stroke-path directly in its layout rect.
+/// Replaces the old approach of building a Path in unit coords then chaining transforms.
+private struct ArcShape: Shape {
+    let startAngle: Angle
+    let endAngle: Angle
+    let lineWidth: CGFloat
+
+    func path(in rect: CGRect) -> Path {
+        let center = CGPoint(x: rect.midX, y: rect.midY)
+        let radius: CGFloat = min(rect.width, rect.height) / 2 - lineWidth / 2
+
+        var p = Path()
+        p.addArc(
+            center: center,
+            radius: radius,
+            startAngle: startAngle,
+            endAngle: endAngle,
+            clockwise: false
+        )
+        return p
     }
 }
