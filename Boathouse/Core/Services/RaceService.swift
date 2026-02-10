@@ -6,6 +6,7 @@ protocol RaceServiceProtocol {
     func fetchActiveRaces() async throws -> [Race]
     func fetchRace(id: String) async throws -> Race
     func fetchUserEntries(userId: String) async throws -> [Entry]
+    func fetchUserEntry(raceId: String, userId: String) async throws -> Entry?
     func enterRace(raceId: String, userId: String) async throws -> Entry
     func fetchLeaderboard(duration: RaceDuration, raceType: RaceType) async throws -> Leaderboard
     func fetchRaceLeaderboard(raceId: String) async throws -> Leaderboard
@@ -37,6 +38,11 @@ final class RaceService: RaceServiceProtocol {
     func fetchUserEntries(userId: String) async throws -> [Entry] {
         // TODO: Replace with actual API call
         return MockData.entries.filter { $0.userId == userId }
+    }
+
+    func fetchUserEntry(raceId: String, userId: String) async throws -> Entry? {
+        // TODO: Replace with actual API call
+        return MockData.entries.first { $0.raceId == raceId && $0.userId == userId }
     }
 
     func enterRace(raceId: String, userId: String) async throws -> Entry {

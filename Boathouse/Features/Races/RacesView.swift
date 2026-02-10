@@ -38,42 +38,22 @@ struct RacesView: View {
             .pickerStyle(.segmented)
             .padding(.horizontal)
 
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    FilterChip(
-                        title: "All Types",
-                        isSelected: viewModel.selectedRaceType == nil,
-                        action: { viewModel.selectedRaceType = nil }
-                    )
+            if let user = appState.currentUser, let category = user.eligibleCategories.first {
+                HStack(spacing: 6) {
+                    Image(systemName: "person.fill")
+                        .font(.caption)
+                        .foregroundStyle(.accent)
 
-                    ForEach(RaceType.allCases) { type in
-                        FilterChip(
-                            title: type.displayName,
-                            isSelected: viewModel.selectedRaceType == type,
-                            action: { viewModel.selectedRaceType = type }
-                        )
-                    }
+                    Text("Your Category: \(category.displayName)")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
                 }
                 .padding(.horizontal)
-            }
 
-            if appState.isRacer, let user = appState.currentUser {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
-                        Text("Categories:")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-
-                        ForEach(user.eligibleCategories) { category in
-                            FilterChip(
-                                title: category.shortName,
-                                isSelected: viewModel.selectedCategory == category,
-                                action: { viewModel.selectedCategory = category }
-                            )
-                        }
-                    }
+                Text("Races are automatically filtered based on your profile.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
                     .padding(.horizontal)
-                }
             }
         }
         .padding(.vertical, 12)

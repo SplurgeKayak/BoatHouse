@@ -5,27 +5,21 @@ import Combine
 final class RacesViewModel: ObservableObject {
     @Published var races: [Race] = []
     @Published var selectedDuration: RaceDuration = .weekly
-    @Published var selectedRaceType: RaceType?
-    @Published var selectedCategory: RaceCategory?
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
     private let raceService: RaceServiceProtocol
     private var cancellables = Set<AnyCancellable>()
 
+    /// Canonical display order for race types
+    private static let typeOrder: [RaceType] = [.fastest1km, .fastest5km, .fastest10km, .furthestDistance]
+
     var filteredRaces: [Race] {
-        races.filter { race in
-            var matches = race.duration == selectedDuration
-
-            if let type = selectedRaceType {
-                matches = matches && race.type == type
-            }
-
-            if let category = selectedCategory {
-                matches = matches && race.category == category
-            }
-
-            return matches
+        let matching = races.filter { $0.duration == selectedDuration }
+        return matching.sorted { a, b in
+            let ai = Self.typeOrder.firstIndex(of: a.type) ?? Int.max
+            let bi = Self.typeOrder.firstIndex(of: b.type) ?? Int.max
+            return ai < bi
         }
     }
 

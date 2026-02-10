@@ -3,6 +3,7 @@ import SwiftUI
 /// ViewModel for race detail screen
 final class RaceDetailViewModel: ObservableObject {
     @Published var leaderboard: Leaderboard?
+    @Published var userEntry: Entry?
     @Published var isLoading: Bool = false
     @Published var isProcessing: Bool = false
     @Published var showingEntryConfirmation: Bool = false
@@ -12,6 +13,10 @@ final class RaceDetailViewModel: ObservableObject {
 
     private let raceService: RaceServiceProtocol
     private let walletService: WalletServiceProtocol
+
+    var isUserEntered: Bool { userEntry != nil }
+
+    var leaderboardUpdatedAt: Date? { leaderboard?.updatedAt }
 
     init(
         raceService: RaceServiceProtocol = RaceService.shared,
@@ -30,6 +35,15 @@ final class RaceDetailViewModel: ObservableObject {
             leaderboard = try await raceService.fetchRaceLeaderboard(raceId: raceId)
         } catch {
             errorMessage = "Failed to load leaderboard"
+        }
+    }
+
+    @MainActor
+    func loadUserEntry(raceId: String, userId: String) async {
+        do {
+            userEntry = try await raceService.fetchUserEntry(raceId: raceId, userId: userId)
+        } catch {
+            // Silently fail — user just hasn't entered
         }
     }
 

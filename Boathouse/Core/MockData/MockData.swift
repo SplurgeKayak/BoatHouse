@@ -398,6 +398,7 @@ enum MockData {
 
     static let races: [Race] = {
         [
+            // Weekly races (4 types)
             Race(
                 id: "race-001",
                 type: .fastest10km,
@@ -435,18 +436,6 @@ enum MockData {
                 )
             ),
             Race(
-                id: "race-003",
-                type: .fastest1km,
-                duration: .monthly,
-                category: .seniorWomen,
-                startDate: Date().addingTimeInterval(-86400 * 15),
-                endDate: Date().addingTimeInterval(86400 * 15),
-                entryCount: 145,
-                prizePool: 2318.55,
-                status: .active,
-                createdAt: Date().addingTimeInterval(-86400 * 15)
-            ),
-            Race(
                 id: "race-004",
                 type: .fastest5km,
                 duration: .weekly,
@@ -458,6 +447,85 @@ enum MockData {
                 status: .active,
                 createdAt: Date().addingTimeInterval(-86400 * 3)
             ),
+            Race(
+                id: "race-005",
+                type: .fastest1km,
+                duration: .weekly,
+                category: .seniorMen,
+                startDate: Date().addingTimeInterval(-86400 * 1),
+                endDate: Date().addingTimeInterval(86400 * 6),
+                entryCount: 56,
+                prizePool: 279.44,
+                status: .active,
+                createdAt: Date().addingTimeInterval(-86400 * 1),
+                currentWinner: RaceWinner(
+                    id: users[10].id,
+                    username: users[10].displayName,
+                    avatarURL: users[10].profileImageURL,
+                    stravaProfileURL: nil
+                )
+            ),
+            // Monthly races (4 types)
+            Race(
+                id: "race-003",
+                type: .fastest1km,
+                duration: .monthly,
+                category: .seniorMen,
+                startDate: Date().addingTimeInterval(-86400 * 15),
+                endDate: Date().addingTimeInterval(86400 * 15),
+                entryCount: 145,
+                prizePool: 2318.55,
+                status: .active,
+                createdAt: Date().addingTimeInterval(-86400 * 15)
+            ),
+            Race(
+                id: "race-006",
+                type: .fastest5km,
+                duration: .monthly,
+                category: .seniorMen,
+                startDate: Date().addingTimeInterval(-86400 * 10),
+                endDate: Date().addingTimeInterval(86400 * 20),
+                entryCount: 112,
+                prizePool: 1790.88,
+                status: .active,
+                createdAt: Date().addingTimeInterval(-86400 * 10),
+                currentWinner: RaceWinner(
+                    id: users[11].id,
+                    username: users[11].displayName,
+                    avatarURL: users[11].profileImageURL,
+                    stravaProfileURL: nil
+                )
+            ),
+            Race(
+                id: "race-007",
+                type: .fastest10km,
+                duration: .monthly,
+                category: .seniorMen,
+                startDate: Date().addingTimeInterval(-86400 * 12),
+                endDate: Date().addingTimeInterval(86400 * 18),
+                entryCount: 78,
+                prizePool: 1247.22,
+                status: .active,
+                createdAt: Date().addingTimeInterval(-86400 * 12)
+            ),
+            Race(
+                id: "race-008",
+                type: .furthestDistance,
+                duration: .monthly,
+                category: .seniorMen,
+                startDate: Date().addingTimeInterval(-86400 * 8),
+                endDate: Date().addingTimeInterval(86400 * 22),
+                entryCount: 201,
+                prizePool: 3213.99,
+                status: .active,
+                createdAt: Date().addingTimeInterval(-86400 * 8),
+                currentWinner: RaceWinner(
+                    id: users[9].id,
+                    username: users[9].displayName,
+                    avatarURL: users[9].profileImageURL,
+                    stravaProfileURL: nil
+                )
+            ),
         ]
     }()
 
@@ -465,12 +533,13 @@ enum MockData {
 
     static let entries: [Entry] = {
         let uId = racerUser.id
+        let userSessions = sessions.filter { $0.userId == uId }
         return [
             Entry(
                 id: "entry-001",
                 userId: uId,
                 raceId: "race-002",
-                sessionId: sessions.first { $0.userId == uId }?.id,
+                sessionId: userSessions.first?.id,
                 enteredAt: Date().addingTimeInterval(-86400 * 2),
                 score: 17.28,
                 rank: 5,
@@ -482,10 +551,34 @@ enum MockData {
                 id: "entry-002",
                 userId: uId,
                 raceId: "race-001",
-                sessionId: sessions.filter({ $0.userId == uId }).dropFirst().first?.id,
+                sessionId: userSessions.dropFirst().first?.id,
                 enteredAt: Date().addingTimeInterval(-3600 * 6),
                 score: 2520,
                 rank: 3,
+                status: .active,
+                prizeWon: nil,
+                transactionId: nil
+            ),
+            Entry(
+                id: "entry-003",
+                userId: uId,
+                raceId: "race-005",
+                sessionId: userSessions.dropFirst(2).first?.id,
+                enteredAt: Date().addingTimeInterval(-3600 * 12),
+                score: 185,
+                rank: 8,
+                status: .active,
+                prizeWon: nil,
+                transactionId: nil
+            ),
+            Entry(
+                id: "entry-004",
+                userId: uId,
+                raceId: "race-008",
+                sessionId: userSessions.dropFirst(3).first?.id,
+                enteredAt: Date().addingTimeInterval(-86400 * 5),
+                score: 28.45,
+                rank: 12,
                 status: .active,
                 prizeWon: nil,
                 transactionId: nil

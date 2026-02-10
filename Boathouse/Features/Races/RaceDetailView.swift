@@ -7,32 +7,39 @@ struct RaceDetailView: View {
     @EnvironmentObject var appState: AppState
     @Environment(\.dismiss) private var dismiss
     @State private var selectedSession: Session?
+    @State private var scrollProxy: ScrollViewProxy?
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 24) {
-                headerSection
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack(spacing: 24) {
+                    headerSection
 
-                raceSpecificRulesSection
+                    raceSpecificRulesSection
 
-                topThreeSection
+                    leadersPrizeCard
 
-                prizeSection
+                    rulesSection
 
-                rulesSection
+                    leaderboardSection
 
-                leaderboardSection
-
-                if race.canEnter && appState.isRacer {
-                    enterButton
+                    if viewModel.isUserEntered {
+                        yourPositionCard
+                    } else if race.canEnter && appState.isRacer {
+                        enterButton
+                    }
                 }
+                .padding()
             }
-            .padding()
+            .onAppear { scrollProxy = proxy }
         }
         .navigationTitle(race.type.displayName)
         .navigationBarTitleDisplayMode(.inline)
         .task {
             await viewModel.loadLeaderboard(for: race.id)
+            if let userId = appState.currentUser?.id {
+                await viewModel.loadUserEntry(raceId: race.id, userId: userId)
+            }
         }
         .sheet(isPresented: $viewModel.showingEntryConfirmation) {
             EntryConfirmationSheet(race: race, viewModel: viewModel)
@@ -144,87 +151,65 @@ struct RaceDetailView: View {
         }
     }
 
-    // MARK: - Top 3 Winners
+    // MARK: - Merged Leaders & Prizes Card
 
-    private var topThreeSection: some View {
-        Group {
+    private var leadersPrizeCard: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Current Leaders & Prizes")
+                .font(.headline)
+
             if let leaderboard = viewModel.leaderboard, !leaderboard.topThree.isEmpty {
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Current Leaders")
-                        .font(.headline)
+                let prizes = race.calculatePrizes()
 
-                    HStack(spacing: 0) {
-                        ForEach(leaderboard.topThree) { entry in
-                            Button {
-                                if let sessionId = entry.sessionId {
-                                    selectedSession = MockData.session(for: sessionId)
-                                }
-                            } label: {
-                                VStack(spacing: 8) {
-                                    ZStack(alignment: .bottomTrailing) {
-                                        AvatarView(
-                                            url: entry.userProfileURL,
-                                            initials: String(entry.userName.prefix(1)),
-                                            id: entry.userId,
-                                            size: 56
-                                        )
-
-                                        Circle()
-                                            .fill(podiumColor(for: entry.rank))
-                                            .frame(width: 22, height: 22)
-                                            .overlay {
-                                                Text("\(entry.rank)")
-                                                    .font(.caption2)
-                                                    .fontWeight(.bold)
-                                                    .foregroundStyle(.white)
-                                            }
-                                            .offset(x: 4, y: 4)
+                VStack(spacing: 12) {
+                    ForEach(leaderboard.topThree) { entry in
+                        Button {
+                            if let sessionId = entry.sessionId {
+                                selectedSession = MockData.session(for: sessionId)
+                            }
+                        } label: {
+                            HStack(spacing: 10) {
+                                Circle()
+                                    .fill(podiumColor(for: entry.rank))
+                                    .frame(width: 28, height: 28)
+                                    .overlay {
+                                        Text("\(entry.rank)")
+                                            .font(.caption)
+                                            .fontWeight(.bold)
+                                            .foregroundStyle(.white)
                                     }
 
-                                    Text(entry.userName.components(separatedBy: " ").first ?? entry.userName)
-                                        .font(.caption)
-                                        .lineLimit(1)
+                                Text(prizes.formattedPrize(for: entry.rank))
+                                    .font(.subheadline)
+                                    .fontWeight(.semibold)
+                                    .frame(width: 72, alignment: .leading)
 
-                                    Text(entry.formattedScore)
-                                        .font(.caption2)
-                                        .fontWeight(.semibold)
-                                        .foregroundStyle(.accent)
-                                }
-                                .frame(maxWidth: .infinity)
+                                AvatarView(
+                                    url: entry.userProfileURL,
+                                    initials: String(entry.userName.prefix(1)),
+                                    id: entry.userId,
+                                    size: 32
+                                )
+
+                                Text(entry.userName.components(separatedBy: " ").first ?? entry.userName)
+                                    .font(.subheadline)
+                                    .lineLimit(1)
+
+                                Spacer()
+
+                                Text(entry.formattedScore)
+                                    .font(.subheadline)
+                                    .fontWeight(.medium)
+                                    .foregroundStyle(.accent)
                             }
-                            .buttonStyle(.plain)
+                        }
+                        .buttonStyle(.plain)
+
+                        if entry.rank < leaderboard.topThree.count {
+                            Divider()
                         }
                     }
                 }
-                .padding()
-                .background(Color(.systemGray6))
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-            }
-        }
-    }
-
-    private func podiumColor(for rank: Int) -> Color {
-        switch rank {
-        case 1: return .yellow
-        case 2: return .gray
-        case 3: return .orange
-        default: return .secondary
-        }
-    }
-
-    // MARK: - Prize Pool
-
-    private var prizeSection: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("Prize Pool")
-                .font(.headline)
-
-            let prizes = race.calculatePrizes()
-
-            VStack(spacing: 12) {
-                PrizeRow(position: 1, amount: prizes.formattedPrize(for: 1), percentage: "75%")
-                PrizeRow(position: 2, amount: prizes.formattedPrize(for: 2), percentage: "20%")
-                PrizeRow(position: 3, amount: prizes.formattedPrize(for: 3), percentage: "5%")
             }
 
             HStack {
@@ -235,11 +220,26 @@ struct RaceDetailView: View {
                     .font(.headline)
                     .foregroundStyle(.accent)
             }
-            .padding(.top, 8)
+            .padding(.top, 4)
+
+            if let updatedAt = viewModel.leaderboardUpdatedAt {
+                Text("Leaderboard last refreshed: \(updatedAt.formatted(date: .abbreviated, time: .shortened))")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
         }
         .padding()
         .background(Color(.systemGray6))
         .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
+    private func podiumColor(for rank: Int) -> Color {
+        switch rank {
+        case 1: return .yellow
+        case 2: return .gray
+        case 3: return .orange
+        default: return .secondary
+        }
     }
 
     // MARK: - Race Rules (updated text)
@@ -317,6 +317,7 @@ struct RaceDetailView: View {
                                 LeaderboardDetailRow(entry: entry, raceType: race.type)
                             }
                             .buttonStyle(.plain)
+                            .id(entry.userId)
 
                             if entry.id != leaderboard.entries.prefix(10).last?.id {
                                 Divider()
@@ -329,6 +330,78 @@ struct RaceDetailView: View {
         .padding()
         .background(Color(.systemGray6))
         .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
+    // MARK: - Your Position Card
+
+    private var yourPositionCard: some View {
+        Button {
+            if let userId = appState.currentUser?.id {
+                withAnimation {
+                    scrollProxy?.scrollTo(userId, anchor: .center)
+                }
+            }
+        } label: {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Your Position")
+                    .font(.headline)
+                    .foregroundStyle(.white)
+
+                HStack(spacing: 12) {
+                    if let user = appState.currentUser {
+                        AvatarView(
+                            url: user.profileImageURL,
+                            initials: String(user.displayName.prefix(1)),
+                            id: user.id,
+                            size: 40
+                        )
+                    }
+
+                    if let entry = viewModel.userEntry {
+                        Text("#\(entry.rank ?? 0)")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.white)
+
+                        Text("Best: \(formattedUserScore(entry: entry))")
+                            .font(.subheadline)
+                            .foregroundStyle(.white.opacity(0.9))
+                    }
+
+                    Spacer()
+
+                    VStack(alignment: .trailing, spacing: 2) {
+                        Image(systemName: "clock")
+                            .font(.caption)
+                            .foregroundStyle(.white.opacity(0.8))
+                        Text(formatCountdown(race.timeRemaining))
+                            .font(.caption)
+                            .fontWeight(.medium)
+                            .foregroundStyle(.white.opacity(0.9))
+                        Text("remaining")
+                            .font(.caption2)
+                            .foregroundStyle(.white.opacity(0.7))
+                    }
+                }
+            }
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color.accentColor)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func formattedUserScore(entry: Entry) -> String {
+        guard let score = entry.score else { return "—" }
+        switch race.type {
+        case .furthestDistance:
+            return String(format: "%.2f km", score)
+        case .fastest1km, .fastest5km, .fastest10km:
+            let minutes = Int(score) / 60
+            let seconds = Int(score) % 60
+            return String(format: "%d:%02d", minutes, seconds)
+        }
     }
 
     // MARK: - Enter Button
@@ -387,58 +460,6 @@ struct StatBlock: View {
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity)
-    }
-}
-
-struct PrizeRow: View {
-    let position: Int
-    let amount: String
-    let percentage: String
-
-    var body: some View {
-        HStack {
-            Circle()
-                .fill(medalColor)
-                .frame(width: 32, height: 32)
-                .overlay {
-                    Text("\(position)")
-                        .font(.subheadline)
-                        .fontWeight(.bold)
-                        .foregroundStyle(.white)
-                }
-
-            Text(positionText)
-                .font(.subheadline)
-
-            Spacer()
-
-            Text(percentage)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-
-            Text(amount)
-                .font(.subheadline)
-                .fontWeight(.semibold)
-                .frame(width: 80, alignment: .trailing)
-        }
-    }
-
-    private var medalColor: Color {
-        switch position {
-        case 1: return .yellow
-        case 2: return .gray
-        case 3: return .orange
-        default: return .secondary
-        }
-    }
-
-    private var positionText: String {
-        switch position {
-        case 1: return "1st Place"
-        case 2: return "2nd Place"
-        case 3: return "3rd Place"
-        default: return "\(position)th Place"
-        }
     }
 }
 
