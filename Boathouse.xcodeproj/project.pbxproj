@@ -81,6 +81,7 @@
 		A10000000000000000000098 /* GoalsSplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000098 /* GoalsSplashView.swift */; };
 		A10000000000000000000099 /* DummyUserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000099 /* DummyUserStore.swift */; };
 		A10000000000000000000100 /* GoalsOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000100 /* GoalsOverlayView.swift */; };
+		A10000000000000000000101 /* ActivityStoryPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000101 /* ActivityStoryPopup.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -160,6 +161,7 @@
 		B10000000000000000000098 /* GoalsSplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsSplashView.swift; sourceTree = "<group>"; };
 		B10000000000000000000099 /* DummyUserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyUserStore.swift; sourceTree = "<group>"; };
 		B10000000000000000000100 /* GoalsOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsOverlayView.swift; sourceTree = "<group>"; };
+		B10000000000000000000101 /* ActivityStoryPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityStoryPopup.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -409,6 +411,7 @@
 				D10000000000000000000023 /* Styles */,
 				D10000000000000000000051 /* Layouts */,
 				B10000000000000000000071 /* AvatarView.swift */,
+				B10000000000000000000101 /* ActivityStoryPopup.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -589,6 +592,7 @@
 				A10000000000000000000098 /* GoalsSplashView.swift in Sources */,
 				A10000000000000000000099 /* DummyUserStore.swift in Sources */,
 				A10000000000000000000100 /* GoalsOverlayView.swift in Sources */,
+				A10000000000000000000101 /* ActivityStoryPopup.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

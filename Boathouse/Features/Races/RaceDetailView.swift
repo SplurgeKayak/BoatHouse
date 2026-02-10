@@ -6,11 +6,16 @@ struct RaceDetailView: View {
     @StateObject private var viewModel = RaceDetailViewModel()
     @EnvironmentObject var appState: AppState
     @Environment(\.dismiss) private var dismiss
+    @State private var selectedSession: Session?
 
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
                 headerSection
+
+                raceSpecificRulesSection
+
+                topThreeSection
 
                 prizeSection
 
@@ -32,6 +37,14 @@ struct RaceDetailView: View {
         .sheet(isPresented: $viewModel.showingEntryConfirmation) {
             EntryConfirmationSheet(race: race, viewModel: viewModel)
         }
+        .fullScreenCover(item: $selectedSession) { session in
+            let user = MockData.user(for: session.userId)
+            ActivityStoryPopup(
+                session: session,
+                athleteName: user?.displayName ?? "Athlete",
+                athleteAvatarURL: user?.profileImageURL
+            )
+        }
         .alert("Entry Successful", isPresented: $viewModel.showingSuccess) {
             Button("OK") { dismiss() }
         } message: {
@@ -43,6 +56,8 @@ struct RaceDetailView: View {
             Text(viewModel.errorMessage ?? "Something went wrong")
         }
     }
+
+    // MARK: - Header
 
     private var headerSection: some View {
         VStack(spacing: 16) {
@@ -89,6 +104,116 @@ struct RaceDetailView: View {
         }
     }
 
+    // MARK: - Race-Specific Rules (below title, above metrics)
+
+    private var raceSpecificRulesSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("About This Race")
+                .font(.headline)
+
+            RuleRow(icon: "trophy.fill", text: raceObjective)
+            RuleRow(icon: "person.fill", text: "Category: \(race.category.displayName)")
+            RuleRow(icon: "calendar", text: "Race duration: 1 \(race.duration.displayName.lowercased())")
+            RuleRow(icon: "clock.badge.checkmark", text: "Enter at least 48 hours before the race ends")
+            RuleRow(icon: "arrow.up.doc.fill", text: "Submit your activity before the race closes")
+
+            if race.type != .furthestDistance {
+                RuleRow(icon: "ruler", text: "Session must cover at least \(minimumDistance)")
+            }
+        }
+        .padding()
+        .background(Color(.systemGray6))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
+    private var raceObjective: String {
+        switch race.type {
+        case .fastest1km: return "Record the fastest 1km split in a single session"
+        case .fastest5km: return "Record the fastest 5km split in a single session"
+        case .fastest10km: return "Record the fastest 10km split in a single session"
+        case .furthestDistance: return "Record the longest total distance in a single session"
+        }
+    }
+
+    private var minimumDistance: String {
+        switch race.type {
+        case .fastest1km: return "1 km"
+        case .fastest5km: return "5 km"
+        case .fastest10km: return "10 km"
+        case .furthestDistance: return ""
+        }
+    }
+
+    // MARK: - Top 3 Winners
+
+    private var topThreeSection: some View {
+        Group {
+            if let leaderboard = viewModel.leaderboard, !leaderboard.topThree.isEmpty {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Current Leaders")
+                        .font(.headline)
+
+                    HStack(spacing: 0) {
+                        ForEach(leaderboard.topThree) { entry in
+                            Button {
+                                if let sessionId = entry.sessionId {
+                                    selectedSession = MockData.session(for: sessionId)
+                                }
+                            } label: {
+                                VStack(spacing: 8) {
+                                    ZStack(alignment: .bottomTrailing) {
+                                        AvatarView(
+                                            url: entry.userProfileURL,
+                                            initials: String(entry.userName.prefix(1)),
+                                            id: entry.userId,
+                                            size: 56
+                                        )
+
+                                        Circle()
+                                            .fill(podiumColor(for: entry.rank))
+                                            .frame(width: 22, height: 22)
+                                            .overlay {
+                                                Text("\(entry.rank)")
+                                                    .font(.caption2)
+                                                    .fontWeight(.bold)
+                                                    .foregroundStyle(.white)
+                                            }
+                                            .offset(x: 4, y: 4)
+                                    }
+
+                                    Text(entry.userName.components(separatedBy: " ").first ?? entry.userName)
+                                        .font(.caption)
+                                        .lineLimit(1)
+
+                                    Text(entry.formattedScore)
+                                        .font(.caption2)
+                                        .fontWeight(.semibold)
+                                        .foregroundStyle(.accent)
+                                }
+                                .frame(maxWidth: .infinity)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                }
+                .padding()
+                .background(Color(.systemGray6))
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+            }
+        }
+    }
+
+    private func podiumColor(for rank: Int) -> Color {
+        switch rank {
+        case 1: return .yellow
+        case 2: return .gray
+        case 3: return .orange
+        default: return .secondary
+        }
+    }
+
+    // MARK: - Prize Pool
+
     private var prizeSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Prize Pool")
@@ -117,6 +242,8 @@ struct RaceDetailView: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
+    // MARK: - Race Rules (updated text)
+
     private var rulesSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Race Rules")
@@ -125,7 +252,8 @@ struct RaceDetailView: View {
             VStack(alignment: .leading, spacing: 8) {
                 RuleRow(icon: "location.fill", text: "Sessions must be completed in the UK")
                 RuleRow(icon: "antenna.radiowaves.left.and.right", text: "GPS verification required")
-                RuleRow(icon: "clock.badge.checkmark", text: "Entry closes 3 hours before race ends")
+                RuleRow(icon: "clock.badge.checkmark", text: "You must enter the race at least 48 hours before the race ends")
+                RuleRow(icon: "arrow.up.doc.fill", text: "You must submit your activity before the race closes")
                 RuleRow(icon: "figure.rowing", text: "Canoe and kayak sessions only")
             }
 
@@ -156,6 +284,8 @@ struct RaceDetailView: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
+    // MARK: - Leaderboard (clickable rows)
+
     private var leaderboardSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
@@ -179,7 +309,15 @@ struct RaceDetailView: View {
                 } else {
                     VStack(spacing: 0) {
                         ForEach(leaderboard.entries.prefix(10)) { entry in
-                            LeaderboardDetailRow(entry: entry, raceType: race.type)
+                            Button {
+                                if let sessionId = entry.sessionId {
+                                    selectedSession = MockData.session(for: sessionId)
+                                }
+                            } label: {
+                                LeaderboardDetailRow(entry: entry, raceType: race.type)
+                            }
+                            .buttonStyle(.plain)
+
                             if entry.id != leaderboard.entries.prefix(10).last?.id {
                                 Divider()
                             }
@@ -192,6 +330,8 @@ struct RaceDetailView: View {
         .background(Color(.systemGray6))
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
+
+    // MARK: - Enter Button
 
     private var enterButton: some View {
         Button {
@@ -330,14 +470,12 @@ struct LeaderboardDetailRow: View {
                 .frame(width: 30)
                 .foregroundStyle(medalColor)
 
-            Circle()
-                .fill(Color(.systemGray5))
-                .frame(width: 36, height: 36)
-                .overlay {
-                    Text(String(entry.userName.prefix(1)))
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                }
+            AvatarView(
+                url: entry.userProfileURL,
+                initials: String(entry.userName.prefix(1)),
+                id: entry.userId,
+                size: 36
+            )
 
             Text(entry.userName)
                 .font(.subheadline)

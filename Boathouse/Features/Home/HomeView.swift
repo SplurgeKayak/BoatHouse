@@ -8,6 +8,7 @@ struct HomeView: View {
     @StateObject private var storyViewModel = StoryFeedViewModel()
     @EnvironmentObject var appState: AppState
     @State private var selectedSession: Session?
+    @State private var selectedLeaderboardSession: Session?
 
     var body: some View {
         NavigationStack {
@@ -61,6 +62,14 @@ struct HomeView: View {
                         onMarkSeen: { ids in storyViewModel.markSessionsAsSeen(ids, sessions: viewModel.sessions) }
                     )
                 }
+            }
+            .fullScreenCover(item: $selectedLeaderboardSession) { session in
+                let user = MockData.user(for: session.userId)
+                ActivityStoryPopup(
+                    session: session,
+                    athleteName: user?.displayName ?? "Athlete",
+                    athleteAvatarURL: user?.profileImageURL
+                )
             }
         }
     }
@@ -155,7 +164,14 @@ struct HomeView: View {
             if let leaderboard = viewModel.currentLeaderboard {
                 VStack(spacing: 8) {
                     ForEach(leaderboard.topThree) { entry in
-                        LeaderboardRow(entry: entry)
+                        Button {
+                            if let sessionId = entry.sessionId {
+                                selectedLeaderboardSession = MockData.session(for: sessionId)
+                            }
+                        } label: {
+                            LeaderboardRow(entry: entry)
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
                 .padding(.horizontal)

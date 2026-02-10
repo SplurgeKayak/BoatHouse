@@ -192,6 +192,18 @@ enum MockData {
         userMap[id]
     }
 
+    // MARK: - Session Lookup
+
+    /// Cached dictionary for O(1) session lookups by id.
+    private static let sessionMap: [String: Session] = {
+        Dictionary(uniqueKeysWithValues: sessions.map { ($0.id, $0) })
+    }()
+
+    /// Look up a session by its id. Returns nil for unknown ids.
+    static func session(for id: String) -> Session? {
+        sessionMap[id]
+    }
+
     // MARK: - Convenience Aliases
 
     /// James Wilson (Senior Men) — used by ContentView and AuthViewModel
@@ -502,7 +514,7 @@ enum MockData {
                     rank: i + 1,
                     userId: item.user.id,
                     userName: item.user.displayName,
-                    userProfileURL: nil,
+                    userProfileURL: item.user.profileImageURL,
                     score: item.score,
                     sessionId: sessions.first { $0.userId == item.user.id }?.id,
                     raceType: .furthestDistance

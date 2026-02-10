@@ -6,6 +6,7 @@ struct LeaderboardView: View {
     let raceType: RaceType
 
     @StateObject private var viewModel = LeaderboardViewModel()
+    @State private var selectedSession: Session?
 
     var body: some View {
         List {
@@ -15,7 +16,14 @@ struct LeaderboardView: View {
                     .listRowBackground(Color.clear)
             } else if let leaderboard = viewModel.leaderboard {
                 ForEach(leaderboard.entries) { entry in
-                    LeaderboardFullRow(entry: entry, raceType: raceType)
+                    Button {
+                        if let sessionId = entry.sessionId {
+                            selectedSession = MockData.session(for: sessionId)
+                        }
+                    } label: {
+                        LeaderboardFullRow(entry: entry, raceType: raceType)
+                    }
+                    .buttonStyle(.plain)
                 }
             }
         }
@@ -24,6 +32,14 @@ struct LeaderboardView: View {
         .navigationBarTitleDisplayMode(.inline)
         .task {
             await viewModel.loadLeaderboard(duration: duration, raceType: raceType)
+        }
+        .fullScreenCover(item: $selectedSession) { session in
+            let user = MockData.user(for: session.userId)
+            ActivityStoryPopup(
+                session: session,
+                athleteName: user?.displayName ?? "Athlete",
+                athleteAvatarURL: user?.profileImageURL
+            )
         }
     }
 }

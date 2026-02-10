@@ -27,7 +27,7 @@ struct Race: Identifiable, Codable, Equatable {
     }
 
     var entryDeadline: Date {
-        endDate.addingTimeInterval(-3 * 60 * 60)
+        endDate.addingTimeInterval(-48 * 60 * 60)
     }
 
     var canEnter: Bool {
