@@ -44,30 +44,18 @@ struct User: Identifiable, Codable, Equatable {
     var eligibleCategories: [RaceCategory] {
         guard let age = age, let gender = gender else { return [] }
 
-        var categories: [RaceCategory] = []
-
         switch (age, gender) {
-        case (let a, .female) where a < 18:
-            categories = [.juniorGirls, .juniorBoys, .womenU23, .menU23, .seniorWomen, .seniorMen, .mastersWomen, .mastersMen]
         case (let a, .male) where a < 18:
-            categories = [.juniorBoys, .menU23, .seniorMen, .mastersMen]
-        case (let a, .female) where a < 23:
-            categories = [.womenU23, .menU23, .seniorWomen, .seniorMen, .mastersWomen, .mastersMen]
-        case (let a, .male) where a < 23:
-            categories = [.menU23, .seniorMen, .mastersMen]
-        case (let a, .female) where a < 35:
-            categories = [.seniorWomen, .seniorMen, .mastersWomen, .mastersMen]
-        case (let a, .male) where a < 35:
-            categories = [.seniorMen, .mastersMen]
-        case (_, .female):
-            categories = [.mastersWomen, .mastersMen]
+            return [.juniorMen]
+        case (let a, .female) where a < 18:
+            return [.juniorWomen]
         case (_, .male):
-            categories = [.mastersMen]
+            return [.seniorMen]
+        case (_, .female):
+            return [.seniorWomen]
         default:
-            categories = []
+            return []
         }
-
-        return categories
     }
 
     var isStravaConnected: Bool {

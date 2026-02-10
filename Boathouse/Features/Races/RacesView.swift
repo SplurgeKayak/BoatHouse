@@ -31,9 +31,8 @@ struct RacesView: View {
     private var filterSection: some View {
         VStack(spacing: 12) {
             Picker("Duration", selection: $viewModel.selectedDuration) {
-                Text("All").tag(RaceDuration?.none)
                 ForEach(RaceDuration.allCases) { duration in
-                    Text(duration.displayName).tag(Optional(duration))
+                    Text(duration.displayName).tag(duration)
                 }
             }
             .pickerStyle(.segmented)
@@ -134,12 +133,7 @@ struct RaceCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Image(systemName: race.type.icon)
-                    .font(.title2)
-                    .foregroundStyle(.accent)
-                    .frame(width: 44, height: 44)
-                    .background(Color.accentColor.opacity(0.1))
-                    .clipShape(Circle())
+                RaceTypeIcon(type: race.type, size: 44)
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(race.type.displayName)
@@ -156,14 +150,39 @@ struct RaceCard: View {
 
                 Spacer()
 
-                VStack(alignment: .trailing, spacing: 4) {
-                    Text(race.formattedPrizePool)
-                        .font(.headline)
-                        .foregroundStyle(.accent)
+                HStack(spacing: 10) {
+                    if let winner = race.currentWinner {
+                        HStack(spacing: 6) {
+                            AsyncImage(url: winner.avatarURL) { image in
+                                image.resizable().scaledToFill()
+                            } placeholder: {
+                                Circle()
+                                    .fill(Color(.systemGray5))
+                                    .overlay {
+                                        Text(String(winner.username.prefix(1)))
+                                            .font(.caption2)
+                                            .fontWeight(.medium)
+                                    }
+                            }
+                            .frame(width: 28, height: 28)
+                            .clipShape(Circle())
 
-                    Text("Prize Pool")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                            Text(winner.username)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .lineLimit(1)
+                        }
+                    }
+
+                    VStack(alignment: .trailing, spacing: 4) {
+                        Text(race.formattedPrizePool)
+                            .font(.headline)
+                            .foregroundStyle(.accent)
+
+                        Text("Prize Pool")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
 
@@ -237,6 +256,38 @@ struct StatColumn: View {
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity)
+    }
+}
+
+/// Reusable race type icon: Text-in-Circle for distance races, SF Symbol for furthest distance
+struct RaceTypeIcon: View {
+    let type: RaceType
+    var size: CGFloat = 44
+
+    var body: some View {
+        Group {
+            switch type {
+            case .fastest1km:
+                Text("1")
+                    .font(.system(size: size * 0.45, weight: .bold, design: .rounded))
+                    .foregroundStyle(.accent)
+            case .fastest5km:
+                Text("5")
+                    .font(.system(size: size * 0.45, weight: .bold, design: .rounded))
+                    .foregroundStyle(.accent)
+            case .fastest10km:
+                Text("10")
+                    .font(.system(size: size * 0.4, weight: .bold, design: .rounded))
+                    .foregroundStyle(.accent)
+            case .furthestDistance:
+                Image(systemName: type.icon)
+                    .font(.system(size: size * 0.4))
+                    .foregroundStyle(.accent)
+            }
+        }
+        .frame(width: size, height: size)
+        .background(Color.accentColor.opacity(0.1))
+        .clipShape(Circle())
     }
 }
 

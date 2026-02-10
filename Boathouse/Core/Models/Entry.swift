@@ -78,8 +78,6 @@ struct LeaderboardEntry: Identifiable, Codable, Equatable {
 
     var formattedScore: String {
         switch raceType {
-        case .topSpeed:
-            return String(format: "%.1f km/h", score)
         case .furthestDistance:
             return String(format: "%.2f km", score)
         case .fastest1km, .fastest5km, .fastest10km:

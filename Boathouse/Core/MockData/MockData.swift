@@ -362,7 +362,7 @@ enum MockData {
                 walletId: wId,
                 type: .entryFee,
                 amount: 4.99,
-                description: "Weekly Top Speed - Senior Men",
+                description: "Weekly Fastest 10km - Over 18 Men",
                 status: .completed,
                 relatedRaceId: "race-001",
                 relatedEntryId: "entry-001",
@@ -388,15 +388,21 @@ enum MockData {
         [
             Race(
                 id: "race-001",
-                type: .topSpeed,
-                duration: .daily,
+                type: .fastest10km,
+                duration: .weekly,
                 category: .seniorMen,
-                startDate: Calendar.current.startOfDay(for: Date()),
-                endDate: Calendar.current.startOfDay(for: Date()).addingTimeInterval(86400),
+                startDate: Date().addingTimeInterval(-86400 * 2),
+                endDate: Date().addingTimeInterval(86400 * 5),
                 entryCount: 34,
-                prizePool: 34.00,
+                prizePool: 169.66,
                 status: .active,
-                createdAt: Calendar.current.startOfDay(for: Date())
+                createdAt: Date().addingTimeInterval(-86400 * 2),
+                currentWinner: RaceWinner(
+                    id: users[9].id,
+                    username: users[9].displayName,
+                    avatarURL: users[9].profileImageURL,
+                    stravaProfileURL: nil
+                )
             ),
             Race(
                 id: "race-002",
@@ -408,7 +414,13 @@ enum MockData {
                 entryCount: 89,
                 prizePool: 444.11,
                 status: .active,
-                createdAt: Date().addingTimeInterval(-86400 * 3)
+                createdAt: Date().addingTimeInterval(-86400 * 3),
+                currentWinner: RaceWinner(
+                    id: users[8].id,
+                    username: users[8].displayName,
+                    avatarURL: users[8].profileImageURL,
+                    stravaProfileURL: nil
+                )
             ),
             Race(
                 id: "race-003",
@@ -426,7 +438,7 @@ enum MockData {
                 id: "race-004",
                 type: .fastest5km,
                 duration: .weekly,
-                category: .mastersMen,
+                category: .seniorMen,
                 startDate: Date().addingTimeInterval(-86400 * 3),
                 endDate: Date().addingTimeInterval(86400 * 4),
                 entryCount: 42,
@@ -460,7 +472,7 @@ enum MockData {
                 raceId: "race-001",
                 sessionId: sessions.filter({ $0.userId == uId }).dropFirst().first?.id,
                 enteredAt: Date().addingTimeInterval(-3600 * 6),
-                score: 18.72,
+                score: 2520,
                 rank: 3,
                 status: .active,
                 prizeWon: nil,
@@ -493,7 +505,7 @@ enum MockData {
                     userProfileURL: nil,
                     score: item.score,
                     sessionId: sessions.first { $0.userId == item.user.id }?.id,
-                    raceType: .topSpeed
+                    raceType: .furthestDistance
                 )
             },
             updatedAt: Date()

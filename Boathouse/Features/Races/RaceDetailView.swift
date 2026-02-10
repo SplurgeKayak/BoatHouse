@@ -47,9 +47,7 @@ struct RaceDetailView: View {
     private var headerSection: some View {
         VStack(spacing: 16) {
             HStack {
-                Image(systemName: race.type.icon)
-                    .font(.system(size: 40))
-                    .foregroundStyle(.accent)
+                RaceTypeIcon(type: race.type, size: 48)
 
                 VStack(alignment: .leading) {
                     Text(race.type.displayName)
@@ -375,9 +373,7 @@ struct EntryConfirmationSheet: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 24) {
-                Image(systemName: race.type.icon)
-                    .font(.system(size: 60))
-                    .foregroundStyle(.accent)
+                RaceTypeIcon(type: race.type, size: 60)
 
                 Text("Confirm Entry")
                     .font(.title2)

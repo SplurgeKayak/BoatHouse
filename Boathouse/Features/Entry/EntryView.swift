@@ -123,8 +123,7 @@ struct EntryCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Image(systemName: race.type.icon)
-                    .foregroundStyle(.accent)
+                RaceTypeIcon(type: race.type, size: 28)
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(race.type.displayName)
@@ -228,8 +227,6 @@ struct EntryCard: View {
 
     private func formatScore(_ score: Double, for type: RaceType) -> String {
         switch type {
-        case .topSpeed:
-            return String(format: "%.1f km/h", score)
         case .furthestDistance:
             return String(format: "%.2f km", score)
         case .fastest1km, .fastest5km, .fastest10km:

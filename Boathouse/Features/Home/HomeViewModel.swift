@@ -40,14 +40,10 @@ final class HomeViewModel: ObservableObject {
         // 1. Time-period filter
         let timeFiltered = sessions.filter { session in
             switch timeFilter {
-            case .daily:
-                return calendar.isDateInToday(session.startDate)
             case .weekly:
                 return calendar.isDate(session.startDate, equalTo: now, toGranularity: .weekOfYear)
             case .monthly:
                 return calendar.isDate(session.startDate, equalTo: now, toGranularity: .month)
-            case .yearly:
-                return calendar.isDate(session.startDate, equalTo: now, toGranularity: .year)
             }
         }
 
@@ -77,7 +73,7 @@ final class HomeViewModel: ObservableObject {
                     let bt = b.fastest10kmTime ?? .infinity
                     return at != bt ? at < bt : a.id < b.id
                 }
-        default:
+        case .furthestDistance:
             return timeFiltered.sorted { $0.startDate > $1.startDate }
         }
     }

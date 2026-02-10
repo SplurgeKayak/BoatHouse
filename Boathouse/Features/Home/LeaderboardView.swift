@@ -125,7 +125,7 @@ final class LeaderboardViewModel: ObservableObject {
 
 #Preview {
     NavigationStack {
-        LeaderboardView(duration: .daily, raceType: .topSpeed)
+        LeaderboardView(duration: .weekly, raceType: .furthestDistance)
             .environmentObject(AppState())
     }
 }

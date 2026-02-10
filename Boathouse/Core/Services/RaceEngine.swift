@@ -9,9 +9,6 @@ final class RaceEngine {
         guard session.isEligibleForRaces else { return nil }
 
         switch raceType {
-        case .topSpeed:
-            return session.maxSpeedKmh
-
         case .furthestDistance:
             return session.distanceKm
 
@@ -29,7 +26,7 @@ final class RaceEngine {
     /// Determine if a higher or lower score is better
     func isBetterScore(_ score1: Double, than score2: Double, for raceType: RaceType) -> Bool {
         switch raceType {
-        case .topSpeed, .furthestDistance:
+        case .furthestDistance:
             return score1 > score2
 
         case .fastest1km, .fastest5km, .fastest10km:
@@ -43,7 +40,7 @@ final class RaceEngine {
 
         let sorted: [Entry]
         switch raceType {
-        case .topSpeed, .furthestDistance:
+        case .furthestDistance:
             sorted = scoredEntries.sorted { ($0.score ?? 0) > ($1.score ?? 0) }
         case .fastest1km, .fastest5km, .fastest10km:
             sorted = scoredEntries.sorted { ($0.score ?? .infinity) < ($1.score ?? .infinity) }
@@ -115,7 +112,7 @@ final class RaceEngine {
             guard session.distanceKm >= 10.0 else {
                 return .ineligible(reason: "Session must be at least 10km")
             }
-        default:
+        case .furthestDistance:
             break
         }
 
