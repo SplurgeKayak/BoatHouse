@@ -138,7 +138,7 @@ struct RaceDetailView: View {
         case .fastest1km: return "Record the fastest 1km split in a single session"
         case .fastest5km: return "Record the fastest 5km split in a single session"
         case .fastest10km: return "Record the fastest 10km split in a single session"
-        case .furthestDistance: return "Record the longest total distance in a single session"
+        case .furthestDistance: return "Accumulate the greatest total distance across all sessions"
         }
     }
 
@@ -308,7 +308,7 @@ struct RaceDetailView: View {
                         .padding()
                 } else {
                     VStack(spacing: 0) {
-                        ForEach(leaderboard.entries.prefix(10)) { entry in
+                        ForEach(leaderboard.entries) { entry in
                             Button {
                                 if let sessionId = entry.sessionId {
                                     selectedSession = MockData.session(for: sessionId)
@@ -319,7 +319,7 @@ struct RaceDetailView: View {
                             .buttonStyle(.plain)
                             .id(entry.userId)
 
-                            if entry.id != leaderboard.entries.prefix(10).last?.id {
+                            if entry.id != leaderboard.entries.last?.id {
                                 Divider()
                             }
                         }
@@ -357,13 +357,16 @@ struct RaceDetailView: View {
                         )
                     }
 
-                    if let entry = viewModel.userEntry {
-                        Text("#\(entry.rank ?? 0)")
+                    if let userId = appState.currentUser?.id {
+                        let rank = viewModel.userRank(userId: userId) ?? 0
+                        let score = viewModel.userScore(userId: userId)
+
+                        Text("#\(rank)")
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundStyle(.white)
 
-                        Text("Best: \(formattedUserScore(entry: entry))")
+                        Text("Best: \(formattedScore(score: score))")
                             .font(.subheadline)
                             .foregroundStyle(.white.opacity(0.9))
                     }
@@ -392,8 +395,8 @@ struct RaceDetailView: View {
         .buttonStyle(.plain)
     }
 
-    private func formattedUserScore(entry: Entry) -> String {
-        guard let score = entry.score else { return "—" }
+    private func formattedScore(score: Double?) -> String {
+        guard let score = score else { return "—" }
         switch race.type {
         case .furthestDistance:
             return String(format: "%.2f km", score)

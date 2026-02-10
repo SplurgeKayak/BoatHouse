@@ -226,6 +226,15 @@ enum MockData {
         )
     }()
 
+    // MARK: - Split-time ranges (seconds)
+    //   1km:  3:33 (213s)  – 8:56 (536s)
+    //   5km: 19:54 (1194s) – 65:06 (3906s)
+    //  10km: 39:01 (2341s) – 95:56 (5756s)
+
+    private static let split1kmRange:  (min: Double, max: Double) = (213, 536)
+    private static let split5kmRange:  (min: Double, max: Double) = (1194, 3906)
+    private static let split10kmRange: (min: Double, max: Double) = (2341, 5756)
+
     // MARK: - Sessions (375 = 15 users x 25 sessions)
 
     static let sessions: [Session] = {
@@ -242,6 +251,15 @@ enum MockData {
     }()
 
     /// Generate 25 sessions for a user with guaranteed time-bucket coverage.
+    ///
+    /// Session layout per user (25 total):
+    ///   0  — Bucket A (today)      ≥10 km   (qualifies 1/5/10km + distance)
+    ///   1  — Bucket B (this week)  ≥10 km
+    ///   2  — Bucket B (this week)  ≥10 km   (extra weekly session for distance accumulation)
+    ///   3  — Bucket C (this month) ≥10 km
+    ///   4  — Bucket C (this month) ≥10 km   (extra monthly session)
+    ///   5  — Bucket D (this year)  ≥10 km
+    ///   6…24 — random bucket, random distance 1–35 km
     static func generateSessions<RNG: RandomNumberGenerator>(
         for user: User,
         rng: inout RNG
@@ -257,13 +275,29 @@ enum MockData {
             (86400 * 31,    86400 * 365),
         ]
 
+        // Guaranteed layout: (bucketIndex, minimumDistanceMeters)
+        let guaranteedLayout: [(bucket: Int, minDist: Double)] = [
+            (0, 10000),  // Bucket A, ≥10 km
+            (1, 10000),  // Bucket B, ≥10 km
+            (1, 10000),  // Bucket B, ≥10 km (second weekly)
+            (2, 10000),  // Bucket C, ≥10 km
+            (2, 10000),  // Bucket C, ≥10 km (second monthly)
+            (3, 10000),  // Bucket D, ≥10 km
+        ]
+
         var sessions: [Session] = []
 
         for sessionIndex in 0..<25 {
-            // First 4 sessions guarantee one per bucket; rest are random
-            let bucketIndex = sessionIndex < 4
-                ? sessionIndex
-                : Int.random(in: 0...3, using: &rng)
+            let bucketIndex: Int
+            let minDistance: Double
+
+            if sessionIndex < guaranteedLayout.count {
+                bucketIndex = guaranteedLayout[sessionIndex].bucket
+                minDistance = guaranteedLayout[sessionIndex].minDist
+            } else {
+                bucketIndex = Int.random(in: 0...3, using: &rng)
+                minDistance = 1000
+            }
 
             let range = bucketRanges[bucketIndex]
             let secondsAgo = Double.random(in: range.min...range.max, using: &rng)
@@ -272,8 +306,8 @@ enum MockData {
             // Route
             let route = randomRoute(rng: &rng)
 
-            // Distance: 1,000–35,000 m
-            let distance = Double.random(in: 1000...35000, using: &rng)
+            // Distance: guaranteed minimum up to 35 km
+            let distance = Double.random(in: minDistance...35000, using: &rng)
 
             // Speeds (m/s)
             let averageSpeed = Double.random(in: 1.8...3.8, using: &rng)
@@ -286,15 +320,15 @@ enum MockData {
             // Session type: kayaking or canoeing only
             let sessionType: SessionType = Bool.random(using: &rng) ? .kayaking : .canoeing
 
-            // Segment times — fastest segment is quicker than overall average
+            // Segment split times — drawn from required ranges
             let fastest1km: TimeInterval? = distance >= 1000
-                ? 1000 / (averageSpeed * Double.random(in: 1.3...1.9, using: &rng))
+                ? Double.random(in: split1kmRange.min...split1kmRange.max, using: &rng)
                 : nil
             let fastest5km: TimeInterval? = distance >= 5000
-                ? 5000 / (averageSpeed * Double.random(in: 1.2...1.6, using: &rng))
+                ? Double.random(in: split5kmRange.min...split5kmRange.max, using: &rng)
                 : nil
             let fastest10km: TimeInterval? = distance >= 10000
-                ? 10000 / (averageSpeed * Double.random(in: 1.2...1.5, using: &rng))
+                ? Double.random(in: split10kmRange.min...split10kmRange.max, using: &rng)
                 : nil
 
             // Polyline (point count scales with distance, 20–60 points)
@@ -529,93 +563,51 @@ enum MockData {
         ]
     }()
 
-    // MARK: - Entries
+    // MARK: - Entries (15 users × 8 races = 120 entries)
+    //
+    // Every user is entered in every race.  Score and rank are nil here;
+    // they are computed dynamically by RaceEngine.buildLeaderboard().
 
     static let entries: [Entry] = {
-        let uId = racerUser.id
-        let userSessions = sessions.filter { $0.userId == uId }
-        return [
-            Entry(
-                id: "entry-001",
-                userId: uId,
-                raceId: "race-002",
-                sessionId: userSessions.first?.id,
-                enteredAt: Date().addingTimeInterval(-86400 * 2),
-                score: 17.28,
-                rank: 5,
-                status: .active,
-                prizeWon: nil,
-                transactionId: "txn-002"
-            ),
-            Entry(
-                id: "entry-002",
-                userId: uId,
-                raceId: "race-001",
-                sessionId: userSessions.dropFirst().first?.id,
-                enteredAt: Date().addingTimeInterval(-3600 * 6),
-                score: 2520,
-                rank: 3,
-                status: .active,
-                prizeWon: nil,
-                transactionId: nil
-            ),
-            Entry(
-                id: "entry-003",
-                userId: uId,
-                raceId: "race-005",
-                sessionId: userSessions.dropFirst(2).first?.id,
-                enteredAt: Date().addingTimeInterval(-3600 * 12),
-                score: 185,
-                rank: 8,
-                status: .active,
-                prizeWon: nil,
-                transactionId: nil
-            ),
-            Entry(
-                id: "entry-004",
-                userId: uId,
-                raceId: "race-008",
-                sessionId: userSessions.dropFirst(3).first?.id,
-                enteredAt: Date().addingTimeInterval(-86400 * 5),
-                score: 28.45,
-                rank: 12,
-                status: .active,
-                prizeWon: nil,
-                transactionId: nil
-            ),
-        ]
+        var rng = SeededRNG(seed: 9999)
+        var result: [Entry] = []
+        var counter = 1
+
+        for race in races {
+            for user in users {
+                let entryId = String(format: "entry-%04d", counter)
+                let daysAgo = Double.random(in: 0.5...3.0, using: &rng)
+
+                result.append(Entry(
+                    id: entryId,
+                    userId: user.id,
+                    raceId: race.id,
+                    sessionId: nil,
+                    enteredAt: race.startDate.addingTimeInterval(86400 * daysAgo),
+                    score: nil,
+                    rank: nil,
+                    status: .active,
+                    prizeWon: nil,
+                    transactionId: nil
+                ))
+                counter += 1
+            }
+        }
+
+        return result
     }()
 
-    // MARK: - Leaderboard
+    // MARK: - Leaderboard (computed dynamically)
+    //
+    // Leaderboards are now built on-the-fly by RaceEngine.buildLeaderboard()
+    // using session data + entries.  There is no static leaderboard.
 
-    static let leaderboard: Leaderboard = {
-        // Pick 5 users from different groups for a diverse leaderboard
-        let lbUsers: [(user: User, score: Double)] = [
-            (users[9],  22.4),  // Daniel Thompson — Senior Men
-            (users[4],  21.8),  // Sophie Clarke — U18 Women
-            (users[8],  20.5),  // James Wilson — Senior Men
-            (users[12], 19.2),  // Emily Roberts — Senior Women
-            (users[0],  17.3),  // Ethan Parker — U18 Men
-        ]
-
-        return Leaderboard(
-            id: "leaderboard-001",
-            raceId: "race-002",
-            entries: lbUsers.enumerated().map { i, item in
-                LeaderboardEntry(
-                    id: "lb-\(String(format: "%03d", i + 1))",
-                    rank: i + 1,
-                    userId: item.user.id,
-                    userName: item.user.displayName,
-                    userProfileURL: item.user.profileImageURL,
-                    score: item.score,
-                    sessionId: sessions.first { $0.userId == item.user.id }?.id,
-                    raceType: .furthestDistance
-                )
-            },
-            updatedAt: Date()
-        )
-    }()
+    /// Convenience: build a leaderboard for a specific race from current mock data.
+    static func leaderboard(for raceId: String) -> Leaderboard? {
+        guard let race = races.first(where: { $0.id == raceId }) else { return nil }
+        let raceEntries = entries.filter { $0.raceId == raceId }
+        return RaceEngine.shared.buildLeaderboard(for: race, entries: raceEntries, sessions: sessions)
+    }
 
     // MARK: - Debug Verification
 
@@ -650,6 +642,20 @@ enum MockData {
             assert(hasB, "MockData: \(user.id) missing 'last week' session")
             assert(hasC, "MockData: \(user.id) missing 'last month' session")
             assert(hasD, "MockData: \(user.id) missing 'last year' session")
+
+            // Every user must have ≥1 session ≥10km within last 7 days (weekly races)
+            let weeklyLong = uSessions.contains {
+                now.timeIntervalSince($0.startDate) <= 86400 * 7 && $0.distanceKm >= 10.0
+            }
+            assert(weeklyLong,
+                   "MockData: \(user.id) missing ≥10km session in weekly window")
+
+            // Every user must have ≥1 session ≥10km within last 30 days (monthly races)
+            let monthlyLong = uSessions.contains {
+                now.timeIntervalSince($0.startDate) <= 86400 * 30 && $0.distanceKm >= 10.0
+            }
+            assert(monthlyLong,
+                   "MockData: \(user.id) missing ≥10km session in monthly window")
         }
     }
     #endif

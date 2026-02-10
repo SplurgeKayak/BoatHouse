@@ -13,14 +13,104 @@ final class RaceEngine {
             return session.distanceKm
 
         case .fastest1km:
-            return session.best1kmTime()
+            return session.fastest1kmTime
 
         case .fastest5km:
-            return session.best5kmTime()
+            return session.fastest5kmTime
 
         case .fastest10km:
-            return session.best10kmTime()
+            return session.fastest10kmTime
         }
+    }
+
+    // MARK: - Leaderboard Computation (single source of truth)
+
+    /// Build a complete leaderboard for a race from entries + sessions.
+    ///
+    /// Ranking rules:
+    ///   - `.fastest1km/5km/10km`: best (lowest) split time from ANY session in race window → rank ascending
+    ///   - `.furthestDistance`: SUM of distance across ALL sessions in race window → rank descending
+    ///
+    /// Both the "Current Leaders & Prizes" card and the full leaderboard view
+    /// call this, so rankings are always consistent.
+    func buildLeaderboard(for race: Race, entries: [Entry], sessions: [Session]) -> Leaderboard {
+        let enteredUserIds = Set(entries.map(\.userId))
+
+        // Filter sessions to those inside the race time window and eligible
+        let eligibleSessions = sessions.filter { session in
+            enteredUserIds.contains(session.userId)
+                && session.startDate >= race.startDate
+                && session.startDate <= race.endDate
+                && session.isEligibleForRaces
+        }
+
+        // Group eligible sessions by userId
+        let sessionsByUser = Dictionary(grouping: eligibleSessions, by: \.userId)
+
+        // Compute score per user
+        var userScores: [(userId: String, score: Double, bestSessionId: String?)] = []
+
+        for userId in enteredUserIds {
+            let userSessions = sessionsByUser[userId] ?? []
+
+            switch race.type {
+            case .fastest1km:
+                if let best = userSessions.compactMap({ $0.fastest1kmTime }).min() {
+                    let bestSession = userSessions.first { $0.fastest1kmTime == best }
+                    userScores.append((userId, best, bestSession?.id))
+                }
+
+            case .fastest5km:
+                if let best = userSessions.compactMap({ $0.fastest5kmTime }).min() {
+                    let bestSession = userSessions.first { $0.fastest5kmTime == best }
+                    userScores.append((userId, best, bestSession?.id))
+                }
+
+            case .fastest10km:
+                if let best = userSessions.compactMap({ $0.fastest10kmTime }).min() {
+                    let bestSession = userSessions.first { $0.fastest10kmTime == best }
+                    userScores.append((userId, best, bestSession?.id))
+                }
+
+            case .furthestDistance:
+                let totalKm = userSessions.reduce(0.0) { $0 + $1.distanceKm }
+                if totalKm > 0 {
+                    let bestSession = userSessions.max(by: { $0.distance < $1.distance })
+                    userScores.append((userId, totalKm, bestSession?.id))
+                }
+            }
+        }
+
+        // Sort
+        let sorted: [(userId: String, score: Double, bestSessionId: String?)]
+        switch race.type {
+        case .fastest1km, .fastest5km, .fastest10km:
+            sorted = userScores.sorted { $0.score < $1.score }
+        case .furthestDistance:
+            sorted = userScores.sorted { $0.score > $1.score }
+        }
+
+        // Build LeaderboardEntry array
+        let leaderboardEntries = sorted.enumerated().map { index, item -> LeaderboardEntry in
+            let user = MockData.user(for: item.userId)
+            return LeaderboardEntry(
+                id: "lb-\(race.id)-\(String(format: "%03d", index + 1))",
+                rank: index + 1,
+                userId: item.userId,
+                userName: user?.displayName ?? "Unknown",
+                userProfileURL: user?.profileImageURL,
+                score: item.score,
+                sessionId: item.bestSessionId,
+                raceType: race.type
+            )
+        }
+
+        return Leaderboard(
+            id: "leaderboard-\(race.id)",
+            raceId: race.id,
+            entries: leaderboardEntries,
+            updatedAt: Date()
+        )
     }
 
     /// Determine if a higher or lower score is better

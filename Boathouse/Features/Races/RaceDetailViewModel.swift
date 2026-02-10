@@ -18,6 +18,17 @@ final class RaceDetailViewModel: ObservableObject {
 
     var leaderboardUpdatedAt: Date? { leaderboard?.updatedAt }
 
+    /// The user's rank derived from the leaderboard (single source of truth).
+    /// Falls back to `userEntry.rank` if leaderboard hasn't loaded yet.
+    func userRank(userId: String) -> Int? {
+        leaderboard?.rank(for: userId) ?? userEntry?.rank
+    }
+
+    /// The user's score derived from the leaderboard (single source of truth).
+    func userScore(userId: String) -> Double? {
+        leaderboard?.entry(for: userId)?.score ?? userEntry?.score
+    }
+
     init(
         raceService: RaceServiceProtocol = RaceService.shared,
         walletService: WalletServiceProtocol = WalletService.shared
@@ -45,6 +56,19 @@ final class RaceDetailViewModel: ObservableObject {
         } catch {
             // Silently fail — user just hasn't entered
         }
+
+        // After loading entry, sync rank/score from the leaderboard
+        // so the Your Position card always matches the leaderboard.
+        syncUserEntryFromLeaderboard(userId: userId)
+    }
+
+    /// Keep userEntry in sync with the authoritative leaderboard ranking.
+    @MainActor
+    func syncUserEntryFromLeaderboard(userId: String) {
+        guard userEntry != nil,
+              let lbEntry = leaderboard?.entry(for: userId) else { return }
+        userEntry?.rank = lbEntry.rank
+        userEntry?.score = lbEntry.score
     }
 
     @MainActor
