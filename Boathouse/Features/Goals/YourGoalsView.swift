@@ -8,6 +8,10 @@ struct YourGoalsView: View {
     @State private var time5k = ""
     @State private var time10k = ""
     @State private var distancePerWeek = ""
+    @State private var rank1km = ""
+    @State private var rank5km = ""
+    @State private var rank10km = ""
+    @State private var rankDistance = ""
     @State private var selectedCategories: Set<RaceCategory> = []
     @State private var rankingTarget = "10"
     @State private var showValidationError = false
@@ -21,6 +25,7 @@ struct YourGoalsView: View {
                     headerSection
                     timeGoalsSection
                     distanceGoalSection
+                    rankTargetSection
                     rankingGoalSection
 
                     saveButton
@@ -111,6 +116,48 @@ struct YourGoalsView: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
+    // MARK: - Rank Targets
+
+    private var rankTargetSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("Rank Targets", systemImage: "chart.line.uptrend.xyaxis")
+                .font(.headline)
+
+            Text("Your target ranking vs all users over the last month")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                rankField(label: "1km Rank", text: $rank1km)
+                rankField(label: "5km Rank", text: $rank5km)
+                rankField(label: "10km Rank", text: $rank10km)
+                rankField(label: "Distance Rank", text: $rankDistance)
+            }
+        }
+        .padding()
+        .background(Color(.systemGray6))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
+    private func rankField(label: String, text: Binding<String>) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(label)
+                .font(.caption)
+                .fontWeight(.medium)
+                .foregroundStyle(.secondary)
+
+            HStack(spacing: 4) {
+                Text("Top")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+
+                TextField("10", text: text)
+                    .keyboardType(.numberPad)
+                    .textFieldStyle(.roundedBorder)
+            }
+        }
+    }
+
     // MARK: - Ranking Goals
 
     private var rankingGoalSection: some View {
@@ -199,6 +246,11 @@ struct YourGoalsView: View {
         if let dist = Double(distancePerWeek), dist > 0 {
             goals.distancePerWeekKm = dist
         }
+
+        if let r = Int(rank1km), r > 0 { goals.rankTarget1km = r }
+        if let r = Int(rank5km), r > 0 { goals.rankTarget5km = r }
+        if let r = Int(rank10km), r > 0 { goals.rankTarget10km = r }
+        if let r = Int(rankDistance), r > 0 { goals.rankTargetDistance = r }
 
         if let target = Int(rankingTarget), target > 0 {
             for category in selectedCategories {

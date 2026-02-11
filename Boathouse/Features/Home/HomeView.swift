@@ -99,7 +99,7 @@ struct HomeView: View {
     // MARK: - Filters
 
     private var filterSection: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 16) {
             Picker("Time Period", selection: $viewModel.selectedDuration) {
                 ForEach(RaceDuration.allCases) { duration in
                     Text(duration.displayName).tag(duration)
@@ -108,20 +108,20 @@ struct HomeView: View {
             .pickerStyle(.segmented)
             .padding(.horizontal)
 
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    ForEach(RaceType.distanceFilters) { type in
-                        FilterChip(
-                            title: type.shortName,
-                            isSelected: viewModel.selectedRaceType == type,
-                            action: { viewModel.selectedRaceType = type }
-                        )
-                    }
+            HStack {
+                Spacer()
+                ForEach(RaceType.distanceFilters) { type in
+                    CircularFilterButton(
+                        title: type.shortName,
+                        isSelected: viewModel.selectedRaceType == type,
+                        action: { viewModel.selectedRaceType = type }
+                    )
+                    Spacer()
                 }
-                .padding(.horizontal)
             }
+            .padding(.horizontal)
         }
-        .padding(.vertical, 8)
+        .padding(.vertical, 12)
         .background(Color(.systemGray6))
     }
 

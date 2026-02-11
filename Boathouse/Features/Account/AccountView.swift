@@ -37,15 +37,12 @@ struct AccountView: View {
     private var profileSection: some View {
         Section {
             HStack(spacing: 16) {
-                Circle()
-                    .fill(Color.accentColor.opacity(0.2))
-                    .frame(width: 60, height: 60)
-                    .overlay {
-                        Text(initials)
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.accent)
-                    }
+                AvatarView(
+                    url: appState.currentUser?.profileImageURL,
+                    initials: initials,
+                    id: appState.currentUser?.id ?? "",
+                    size: 60
+                )
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(appState.currentUser?.displayName ?? "User")
@@ -111,11 +108,20 @@ struct AccountView: View {
             }
 
             NavigationLink {
+                WhatIsRacepaceView()
+            } label: {
+                HStack {
+                    Image(systemName: "info.circle")
+                    Text("What is Racepace?")
+                }
+            }
+
+            NavigationLink {
                 StravaExplanationView()
             } label: {
                 HStack {
                     Image(systemName: "questionmark.circle")
-                    Text("Why connect Strava?")
+                    Text("Why connect your Garmin")
                 }
             }
         }

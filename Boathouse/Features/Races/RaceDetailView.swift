@@ -8,11 +8,22 @@ struct RaceDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var selectedSession: Session?
     @State private var scrollProxy: ScrollViewProxy?
+    @State private var showBackToTop = false
 
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView {
                 VStack(spacing: 24) {
+                    Color.clear.frame(height: 0).id("top")
+                        .background(
+                            GeometryReader { geo in
+                                Color.clear.preference(
+                                    key: ScrollOffsetKey.self,
+                                    value: geo.frame(in: .named("raceScroll")).minY
+                                )
+                            }
+                        )
+
                     headerSection
 
                     raceSpecificRulesSection
@@ -21,15 +32,41 @@ struct RaceDetailView: View {
 
                     rulesSection
 
-                    leaderboardSection
-
                     if viewModel.isUserEntered {
                         yourPositionCard
                     } else if race.canEnter && appState.isRacer {
                         enterButton
                     }
+
+                    leaderboardSection
                 }
                 .padding()
+            }
+            .coordinateSpace(name: "raceScroll")
+            .onPreferenceChange(ScrollOffsetKey.self) { offset in
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    showBackToTop = offset < -200
+                }
+            }
+            .overlay(alignment: .bottomTrailing) {
+                if showBackToTop {
+                    Button {
+                        withAnimation {
+                            proxy.scrollTo("top", anchor: .top)
+                        }
+                    } label: {
+                        Image(systemName: "arrow.up")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                            .frame(width: 44, height: 44)
+                            .background(Color.accentColor)
+                            .clipShape(Circle())
+                            .shadow(radius: 4)
+                    }
+                    .padding(.trailing, 20)
+                    .padding(.bottom, 24)
+                    .transition(.scale.combined(with: .opacity))
+                }
             }
             .onAppear { scrollProxy = proxy }
         }
@@ -609,6 +646,15 @@ struct ConfirmRow: View {
                 .foregroundStyle(highlight ? .accent : .primary)
         }
         .font(.subheadline)
+    }
+}
+
+// MARK: - Scroll Offset PreferenceKey
+
+private struct ScrollOffsetKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
     }
 }
 

@@ -82,6 +82,7 @@
 		A10000000000000000000099 /* DummyUserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000099 /* DummyUserStore.swift */; };
 		A10000000000000000000100 /* GoalsOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000100 /* GoalsOverlayView.swift */; };
 		A10000000000000000000101 /* ActivityStoryPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000101 /* ActivityStoryPopup.swift */; };
+		A10000000000000000000102 /* WhatIsRacepaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000102 /* WhatIsRacepaceView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -162,6 +163,7 @@
 		B10000000000000000000099 /* DummyUserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyUserStore.swift; sourceTree = "<group>"; };
 		B10000000000000000000100 /* GoalsOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsOverlayView.swift; sourceTree = "<group>"; };
 		B10000000000000000000101 /* ActivityStoryPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityStoryPopup.swift; sourceTree = "<group>"; };
+		B10000000000000000000102 /* WhatIsRacepaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatIsRacepaceView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -360,6 +362,7 @@
 				B10000000000000000000037 /* AccountViewModel.swift */,
 				B10000000000000000000038 /* StravaExplanationView.swift */,
 				B10000000000000000000039 /* NotificationSettingsView.swift */,
+				B10000000000000000000102 /* WhatIsRacepaceView.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -593,6 +596,7 @@
 				A10000000000000000000099 /* DummyUserStore.swift in Sources */,
 				A10000000000000000000100 /* GoalsOverlayView.swift in Sources */,
 				A10000000000000000000101 /* ActivityStoryPopup.swift in Sources */,
+				A10000000000000000000102 /* WhatIsRacepaceView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -217,6 +217,27 @@ struct FilterChip: View {
     }
 }
 
+// MARK: - Circular Filter Button
+
+struct CircularFilterButton: View {
+    let title: String
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Text(title)
+                .font(.headline)
+                .fontWeight(.bold)
+                .frame(width: 64, height: 64)
+                .background(isSelected ? Color.accentColor : Color(.systemGray5))
+                .foregroundStyle(isSelected ? .white : .primary)
+                .clipShape(Circle())
+                .shadow(color: isSelected ? Color.accentColor.opacity(0.4) : .clear, radius: 6, y: 3)
+        }
+    }
+}
+
 // MARK: - Leaderboard Row
 
 struct LeaderboardRow: View {
