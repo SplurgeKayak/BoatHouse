@@ -242,6 +242,11 @@ struct CircularFilterButton: View {
 
 struct LeaderboardRow: View {
     let entry: LeaderboardEntry
+    @EnvironmentObject var appState: AppState
+
+    private var isCurrentUser: Bool {
+        entry.userId == appState.currentUser?.id
+    }
 
     var body: some View {
         HStack(spacing: 12) {
@@ -260,6 +265,16 @@ struct LeaderboardRow: View {
             Text(entry.userName)
                 .font(.subheadline)
 
+            if isCurrentUser {
+                Text("You")
+                    .font(.caption)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(AppColors.accent)
+                    .foregroundStyle(.white)
+                    .clipShape(Capsule())
+            }
+
             Spacer()
 
             Text(entry.formattedScore)
@@ -267,6 +282,9 @@ struct LeaderboardRow: View {
                 .fontWeight(.medium)
         }
         .padding(.vertical, 8)
+        .padding(.horizontal, isCurrentUser ? 8 : 0)
+        .background(isCurrentUser ? AppColors.accent.opacity(0.08) : Color.clear)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
     private var medalColor: Color {

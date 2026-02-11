@@ -5,6 +5,8 @@ final class AccountViewModel: ObservableObject {
     @Published var showingStravaOAuth: Bool = false
     @Published var showingWalletSetup: Bool = false
     @Published var showingTransactionHistory: Bool = false
+    @Published var showingConnectGarminHelp: Bool = false
+    @Published var showingWithdraw: Bool = false
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 

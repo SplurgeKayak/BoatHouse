@@ -194,13 +194,13 @@ struct DarkGoalCardView: View {
                 }
             }
 
-            // 2) Best time + target
+            // 2) Best value + target
             HStack(alignment: .firstTextBaseline, spacing: 4) {
-                Text(progress.formattedBest ?? "--:--")
+                Text(progress.formattedBest ?? (progress.goal.category.isRankGoal ? "--" : "--:--"))
                     .font(.system(size: 36, weight: .bold, design: .rounded))
                     .foregroundStyle(progress.isGoalMet ? .green : GoalColors.textPrimary)
 
-                Text("best")
+                Text(progress.goal.category.isRankGoal ? "rank" : "best")
                     .font(.caption)
                     .foregroundStyle(GoalColors.textSecondary)
 
@@ -228,7 +228,9 @@ struct DarkGoalCardView: View {
             // 4) 30-day avg + session count
             HStack {
                 Label {
-                    Text("30-day avg: \(progress.formattedAverage ?? "--:--")")
+                    Text(progress.goal.category.isRankGoal
+                         ? "30-day avg: \(progress.formattedAverage ?? "--")"
+                         : "30-day avg: \(progress.formattedAverage ?? "--:--")")
                         .font(.caption)
                 } icon: {
                     Image(systemName: "chart.line.uptrend.xyaxis")

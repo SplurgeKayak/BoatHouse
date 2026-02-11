@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Detailed explanation of Strava connection and OAuth
+/// Detailed explanation of Garmin connection and how data flows into Race Pace
 struct StravaExplanationView: View {
     var body: some View {
         ScrollView {
@@ -17,17 +17,17 @@ struct StravaExplanationView: View {
             }
             .padding(24)
         }
-        .navigationTitle("About Strava")
+        .navigationTitle("About Garmin")
         .navigationBarTitleDisplayMode(.inline)
     }
 
     private var headerSection: some View {
         VStack(spacing: 16) {
-            Image(systemName: "figure.run")
+            Image(systemName: "applewatch.and.arrow.forward")
                 .font(.system(size: 48))
-                .foregroundStyle(.orange)
+                .foregroundStyle(AppColors.accent)
 
-            Text("Strava Integration")
+            Text("Garmin Integration")
                 .font(.title2)
                 .fontWeight(.bold)
         }
@@ -36,15 +36,15 @@ struct StravaExplanationView: View {
 
     private var whyConnectSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Why Connect Strava?")
+            Text("Why Connect Garmin?")
                 .font(.headline)
 
-            Text("Race Pace uses Strava to import your canoe and kayak sessions. This allows us to:")
+            Text("Race Pace uses Garmin Connect to import your canoe and kayak sessions. This allows us to:")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
 
             VStack(alignment: .leading, spacing: 8) {
-                BulletPoint(text: "Automatically import eligible sessions")
+                BulletPoint(text: "Automatically import eligible sessions from your Garmin device")
                 BulletPoint(text: "Verify GPS data for fair competition")
                 BulletPoint(text: "Determine your age category from your profile")
                 BulletPoint(text: "Confirm sessions are completed in the UK")
@@ -54,21 +54,21 @@ struct StravaExplanationView: View {
 
     private var howItWorksSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("How OAuth Works")
+            Text("How It Works")
                 .font(.headline)
 
-            Text("When you connect Strava, you'll be redirected to Strava's website to authorise Race Pace. This is a secure process called OAuth 2.0:")
+            Text("When you connect Garmin, you'll be redirected to Garmin Connect to authorise Race Pace. This is a secure process:")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
 
             VStack(alignment: .leading, spacing: 16) {
-                StepRow(number: 1, title: "Authorise", description: "You log in to Strava and grant permission")
-                StepRow(number: 2, title: "Token Exchange", description: "Strava gives us a secure access token")
-                StepRow(number: 3, title: "Data Access", description: "We use the token to read your sessions")
-                StepRow(number: 4, title: "Token Refresh", description: "Tokens expire and are automatically refreshed")
+                StepRow(number: 1, title: "Authorise", description: "You log in to Garmin Connect and grant permission")
+                StepRow(number: 2, title: "Sync Sessions", description: "Your kayak and canoe sessions are imported automatically")
+                StepRow(number: 3, title: "GPS Verification", description: "We verify GPS data to ensure fair racing")
+                StepRow(number: 4, title: "Auto Updates", description: "New sessions sync each time you open the app")
             }
 
-            Text("We never see your Strava password. You can revoke access at any time from your Strava settings.")
+            Text("We never see your Garmin password. You can revoke access at any time from your Garmin Connect settings.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .padding()
@@ -84,14 +84,14 @@ struct StravaExplanationView: View {
 
             VStack(alignment: .leading, spacing: 8) {
                 DataAccessRow(item: "Profile information", icon: "person.fill", access: "Read only")
-                DataAccessRow(item: "Session data", icon: "figure.rowing", access: "Read only")
+                DataAccessRow(item: "Paddle sport activities", icon: "figure.rowing", access: "Read only")
                 DataAccessRow(item: "GPS routes", icon: "location.fill", access: "Read only")
             }
 
             HStack {
                 Image(systemName: "xmark.circle.fill")
                     .foregroundStyle(.red)
-                Text("We never post to your Strava or modify any data")
+                Text("We never post to your Garmin or modify any data")
                     .font(.caption)
             }
             .padding()
@@ -108,22 +108,27 @@ struct StravaExplanationView: View {
             VStack(alignment: .leading, spacing: 16) {
                 FAQItem(
                     question: "What sessions are imported?",
-                    answer: "Only sessions marked as 'Canoeing' or 'Kayaking' on Strava are imported."
+                    answer: "Only sessions recorded as paddling activities (canoeing, kayaking) on your Garmin device are imported."
                 )
 
                 FAQItem(
-                    question: "What if I don't have a date of birth on Strava?",
+                    question: "What if I don't have a date of birth on Garmin?",
                     answer: "You'll need to add your date of birth in the app to determine your race category eligibility."
                 )
 
                 FAQItem(
-                    question: "Can I disconnect Strava?",
+                    question: "Can I disconnect Garmin?",
                     answer: "Yes, you can disconnect at any time from your Account settings. This will prevent new sessions from being imported."
                 )
 
                 FAQItem(
                     question: "How often are sessions synced?",
                     answer: "Sessions are synced automatically when you open the app and can be refreshed manually by pulling down on the Home screen."
+                )
+
+                FAQItem(
+                    question: "Which Garmin devices are supported?",
+                    answer: "Any Garmin device that records paddle sport activities and syncs to Garmin Connect is supported."
                 )
             }
         }

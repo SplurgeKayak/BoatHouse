@@ -14,12 +14,17 @@ enum GoalProgressService {
     ) -> GoalProgress {
         let relevant = sessions.filter { $0.sessionType == goal.activityType || $0.sessionType == .canoeing }
 
+        // Rank goals don't have session-based progress — use dummy data
+        if goal.category.isRankGoal {
+            return generateDummyProgress(for: goal)
+        }
+
         let bestTime: TimeInterval? = {
             switch goal.category {
             case .fastest1km:  return relevant.compactMap(\.fastest1kmTime).min()
             case .fastest5km:  return relevant.compactMap(\.fastest5kmTime).min()
             case .fastest10km: return relevant.compactMap(\.fastest10kmTime).min()
-            case .weeklyDistance: return nil
+            default: return nil
             }
         }()
 
@@ -32,7 +37,7 @@ enum GoalProgressService {
             case .fastest1km:  times = recentSessions.compactMap(\.fastest1kmTime)
             case .fastest5km:  times = recentSessions.compactMap(\.fastest5kmTime)
             case .fastest10km: times = recentSessions.compactMap(\.fastest10kmTime)
-            case .weeklyDistance: return nil
+            default: return nil
             }
             guard !times.isEmpty else { return nil }
             return times.reduce(0, +) / Double(times.count)

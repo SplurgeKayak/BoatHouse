@@ -31,6 +31,20 @@ struct AccountView: View {
             .sheet(isPresented: $viewModel.showingTransactionHistory) {
                 TransactionHistoryView()
             }
+            .sheet(isPresented: $viewModel.showingConnectGarminHelp) {
+                NavigationStack {
+                    ConnectGarminHelpView {
+                        viewModel.showingConnectGarminHelp = false
+                        viewModel.showingStravaOAuth = true
+                    }
+                }
+            }
+            .sheet(isPresented: $viewModel.showingWithdraw) {
+                NavigationStack {
+                    WithdrawFundsView()
+                        .environmentObject(appState)
+                }
+            }
         }
     }
 
@@ -66,7 +80,7 @@ struct AccountView: View {
     }
 
     private var stravaSection: some View {
-        Section("Strava Connection") {
+        Section("Garmin Connection") {
             if let connection = appState.currentUser?.stravaConnection {
                 HStack {
                     Image(systemName: "checkmark.circle.fill")
@@ -95,11 +109,11 @@ struct AccountView: View {
                 }
             } else {
                 Button {
-                    viewModel.showingStravaOAuth = true
+                    viewModel.showingConnectGarminHelp = true
                 } label: {
                     HStack {
                         Image(systemName: "link")
-                        Text("Connect Strava")
+                        Text("Connect Garmin")
                         Spacer()
                         Image(systemName: "chevron.right")
                             .foregroundStyle(.secondary)
@@ -157,6 +171,18 @@ struct AccountView: View {
                 ))
 
                 Button {
+                    viewModel.showingWithdraw = true
+                } label: {
+                    HStack {
+                        Image(systemName: "arrow.up.circle")
+                        Text("Withdraw prize funds")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .foregroundStyle(.secondary)
+                    }
+                }
+
+                Button {
                     viewModel.showingTransactionHistory = true
                 } label: {
                     HStack {
@@ -209,7 +235,7 @@ struct AccountView: View {
                         .font(.subheadline)
 
                     if user.eligibleCategories.isEmpty {
-                        Text("Connect Strava to determine eligibility")
+                        Text("Connect Garmin to determine eligibility")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     } else {

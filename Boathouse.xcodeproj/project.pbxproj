@@ -83,6 +83,8 @@
 		A10000000000000000000100 /* GoalsOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000100 /* GoalsOverlayView.swift */; };
 		A10000000000000000000101 /* ActivityStoryPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000101 /* ActivityStoryPopup.swift */; };
 		A10000000000000000000102 /* WhatIsRacepaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000102 /* WhatIsRacepaceView.swift */; };
+		A10000000000000000000103 /* ConnectGarminHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000103 /* ConnectGarminHelpView.swift */; };
+		A10000000000000000000104 /* WithdrawFundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000104 /* WithdrawFundsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -164,6 +166,8 @@
 		B10000000000000000000100 /* GoalsOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsOverlayView.swift; sourceTree = "<group>"; };
 		B10000000000000000000101 /* ActivityStoryPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityStoryPopup.swift; sourceTree = "<group>"; };
 		B10000000000000000000102 /* WhatIsRacepaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatIsRacepaceView.swift; sourceTree = "<group>"; };
+		B10000000000000000000103 /* ConnectGarminHelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectGarminHelpView.swift; sourceTree = "<group>"; };
+		B10000000000000000000104 /* WithdrawFundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawFundsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -363,6 +367,7 @@
 				B10000000000000000000038 /* StravaExplanationView.swift */,
 				B10000000000000000000039 /* NotificationSettingsView.swift */,
 				B10000000000000000000102 /* WhatIsRacepaceView.swift */,
+				B10000000000000000000103 /* ConnectGarminHelpView.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -374,6 +379,7 @@
 				B10000000000000000000041 /* WalletSetupView.swift */,
 				B10000000000000000000042 /* AddFundsView.swift */,
 				B10000000000000000000043 /* TransactionHistoryView.swift */,
+				B10000000000000000000104 /* WithdrawFundsView.swift */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -597,6 +603,8 @@
 				A10000000000000000000100 /* GoalsOverlayView.swift in Sources */,
 				A10000000000000000000101 /* ActivityStoryPopup.swift in Sources */,
 				A10000000000000000000102 /* WhatIsRacepaceView.swift in Sources */,
+				A10000000000000000000103 /* ConnectGarminHelpView.swift in Sources */,
+				A10000000000000000000104 /* WithdrawFundsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

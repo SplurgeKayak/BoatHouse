@@ -80,6 +80,20 @@ final class GoalsStore {
             goals.append(Goal(category: .fastest10km, targetTime: t))
         }
 
+        // Migrate rank targets
+        if let r = legacy.rankTarget1km {
+            goals.append(Goal(category: .rank1km, targetTime: Double(r)))
+        }
+        if let r = legacy.rankTarget5km {
+            goals.append(Goal(category: .rank5km, targetTime: Double(r)))
+        }
+        if let r = legacy.rankTarget10km {
+            goals.append(Goal(category: .rank10km, targetTime: Double(r)))
+        }
+        if let r = legacy.rankTargetDistance {
+            goals.append(Goal(category: .rankDistance, targetTime: Double(r)))
+        }
+
         // Persist migrated goals so migration only runs once
         if !goals.isEmpty {
             saveGoals(goals)

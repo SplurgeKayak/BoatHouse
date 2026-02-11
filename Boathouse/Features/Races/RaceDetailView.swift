@@ -523,6 +523,11 @@ struct RuleRow: View {
 struct LeaderboardDetailRow: View {
     let entry: LeaderboardEntry
     let raceType: RaceType
+    @EnvironmentObject var appState: AppState
+
+    private var isCurrentUser: Bool {
+        entry.userId == appState.currentUser?.id
+    }
 
     var body: some View {
         HStack(spacing: 12) {
@@ -542,6 +547,16 @@ struct LeaderboardDetailRow: View {
                 .font(.subheadline)
                 .lineLimit(1)
 
+            if isCurrentUser {
+                Text("You")
+                    .font(.caption)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(AppColors.accent)
+                    .foregroundStyle(.white)
+                    .clipShape(Capsule())
+            }
+
             Spacer()
 
             Text(entry.formattedScore)
@@ -550,6 +565,9 @@ struct LeaderboardDetailRow: View {
                 .foregroundStyle(.accent)
         }
         .padding(.vertical, 8)
+        .padding(.horizontal, isCurrentUser ? 8 : 0)
+        .background(isCurrentUser ? AppColors.accent.opacity(0.08) : Color.clear)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
     private var medalColor: Color {

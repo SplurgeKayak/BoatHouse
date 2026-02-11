@@ -219,6 +219,10 @@ struct GoalEntrySheet: View {
     @State private var time1k = ""
     @State private var time5k = ""
     @State private var time10k = ""
+    @State private var rank1km = ""
+    @State private var rank5km = ""
+    @State private var rank10km = ""
+    @State private var rankDistance = ""
     @State private var showError = false
 
     var body: some View {
@@ -247,6 +251,25 @@ struct GoalEntrySheet: View {
                             goalField(label: "1km", text: $time1k)
                             goalField(label: "5km", text: $time5k)
                             goalField(label: "10km", text: $time10k)
+                        }
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+
+                    VStack(alignment: .leading, spacing: 12) {
+                        Label("Rank Targets", systemImage: "chart.line.uptrend.xyaxis")
+                            .font(.headline)
+
+                        Text("Your target ranking vs all users over the last month")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+
+                        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                            rankGoalField(label: "1km Target Rank", text: $rank1km)
+                            rankGoalField(label: "5km Target Rank", text: $rank5km)
+                            rankGoalField(label: "10km Target Rank", text: $rank10km)
+                            rankGoalField(label: "Distance Rank", text: $rankDistance)
                         }
                     }
                     .padding()
@@ -291,6 +314,23 @@ struct GoalEntrySheet: View {
         }
     }
 
+    private func rankGoalField(label: String, text: Binding<String>) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(label)
+                .font(.caption)
+                .fontWeight(.medium)
+                .foregroundStyle(.secondary)
+            HStack(spacing: 4) {
+                Text("Top")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                TextField("10", text: text)
+                    .keyboardType(.numberPad)
+                    .textFieldStyle(.roundedBorder)
+            }
+        }
+    }
+
     private func save() {
         var goals: [Goal] = []
 
@@ -302,6 +342,18 @@ struct GoalEntrySheet: View {
         }
         if let t = KayakingGoals.parseTimeString(time10k) {
             goals.append(Goal(category: .fastest10km, targetTime: t))
+        }
+        if let r = Int(rank1km), r > 0 {
+            goals.append(Goal(category: .rank1km, targetTime: Double(r)))
+        }
+        if let r = Int(rank5km), r > 0 {
+            goals.append(Goal(category: .rank5km, targetTime: Double(r)))
+        }
+        if let r = Int(rank10km), r > 0 {
+            goals.append(Goal(category: .rank10km, targetTime: Double(r)))
+        }
+        if let r = Int(rankDistance), r > 0 {
+            goals.append(Goal(category: .rankDistance, targetTime: Double(r)))
         }
 
         guard !goals.isEmpty else {

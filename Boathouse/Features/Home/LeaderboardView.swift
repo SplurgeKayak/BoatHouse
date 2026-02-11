@@ -87,7 +87,7 @@ struct LeaderboardFullRow: View {
                             .font(.caption)
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
-                            .background(Color.accentColor)
+                            .background(AppColors.accent)
                             .foregroundStyle(.white)
                             .clipShape(Capsule())
                     }
@@ -101,7 +101,8 @@ struct LeaderboardFullRow: View {
                 .foregroundStyle(.accent)
         }
         .padding(.vertical, 8)
-        .background(isCurrentUser ? Color.accentColor.opacity(0.05) : Color.clear)
+        .background(isCurrentUser ? AppColors.accent.opacity(0.08) : Color.clear)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
     private var medalColor: Color {
