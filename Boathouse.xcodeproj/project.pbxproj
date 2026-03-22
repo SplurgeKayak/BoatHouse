@@ -47,6 +47,9 @@
 		A10000000000000000000037 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000037 /* AccountViewModel.swift */; };
 		A10000000000000000000038 /* StravaExplanationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000038 /* StravaExplanationView.swift */; };
 		A10000000000000000000039 /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000039 /* NotificationSettingsView.swift */; };
+		A10000000000000000000091 /* GarminOAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000091 /* GarminOAuthViewModel.swift */; };
+		A10000000000000000000092 /* GarminOAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000092 /* GarminOAuthView.swift */; };
+		A10000000000000000000093 /* GarminExplanationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000093 /* GarminExplanationView.swift */; };
 		A10000000000000000000040 /* WalletService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000040 /* WalletService.swift */; };
 		A10000000000000000000041 /* WalletSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000041 /* WalletSetupView.swift */; };
 		A10000000000000000000042 /* AddFundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000042 /* AddFundsView.swift */; };
@@ -116,6 +119,9 @@
 		B10000000000000000000037 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		B10000000000000000000038 /* StravaExplanationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaExplanationView.swift; sourceTree = "<group>"; };
 		B10000000000000000000039 /* NotificationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsView.swift; sourceTree = "<group>"; };
+		B10000000000000000000091 /* GarminOAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarminOAuthViewModel.swift; sourceTree = "<group>"; };
+		B10000000000000000000092 /* GarminOAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarminOAuthView.swift; sourceTree = "<group>"; };
+		B10000000000000000000093 /* GarminExplanationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarminExplanationView.swift; sourceTree = "<group>"; };
 		B10000000000000000000040 /* WalletService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletService.swift; sourceTree = "<group>"; };
 		B10000000000000000000041 /* WalletSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSetupView.swift; sourceTree = "<group>"; };
 		B10000000000000000000042 /* AddFundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFundsView.swift; sourceTree = "<group>"; };
@@ -330,6 +336,9 @@
 				B10000000000000000000037 /* AccountViewModel.swift */,
 				B10000000000000000000038 /* StravaExplanationView.swift */,
 				B10000000000000000000039 /* NotificationSettingsView.swift */,
+				B10000000000000000000091 /* GarminOAuthViewModel.swift */,
+				B10000000000000000000092 /* GarminOAuthView.swift */,
+				B10000000000000000000093 /* GarminExplanationView.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -538,6 +547,9 @@
 				A10000000000000000000037 /* AccountViewModel.swift in Sources */,
 				A10000000000000000000038 /* StravaExplanationView.swift in Sources */,
 				A10000000000000000000039 /* NotificationSettingsView.swift in Sources */,
+				A10000000000000000000091 /* GarminOAuthViewModel.swift in Sources */,
+				A10000000000000000000092 /* GarminOAuthView.swift in Sources */,
+				A10000000000000000000093 /* GarminExplanationView.swift in Sources */,
 				A10000000000000000000040 /* WalletService.swift in Sources */,
 				A10000000000000000000041 /* WalletSetupView.swift in Sources */,
 				A10000000000000000000042 /* AddFundsView.swift in Sources */,

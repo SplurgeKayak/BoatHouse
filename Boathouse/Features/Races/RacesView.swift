@@ -31,7 +31,6 @@ struct RacesView: View {
     private var filterSection: some View {
         VStack(spacing: 12) {
             Picker("Duration", selection: $viewModel.selectedDuration) {
-                Text("All").tag(RaceDuration?.none)
                 ForEach(RaceDuration.allCases) { duration in
                     Text(duration.displayName).tag(Optional(duration))
                 }

@@ -4,7 +4,7 @@ import Combine
 /// ViewModel for the Races screen
 final class RacesViewModel: ObservableObject {
     @Published var races: [Race] = []
-    @Published var selectedDuration: RaceDuration?
+    @Published var selectedDuration: RaceDuration? = .weekly
     @Published var selectedRaceType: RaceType?
     @Published var selectedCategory: RaceCategory?
     @Published var isLoading: Bool = false

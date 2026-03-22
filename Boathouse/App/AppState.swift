@@ -9,6 +9,15 @@ final class AppState: ObservableObject {
     @Published var isLoading: Bool = true
     @Published var showOnboarding: Bool = false
     @Published var hasCompletedGoals: Bool = GoalsStore.shared.hasCompletedGoals
+    @Published var preferredColorScheme: ColorScheme? {
+        didSet {
+            switch preferredColorScheme {
+            case .light:  UserDefaults.standard.set("light", forKey: "preferredColorScheme")
+            case .dark:   UserDefaults.standard.set("dark",  forKey: "preferredColorScheme")
+            default:      UserDefaults.standard.removeObject(forKey: "preferredColorScheme")
+            }
+        }
+    }
 
     /// Shared instance for global access
     static var shared: AppState?
@@ -39,7 +48,11 @@ final class AppState: ObservableObject {
     }
 
     init() {
-        // Default initialization
+        switch UserDefaults.standard.string(forKey: "preferredColorScheme") {
+        case "light": preferredColorScheme = .light
+        case "dark":  preferredColorScheme = .dark
+        default:      preferredColorScheme = nil
+        }
     }
 
     var isRacer: Bool {
