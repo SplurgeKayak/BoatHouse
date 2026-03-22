@@ -169,7 +169,7 @@ struct HomeView: View {
 
     private var emptyStateView: some View {
         VStack(spacing: 16) {
-            Image(systemName: "figure.rowing")
+            Image(systemName: "figure.water.fitness")
                 .font(.system(size: 48))
                 .foregroundStyle(.secondary)
 

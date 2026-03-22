@@ -128,7 +128,7 @@ struct RaceDetailView: View {
                 RuleRow(icon: "location.fill", text: "Sessions must be completed in the UK")
                 RuleRow(icon: "antenna.radiowaves.left.and.right", text: "GPS verification required")
                 RuleRow(icon: "clock.badge.checkmark", text: "Entry closes 3 hours before race ends")
-                RuleRow(icon: "figure.rowing", text: "Canoe and kayak sessions only")
+                RuleRow(icon: "figure.water.fitness", text: "Canoe and kayak sessions only")
             }
 
             Divider()

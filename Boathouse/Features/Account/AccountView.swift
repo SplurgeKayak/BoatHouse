@@ -230,7 +230,7 @@ struct AccountView: View {
                     viewModel.showingStravaOAuth = true
                 } label: {
                     HStack {
-                        Image(systemName: "figure.rowing")
+                        Image(systemName: "figure.water.fitness")
                         Text("Upgrade to Racer")
                         Spacer()
                         Image(systemName: "chevron.right")

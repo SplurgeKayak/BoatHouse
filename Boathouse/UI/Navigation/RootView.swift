@@ -31,7 +31,7 @@ struct LaunchScreen: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 16) {
-                Image(systemName: "figure.rowing")
+                Image(systemName: "figure.water.fitness")
                     .font(.system(size: 80))
                     .foregroundStyle(.white)
 

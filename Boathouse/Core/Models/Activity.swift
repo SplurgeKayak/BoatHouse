@@ -174,8 +174,8 @@ enum SessionType: String, Codable, CaseIterable {
 
     var icon: String {
         switch self {
-        case .canoeing, .kayaking: return "figure.rowing"
-        case .rowing: return "figure.rowing"
+        case .canoeing, .kayaking: return "figure.water.fitness"
+        case .rowing: return "figure.water.fitness"
         case .standUpPaddling: return "figure.surfing"
         }
     }

@@ -36,7 +36,7 @@ struct AuthenticationView: View {
 
     private var headerSection: some View {
         VStack(spacing: 16) {
-            Image(systemName: "figure.rowing")
+            Image(systemName: "figure.water.fitness")
                 .font(.system(size: 64))
                 .foregroundStyle(.accent)
                 .padding(.top, 32)
@@ -137,7 +137,7 @@ struct UserTypeCard: View {
     var body: some View {
         Button(action: action) {
             HStack(spacing: 16) {
-                Image(systemName: type == .spectator ? "eye.fill" : "figure.rowing")
+                Image(systemName: type == .spectator ? "eye.fill" : "figure.water.fitness")
                     .font(.title2)
                     .frame(width: 44, height: 44)
                     .background(isSelected ? Color.accentColor : Color.secondary.opacity(0.2))
