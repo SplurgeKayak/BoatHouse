@@ -1,7 +1,6 @@
 import SwiftUI
 
 // MARK: - Appearance Enum
-
 enum AppAppearance: String, CaseIterable, Identifiable {
     case system = "System"
     case light  = "Light"
@@ -27,7 +26,6 @@ enum AppAppearance: String, CaseIterable, Identifiable {
 }
 
 // MARK: - Theme Token Struct
-
 struct AppTheme {
     let background:          Color
     let secondaryBackground: Color
@@ -39,7 +37,6 @@ struct AppTheme {
 }
 
 // MARK: - Concrete Themes
-
 extension AppTheme {
     /// Matches the current light app — white cards, orange accents
     static let light = AppTheme(
@@ -65,7 +62,6 @@ extension AppTheme {
 }
 
 // MARK: - Theme Manager
-
 /// Stores the user's appearance choice and exposes the active theme tokens.
 /// Injected as an @EnvironmentObject from the app entry point.
 final class ThemeManager: ObservableObject {
@@ -96,11 +92,9 @@ final class ThemeManager: ObservableObject {
 }
 
 // MARK: - Environment Key
-
-private struct ThemeKey: EnvironmentKey {
+struct ThemeKey: EnvironmentKey {
     static let defaultValue = AppTheme.light
 }
-
 extension EnvironmentValues {
     var theme: AppTheme {
         get { self[ThemeKey.self] }
@@ -109,7 +103,6 @@ extension EnvironmentValues {
 }
 
 // MARK: - Color(hex:) Helper
-
 extension Color {
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
