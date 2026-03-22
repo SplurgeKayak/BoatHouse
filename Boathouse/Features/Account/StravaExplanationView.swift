@@ -84,7 +84,7 @@ struct StravaExplanationView: View {
 
             VStack(alignment: .leading, spacing: 8) {
                 DataAccessRow(item: "Profile information", icon: "person.fill", access: "Read only")
-                DataAccessRow(item: "Session data", icon: "figure.rowing", access: "Read only")
+                DataAccessRow(item: "Session data", icon: "figure.water.fitness", access: "Read only")
                 DataAccessRow(item: "GPS routes", icon: "location.fill", access: "Read only")
             }
 

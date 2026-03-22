@@ -1,6 +1,7 @@
 import SwiftUI
 
 /// ViewModel for Strava OAuth2 authentication flow
+@MainActor
 final class StravaOAuthViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var showError: Bool = false

@@ -7,7 +7,7 @@ struct OnboardingView: View {
 
     private let pages: [OnboardingPage] = [
         OnboardingPage(
-            icon: "figure.rowing",
+            icon: "figure.water.fitness",
             title: "Welcome to Race Pace",
             description: "The UK's digital canoe and kayak racing platform. Compete for real prizes using your Strava sessions."
         ),
