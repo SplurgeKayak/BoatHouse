@@ -7,147 +7,147 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A10000000000000000000001 /* BoathouseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000001 /* BoathouseApp.swift */; };
-		A10000000000000000000051 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000051 /* ContentView.swift */; };
-		A10000000000000000000002 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000002 /* AppState.swift */; };
-		A10000000000000000000003 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000003 /* AppConfig.swift */; };
-		A10000000000000000000004 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000004 /* User.swift */; };
-		A10000000000000000000005 /* Race.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000005 /* Race.swift */; };
-		A10000000000000000000006 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000006 /* Activity.swift */; };
-		A10000000000000000000007 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000007 /* Entry.swift */; };
-		A10000000000000000000008 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000008 /* Wallet.swift */; };
-		A10000000000000000000009 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000009 /* AuthService.swift */; };
-		A10000000000000000000010 /* StravaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000010 /* StravaService.swift */; };
-		A10000000000000000000011 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000011 /* KeychainService.swift */; };
-		A10000000000000000000012 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000012 /* LocationService.swift */; };
-		A10000000000000000000013 /* ModerationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000013 /* ModerationService.swift */; };
-		A10000000000000000000014 /* RaceEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000014 /* RaceEngine.swift */; };
-		A10000000000000000000015 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000015 /* MockData.swift */; };
-		A10000000000000000000016 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000016 /* NetworkClient.swift */; };
-		A10000000000000000000017 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000017 /* RootView.swift */; };
-		A10000000000000000000018 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000018 /* MainTabView.swift */; };
-		A10000000000000000000019 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000019 /* ButtonStyles.swift */; };
-		A10000000000000000000020 /* TextFieldStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000020 /* TextFieldStyles.swift */; };
-		A10000000000000000000021 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000021 /* AuthenticationView.swift */; };
-		A10000000000000000000022 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000022 /* AuthViewModel.swift */; };
-		A10000000000000000000023 /* StravaOAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000023 /* StravaOAuthView.swift */; };
-		A10000000000000000000024 /* StravaOAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000024 /* StravaOAuthViewModel.swift */; };
-		A10000000000000000000025 /* StravaWebViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000025 /* StravaWebViewRepresentable.swift */; };
-		A10000000000000000000026 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000026 /* HomeView.swift */; };
-		A10000000000000000000027 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000027 /* HomeViewModel.swift */; };
-		A10000000000000000000028 /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000028 /* LeaderboardView.swift */; };
-		A10000000000000000000029 /* FlagActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000029 /* FlagActivityView.swift */; };
-		A10000000000000000000030 /* RacesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000030 /* RacesView.swift */; };
-		A10000000000000000000031 /* RacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000031 /* RacesViewModel.swift */; };
-		A10000000000000000000032 /* RaceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000032 /* RaceDetailView.swift */; };
-		A10000000000000000000033 /* RaceDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000033 /* RaceDetailViewModel.swift */; };
-		A10000000000000000000034 /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000034 /* EntryView.swift */; };
-		A10000000000000000000035 /* EntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000035 /* EntryViewModel.swift */; };
-		A10000000000000000000036 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000036 /* AccountView.swift */; };
-		A10000000000000000000037 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000037 /* AccountViewModel.swift */; };
-		A10000000000000000000038 /* StravaExplanationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000038 /* StravaExplanationView.swift */; };
-		A10000000000000000000039 /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000039 /* NotificationSettingsView.swift */; };
-		A10000000000000000000040 /* WalletService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000040 /* WalletService.swift */; };
-		A10000000000000000000041 /* WalletSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000041 /* WalletSetupView.swift */; };
-		A10000000000000000000042 /* AddFundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000042 /* AddFundsView.swift */; };
-		A10000000000000000000043 /* TransactionHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000043 /* TransactionHistoryView.swift */; };
-		A10000000000000000000044 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000044 /* OnboardingView.swift */; };
-		A10000000000000000000045 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000045 /* Assets.xcassets */; };
-		A10000000000000000000046 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000046 /* Preview Assets.xcassets */; };
-		A10000000000000000000060 /* SeenActivityStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000060 /* SeenActivityStore.swift */; };
-		A10000000000000000000061 /* StoryFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000061 /* StoryFeedViewModel.swift */; };
-		A10000000000000000000062 /* StoryBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000062 /* StoryBubbleView.swift */; };
-		A10000000000000000000063 /* StoriesStripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000063 /* StoriesStripView.swift */; };
-		A10000000000000000000064 /* StoryProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000064 /* StoryProgressBarView.swift */; };
-		A10000000000000000000065 /* StoryViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000065 /* StoryViewerView.swift */; };
-		A10000000000000000000071 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000071 /* AvatarView.swift */; };
-		A10000000000000000000080 /* PolylineCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000080 /* PolylineCodec.swift */; };
-		A10000000000000000000081 /* SessionMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000081 /* SessionMapView.swift */; };
-		A10000000000000000000082 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000082 /* LaunchScreenView.swift */; };
-		A10000000000000000000083 /* HomeComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000083 /* HomeComponents.swift */; };
-		A10000000000000000000084 /* SessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000084 /* SessionService.swift */; };
-		A10000000000000000000085 /* RaceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000085 /* RaceService.swift */; };
-		A10000000000000000000086 /* KayakingGoals.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000086 /* KayakingGoals.swift */; };
-		A10000000000000000000087 /* GoalsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000087 /* GoalsStore.swift */; };
-		A10000000000000000000088 /* YourGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000088 /* YourGoalsView.swift */; };
-		A10000000000000000000089 /* RoutePreviewShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000089 /* RoutePreviewShape.swift */; };
-		A10000000000000000000090 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000090 /* FlowLayout.swift */; };
-		A10000000000000000000091 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000091 /* AppTheme.swift */; };
+		08F2BB54BFE945FD31012A5B /* BoathouseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800732F533E65106B98CCC15 /* BoathouseApp.swift */; };
+		628916BB1357C9A2C3E730C5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6064BE65D08284E355DFF7 /* ContentView.swift */; };
+		BDBA06DE8A29E5C8E01716C3 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850C88E0FAFDC6EA719B4763 /* AppState.swift */; };
+		AEE25147958017E933DEC268 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBCDED6266484F7A18A944 /* AppConfig.swift */; };
+		81C802125B0A0FF24A76C2EA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93992B980DBD020EBBBAB92 /* User.swift */; };
+		8887BDF3CCF534876A16140D /* Race.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45166190799DF9EF1259B001 /* Race.swift */; };
+		BCCEDA2C5F9B7FB69E3BE49E /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E168365C2C9642489C14CC /* Activity.swift */; };
+		41DCEF0574CC5D51F55E106E /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11CFBFA6B9F2DEFF058EB38 /* Entry.swift */; };
+		98CCE19B45B031B7A1DC9E38 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B69AA2E1D4387F1FA90EF5F /* Wallet.swift */; };
+		23336A43D6805E6F4D27D364 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17520FD882A502524323125 /* AuthService.swift */; };
+		9C6DBAE3E0CA1D9E1751F523 /* StravaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE5A424266418634D0DBB6E /* StravaService.swift */; };
+		CBE991B8691EA50B96D8B0FE /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E6A89F5FB5FDAFAAE12307 /* KeychainService.swift */; };
+		1EB2331D219ECEA4952BCB2D /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7534A118F804A2165BDBEB7 /* LocationService.swift */; };
+		BED00E0808FB413E6101A35D /* ModerationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8DC3466405A82C8F3298D6C /* ModerationService.swift */; };
+		C7804185C27868BAFD798E1F /* RaceEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174B7E974DA5767607464AF0 /* RaceEngine.swift */; };
+		186D91E6A566A7AEB2CBD612 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3B57DE5D3E3D5D8FE45129 /* MockData.swift */; };
+		4F3CA3843D35A7DC20B0187D /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3FDACC63EF23F66D5FF966 /* NetworkClient.swift */; };
+		6CB86DB43B8F6E11417B4161 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D77AFE30DAE72E975C7687 /* RootView.swift */; };
+		A24DC44498275CF51ECB3C76 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B5B7B4309FB45B1DDEC0AC /* MainTabView.swift */; };
+		4D014E1D3CB42B5525FC5BD0 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05F433F2D4653EEF969A77F /* ButtonStyles.swift */; };
+		791C049D70ECDBCF23B7A95C /* TextFieldStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F2D22124103A1500BC7885 /* TextFieldStyles.swift */; };
+		492B9BC9D84686BFC4545D82 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDA7DAB6DD864FDF942C5CE /* AuthenticationView.swift */; };
+		C3E8CD5964AD73EAB4D63963 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC8001A2CE124FB912567E8 /* AuthViewModel.swift */; };
+		A58079D2967B6A748C960C8C /* StravaOAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A262E733DDC292375A22798A /* StravaOAuthView.swift */; };
+		459DD8470F9DFE4EDB12F495 /* StravaOAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78335CA867D07782715E7C03 /* StravaOAuthViewModel.swift */; };
+		43BB4BB2102A1592EAA6B524 /* StravaWebViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A21B40722E5203AF490F11 /* StravaWebViewRepresentable.swift */; };
+		D475AD33C2FCF69899025F08 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6C9CD7873878E3BA5C778A /* HomeView.swift */; };
+		9003DAFA72A9E74C0C45BA21 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D681C860F2EB163D27EE1DE /* HomeViewModel.swift */; };
+		800E73E4ABCC8A2DCBB6EA60 /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0479313784350C37F9F14AD9 /* LeaderboardView.swift */; };
+		D045A295112AE9BFBDF1232C /* FlagActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB60FAAEE2A63B0362DD2600 /* FlagActivityView.swift */; };
+		8B142832EFB1A48BF6CA7440 /* RacesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B02DDA951117F893E30CFB4 /* RacesView.swift */; };
+		B30C2B7447B68064585D9E39 /* RacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2384FEE1F52B406EAA73E74F /* RacesViewModel.swift */; };
+		02AC9BE182D07D5ECF856872 /* RaceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1E9C1FBF56C3163961A0AAB /* RaceDetailView.swift */; };
+		78846A1ACD18DA6D2EA13EF5 /* RaceDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2411B005CB94B4175B28DEB9 /* RaceDetailViewModel.swift */; };
+		BBB2B293B894BD86D280E4FB /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6437BEC474CBD6440D7E58A8 /* EntryView.swift */; };
+		8082EF30837C98BE03562646 /* EntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A304AD50CE20051C98ACC3 /* EntryViewModel.swift */; };
+		28F8FFD7539BAF9AD0C2AA48 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6264A1CF98F6B646E739A147 /* AccountView.swift */; };
+		2776D04CF2E27FC06233FC01 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B155FF9A7FA96BF0B1C4A9 /* AccountViewModel.swift */; };
+		DB034DA25AC4444F832D1667 /* StravaExplanationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3909E62F47F841A521C93FAB /* StravaExplanationView.swift */; };
+		E93AD3F1CBA608956378FA3E /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB76757F7C4D82943809C99 /* NotificationSettingsView.swift */; };
+		A33AD66F399C8BB7084772D6 /* WalletService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3897247D25B2D782FEB5EC07 /* WalletService.swift */; };
+		49067449F2DAD2660C11ECE6 /* WalletSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C88F73524A96034601FC65D /* WalletSetupView.swift */; };
+		51A8AA5571E53E6AD06E0092 /* AddFundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941AC392DB01C062F0126309 /* AddFundsView.swift */; };
+		E68B5E9E43502DD97253E444 /* TransactionHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7330F0FFAD6540AF0B72995 /* TransactionHistoryView.swift */; };
+		6F953ADE4540E97E7FAFEB49 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B279B970B7EFCB4DF8F1EC /* OnboardingView.swift */; };
+		621FF113AE6E76E213A1A6B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71ACF2E4D44421003D9B5D0F /* Assets.xcassets */; };
+		3AEEB4A8B21B67F7E891F718 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A56815E453AD06E29905ED8 /* Preview Assets.xcassets */; };
+		46290992C769398CA574AB32 /* SeenActivityStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693039F709E61C6CBAC39223 /* SeenActivityStore.swift */; };
+		5918A735D4BB5B0496CED6A1 /* StoryFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018546ACCFBEC0B0F45A1B56 /* StoryFeedViewModel.swift */; };
+		D60D471A35E3499CFB227A5E /* StoryBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C027C6563537F797E7823B /* StoryBubbleView.swift */; };
+		0225FBBD55D6368C9071669A /* StoriesStripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9AF7BFE974B3186C3DD06E /* StoriesStripView.swift */; };
+		42AF24FDAEE8169F1B2BBD56 /* StoryProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FF4E114A6151FA30BCC95B /* StoryProgressBarView.swift */; };
+		F5ABE791464E7148D0CB2224 /* StoryViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2EC96986604293DEDE9DF3 /* StoryViewerView.swift */; };
+		52E1F7AF30CDB5AEB5076E17 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EC15ACD99669278BC90CBE /* AvatarView.swift */; };
+		0E2A71E17FAEEC5E876EF3E9 /* PolylineCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F481BF70B083DC4D9233B1 /* PolylineCodec.swift */; };
+		5D2E7452957A5788B51D6B74 /* SessionMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D1D9F6F02FE856A76FF580 /* SessionMapView.swift */; };
+		462B2218E5D67439E410078A /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2595FC95AC213CE0784392F /* LaunchScreenView.swift */; };
+		96F7FF0180FD59BA51D7A973 /* HomeComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A19314FA272B66ED2026D0C /* HomeComponents.swift */; };
+		97C1E8D40FBB2C1A5D7D63BC /* SessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9962D26ABA031EA2C763A4DC /* SessionService.swift */; };
+		9492DFF3C9EF4CB2458F2837 /* RaceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F32AE01FA17D8FE9BB6B15C /* RaceService.swift */; };
+		73E09B98FBC2E08DF059B22B /* KayakingGoals.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABDC96CAA25695A14FC55B6 /* KayakingGoals.swift */; };
+		0021EA372763B4900F63C278 /* GoalsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68839655866DB5ADA70F2D2C /* GoalsStore.swift */; };
+		79D0FF4FBF84EDCD0756C9D7 /* YourGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BB41712D7E4AFCAAF17874 /* YourGoalsView.swift */; };
+		7D132C2D306EA204A68DBCA2 /* RoutePreviewShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB43BDA3DAA0E3A2A7AFB7F4 /* RoutePreviewShape.swift */; };
+		E007293E42E1137DAAE19EE4 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D0414439A5CECB34441EBD /* FlowLayout.swift */; };
+		F38197AC80632B24B547DFB2 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262A9DFB5FE881CE5FDB18C3 /* AppTheme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		B10000000000000000000000 /* Boathouse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Boathouse.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B10000000000000000000001 /* BoathouseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoathouseApp.swift; sourceTree = "<group>"; };
-		B10000000000000000000051 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		B10000000000000000000002 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
-		B10000000000000000000003 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
-		B10000000000000000000004 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		B10000000000000000000005 /* Race.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Race.swift; sourceTree = "<group>"; };
-		B10000000000000000000006 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
-		B10000000000000000000007 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
-		B10000000000000000000008 /* Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallet.swift; sourceTree = "<group>"; };
-		B10000000000000000000009 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
-		B10000000000000000000010 /* StravaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaService.swift; sourceTree = "<group>"; };
-		B10000000000000000000011 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
-		B10000000000000000000012 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
-		B10000000000000000000013 /* ModerationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModerationService.swift; sourceTree = "<group>"; };
-		B10000000000000000000014 /* RaceEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceEngine.swift; sourceTree = "<group>"; };
-		B10000000000000000000015 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
-		B10000000000000000000016 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
-		B10000000000000000000017 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
-		B10000000000000000000018 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
-		B10000000000000000000019 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
-		B10000000000000000000020 /* TextFieldStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldStyles.swift; sourceTree = "<group>"; };
-		B10000000000000000000021 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
-		B10000000000000000000022 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
-		B10000000000000000000023 /* StravaOAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaOAuthView.swift; sourceTree = "<group>"; };
-		B10000000000000000000024 /* StravaOAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaOAuthViewModel.swift; sourceTree = "<group>"; };
-		B10000000000000000000025 /* StravaWebViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaWebViewRepresentable.swift; sourceTree = "<group>"; };
-		B10000000000000000000026 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		B10000000000000000000027 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
-		B10000000000000000000028 /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
-		B10000000000000000000029 /* FlagActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagActivityView.swift; sourceTree = "<group>"; };
-		B10000000000000000000030 /* RacesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacesView.swift; sourceTree = "<group>"; };
-		B10000000000000000000031 /* RacesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacesViewModel.swift; sourceTree = "<group>"; };
-		B10000000000000000000032 /* RaceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceDetailView.swift; sourceTree = "<group>"; };
-		B10000000000000000000033 /* RaceDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceDetailViewModel.swift; sourceTree = "<group>"; };
-		B10000000000000000000034 /* EntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryView.swift; sourceTree = "<group>"; };
-		B10000000000000000000035 /* EntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewModel.swift; sourceTree = "<group>"; };
-		B10000000000000000000036 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
-		B10000000000000000000037 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
-		B10000000000000000000038 /* StravaExplanationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaExplanationView.swift; sourceTree = "<group>"; };
-		B10000000000000000000039 /* NotificationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsView.swift; sourceTree = "<group>"; };
-		B10000000000000000000040 /* WalletService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletService.swift; sourceTree = "<group>"; };
-		B10000000000000000000041 /* WalletSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSetupView.swift; sourceTree = "<group>"; };
-		B10000000000000000000042 /* AddFundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFundsView.swift; sourceTree = "<group>"; };
-		B10000000000000000000043 /* TransactionHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionHistoryView.swift; sourceTree = "<group>"; };
-		B10000000000000000000044 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		B10000000000000000000045 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		B10000000000000000000046 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		B10000000000000000000047 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B10000000000000000000060 /* SeenActivityStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeenActivityStore.swift; sourceTree = "<group>"; };
-		B10000000000000000000061 /* StoryFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryFeedViewModel.swift; sourceTree = "<group>"; };
-		B10000000000000000000062 /* StoryBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryBubbleView.swift; sourceTree = "<group>"; };
-		B10000000000000000000063 /* StoriesStripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesStripView.swift; sourceTree = "<group>"; };
-		B10000000000000000000064 /* StoryProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryProgressBarView.swift; sourceTree = "<group>"; };
-		B10000000000000000000065 /* StoryViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewerView.swift; sourceTree = "<group>"; };
-		B10000000000000000000071 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
-		B10000000000000000000080 /* PolylineCodec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolylineCodec.swift; sourceTree = "<group>"; };
-		B10000000000000000000081 /* SessionMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionMapView.swift; sourceTree = "<group>"; };
-		B10000000000000000000082 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
-		B10000000000000000000083 /* HomeComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeComponents.swift; sourceTree = "<group>"; };
-		B10000000000000000000084 /* SessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionService.swift; sourceTree = "<group>"; };
-		B10000000000000000000085 /* RaceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceService.swift; sourceTree = "<group>"; };
-		B10000000000000000000086 /* KayakingGoals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KayakingGoals.swift; sourceTree = "<group>"; };
-		B10000000000000000000087 /* GoalsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsStore.swift; sourceTree = "<group>"; };
-		B10000000000000000000088 /* YourGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourGoalsView.swift; sourceTree = "<group>"; };
-		B10000000000000000000089 /* RoutePreviewShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePreviewShape.swift; sourceTree = "<group>"; };
-		B10000000000000000000090 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
-		B10000000000000000000091 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
+		47B703E5A020450B3C0A1480 /* Boathouse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Boathouse.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		800732F533E65106B98CCC15 /* BoathouseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoathouseApp.swift; sourceTree = "<group>"; };
+		DD6064BE65D08284E355DFF7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		850C88E0FAFDC6EA719B4763 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		63DBCDED6266484F7A18A944 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		A93992B980DBD020EBBBAB92 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		45166190799DF9EF1259B001 /* Race.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Race.swift; sourceTree = "<group>"; };
+		45E168365C2C9642489C14CC /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
+		B11CFBFA6B9F2DEFF058EB38 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
+		2B69AA2E1D4387F1FA90EF5F /* Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallet.swift; sourceTree = "<group>"; };
+		F17520FD882A502524323125 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		6FE5A424266418634D0DBB6E /* StravaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaService.swift; sourceTree = "<group>"; };
+		56E6A89F5FB5FDAFAAE12307 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		B7534A118F804A2165BDBEB7 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		E8DC3466405A82C8F3298D6C /* ModerationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModerationService.swift; sourceTree = "<group>"; };
+		174B7E974DA5767607464AF0 /* RaceEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceEngine.swift; sourceTree = "<group>"; };
+		4B3B57DE5D3E3D5D8FE45129 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		1C3FDACC63EF23F66D5FF966 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
+		72D77AFE30DAE72E975C7687 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		87B5B7B4309FB45B1DDEC0AC /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		B05F433F2D4653EEF969A77F /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
+		79F2D22124103A1500BC7885 /* TextFieldStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldStyles.swift; sourceTree = "<group>"; };
+		6FDA7DAB6DD864FDF942C5CE /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
+		0DC8001A2CE124FB912567E8 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		A262E733DDC292375A22798A /* StravaOAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaOAuthView.swift; sourceTree = "<group>"; };
+		78335CA867D07782715E7C03 /* StravaOAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaOAuthViewModel.swift; sourceTree = "<group>"; };
+		27A21B40722E5203AF490F11 /* StravaWebViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaWebViewRepresentable.swift; sourceTree = "<group>"; };
+		BB6C9CD7873878E3BA5C778A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		3D681C860F2EB163D27EE1DE /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		0479313784350C37F9F14AD9 /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
+		BB60FAAEE2A63B0362DD2600 /* FlagActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagActivityView.swift; sourceTree = "<group>"; };
+		4B02DDA951117F893E30CFB4 /* RacesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacesView.swift; sourceTree = "<group>"; };
+		2384FEE1F52B406EAA73E74F /* RacesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacesViewModel.swift; sourceTree = "<group>"; };
+		B1E9C1FBF56C3163961A0AAB /* RaceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceDetailView.swift; sourceTree = "<group>"; };
+		2411B005CB94B4175B28DEB9 /* RaceDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceDetailViewModel.swift; sourceTree = "<group>"; };
+		6437BEC474CBD6440D7E58A8 /* EntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryView.swift; sourceTree = "<group>"; };
+		93A304AD50CE20051C98ACC3 /* EntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewModel.swift; sourceTree = "<group>"; };
+		6264A1CF98F6B646E739A147 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		D3B155FF9A7FA96BF0B1C4A9 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
+		3909E62F47F841A521C93FAB /* StravaExplanationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaExplanationView.swift; sourceTree = "<group>"; };
+		BDB76757F7C4D82943809C99 /* NotificationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsView.swift; sourceTree = "<group>"; };
+		3897247D25B2D782FEB5EC07 /* WalletService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletService.swift; sourceTree = "<group>"; };
+		2C88F73524A96034601FC65D /* WalletSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSetupView.swift; sourceTree = "<group>"; };
+		941AC392DB01C062F0126309 /* AddFundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFundsView.swift; sourceTree = "<group>"; };
+		A7330F0FFAD6540AF0B72995 /* TransactionHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionHistoryView.swift; sourceTree = "<group>"; };
+		A1B279B970B7EFCB4DF8F1EC /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		71ACF2E4D44421003D9B5D0F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5A56815E453AD06E29905ED8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		BC72001848EC2E5C8D45FC15 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		693039F709E61C6CBAC39223 /* SeenActivityStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeenActivityStore.swift; sourceTree = "<group>"; };
+		018546ACCFBEC0B0F45A1B56 /* StoryFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryFeedViewModel.swift; sourceTree = "<group>"; };
+		F7C027C6563537F797E7823B /* StoryBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryBubbleView.swift; sourceTree = "<group>"; };
+		4E9AF7BFE974B3186C3DD06E /* StoriesStripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesStripView.swift; sourceTree = "<group>"; };
+		63FF4E114A6151FA30BCC95B /* StoryProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryProgressBarView.swift; sourceTree = "<group>"; };
+		0D2EC96986604293DEDE9DF3 /* StoryViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewerView.swift; sourceTree = "<group>"; };
+		33EC15ACD99669278BC90CBE /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
+		E0F481BF70B083DC4D9233B1 /* PolylineCodec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolylineCodec.swift; sourceTree = "<group>"; };
+		32D1D9F6F02FE856A76FF580 /* SessionMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionMapView.swift; sourceTree = "<group>"; };
+		A2595FC95AC213CE0784392F /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
+		3A19314FA272B66ED2026D0C /* HomeComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeComponents.swift; sourceTree = "<group>"; };
+		9962D26ABA031EA2C763A4DC /* SessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionService.swift; sourceTree = "<group>"; };
+		9F32AE01FA17D8FE9BB6B15C /* RaceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceService.swift; sourceTree = "<group>"; };
+		DABDC96CAA25695A14FC55B6 /* KayakingGoals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KayakingGoals.swift; sourceTree = "<group>"; };
+		68839655866DB5ADA70F2D2C /* GoalsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsStore.swift; sourceTree = "<group>"; };
+		E4BB41712D7E4AFCAAF17874 /* YourGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourGoalsView.swift; sourceTree = "<group>"; };
+		DB43BDA3DAA0E3A2A7AFB7F4 /* RoutePreviewShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePreviewShape.swift; sourceTree = "<group>"; };
+		C7D0414439A5CECB34441EBD /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
+		262A9DFB5FE881CE5FDB18C3 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		C10000000000000000000001 /* Frameworks */ = {
+		A43AA066EB42D0AE58F869B6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -157,276 +157,276 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D10000000000000000000000 = {
+		5FCECD58CC2B45D8F27517B4 = {
 			isa = PBXGroup;
 			children = (
-				D10000000000000000000001 /* Boathouse */,
-				D10000000000000000000099 /* Products */,
+				47389EA2D47D2430F6C9A51E /* Boathouse */,
+				5E1C761FF22DE2BA2AD6EB4A /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		D10000000000000000000099 /* Products */ = {
+		5E1C761FF22DE2BA2AD6EB4A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000000 /* Boathouse.app */,
+				47B703E5A020450B3C0A1480 /* Boathouse.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000001 /* Boathouse */ = {
+		47389EA2D47D2430F6C9A51E /* Boathouse */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000001 /* BoathouseApp.swift */,
-				B10000000000000000000051 /* ContentView.swift */,
-				B10000000000000000000082 /* LaunchScreenView.swift */,
-				B10000000000000000000047 /* Info.plist */,
-				D10000000000000000000002 /* App */,
-				D10000000000000000000003 /* Configuration */,
-				D10000000000000000000004 /* Core */,
-				D10000000000000000000010 /* Features */,
-				D10000000000000000000020 /* Networking */,
-				D10000000000000000000021 /* UI */,
-				D10000000000000000000030 /* Resources */,
+				800732F533E65106B98CCC15 /* BoathouseApp.swift */,
+				DD6064BE65D08284E355DFF7 /* ContentView.swift */,
+				A2595FC95AC213CE0784392F /* LaunchScreenView.swift */,
+				BC72001848EC2E5C8D45FC15 /* Info.plist */,
+				435A81BD8A5E22C3EB895E66 /* App */,
+				F7E1C153617579E74688C98D /* Configuration */,
+				0F01228ED4EFD3C70468ACAD /* Core */,
+				BF263B8F395BD9E1F9055D5C /* Features */,
+				A71C29EBA970F1EF83A68CA1 /* Networking */,
+				3B7A973143090A2ADC774AA6 /* UI */,
+				B159D5BE3D9DF82180E6D298 /* Resources */,
 			);
 			path = Boathouse;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000002 /* App */ = {
+		435A81BD8A5E22C3EB895E66 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000002 /* AppState.swift */,
+				850C88E0FAFDC6EA719B4763 /* AppState.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000003 /* Configuration */ = {
+		F7E1C153617579E74688C98D /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000003 /* AppConfig.swift */,
+				63DBCDED6266484F7A18A944 /* AppConfig.swift */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000004 /* Core */ = {
+		0F01228ED4EFD3C70468ACAD /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				D10000000000000000000005 /* Models */,
-				D10000000000000000000006 /* Services */,
-				D10000000000000000000007 /* MockData */,
+				BA41D4A56774595B279041C6 /* Models */,
+				A52CBEC3F5CE3DCD94C09046 /* Services */,
+				3808E7D945B54F008AAC8C1E /* MockData */,
 			);
 			path = Core;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000005 /* Models */ = {
+		BA41D4A56774595B279041C6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000004 /* User.swift */,
-				B10000000000000000000005 /* Race.swift */,
-				B10000000000000000000006 /* Activity.swift */,
-				B10000000000000000000007 /* Entry.swift */,
-				B10000000000000000000008 /* Wallet.swift */,
-				B10000000000000000000086 /* KayakingGoals.swift */,
+				A93992B980DBD020EBBBAB92 /* User.swift */,
+				45166190799DF9EF1259B001 /* Race.swift */,
+				45E168365C2C9642489C14CC /* Activity.swift */,
+				B11CFBFA6B9F2DEFF058EB38 /* Entry.swift */,
+				2B69AA2E1D4387F1FA90EF5F /* Wallet.swift */,
+				DABDC96CAA25695A14FC55B6 /* KayakingGoals.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000006 /* Services */ = {
+		A52CBEC3F5CE3DCD94C09046 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000009 /* AuthService.swift */,
-				B10000000000000000000010 /* StravaService.swift */,
-				B10000000000000000000011 /* KeychainService.swift */,
-				B10000000000000000000012 /* LocationService.swift */,
-				B10000000000000000000013 /* ModerationService.swift */,
-				B10000000000000000000014 /* RaceEngine.swift */,
-				B10000000000000000000080 /* PolylineCodec.swift */,
-				B10000000000000000000084 /* SessionService.swift */,
-				B10000000000000000000085 /* RaceService.swift */,
-				B10000000000000000000087 /* GoalsStore.swift */,
+				F17520FD882A502524323125 /* AuthService.swift */,
+				6FE5A424266418634D0DBB6E /* StravaService.swift */,
+				56E6A89F5FB5FDAFAAE12307 /* KeychainService.swift */,
+				B7534A118F804A2165BDBEB7 /* LocationService.swift */,
+				E8DC3466405A82C8F3298D6C /* ModerationService.swift */,
+				174B7E974DA5767607464AF0 /* RaceEngine.swift */,
+				E0F481BF70B083DC4D9233B1 /* PolylineCodec.swift */,
+				9962D26ABA031EA2C763A4DC /* SessionService.swift */,
+				9F32AE01FA17D8FE9BB6B15C /* RaceService.swift */,
+				68839655866DB5ADA70F2D2C /* GoalsStore.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000007 /* MockData */ = {
+		3808E7D945B54F008AAC8C1E /* MockData */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000015 /* MockData.swift */,
+				4B3B57DE5D3E3D5D8FE45129 /* MockData.swift */,
 			);
 			path = MockData;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000010 /* Features */ = {
+		BF263B8F395BD9E1F9055D5C /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				D10000000000000000000011 /* Authentication */,
-				D10000000000000000000012 /* Home */,
-				D10000000000000000000013 /* Races */,
-				D10000000000000000000014 /* Entry */,
-				D10000000000000000000015 /* Account */,
-				D10000000000000000000016 /* Wallet */,
-				D10000000000000000000017 /* Onboarding */,
-				D10000000000000000000040 /* Stories */,
-				D10000000000000000000050 /* Goals */,
+				EC90F365DF33126ECBDE2A2D /* Authentication */,
+				648B2924BD7FDF154FBADB02 /* Home */,
+				5EF6A401C12EF4FCAB4466EF /* Races */,
+				AC58391307A40ED7B7035116 /* Entry */,
+				C9363C3DDD282DD56758B516 /* Account */,
+				C6A32D311181209952014583 /* Wallet */,
+				E808CE5EE14CC0BD5C6B692A /* Onboarding */,
+				B8E8585D4DC5EE8FF8C49A86 /* Stories */,
+				E7E706006024A1DF927EDD91 /* Goals */,
 			);
 			path = Features;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000050 /* Goals */ = {
+		E7E706006024A1DF927EDD91 /* Goals */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000088 /* YourGoalsView.swift */,
+				E4BB41712D7E4AFCAAF17874 /* YourGoalsView.swift */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000011 /* Authentication */ = {
+		EC90F365DF33126ECBDE2A2D /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000021 /* AuthenticationView.swift */,
-				B10000000000000000000022 /* AuthViewModel.swift */,
-				B10000000000000000000023 /* StravaOAuthView.swift */,
-				B10000000000000000000024 /* StravaOAuthViewModel.swift */,
-				B10000000000000000000025 /* StravaWebViewRepresentable.swift */,
+				6FDA7DAB6DD864FDF942C5CE /* AuthenticationView.swift */,
+				0DC8001A2CE124FB912567E8 /* AuthViewModel.swift */,
+				A262E733DDC292375A22798A /* StravaOAuthView.swift */,
+				78335CA867D07782715E7C03 /* StravaOAuthViewModel.swift */,
+				27A21B40722E5203AF490F11 /* StravaWebViewRepresentable.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000012 /* Home */ = {
+		648B2924BD7FDF154FBADB02 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000026 /* HomeView.swift */,
-				B10000000000000000000083 /* HomeComponents.swift */,
-				B10000000000000000000027 /* HomeViewModel.swift */,
-				B10000000000000000000028 /* LeaderboardView.swift */,
-				B10000000000000000000029 /* FlagActivityView.swift */,
-				B10000000000000000000081 /* SessionMapView.swift */,
-				B10000000000000000000089 /* RoutePreviewShape.swift */,
+				BB6C9CD7873878E3BA5C778A /* HomeView.swift */,
+				3A19314FA272B66ED2026D0C /* HomeComponents.swift */,
+				3D681C860F2EB163D27EE1DE /* HomeViewModel.swift */,
+				0479313784350C37F9F14AD9 /* LeaderboardView.swift */,
+				BB60FAAEE2A63B0362DD2600 /* FlagActivityView.swift */,
+				32D1D9F6F02FE856A76FF580 /* SessionMapView.swift */,
+				DB43BDA3DAA0E3A2A7AFB7F4 /* RoutePreviewShape.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000013 /* Races */ = {
+		5EF6A401C12EF4FCAB4466EF /* Races */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000030 /* RacesView.swift */,
-				B10000000000000000000031 /* RacesViewModel.swift */,
-				B10000000000000000000032 /* RaceDetailView.swift */,
-				B10000000000000000000033 /* RaceDetailViewModel.swift */,
+				4B02DDA951117F893E30CFB4 /* RacesView.swift */,
+				2384FEE1F52B406EAA73E74F /* RacesViewModel.swift */,
+				B1E9C1FBF56C3163961A0AAB /* RaceDetailView.swift */,
+				2411B005CB94B4175B28DEB9 /* RaceDetailViewModel.swift */,
 			);
 			path = Races;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000014 /* Entry */ = {
+		AC58391307A40ED7B7035116 /* Entry */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000034 /* EntryView.swift */,
-				B10000000000000000000035 /* EntryViewModel.swift */,
+				6437BEC474CBD6440D7E58A8 /* EntryView.swift */,
+				93A304AD50CE20051C98ACC3 /* EntryViewModel.swift */,
 			);
 			path = Entry;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000015 /* Account */ = {
+		C9363C3DDD282DD56758B516 /* Account */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000036 /* AccountView.swift */,
-				B10000000000000000000037 /* AccountViewModel.swift */,
-				B10000000000000000000038 /* StravaExplanationView.swift */,
-				B10000000000000000000039 /* NotificationSettingsView.swift */,
+				6264A1CF98F6B646E739A147 /* AccountView.swift */,
+				D3B155FF9A7FA96BF0B1C4A9 /* AccountViewModel.swift */,
+				3909E62F47F841A521C93FAB /* StravaExplanationView.swift */,
+				BDB76757F7C4D82943809C99 /* NotificationSettingsView.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000016 /* Wallet */ = {
+		C6A32D311181209952014583 /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000040 /* WalletService.swift */,
-				B10000000000000000000041 /* WalletSetupView.swift */,
-				B10000000000000000000042 /* AddFundsView.swift */,
-				B10000000000000000000043 /* TransactionHistoryView.swift */,
+				3897247D25B2D782FEB5EC07 /* WalletService.swift */,
+				2C88F73524A96034601FC65D /* WalletSetupView.swift */,
+				941AC392DB01C062F0126309 /* AddFundsView.swift */,
+				A7330F0FFAD6540AF0B72995 /* TransactionHistoryView.swift */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000017 /* Onboarding */ = {
+		E808CE5EE14CC0BD5C6B692A /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000044 /* OnboardingView.swift */,
+				A1B279B970B7EFCB4DF8F1EC /* OnboardingView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000040 /* Stories */ = {
+		B8E8585D4DC5EE8FF8C49A86 /* Stories */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000060 /* SeenActivityStore.swift */,
-				B10000000000000000000061 /* StoryFeedViewModel.swift */,
-				B10000000000000000000062 /* StoryBubbleView.swift */,
-				B10000000000000000000063 /* StoriesStripView.swift */,
-				B10000000000000000000064 /* StoryProgressBarView.swift */,
-				B10000000000000000000065 /* StoryViewerView.swift */,
+				693039F709E61C6CBAC39223 /* SeenActivityStore.swift */,
+				018546ACCFBEC0B0F45A1B56 /* StoryFeedViewModel.swift */,
+				F7C027C6563537F797E7823B /* StoryBubbleView.swift */,
+				4E9AF7BFE974B3186C3DD06E /* StoriesStripView.swift */,
+				63FF4E114A6151FA30BCC95B /* StoryProgressBarView.swift */,
+				0D2EC96986604293DEDE9DF3 /* StoryViewerView.swift */,
 			);
 			path = Stories;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000020 /* Networking */ = {
+		A71C29EBA970F1EF83A68CA1 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000016 /* NetworkClient.swift */,
+				1C3FDACC63EF23F66D5FF966 /* NetworkClient.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000021 /* UI */ = {
+		3B7A973143090A2ADC774AA6 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				D10000000000000000000022 /* Navigation */,
-				D10000000000000000000023 /* Styles */,
-				D10000000000000000000051 /* Layouts */,
-				B10000000000000000000071 /* AvatarView.swift */,
+				97D68C19ACCBD2744E0E1FAA /* Navigation */,
+				617DD40BCBB12257E06DA40F /* Styles */,
+				93E2142F5A1D4C80A7C0698A /* Layouts */,
+				33EC15ACD99669278BC90CBE /* AvatarView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000051 /* Layouts */ = {
+		93E2142F5A1D4C80A7C0698A /* Layouts */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000090 /* FlowLayout.swift */,
+				C7D0414439A5CECB34441EBD /* FlowLayout.swift */,
 			);
 			path = Layouts;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000022 /* Navigation */ = {
+		97D68C19ACCBD2744E0E1FAA /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000017 /* RootView.swift */,
-				B10000000000000000000018 /* MainTabView.swift */,
+				72D77AFE30DAE72E975C7687 /* RootView.swift */,
+				87B5B7B4309FB45B1DDEC0AC /* MainTabView.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000023 /* Styles */ = {
+		617DD40BCBB12257E06DA40F /* Styles */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000091 /* AppTheme.swift */,
-				B10000000000000000000019 /* ButtonStyles.swift */,
-				B10000000000000000000020 /* TextFieldStyles.swift */,
+				262A9DFB5FE881CE5FDB18C3 /* AppTheme.swift */,
+				B05F433F2D4653EEF969A77F /* ButtonStyles.swift */,
+				79F2D22124103A1500BC7885 /* TextFieldStyles.swift */,
 			);
 			path = Styles;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000030 /* Resources */ = {
+		B159D5BE3D9DF82180E6D298 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000045 /* Assets.xcassets */,
-				D10000000000000000000031 /* Preview Content */,
+				71ACF2E4D44421003D9B5D0F /* Assets.xcassets */,
+				BB8CDC298B7D222C004CB222 /* Preview Content */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		D10000000000000000000031 /* Preview Content */ = {
+		BB8CDC298B7D222C004CB222 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				B10000000000000000000046 /* Preview Assets.xcassets */,
+				5A56815E453AD06E29905ED8 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -434,13 +434,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E10000000000000000000001 /* Boathouse */ = {
+		C88B67372A6A09154440013C /* Boathouse */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F10000000000000000000003 /* Build configuration list for PBXNativeTarget "Boathouse" */;
+			buildConfigurationList = A864F6B377C9A46D2B60C029 /* Build configuration list for PBXNativeTarget "Boathouse" */;
 			buildPhases = (
-				E10000000000000000000002 /* Sources */,
-				C10000000000000000000001 /* Frameworks */,
-				E10000000000000000000003 /* Resources */,
+				1CC2F87DB7A6878C4AE93FDC /* Sources */,
+				A43AA066EB42D0AE58F869B6 /* Frameworks */,
+				BB65421A0450EEAA7D4BB409 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -448,25 +448,25 @@
 			);
 			name = Boathouse;
 			productName = Boathouse;
-			productReference = B10000000000000000000000 /* Boathouse.app */;
+			productReference = 47B703E5A020450B3C0A1480 /* Boathouse.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		E10000000000000000000000 /* Project object */ = {
+		910E7ADE5A2D6BDB632774AA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
-					E10000000000000000000001 = {
+					C88B67372A6A09154440013C = {
 						CreatedOnToolsVersion = 15.0;
 					};
 				};
 			};
-			buildConfigurationList = F10000000000000000000001 /* Build configuration list for PBXProject "Boathouse" */;
+			buildConfigurationList = C78E1CB98B7785993A253E60 /* Build configuration list for PBXProject "Boathouse" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -474,104 +474,104 @@
 				en,
 				Base,
 			);
-			mainGroup = D10000000000000000000000;
-			productRefGroup = D10000000000000000000099 /* Products */;
+			mainGroup = 5FCECD58CC2B45D8F27517B4;
+			productRefGroup = 5E1C761FF22DE2BA2AD6EB4A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E10000000000000000000001 /* Boathouse */,
+				C88B67372A6A09154440013C /* Boathouse */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		E10000000000000000000003 /* Resources */ = {
+		BB65421A0450EEAA7D4BB409 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A10000000000000000000046 /* Preview Assets.xcassets in Resources */,
-				A10000000000000000000045 /* Assets.xcassets in Resources */,
+				3AEEB4A8B21B67F7E891F718 /* Preview Assets.xcassets in Resources */,
+				621FF113AE6E76E213A1A6B3 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		E10000000000000000000002 /* Sources */ = {
+		1CC2F87DB7A6878C4AE93FDC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A10000000000000000000001 /* BoathouseApp.swift in Sources */,
-				A10000000000000000000051 /* ContentView.swift in Sources */,
-				A10000000000000000000002 /* AppState.swift in Sources */,
-				A10000000000000000000003 /* AppConfig.swift in Sources */,
-				A10000000000000000000004 /* User.swift in Sources */,
-				A10000000000000000000005 /* Race.swift in Sources */,
-				A10000000000000000000006 /* Activity.swift in Sources */,
-				A10000000000000000000007 /* Entry.swift in Sources */,
-				A10000000000000000000008 /* Wallet.swift in Sources */,
-				A10000000000000000000009 /* AuthService.swift in Sources */,
-				A10000000000000000000010 /* StravaService.swift in Sources */,
-				A10000000000000000000011 /* KeychainService.swift in Sources */,
-				A10000000000000000000012 /* LocationService.swift in Sources */,
-				A10000000000000000000013 /* ModerationService.swift in Sources */,
-				A10000000000000000000014 /* RaceEngine.swift in Sources */,
-				A10000000000000000000015 /* MockData.swift in Sources */,
-				A10000000000000000000016 /* NetworkClient.swift in Sources */,
-				A10000000000000000000017 /* RootView.swift in Sources */,
-				A10000000000000000000018 /* MainTabView.swift in Sources */,
-				A10000000000000000000019 /* ButtonStyles.swift in Sources */,
-				A10000000000000000000020 /* TextFieldStyles.swift in Sources */,
-				A10000000000000000000021 /* AuthenticationView.swift in Sources */,
-				A10000000000000000000022 /* AuthViewModel.swift in Sources */,
-				A10000000000000000000023 /* StravaOAuthView.swift in Sources */,
-				A10000000000000000000024 /* StravaOAuthViewModel.swift in Sources */,
-				A10000000000000000000025 /* StravaWebViewRepresentable.swift in Sources */,
-				A10000000000000000000026 /* HomeView.swift in Sources */,
-				A10000000000000000000027 /* HomeViewModel.swift in Sources */,
-				A10000000000000000000028 /* LeaderboardView.swift in Sources */,
-				A10000000000000000000029 /* FlagActivityView.swift in Sources */,
-				A10000000000000000000030 /* RacesView.swift in Sources */,
-				A10000000000000000000031 /* RacesViewModel.swift in Sources */,
-				A10000000000000000000032 /* RaceDetailView.swift in Sources */,
-				A10000000000000000000033 /* RaceDetailViewModel.swift in Sources */,
-				A10000000000000000000034 /* EntryView.swift in Sources */,
-				A10000000000000000000035 /* EntryViewModel.swift in Sources */,
-				A10000000000000000000036 /* AccountView.swift in Sources */,
-				A10000000000000000000037 /* AccountViewModel.swift in Sources */,
-				A10000000000000000000038 /* StravaExplanationView.swift in Sources */,
-				A10000000000000000000039 /* NotificationSettingsView.swift in Sources */,
-				A10000000000000000000040 /* WalletService.swift in Sources */,
-				A10000000000000000000041 /* WalletSetupView.swift in Sources */,
-				A10000000000000000000042 /* AddFundsView.swift in Sources */,
-				A10000000000000000000043 /* TransactionHistoryView.swift in Sources */,
-				A10000000000000000000044 /* OnboardingView.swift in Sources */,
-				A10000000000000000000060 /* SeenActivityStore.swift in Sources */,
-				A10000000000000000000061 /* StoryFeedViewModel.swift in Sources */,
-				A10000000000000000000062 /* StoryBubbleView.swift in Sources */,
-				A10000000000000000000063 /* StoriesStripView.swift in Sources */,
-				A10000000000000000000064 /* StoryProgressBarView.swift in Sources */,
-				A10000000000000000000065 /* StoryViewerView.swift in Sources */,
-				A10000000000000000000071 /* AvatarView.swift in Sources */,
-				A10000000000000000000080 /* PolylineCodec.swift in Sources */,
-				A10000000000000000000081 /* SessionMapView.swift in Sources */,
-				A10000000000000000000082 /* LaunchScreenView.swift in Sources */,
-				A10000000000000000000083 /* HomeComponents.swift in Sources */,
-				A10000000000000000000084 /* SessionService.swift in Sources */,
-				A10000000000000000000085 /* RaceService.swift in Sources */,
-				A10000000000000000000086 /* KayakingGoals.swift in Sources */,
-				A10000000000000000000087 /* GoalsStore.swift in Sources */,
-				A10000000000000000000088 /* YourGoalsView.swift in Sources */,
-				A10000000000000000000089 /* RoutePreviewShape.swift in Sources */,
-				A10000000000000000000090 /* FlowLayout.swift in Sources */,
-				A10000000000000000000091 /* AppTheme.swift in Sources */,
+				08F2BB54BFE945FD31012A5B /* BoathouseApp.swift in Sources */,
+				628916BB1357C9A2C3E730C5 /* ContentView.swift in Sources */,
+				BDBA06DE8A29E5C8E01716C3 /* AppState.swift in Sources */,
+				AEE25147958017E933DEC268 /* AppConfig.swift in Sources */,
+				81C802125B0A0FF24A76C2EA /* User.swift in Sources */,
+				8887BDF3CCF534876A16140D /* Race.swift in Sources */,
+				BCCEDA2C5F9B7FB69E3BE49E /* Activity.swift in Sources */,
+				41DCEF0574CC5D51F55E106E /* Entry.swift in Sources */,
+				98CCE19B45B031B7A1DC9E38 /* Wallet.swift in Sources */,
+				23336A43D6805E6F4D27D364 /* AuthService.swift in Sources */,
+				9C6DBAE3E0CA1D9E1751F523 /* StravaService.swift in Sources */,
+				CBE991B8691EA50B96D8B0FE /* KeychainService.swift in Sources */,
+				1EB2331D219ECEA4952BCB2D /* LocationService.swift in Sources */,
+				BED00E0808FB413E6101A35D /* ModerationService.swift in Sources */,
+				C7804185C27868BAFD798E1F /* RaceEngine.swift in Sources */,
+				186D91E6A566A7AEB2CBD612 /* MockData.swift in Sources */,
+				4F3CA3843D35A7DC20B0187D /* NetworkClient.swift in Sources */,
+				6CB86DB43B8F6E11417B4161 /* RootView.swift in Sources */,
+				A24DC44498275CF51ECB3C76 /* MainTabView.swift in Sources */,
+				4D014E1D3CB42B5525FC5BD0 /* ButtonStyles.swift in Sources */,
+				791C049D70ECDBCF23B7A95C /* TextFieldStyles.swift in Sources */,
+				492B9BC9D84686BFC4545D82 /* AuthenticationView.swift in Sources */,
+				C3E8CD5964AD73EAB4D63963 /* AuthViewModel.swift in Sources */,
+				A58079D2967B6A748C960C8C /* StravaOAuthView.swift in Sources */,
+				459DD8470F9DFE4EDB12F495 /* StravaOAuthViewModel.swift in Sources */,
+				43BB4BB2102A1592EAA6B524 /* StravaWebViewRepresentable.swift in Sources */,
+				D475AD33C2FCF69899025F08 /* HomeView.swift in Sources */,
+				9003DAFA72A9E74C0C45BA21 /* HomeViewModel.swift in Sources */,
+				800E73E4ABCC8A2DCBB6EA60 /* LeaderboardView.swift in Sources */,
+				D045A295112AE9BFBDF1232C /* FlagActivityView.swift in Sources */,
+				8B142832EFB1A48BF6CA7440 /* RacesView.swift in Sources */,
+				B30C2B7447B68064585D9E39 /* RacesViewModel.swift in Sources */,
+				02AC9BE182D07D5ECF856872 /* RaceDetailView.swift in Sources */,
+				78846A1ACD18DA6D2EA13EF5 /* RaceDetailViewModel.swift in Sources */,
+				BBB2B293B894BD86D280E4FB /* EntryView.swift in Sources */,
+				8082EF30837C98BE03562646 /* EntryViewModel.swift in Sources */,
+				28F8FFD7539BAF9AD0C2AA48 /* AccountView.swift in Sources */,
+				2776D04CF2E27FC06233FC01 /* AccountViewModel.swift in Sources */,
+				DB034DA25AC4444F832D1667 /* StravaExplanationView.swift in Sources */,
+				E93AD3F1CBA608956378FA3E /* NotificationSettingsView.swift in Sources */,
+				A33AD66F399C8BB7084772D6 /* WalletService.swift in Sources */,
+				49067449F2DAD2660C11ECE6 /* WalletSetupView.swift in Sources */,
+				51A8AA5571E53E6AD06E0092 /* AddFundsView.swift in Sources */,
+				E68B5E9E43502DD97253E444 /* TransactionHistoryView.swift in Sources */,
+				6F953ADE4540E97E7FAFEB49 /* OnboardingView.swift in Sources */,
+				46290992C769398CA574AB32 /* SeenActivityStore.swift in Sources */,
+				5918A735D4BB5B0496CED6A1 /* StoryFeedViewModel.swift in Sources */,
+				D60D471A35E3499CFB227A5E /* StoryBubbleView.swift in Sources */,
+				0225FBBD55D6368C9071669A /* StoriesStripView.swift in Sources */,
+				42AF24FDAEE8169F1B2BBD56 /* StoryProgressBarView.swift in Sources */,
+				F5ABE791464E7148D0CB2224 /* StoryViewerView.swift in Sources */,
+				52E1F7AF30CDB5AEB5076E17 /* AvatarView.swift in Sources */,
+				0E2A71E17FAEEC5E876EF3E9 /* PolylineCodec.swift in Sources */,
+				5D2E7452957A5788B51D6B74 /* SessionMapView.swift in Sources */,
+				462B2218E5D67439E410078A /* LaunchScreenView.swift in Sources */,
+				96F7FF0180FD59BA51D7A973 /* HomeComponents.swift in Sources */,
+				97C1E8D40FBB2C1A5D7D63BC /* SessionService.swift in Sources */,
+				9492DFF3C9EF4CB2458F2837 /* RaceService.swift in Sources */,
+				73E09B98FBC2E08DF059B22B /* KayakingGoals.swift in Sources */,
+				0021EA372763B4900F63C278 /* GoalsStore.swift in Sources */,
+				79D0FF4FBF84EDCD0756C9D7 /* YourGoalsView.swift in Sources */,
+				7D132C2D306EA204A68DBCA2 /* RoutePreviewShape.swift in Sources */,
+				E007293E42E1137DAAE19EE4 /* FlowLayout.swift in Sources */,
+				F38197AC80632B24B547DFB2 /* AppTheme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		F10000000000000000000011 /* Debug */ = {
+		3D50CBD97708F23E8FE9AE9F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -634,7 +634,7 @@
 			};
 			name = Debug;
 		};
-		F10000000000000000000012 /* Release */ = {
+		C13D9B15937C0A793E8CAF13 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -690,7 +690,7 @@
 			};
 			name = Release;
 		};
-		F10000000000000000000021 /* Debug */ = {
+		1576FF0087644A38CF27744C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -728,7 +728,7 @@
 			};
 			name = Debug;
 		};
-		F10000000000000000000022 /* Release */ = {
+		C7CA993C0EA53164955F659D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -769,20 +769,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F10000000000000000000001 /* Build configuration list for PBXProject "Boathouse" */ = {
+		C78E1CB98B7785993A253E60 /* Build configuration list for PBXProject "Boathouse" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F10000000000000000000011 /* Debug */,
-				F10000000000000000000012 /* Release */,
+				3D50CBD97708F23E8FE9AE9F /* Debug */,
+				C13D9B15937C0A793E8CAF13 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F10000000000000000000003 /* Build configuration list for PBXNativeTarget "Boathouse" */ = {
+		A864F6B377C9A46D2B60C029 /* Build configuration list for PBXNativeTarget "Boathouse" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F10000000000000000000021 /* Debug */,
-				F10000000000000000000022 /* Release */,
+				1576FF0087644A38CF27744C /* Debug */,
+				C7CA993C0EA53164955F659D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
