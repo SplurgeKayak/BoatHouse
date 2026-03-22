@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1500"
+   LastUpgradeVersion = "1620"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E10000000000000000000001"
+               BlueprintIdentifier = "C88B67372A6A09154440013C"
                BuildableName = "Boathouse.app"
                BlueprintName = "Boathouse"
                ReferencedContainer = "container:Boathouse.xcodeproj">
@@ -43,7 +43,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E10000000000000000000001"
+            BlueprintIdentifier = "C88B67372A6A09154440013C"
             BuildableName = "Boathouse.app"
             BlueprintName = "Boathouse"
             ReferencedContainer = "container:Boathouse.xcodeproj">
@@ -60,7 +60,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E10000000000000000000001"
+            BlueprintIdentifier = "C88B67372A6A09154440013C"
             BuildableName = "Boathouse.app"
             BlueprintName = "Boathouse"
             ReferencedContainer = "container:Boathouse.xcodeproj">
