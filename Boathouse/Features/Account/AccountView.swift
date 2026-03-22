@@ -12,18 +12,19 @@ struct AccountView: View {
                 profileSection
 
                 if appState.isRacer {
-                    stravaSection
+                    garminSection
                     walletSection
                     categorySection
                 }
 
+                appearanceSection
                 settingsSection
 
                 logoutSection
             }
             .navigationTitle("Account")
-            .sheet(isPresented: $viewModel.showingStravaOAuth) {
-                StravaOAuthView()
+            .sheet(isPresented: $viewModel.showingGarminOAuth) {
+                GarminOAuthView()
             }
             .sheet(isPresented: $viewModel.showingWalletSetup) {
                 WalletSetupView()
@@ -68,9 +69,9 @@ struct AccountView: View {
         }
     }
 
-    private var stravaSection: some View {
-        Section("Strava Connection") {
-            if let connection = appState.currentUser?.stravaConnection {
+    private var garminSection: some View {
+        Section("Garmin Connection") {
+            if let connection = appState.currentUser?.garminConnection {
                 HStack {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundStyle(.green)
@@ -90,7 +91,7 @@ struct AccountView: View {
 
                     Button("Disconnect") {
                         Task {
-                            await viewModel.disconnectStrava()
+                            await viewModel.disconnectGarmin()
                         }
                     }
                     .font(.subheadline)
@@ -98,11 +99,11 @@ struct AccountView: View {
                 }
             } else {
                 Button {
-                    viewModel.showingStravaOAuth = true
+                    viewModel.showingGarminOAuth = true
                 } label: {
                     HStack {
                         Image(systemName: "link")
-                        Text("Connect Strava")
+                        Text("Connect Garmin")
                         Spacer()
                         Image(systemName: "chevron.right")
                             .foregroundStyle(.secondary)
@@ -111,11 +112,11 @@ struct AccountView: View {
             }
 
             NavigationLink {
-                StravaExplanationView()
+                GarminExplanationView()
             } label: {
                 HStack {
                     Image(systemName: "questionmark.circle")
-                    Text("Why connect Strava?")
+                    Text("Why connect Garmin?")
                 }
             }
         }
@@ -203,7 +204,7 @@ struct AccountView: View {
                         .font(.subheadline)
 
                     if user.eligibleCategories.isEmpty {
-                        Text("Connect Strava to determine eligibility")
+                        Text("Connect Garmin to determine eligibility")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     } else {
@@ -223,11 +224,38 @@ struct AccountView: View {
         }
     }
 
+    private var appearanceSection: some View {
+        Section("Appearance") {
+            Picker("Theme", selection: Binding(
+                get: {
+                    switch appState.preferredColorScheme {
+                    case .none:  return 0
+                    case .light: return 1
+                    case .dark:  return 2
+                    default:     return 0
+                    }
+                },
+                set: { value in
+                    switch value {
+                    case 1:  appState.preferredColorScheme = .light
+                    case 2:  appState.preferredColorScheme = .dark
+                    default: appState.preferredColorScheme = nil
+                    }
+                }
+            )) {
+                Text("System").tag(0)
+                Text("Light").tag(1)
+                Text("Dark").tag(2)
+            }
+            .pickerStyle(.segmented)
+        }
+    }
+
     private var settingsSection: some View {
         Section("Settings") {
             if appState.isSpectator {
                 Button {
-                    viewModel.showingStravaOAuth = true
+                    viewModel.showingGarminOAuth = true
                 } label: {
                     HStack {
                         Image(systemName: "figure.water.fitness")

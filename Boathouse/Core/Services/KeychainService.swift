@@ -13,8 +13,8 @@ protocol KeychainServiceProtocol {
 enum KeychainKey: String {
     case authToken = "com.boathouse.authToken"
     case userId = "com.boathouse.userId"
-    case stravaAccessToken = "com.boathouse.stravaAccessToken"
-    case stravaRefreshToken = "com.boathouse.stravaRefreshToken"
+    case garminAccessToken = "com.boathouse.garminAccessToken"
+    case garminRefreshToken = "com.boathouse.garminRefreshToken"
 }
 
 /// Service for secure keychain storage

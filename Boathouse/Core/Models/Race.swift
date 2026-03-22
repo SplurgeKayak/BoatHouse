@@ -82,8 +82,6 @@ struct PrizeDistribution: Codable, Equatable {
 }
 
 enum RaceType: String, Codable, CaseIterable, Identifiable {
-    case topSpeed = "top_speed"
-    case furthestDistance = "furthest_distance"
     case fastest1km = "fastest_1km"
     case fastest5km = "fastest_5km"
     case fastest10km = "fastest_10km"
@@ -92,8 +90,6 @@ enum RaceType: String, Codable, CaseIterable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .topSpeed: return "Top Speed"
-        case .furthestDistance: return "Furthest Distance"
         case .fastest1km: return "Fastest 1km"
         case .fastest5km: return "Fastest 5km"
         case .fastest10km: return "Fastest 10km"
@@ -102,8 +98,6 @@ enum RaceType: String, Codable, CaseIterable, Identifiable {
 
     var shortName: String {
         switch self {
-        case .topSpeed: return "Speed"
-        case .furthestDistance: return "Distance"
         case .fastest1km: return "1km"
         case .fastest5km: return "5km"
         case .fastest10km: return "10km"
@@ -112,8 +106,6 @@ enum RaceType: String, Codable, CaseIterable, Identifiable {
 
     var icon: String {
         switch self {
-        case .topSpeed: return "bolt.fill"
-        case .furthestDistance: return "arrow.left.and.right"
         case .fastest1km: return "1.circle.fill"
         case .fastest5km: return "5.circle.fill"
         case .fastest10km: return "10.circle.fill"
@@ -122,15 +114,13 @@ enum RaceType: String, Codable, CaseIterable, Identifiable {
 
     var unit: String {
         switch self {
-        case .topSpeed: return "km/h"
-        case .furthestDistance: return "km"
         case .fastest1km, .fastest5km, .fastest10km: return "min"
         }
     }
 
     /// Distance filter options shown on the Club Room screen
     static var distanceFilters: [RaceType] {
-        [.fastest1km, .fastest5km, .fastest10km]
+        allCases
     }
 }
 
@@ -170,49 +160,28 @@ enum RaceDuration: String, Codable, CaseIterable, Identifiable {
 }
 
 enum RaceCategory: String, Codable, CaseIterable, Identifiable {
-    case juniorGirls = "junior_girls"
-    case juniorBoys = "junior_boys"
-    case womenU23 = "women_u23"
-    case menU23 = "men_u23"
-    case seniorWomen = "senior_women"
-    case seniorMen = "senior_men"
-    case mastersWomen = "masters_women"
-    case mastersMen = "masters_men"
+    case seniorWomen = "SW"
+    case seniorMen   = "SM"
+    case juniorMen   = "JM"
+    case juniorWomen = "JW"
 
     var id: String { rawValue }
 
     var displayName: String {
         switch self {
-        case .juniorGirls: return "Junior Girls (U18)"
-        case .juniorBoys: return "Junior Boys (U18)"
-        case .womenU23: return "Women (U23)"
-        case .menU23: return "Men (U23)"
-        case .seniorWomen: return "Senior Women (23+)"
-        case .seniorMen: return "Senior Men (23+)"
-        case .mastersWomen: return "Masters Women (35+)"
-        case .mastersMen: return "Masters Men (35+)"
+        case .seniorWomen: return "Senior Women"
+        case .seniorMen:   return "Senior Men"
+        case .juniorMen:   return "Junior Men"
+        case .juniorWomen: return "Junior Women"
         }
     }
 
     var shortName: String {
         switch self {
-        case .juniorGirls: return "JG"
-        case .juniorBoys: return "JB"
-        case .womenU23: return "WU23"
-        case .menU23: return "MU23"
         case .seniorWomen: return "SW"
-        case .seniorMen: return "SM"
-        case .mastersWomen: return "MW"
-        case .mastersMen: return "MM"
-        }
-    }
-
-    var isMaleCategory: Bool {
-        switch self {
-        case .juniorBoys, .menU23, .seniorMen, .mastersMen:
-            return true
-        default:
-            return false
+        case .seniorMen:   return "SM"
+        case .juniorMen:   return "JM"
+        case .juniorWomen: return "JW"
         }
     }
 }

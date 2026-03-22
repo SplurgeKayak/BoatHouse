@@ -44,7 +44,7 @@ final class SessionService: SessionServiceProtocol {
     }
 
     func importStravaSessions() async throws -> [Session] {
-        guard let accessToken = keychainService.retrieveToken(for: .stravaAccessToken) else {
+        guard let accessToken = keychainService.retrieveToken(for: .garminAccessToken) else {
             throw StravaError.notAuthenticated
         }
 

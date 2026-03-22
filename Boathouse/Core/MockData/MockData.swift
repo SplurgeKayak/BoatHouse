@@ -138,7 +138,7 @@ enum MockData {
                 email: "\(spec.firstName.lowercased()).\(spec.lastName.lowercased())@example.com",
                 displayName: "\(spec.firstName) \(spec.lastName)",
                 userType: .racer,
-                stravaConnection: StravaConnection(
+                garminConnection: GarminConnection(
                     athleteId: stravaId,
                     accessToken: "mock_access_\(String(format: "%03d", index + 1))",
                     refreshToken: "mock_refresh_\(String(format: "%03d", index + 1))",
@@ -192,7 +192,7 @@ enum MockData {
             email: "spectator@example.com",
             displayName: "Alex Viewer",
             userType: .spectator,
-            stravaConnection: nil,
+            garminConnection: nil,
             wallet: nil,
             dateOfBirth: nil,
             gender: nil,
@@ -376,7 +376,7 @@ enum MockData {
         [
             Race(
                 id: "race-001",
-                type: .topSpeed,
+                type: .fastest1km,
                 duration: .daily,
                 category: .seniorMen,
                 startDate: Calendar.current.startOfDay(for: Date()),
@@ -388,7 +388,7 @@ enum MockData {
             ),
             Race(
                 id: "race-002",
-                type: .furthestDistance,
+                type: .fastest5km,
                 duration: .weekly,
                 category: .seniorMen,
                 startDate: Date().addingTimeInterval(-86400 * 3),
@@ -414,7 +414,7 @@ enum MockData {
                 id: "race-004",
                 type: .fastest5km,
                 duration: .weekly,
-                category: .mastersMen,
+                category: .seniorMen,
                 startDate: Date().addingTimeInterval(-86400 * 3),
                 endDate: Date().addingTimeInterval(86400 * 4),
                 entryCount: 42,
@@ -481,7 +481,7 @@ enum MockData {
                     userProfileURL: nil,
                     score: item.score,
                     sessionId: sessions.first { $0.userId == item.user.id }?.id,
-                    raceType: .topSpeed
+                    raceType: .fastest1km
                 )
             },
             updatedAt: Date()

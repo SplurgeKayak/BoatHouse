@@ -6,7 +6,7 @@ struct User: Identifiable, Codable, Equatable {
     var email: String
     var displayName: String
     var userType: UserType
-    var stravaConnection: StravaConnection?
+    var garminConnection: GarminConnection?
     var wallet: Wallet?
     var dateOfBirth: Date?
     var gender: Gender?
@@ -43,43 +43,25 @@ struct User: Identifiable, Codable, Equatable {
     /// Determines eligible race categories based on age and gender
     var eligibleCategories: [RaceCategory] {
         guard let age = age, let gender = gender else { return [] }
-
-        var categories: [RaceCategory] = []
-
-        switch (age, gender) {
-        case (let a, .female) where a < 18:
-            categories = [.juniorGirls, .juniorBoys, .womenU23, .menU23, .seniorWomen, .seniorMen, .mastersWomen, .mastersMen]
-        case (let a, .male) where a < 18:
-            categories = [.juniorBoys, .menU23, .seniorMen, .mastersMen]
-        case (let a, .female) where a < 23:
-            categories = [.womenU23, .menU23, .seniorWomen, .seniorMen, .mastersWomen, .mastersMen]
-        case (let a, .male) where a < 23:
-            categories = [.menU23, .seniorMen, .mastersMen]
-        case (let a, .female) where a < 35:
-            categories = [.seniorWomen, .seniorMen, .mastersWomen, .mastersMen]
-        case (let a, .male) where a < 35:
-            categories = [.seniorMen, .mastersMen]
-        case (_, .female):
-            categories = [.mastersWomen, .mastersMen]
-        case (_, .male):
-            categories = [.mastersMen]
-        default:
-            categories = []
+        switch (gender, age) {
+        case (.female, ..<18): return [.juniorWomen]
+        case (.male,   ..<18): return [.juniorMen]
+        case (.female, _):     return [.seniorWomen]
+        case (.male,   _):     return [.seniorMen]
+        default:               return []
         }
-
-        return categories
     }
 
-    var isStravaConnected: Bool {
-        stravaConnection?.isValid ?? false
+    var isGarminConnected: Bool {
+        garminConnection?.isValid ?? false
     }
 
     var canEnterRaces: Bool {
-        userType == .racer && isStravaConnected && wallet != nil
+        userType == .racer && isGarminConnected && wallet != nil
     }
 }
 
-struct StravaConnection: Codable, Equatable {
+struct GarminConnection: Codable, Equatable {
     let athleteId: Int
     var accessToken: String
     var refreshToken: String

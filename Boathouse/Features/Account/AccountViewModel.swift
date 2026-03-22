@@ -2,13 +2,13 @@ import SwiftUI
 
 /// ViewModel for Account screen
 final class AccountViewModel: ObservableObject {
-    @Published var showingStravaOAuth: Bool = false
+    @Published var showingGarminOAuth: Bool = false
     @Published var showingWalletSetup: Bool = false
     @Published var showingTransactionHistory: Bool = false
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
-    private let stravaOAuthViewModel = StravaOAuthViewModel()
+    private let garminOAuthViewModel = GarminOAuthViewModel()
     private let walletService: WalletServiceProtocol
 
     init(walletService: WalletServiceProtocol = WalletService.shared) {
@@ -16,8 +16,8 @@ final class AccountViewModel: ObservableObject {
     }
 
     @MainActor
-    func disconnectStrava() async {
-        await stravaOAuthViewModel.disconnect()
+    func disconnectGarmin() async {
+        await garminOAuthViewModel.disconnect()
     }
 
     @MainActor

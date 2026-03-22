@@ -10,6 +10,7 @@ struct RacePaceApp: App {
             ContentView()
                 .environmentObject(appState)
                 .environmentObject(authViewModel)
+                .preferredColorScheme(appState.preferredColorScheme)
                 .onAppear {
                     AppState.shared = appState
                 }

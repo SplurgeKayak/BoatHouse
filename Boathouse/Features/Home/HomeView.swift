@@ -6,57 +6,65 @@ struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
     @StateObject private var storyViewModel = StoryFeedViewModel()
     @EnvironmentObject var appState: AppState
+    @State private var showingGoals = false
 
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 0) {
-                    // App headers
-                    headerSection
+        ZStack(alignment: .bottom) {
+            NavigationStack {
+                ScrollView {
+                    VStack(spacing: 0) {
+                        // App headers
+                        headerSection
 
-                    // Stories strip
-                    if storyViewModel.hasStories {
-                        StoriesStripView(stories: storyViewModel.stories) { story in
-                            storyViewModel.selectStory(story)
+                        // Stories strip
+                        if storyViewModel.hasStories {
+                            StoriesStripView(stories: storyViewModel.stories) { story in
+                                storyViewModel.selectStory(story)
+                            }
+
+                            Divider()
                         }
 
-                        Divider()
-                    }
+                        filterSection
 
-                    filterSection
-
-                    if viewModel.isLoading {
-                        loadingView
-                    } else if viewModel.filteredSessions.isEmpty {
-                        emptyStateView
-                    } else {
-                        sessionFeed
-                    }
-
-                    rankingSection
-                }
-            }
-            .refreshable {
-                await viewModel.refresh()
-                storyViewModel.updateStories(from: viewModel.sessions)
-            }
-            .task {
-                await viewModel.loadInitialData()
-                storyViewModel.updateStories(from: viewModel.sessions)
-            }
-            .fullScreenCover(isPresented: $storyViewModel.isShowingStoryViewer) {
-                if let selectedStory = storyViewModel.selectedStory {
-                    StoryViewerView(
-                        story: selectedStory,
-                        onDismiss: {
-                            storyViewModel.dismissStoryViewer()
-                        },
-                        onMarkSeen: { sessionIds in
-                            storyViewModel.markSessionsAsSeen(sessionIds, sessions: viewModel.sessions)
+                        if viewModel.isLoading {
+                            loadingView
+                        } else if viewModel.filteredSessions.isEmpty {
+                            emptyStateView
+                        } else {
+                            sessionFeed
                         }
-                    )
+
+                        rankingSection
+
+                        Spacer().frame(height: 80)
+                    }
+                }
+                .refreshable {
+                    await viewModel.refresh()
+                    storyViewModel.updateStories(from: viewModel.sessions)
+                }
+                .task {
+                    await viewModel.loadInitialData()
+                    storyViewModel.updateStories(from: viewModel.sessions)
+                }
+                .fullScreenCover(isPresented: $storyViewModel.isShowingStoryViewer) {
+                    if let selectedStory = storyViewModel.selectedStory {
+                        StoryViewerView(
+                            story: selectedStory,
+                            onDismiss: {
+                                storyViewModel.dismissStoryViewer()
+                            },
+                            onMarkSeen: { sessionIds in
+                                storyViewModel.markSessionsAsSeen(sessionIds, sessions: viewModel.sessions)
+                            }
+                        )
+                    }
                 }
             }
+
+            goalsFloatingButton
+                .padding(.bottom, 12)
         }
     }
 
@@ -72,6 +80,12 @@ struct HomeView: View {
                 .font(.title2)
                 .fontWeight(.semibold)
                 .foregroundStyle(.secondary)
+
+            Text("Race Pace lets you share your sessions, race & compare efforts with the community to see how you stack up and improve against paddlers like you.")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.top, 6)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal)
@@ -177,7 +191,7 @@ struct HomeView: View {
                 .font(.headline)
 
             if appState.isRacer {
-                Text("Connect Strava to import your canoe and kayak sessions")
+                Text("Connect Garmin to import your canoe and kayak sessions")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
@@ -189,6 +203,31 @@ struct HomeView: View {
             }
         }
         .padding(40)
+    }
+
+    // MARK: - Goals Floating Button
+
+    private var goalsFloatingButton: some View {
+        Button {
+            showingGoals = true
+        } label: {
+            VStack(spacing: 4) {
+                Image(systemName: "target")
+                    .font(.system(size: 22, weight: .semibold))
+                Text("Goals")
+                    .font(.caption.weight(.semibold))
+            }
+            .foregroundStyle(.white)
+            .frame(width: 72, height: 56)
+            .background(Color.accentColor)
+            .clipShape(Capsule())
+            .shadow(color: .black.opacity(0.25), radius: 8, x: 0, y: 4)
+        }
+        .accessibilityLabel("Goals")
+        .sheet(isPresented: $showingGoals) {
+            YourGoalsView()
+                .environmentObject(appState)
+        }
     }
 }
 
