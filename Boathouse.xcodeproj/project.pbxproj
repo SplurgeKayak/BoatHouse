@@ -4,7 +4,7 @@
 	classes = {
 	};
 	objectVersion = 56;
-	objects = {/
+	objects = {
 
 /* Begin PBXBuildFile section */
 		A10000000000000000000001 /* BoathouseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000001 /* BoathouseApp.swift */; };
@@ -788,6 +788,4 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-	};
-	rootObject = E10000000000000000000000 /* Project object */;
-}
+};
