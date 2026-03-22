@@ -30,6 +30,7 @@ struct AthleteStory: Identifiable, Equatable {
 }
 
 /// ViewModel for managing the Stories strip on the Home screen
+@MainActor
 final class StoryFeedViewModel: ObservableObject {
     @Published var stories: [AthleteStory] = []
     @Published var selectedStory: AthleteStory?

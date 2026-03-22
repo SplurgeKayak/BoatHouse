@@ -8,7 +8,7 @@ struct GarminOAuthView: View {
             VStack(spacing: 24) {
                 Image(systemName: "link.circle.fill")
                     .font(.system(size: 64))
-                    .foregroundStyle(.accentColor)
+                    .foregroundStyle(.accent)
 
                 Text("Connect Garmin")
                     .font(.title2)
