@@ -2,9 +2,8 @@ import SwiftUI
 
 /// Account screen with profile, Strava connection, wallet, and settings
 struct AccountView: View {
-    @EnvironmentObject var appState:      AppState
+    @EnvironmentObject var appState: AppState
     @EnvironmentObject var authViewModel: AuthViewModel
-    @EnvironmentObject var themeManager:  ThemeManager
     @StateObject private var viewModel = AccountViewModel()
 
     var body: some View {
@@ -18,7 +17,6 @@ struct AccountView: View {
                     categorySection
                 }
 
-                appearanceSection
                 settingsSection
 
                 logoutSection
@@ -35,26 +33,6 @@ struct AccountView: View {
             }
         }
     }
-
-    // MARK: - Appearance Section
-
-    private var appearanceSection: some View {
-        Section("Appearance") {
-            Picker("Theme", selection: $themeManager.appearance) {
-                ForEach(AppAppearance.allCases) { option in
-                    Label(option.rawValue, systemImage: option.icon)
-                        .tag(option)
-                }
-            }
-            .pickerStyle(.segmented)
-            .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-        } footer: {
-            Text("Choose how the app looks. \"System\" follows your iOS display settings.")
-                .font(.footnote)
-        }
-    }
-
-    // MARK: - Profile Section
 
     private var profileSection: some View {
         Section {
@@ -321,5 +299,4 @@ struct AccountView: View {
     AccountView()
         .environmentObject(AppState())
         .environmentObject(AuthViewModel())
-        .environmentObject(ThemeManager())
 }
