@@ -592,7 +592,8 @@ enum MockData {
                     userProfileURL: nil,
                     score: item.score,
                     sessionId: sessions.first { $0.userId == item.userId }?.id,
-                    raceType: .fastest1km
+                    raceType: .fastest1km,
+                    isGPSVerified: true
                 )
             },
             updatedAt: Date()

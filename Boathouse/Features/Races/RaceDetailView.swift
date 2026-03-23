@@ -12,15 +12,11 @@ struct RaceDetailView: View {
             VStack(spacing: 24) {
                 headerSection
 
-                prizeSection
+                podiumSection
 
                 rulesSection
 
                 leaderboardSection
-
-                if race.canEnter && appState.isRacer {
-                    enterButton
-                }
             }
             .padding()
         }
@@ -81,7 +77,7 @@ struct RaceDetailView: View {
             HStack(spacing: 0) {
                 StatBlock(title: "Entries", value: "\(race.entryCount)", icon: "person.3.fill")
                 Divider()
-                StatBlock(title: "Entry Fee", value: race.formattedEntryFee, icon: "sterlingsign.circle.fill")
+                StatBlock(title: "Fastest Time", value: viewModel.fastestTimeFormatted, icon: "stopwatch.fill")
                 Divider()
                 StatBlock(title: "Ends In", value: formatCountdown(race.timeRemaining), icon: "clock.fill")
             }
@@ -91,28 +87,38 @@ struct RaceDetailView: View {
         }
     }
 
-    private var prizeSection: some View {
+    // MARK: - Podium section
+
+    private var podiumSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Prize Pool")
+            Text("Podium")
                 .font(.headline)
 
-            let prizes = race.calculatePrizes()
+            let top3 = Array(viewModel.leaderboard?.entries.prefix(3) ?? [])
+            let currentUserId = appState.currentUser?.id
 
             VStack(spacing: 12) {
-                PrizeRow(position: 1, amount: prizes.formattedPrize(for: 1), percentage: "75%")
-                PrizeRow(position: 2, amount: prizes.formattedPrize(for: 2), percentage: "20%")
-                PrizeRow(position: 3, amount: prizes.formattedPrize(for: 3), percentage: "5%")
-            }
+                ForEach(Array(top3.enumerated()), id: \.element.id) { index, entry in
+                    PodiumRow(
+                        entry: entry,
+                        raceType: race.type,
+                        isCurrentUser: entry.userId == currentUserId
+                    )
+                }
 
-            HStack {
-                Text("Total Prize Pool")
-                    .font(.subheadline)
-                Spacer()
-                Text(race.formattedPrizePool)
-                    .font(.headline)
-                    .foregroundStyle(.accent)
+                // Show current user's position if not in top 3
+                if let userId = currentUserId,
+                   !top3.contains(where: { $0.userId == userId }),
+                   let userEntry = viewModel.leaderboard?.entries.first(where: { $0.userId == userId }) {
+                    Divider()
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Your position")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        PodiumRow(entry: userEntry, raceType: race.type, isCurrentUser: true)
+                    }
+                }
             }
-            .padding(.top, 8)
         }
         .padding()
         .background(Color(.systemGray6))
@@ -158,58 +164,62 @@ struct RaceDetailView: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
+    // MARK: - Leaderboard section — top 5 + current user + full list
+
     private var leaderboardSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Text("Leaderboard")
-                    .font(.headline)
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Leaderboard")
+                .font(.headline)
 
-                Spacer()
+            if viewModel.isLoading {
+                ProgressView()
+            } else if let leaderboard = viewModel.leaderboard {
+                let entries = leaderboard.entries
+                let currentUserId = appState.currentUser?.id
+                let top5 = Array(entries.prefix(5))
+                let userInTop5 = top5.contains(where: { $0.userId == currentUserId })
 
-                if viewModel.isLoading {
-                    ProgressView()
-                }
-            }
+                VStack(spacing: 0) {
+                    ForEach(top5) { entry in
+                        LeaderboardDetailRow(entry: entry, raceType: race.type)
+                            .background(entry.userId == currentUserId ? Color.accentColor.opacity(0.06) : Color.clear)
+                        Divider()
+                    }
 
-            if let leaderboard = viewModel.leaderboard {
-                if leaderboard.entries.isEmpty {
-                    Text("No entries yet")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                } else {
-                    VStack(spacing: 0) {
-                        ForEach(leaderboard.entries.prefix(10)) { entry in
+                    // Current user row if not in top 5
+                    if !userInTop5, let userId = currentUserId,
+                       let userEntry = entries.first(where: { $0.userId == userId }) {
+                        HStack {
+                            Text("Your position")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .padding(.leading)
+                            Spacer()
+                        }
+                        .padding(.top, 8)
+                        LeaderboardDetailRow(entry: userEntry, raceType: race.type)
+                            .background(Color.accentColor.opacity(0.06))
+                        Divider()
+                    }
+
+                    // Full list (positions 6+)
+                    if entries.count > 5 {
+                        let remaining = Array(entries.dropFirst(5).filter { $0.userId != currentUserId })
+                        ForEach(remaining) { entry in
                             LeaderboardDetailRow(entry: entry, raceType: race.type)
-                            if entry.id != leaderboard.entries.prefix(10).last?.id {
-                                Divider()
-                            }
+                                .background(entry.userId == currentUserId ? Color.accentColor.opacity(0.06) : Color.clear)
+                            Divider()
                         }
                     }
                 }
+            } else {
+                Text("No leaderboard data available")
+                    .foregroundStyle(.secondary)
             }
         }
         .padding()
         .background(Color(.systemGray6))
         .clipShape(RoundedRectangle(cornerRadius: 12))
-    }
-
-    private var enterButton: some View {
-        Button {
-            viewModel.showingEntryConfirmation = true
-        } label: {
-            HStack {
-                Text("Enter Race")
-                Text("•")
-                Text(race.formattedEntryFee)
-            }
-            .font(.headline)
-            .frame(maxWidth: .infinity)
-            .frame(height: 56)
-        }
-        .buttonStyle(PrimaryButtonStyle())
-        .disabled(!appState.currentUser!.canEnterRaces)
     }
 
     private func formatCountdown(_ interval: TimeInterval) -> String {
@@ -225,6 +235,66 @@ struct RaceDetailView: View {
             return "\(hours)h \(minutes)m"
         } else {
             return "\(minutes)m"
+        }
+    }
+}
+
+// MARK: - Podium Row
+
+struct PodiumRow: View {
+    let entry: LeaderboardEntry
+    let raceType: RaceType
+    let isCurrentUser: Bool
+
+    var body: some View {
+        HStack(spacing: 12) {
+            // Medal circle
+            Circle()
+                .fill(medalColor)
+                .frame(width: 32, height: 32)
+                .overlay {
+                    Text(entry.rank <= 3 ? ["🥇", "🥈", "🥉"][entry.rank - 1] : "#\(entry.rank)")
+                        .font(.caption)
+                }
+
+            // Avatar
+            AvatarView(
+                url: entry.userProfileURL,
+                initials: String(entry.userName.prefix(1)),
+                id: entry.userId,
+                size: 36
+            )
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(entry.userName)
+                    .font(.subheadline)
+                    .fontWeight(isCurrentUser ? .bold : .regular)
+                if entry.isGPSVerified {
+                    Label("GPS Verified", systemImage: "checkmark.shield.fill")
+                        .font(.caption2)
+                        .foregroundStyle(.green)
+                }
+            }
+
+            Spacer()
+
+            Text(entry.formattedScore)
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .foregroundStyle(.accent)
+        }
+        .padding(.vertical, 4)
+        .padding(.horizontal, 8)
+        .background(isCurrentUser ? Color.accentColor.opacity(0.08) : Color.clear)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    private var medalColor: Color {
+        switch entry.rank {
+        case 1: return Color(red: 1, green: 0.84, blue: 0)
+        case 2: return Color(.systemGray3)
+        case 3: return Color(red: 0.8, green: 0.5, blue: 0.2)
+        default: return Color(.systemGray5)
         }
     }
 }
@@ -332,14 +402,12 @@ struct LeaderboardDetailRow: View {
                 .frame(width: 30)
                 .foregroundStyle(medalColor)
 
-            Circle()
-                .fill(Color(.systemGray5))
-                .frame(width: 36, height: 36)
-                .overlay {
-                    Text(String(entry.userName.prefix(1)))
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                }
+            AvatarView(
+                url: entry.userProfileURL,
+                initials: String(entry.userName.prefix(1)),
+                id: entry.userId,
+                size: 36
+            )
 
             Text(entry.userName)
                 .font(.subheadline)
@@ -365,7 +433,7 @@ struct LeaderboardDetailRow: View {
     }
 }
 
-/// Entry confirmation sheet
+/// Entry confirmation sheet (kept for backward compatibility)
 struct EntryConfirmationSheet: View {
     let race: Race
     @ObservedObject var viewModel: RaceDetailViewModel

@@ -6,21 +6,11 @@ import Combine
 final class HomeViewModel: ObservableObject {
     @Published var sessions: [Session] = []
     @Published var currentLeaderboard: Leaderboard?
-    @Published var selectedDuration: RaceDuration = .weekly
-    @Published var selectedRaceType: RaceType = .fastest1km
-    @Published var selectedCategory: RaceCategory? = nil
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
-    /// Cached filtered result — updated only when sessions or filters change.
-    @Published private(set) var filteredSessions: [Session] = []
-
-    /// Filtered sessions annotated with their 1-based rank within the current filter.
-    @Published private(set) var rankedSessions: [(session: Session, rank: Int)] = []
-
     private let sessionService: SessionServiceProtocol
     private let raceService: RaceServiceProtocol
-    private var cancellables = Set<AnyCancellable>()
 
     init(
         sessionService: SessionServiceProtocol = SessionService.shared,
@@ -28,10 +18,26 @@ final class HomeViewModel: ObservableObject {
     ) {
         self.sessionService = sessionService
         self.raceService = raceService
-        setupBindings()
+    }
+
+    // MARK: - Chronological feed
+
+    /// All sessions sorted newest first, with no filtering.
+    var chronologicalSessions: [Session] {
+        sessions.sorted { $0.startDate > $1.startDate }
     }
 
     // MARK: - User helpers
+
+    /// Returns the display name for a userId, falling back to the raw ID.
+    func userName(for userId: String) -> String {
+        MockData.users.first(where: { $0.id == userId })?.displayName ?? userId
+    }
+
+    /// Returns the profile image URL for a userId, if available.
+    func userAvatarURL(for userId: String) -> URL? {
+        MockData.users.first(where: { $0.id == userId })?.profileImageURL
+    }
 
     /// Returns the display name for a userId, falling back to the raw ID.
     static func displayName(for userId: String) -> String {
@@ -50,7 +56,7 @@ final class HomeViewModel: ObservableObject {
             .map(\.id)
     }
 
-    // MARK: - Filtered sessions
+    // MARK: - Filtered sessions (kept for backward compatibility with tests)
 
     /// Pure function for filtering and sorting sessions.
     /// Testable independently of the ViewModel.
@@ -115,45 +121,6 @@ final class HomeViewModel: ObservableObject {
 
     // MARK: - Data loading
 
-    private func setupBindings() {
-        // Recompute filtered + ranked list whenever sessions or filters change
-        $sessions
-            .combineLatest($selectedDuration, $selectedRaceType)
-            .combineLatest($selectedCategory)
-            .map { combined, category in
-                let (sessions, duration, raceType) = combined
-                return Self.filterSessions(
-                    sessions: sessions,
-                    timeFilter: duration,
-                    distanceFilter: raceType,
-                    categoryFilter: category,
-                    now: Date(),
-                    calendar: .current
-                )
-            }
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] filtered in
-                guard let self else { return }
-                self.filteredSessions = filtered
-                // Assign 1-based ranks for all distance filters
-                self.rankedSessions = filtered.enumerated().map { index, session in
-                    (session: session, rank: index + 1)
-                }
-            }
-            .store(in: &cancellables)
-
-        // Reload leaderboard when filters change (debounced)
-        $selectedDuration
-            .combineLatest($selectedRaceType)
-            .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
-            .sink { [weak self] _, _ in
-                Task { @MainActor [weak self] in
-                    await self?.loadLeaderboard()
-                }
-            }
-            .store(in: &cancellables)
-    }
-
     @MainActor
     func loadInitialData() async {
         isLoading = true
@@ -181,8 +148,8 @@ final class HomeViewModel: ObservableObject {
     private func loadLeaderboard() async {
         do {
             currentLeaderboard = try await raceService.fetchLeaderboard(
-                duration: selectedDuration,
-                raceType: selectedRaceType
+                duration: .weekly,
+                raceType: .fastest1km
             )
         } catch {
             // Silently fail for leaderboard

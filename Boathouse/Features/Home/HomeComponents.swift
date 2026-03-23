@@ -1,6 +1,64 @@
 import SwiftUI
 import CoreLocation
 
+// MARK: - Session Row (compact tappable row for home feed)
+
+struct SessionRow: View {
+    let session: Session
+    let userName: String
+    let userAvatarURL: URL?
+    let onTap: () -> Void
+
+    private var avatarInitials: String {
+        let result = userName
+            .split(separator: " ")
+            .prefix(2)
+            .compactMap { $0.first }
+            .map { String($0) }
+            .joined()
+            .uppercased()
+        return result.isEmpty ? "?" : result
+    }
+
+    var body: some View {
+        Button(action: onTap) {
+            HStack(spacing: 12) {
+                AvatarView(url: userAvatarURL, initials: avatarInitials, id: session.userId, size: 40)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(userName)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.primary)
+
+                    Text(session.startDate, style: .relative)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer()
+
+                VStack(alignment: .trailing, spacing: 2) {
+                    Text(session.formattedDistance)
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundStyle(.primary)
+
+                    Text(session.formattedDuration)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 10)
+            .background(Color(.systemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .shadow(color: .black.opacity(0.04), radius: 4, y: 2)
+        }
+        .buttonStyle(.plain)
+    }
+}
+
 // MARK: - Session Card
 
 struct SessionCard: View {

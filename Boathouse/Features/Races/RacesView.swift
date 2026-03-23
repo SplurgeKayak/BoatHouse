@@ -18,8 +18,10 @@ struct RacesView: View {
                     raceList
                 }
             }
-            .navigationTitle("Races")
+            .navigationTitle("")
+            .navigationBarHidden(false)
             .task {
+                viewModel.autoSelectCategory(for: appState.currentUser)
                 await viewModel.loadRaces()
             }
             .refreshable {
@@ -29,7 +31,22 @@ struct RacesView: View {
     }
 
     private var filterSection: some View {
-        VStack(spacing: 12) {
+        VStack(alignment: .leading, spacing: 12) {
+            // Orange title + subtitle header
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Races")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundStyle(Color(red: 252/255, green: 76/255, blue: 2/255))
+
+                Text("Filter when and what distance to race to see how your sessions stack up against paddlers like you.")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .padding(.bottom, 8)
+            }
+            .padding(.horizontal)
+            .padding(.top, 12)
+
             Picker("Duration", selection: $viewModel.selectedDuration) {
                 ForEach(RaceDuration.allCases) { duration in
                     Text(duration.displayName).tag(Optional(duration))
@@ -128,7 +145,34 @@ struct RacesView: View {
 
 struct RaceCard: View {
     let race: Race
-    @EnvironmentObject var appState: AppState
+
+    /// Fastest time for this race's type from mock sessions within the race's window.
+    private var fastestTime: String? {
+        let now = Date()
+        let windowStart: Date
+        switch race.duration {
+        case .daily:   windowStart = Calendar.current.startOfDay(for: now)
+        case .weekly:  windowStart = Calendar.current.date(byAdding: .day, value: -7, to: now) ?? now
+        case .monthly: windowStart = Calendar.current.date(byAdding: .month, value: -1, to: now) ?? now
+        case .yearly:  windowStart = Calendar.current.date(byAdding: .year, value: -1, to: now) ?? now
+        }
+
+        let filtered = MockData.sessions.filter {
+            $0.startDate >= windowStart && $0.startDate <= now
+        }
+
+        let best: TimeInterval?
+        switch race.type {
+        case .fastest1km:  best = filtered.compactMap(\.fastest1kmTime).min()
+        case .fastest5km:  best = filtered.compactMap(\.fastest5kmTime).min()
+        case .fastest10km: best = filtered.compactMap(\.fastest10kmTime).min()
+        }
+
+        guard let t = best else { return nil }
+        let minutes = Int(t) / 60
+        let seconds = Int(t) % 60
+        return String(format: "%d:%02d", minutes, seconds)
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -154,38 +198,19 @@ struct RaceCard: View {
                 }
 
                 Spacer()
-
-                VStack(alignment: .trailing, spacing: 4) {
-                    Text(race.formattedPrizePool)
-                        .font(.headline)
-                        .foregroundStyle(.accent)
-
-                    Text("Prize Pool")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
             }
 
             HStack(spacing: 20) {
                 StatColumn(title: "Entries", value: "\(race.entryCount)")
-                StatColumn(title: "Entry Fee", value: race.formattedEntryFee)
+                StatColumn(title: "Fastest", value: fastestTime ?? "—")
                 StatColumn(title: "Ends In", value: formatTimeRemaining(race.timeRemaining))
             }
 
-            if race.canEnter && appState.isRacer {
-                Button {
-                    // Navigation handled by NavigationLink
-                } label: {
-                    Text("View & Enter")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 12)
-                        .background(Color.accentColor)
-                        .foregroundStyle(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                }
-            } else if !race.canEnter {
+            Text("Ends \(race.endDate, style: .relative)")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            if !race.canEnter {
                 HStack {
                     Image(systemName: "clock.badge.xmark")
                     Text("Entry closed")

@@ -9,6 +9,7 @@ final class RaceDetailViewModel: ObservableObject {
     @Published var showingSuccess: Bool = false
     @Published var showingError: Bool = false
     @Published var errorMessage: String?
+    @Published var fastestTimeFormatted: String = "—"
 
     private let raceService: RaceServiceProtocol
     private let walletService: WalletServiceProtocol
@@ -27,7 +28,9 @@ final class RaceDetailViewModel: ObservableObject {
         defer { isLoading = false }
 
         do {
-            leaderboard = try await raceService.fetchRaceLeaderboard(raceId: raceId)
+            let board = try await raceService.fetchRaceLeaderboard(raceId: raceId)
+            leaderboard = board
+            fastestTimeFormatted = board.entries.first?.formattedScore ?? "—"
         } catch {
             errorMessage = "Failed to load leaderboard"
         }
