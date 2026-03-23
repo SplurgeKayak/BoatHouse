@@ -6,6 +6,7 @@ struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
     @StateObject private var storyViewModel = StoryFeedViewModel()
     @EnvironmentObject var appState: AppState
+    @Environment(\.colorScheme) private var colorScheme
     @State private var showingGoals = false
 
     var body: some View {
@@ -30,7 +31,7 @@ struct HomeView: View {
 
                         if viewModel.isLoading {
                             loadingView
-                        } else if viewModel.filteredSessions.isEmpty {
+                        } else if viewModel.rankedSessions.isEmpty {
                             emptyStateView
                         } else {
                             sessionFeed
@@ -41,7 +42,7 @@ struct HomeView: View {
                         Spacer().frame(height: 80)
                     }
                 }
-                .background(Color.darkNavyBackground)
+                .background(colorScheme == .dark ? Color.darkNavyBackground : Color.lightBackground)
                 .refreshable {
                     await viewModel.refresh()
                     storyViewModel.updateStories(from: viewModel.sessions)
@@ -66,7 +67,7 @@ struct HomeView: View {
             }
 
             goalsFloatingButton
-                .padding(.bottom, -16)
+                .padding(.bottom, 8)
         }
     }
 
@@ -77,6 +78,7 @@ struct HomeView: View {
             Text("Race Pace")
                 .font(.largeTitle)
                 .fontWeight(.bold)
+                .foregroundStyle(colorScheme == .dark ? Color.darkTitleText : Color.lightTitleText)
 
             Text("Club Room")
                 .font(.title2)
@@ -121,6 +123,27 @@ struct HomeView: View {
                 }
                 .padding(.horizontal)
             }
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    FilterChip(
+                        title: "All",
+                        isSelected: viewModel.selectedCategory == nil,
+                        action: { viewModel.selectedCategory = nil }
+                    )
+                    .accessibilityLabel("All categories")
+
+                    ForEach(RaceCategory.allCases) { category in
+                        FilterChip(
+                            title: category.shortName,
+                            isSelected: viewModel.selectedCategory == category,
+                            action: { viewModel.selectedCategory = category }
+                        )
+                        .accessibilityLabel("Filter by \(category.displayName)")
+                    }
+                }
+                .padding(.horizontal)
+            }
         }
         .padding(.vertical, 8)
         .background(Color(.systemGray6))
@@ -130,9 +153,14 @@ struct HomeView: View {
 
     private var sessionFeed: some View {
         LazyVStack(spacing: 16) {
-            ForEach(viewModel.filteredSessions) { session in
-                SessionCard(session: session)
-                    .padding(.horizontal)
+            ForEach(viewModel.rankedSessions, id: \.session.id) { item in
+                SessionCard(
+                    session: item.session,
+                    userName: HomeViewModel.displayName(for: item.session.userId),
+                    userAvatarURL: HomeViewModel.avatarURL(for: item.session.userId),
+                    rank: item.rank
+                )
+                .padding(.horizontal)
             }
         }
         .padding(.vertical)
@@ -221,11 +249,12 @@ struct HomeView: View {
             }
             .foregroundStyle(.white)
             .frame(width: 72, height: 56)
-            .background(Color.accentColor)
+            .background(Color.accentColor.opacity(0.5))
             .clipShape(Capsule())
             .shadow(color: .black.opacity(0.25), radius: 8, x: 0, y: 4)
         }
         .accessibilityLabel("Goals")
+        .accessibilityValue("Primary action")
         .sheet(isPresented: $showingGoals) {
             if GoalsStore.shared.load() != nil {
                 GoalProgressView()

@@ -160,28 +160,34 @@ enum RaceDuration: String, Codable, CaseIterable, Identifiable {
 }
 
 enum RaceCategory: String, Codable, CaseIterable, Identifiable {
-    case seniorWomen = "SW"
-    case seniorMen   = "SM"
     case juniorMen   = "JM"
     case juniorWomen = "JW"
+    case u23Men      = "U23M"
+    case u23Women    = "U23W"
+    case seniorMen   = "SM"
+    case seniorWomen = "SW"
 
     var id: String { rawValue }
 
     var displayName: String {
         switch self {
-        case .seniorWomen: return "Senior Women"
-        case .seniorMen:   return "Senior Men"
         case .juniorMen:   return "Junior Men"
         case .juniorWomen: return "Junior Women"
+        case .u23Men:      return "U23 Men"
+        case .u23Women:    return "U23 Women"
+        case .seniorMen:   return "Senior Men"
+        case .seniorWomen: return "Senior Women"
         }
     }
 
     var shortName: String {
         switch self {
-        case .seniorWomen: return "SW"
-        case .seniorMen:   return "SM"
         case .juniorMen:   return "JM"
         case .juniorWomen: return "JW"
+        case .u23Men:      return "U23M"
+        case .u23Women:    return "U23W"
+        case .seniorMen:   return "SM"
+        case .seniorWomen: return "SW"
         }
     }
 }

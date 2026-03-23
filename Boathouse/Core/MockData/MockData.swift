@@ -45,17 +45,19 @@ enum MockData {
         let best2kTarget: TimeInterval    // best 2 km rep time (seconds)
         let best300mTarget: TimeInterval  // best 300 m rep time (seconds)
         let location: Coordinate?         // athlete's home water coordinates
+        let gender: User.Gender           // athlete gender for category eligibility
+        let ageYears: Int                 // age for category eligibility
     }
 
     // MARK: - Benchmark Athletes (6)
 
     private static let benchmarkSpecs: [AthleteSpec] = [
-        AthleteSpec(name: "Billy Butler",   userId: "billy-001",   stravaId: 10000001, basePaceSecPerKm: 243, paceVariance: 8,  best1kTarget: 243, best5kTarget: 1625, best10kTarget: 3371, best2kTarget: 422, best300mTarget: 70.0,  location: Coordinate(latitude: 52.370, longitude:  4.900)),
-        AthleteSpec(name: "Jon Ogrady",     userId: "jon-001",     stravaId: 10000002, basePaceSecPerKm: 255, paceVariance: 9,  best1kTarget: 255, best5kTarget: 1706, best10kTarget: 3540, best2kTarget: 443, best300mTarget: 73.5,  location: Coordinate(latitude: 53.400, longitude: -2.990)),
-        AthleteSpec(name: "Tom Daniels",    userId: "tom-001",     stravaId: 10000005, basePaceSecPerKm: 279, paceVariance: 12, best1kTarget: 279, best5kTarget: 1869, best10kTarget: 3877, best2kTarget: 485, best300mTarget: 80.5,  location: Coordinate(latitude: 51.410, longitude: -0.300)),
-        AthleteSpec(name: "Andy Daniels",   userId: "andy-001",    stravaId: 10000004, basePaceSecPerKm: 282, paceVariance: 12, best1kTarget: 282, best5kTarget: 1885, best10kTarget: 3910, best2kTarget: 490, best300mTarget: 81.2,  location: Coordinate(latitude: 52.950, longitude: -1.150)),
-        AthleteSpec(name: "Farley Wright",  userId: "farley-001",  stravaId: 10000003, basePaceSecPerKm: 316, paceVariance: 11, best1kTarget: 316, best5kTarget: 2113, best10kTarget: 4382, best2kTarget: 549, best300mTarget: 91.0,  location: Coordinate(latitude: 50.720, longitude: -3.530)),
-        AthleteSpec(name: "Stuart Bennett", userId: "stuart-001",  stravaId: 10000006, basePaceSecPerKm: 365, paceVariance: 15, best1kTarget: 365, best5kTarget: 2438, best10kTarget: 5057, best2kTarget: 633, best300mTarget: 105.0, location: Coordinate(latitude: 51.450, longitude: -0.970)),
+        AthleteSpec(name: "Billy Butler",   userId: "billy-001",   stravaId: 10000001, basePaceSecPerKm: 243, paceVariance: 8,  best1kTarget: 243, best5kTarget: 1625, best10kTarget: 3371, best2kTarget: 422, best300mTarget: 70.0,  location: Coordinate(latitude: 52.370, longitude:  4.900), gender: .male, ageYears: 28),
+        AthleteSpec(name: "Jon Ogrady",     userId: "jon-001",     stravaId: 10000002, basePaceSecPerKm: 255, paceVariance: 9,  best1kTarget: 255, best5kTarget: 1706, best10kTarget: 3540, best2kTarget: 443, best300mTarget: 73.5,  location: Coordinate(latitude: 53.400, longitude: -2.990), gender: .male, ageYears: 30),
+        AthleteSpec(name: "Tom Daniels",    userId: "tom-001",     stravaId: 10000005, basePaceSecPerKm: 279, paceVariance: 12, best1kTarget: 279, best5kTarget: 1869, best10kTarget: 3877, best2kTarget: 485, best300mTarget: 80.5,  location: Coordinate(latitude: 51.410, longitude: -0.300), gender: .male, ageYears: 26),
+        AthleteSpec(name: "Andy Daniels",   userId: "andy-001",    stravaId: 10000004, basePaceSecPerKm: 282, paceVariance: 12, best1kTarget: 282, best5kTarget: 1885, best10kTarget: 3910, best2kTarget: 490, best300mTarget: 81.2,  location: Coordinate(latitude: 52.950, longitude: -1.150), gender: .male, ageYears: 25),
+        AthleteSpec(name: "Farley Wright",  userId: "farley-001",  stravaId: 10000003, basePaceSecPerKm: 316, paceVariance: 11, best1kTarget: 316, best5kTarget: 2113, best10kTarget: 4382, best2kTarget: 549, best300mTarget: 91.0,  location: Coordinate(latitude: 50.720, longitude: -3.530), gender: .male, ageYears: 22),
+        AthleteSpec(name: "Stuart Bennett", userId: "stuart-001",  stravaId: 10000006, basePaceSecPerKm: 365, paceVariance: 15, best1kTarget: 365, best5kTarget: 2438, best10kTarget: 5057, best2kTarget: 633, best300mTarget: 105.0, location: Coordinate(latitude: 51.450, longitude: -0.970), gender: .male, ageYears: 16),
     ]
 
     // MARK: - Venue Coordinates (20 UK cities, cycled for additional athletes)
@@ -92,57 +94,57 @@ enum MockData {
 
     // MARK: - Additional Athletes (50)
 
-    private static let additionalAthleteNames: [(name: String, userId: String)] = [
-        ("James Weir",        "james-weir"),
-        ("Rachel Cawthorn",   "rachel-cawthorn"),
-        ("Luca Ferretti",     "luca-ferretti"),
-        ("Sophie Mallinson",  "sophie-mallinson"),
-        ("Harry Aldous",      "harry-aldous"),
-        ("Emma Spence",       "emma-spence"),
-        ("Oliver Rowe",       "oliver-rowe"),
-        ("Charlotte Baines",  "charlotte-baines"),
-        ("Ethan Croft",       "ethan-croft"),
-        ("Isabelle Dunn",     "isabelle-dunn"),
-        ("Noah Hartley",      "noah-hartley"),
-        ("Amelia Cross",      "amelia-cross"),
-        ("Finn Gallagher",    "finn-gallagher"),
-        ("Grace Thornton",    "grace-thornton"),
-        ("Callum Brady",      "callum-brady"),
-        ("Megan Sutherland",  "megan-sutherland"),
-        ("Rhys Davies",       "rhys-davies"),
-        ("Hannah Perry",      "hannah-perry"),
-        ("Connor Walsh",      "connor-walsh"),
-        ("Lucy Morton",       "lucy-morton"),
-        ("Aaron Chambers",    "aaron-chambers"),
-        ("Bethany Doyle",     "bethany-doyle"),
-        ("Jack Simmons",      "jack-simmons"),
-        ("Chloe Griffiths",   "chloe-griffiths"),
-        ("Ryan Fletcher",     "ryan-fletcher"),
-        ("Natalie Webb",      "natalie-webb"),
-        ("Sam Holt",          "sam-holt"),
-        ("Zoe Atkinson",      "zoe-atkinson"),
-        ("Luke Patterson",    "luke-patterson"),
-        ("Amy Nolan",         "amy-nolan"),
-        ("Ben Walters",       "ben-walters"),
-        ("Katie Hughes",      "katie-hughes"),
-        ("Josh Blackwood",    "josh-blackwood"),
-        ("Ellie Savage",      "ellie-savage"),
-        ("Marcus Cole",       "marcus-cole"),
-        ("Freya Jennings",    "freya-jennings"),
-        ("Dylan Marsh",       "dylan-marsh"),
-        ("Poppy Lawson",      "poppy-lawson"),
-        ("Jamie Saunders",    "jamie-saunders"),
-        ("Niamh Byrne",       "niamh-byrne"),
-        ("Kieran Lang",       "kieran-lang"),
-        ("Rosie Caldwell",    "rosie-caldwell"),
-        ("Toby Prentice",     "toby-prentice"),
-        ("Amber Scott",       "amber-scott"),
-        ("Liam Donnelly",     "liam-donnelly"),
-        ("Sophia Lane",       "sophia-lane"),
-        ("Alex Garner",       "alex-garner"),
-        ("Molly Farrow",      "molly-farrow"),
-        ("Owen Castle",       "owen-castle"),
-        ("Tara Leigh",        "tara-leigh"),
+    private static let additionalAthleteNames: [(name: String, userId: String, gender: User.Gender, ageYears: Int)] = [
+        ("James Weir",        "james-weir",        .male,   25),
+        ("Rachel Cawthorn",   "rachel-cawthorn",   .female, 27),
+        ("Luca Ferretti",     "luca-ferretti",     .male,   20),
+        ("Sophie Mallinson",  "sophie-mallinson",  .female, 19),
+        ("Harry Aldous",      "harry-aldous",      .male,   23),
+        ("Emma Spence",       "emma-spence",       .female, 29),
+        ("Oliver Rowe",       "oliver-rowe",       .male,   26),
+        ("Charlotte Baines",  "charlotte-baines",  .female, 21),
+        ("Ethan Croft",       "ethan-croft",       .male,   17),
+        ("Isabelle Dunn",     "isabelle-dunn",     .female, 16),
+        ("Noah Hartley",      "noah-hartley",      .male,   28),
+        ("Amelia Cross",      "amelia-cross",      .female, 24),
+        ("Finn Gallagher",    "finn-gallagher",    .male,   22),
+        ("Grace Thornton",    "grace-thornton",    .female, 18),
+        ("Callum Brady",      "callum-brady",      .male,   30),
+        ("Megan Sutherland",  "megan-sutherland",  .female, 25),
+        ("Rhys Davies",       "rhys-davies",       .male,   19),
+        ("Hannah Perry",      "hannah-perry",      .female, 23),
+        ("Connor Walsh",      "connor-walsh",      .male,   27),
+        ("Lucy Morton",       "lucy-morton",       .female, 20),
+        ("Aaron Chambers",    "aaron-chambers",    .male,   26),
+        ("Bethany Doyle",     "bethany-doyle",     .female, 17),
+        ("Jack Simmons",      "jack-simmons",      .male,   24),
+        ("Chloe Griffiths",   "chloe-griffiths",   .female, 22),
+        ("Ryan Fletcher",     "ryan-fletcher",     .male,   28),
+        ("Natalie Webb",      "natalie-webb",      .female, 30),
+        ("Sam Holt",          "sam-holt",          .male,   21),
+        ("Zoe Atkinson",      "zoe-atkinson",      .female, 26),
+        ("Luke Patterson",    "luke-patterson",    .male,   18),
+        ("Amy Nolan",         "amy-nolan",         .female, 29),
+        ("Ben Walters",       "ben-walters",       .male,   25),
+        ("Katie Hughes",      "katie-hughes",      .female, 19),
+        ("Josh Blackwood",    "josh-blackwood",    .male,   16),
+        ("Ellie Savage",      "ellie-savage",      .female, 27),
+        ("Marcus Cole",       "marcus-cole",       .male,   23),
+        ("Freya Jennings",    "freya-jennings",    .female, 21),
+        ("Dylan Marsh",       "dylan-marsh",       .male,   20),
+        ("Poppy Lawson",      "poppy-lawson",      .female, 24),
+        ("Jamie Saunders",    "jamie-saunders",    .male,   31),
+        ("Niamh Byrne",       "niamh-byrne",       .female, 18),
+        ("Kieran Lang",       "kieran-lang",       .male,   22),
+        ("Rosie Caldwell",    "rosie-caldwell",    .female, 28),
+        ("Toby Prentice",     "toby-prentice",     .male,   26),
+        ("Amber Scott",       "amber-scott",       .female, 20),
+        ("Liam Donnelly",     "liam-donnelly",     .male,   24),
+        ("Sophia Lane",       "sophia-lane",       .female, 30),
+        ("Alex Garner",       "alex-garner",       .male,   19),
+        ("Molly Farrow",      "molly-farrow",      .female, 22),
+        ("Owen Castle",       "owen-castle",       .male,   27),
+        ("Tara Leigh",        "tara-leigh",        .female, 23),
     ]
 
     private static let additionalSpecs: [AthleteSpec] = {
@@ -161,7 +163,9 @@ enum MockData {
                 best10kTarget: (3371.0 * factor).rounded(),
                 best2kTarget: (422.0  * factor).rounded(),
                 best300mTarget: 70.0 * factor,
-                location: venueCoordinates[venueIndex]
+                location: venueCoordinates[venueIndex],
+                gender: nameInfo.gender,
+                ageYears: nameInfo.ageYears
             )
         }
     }()
@@ -196,6 +200,14 @@ enum MockData {
             let lastName = nameParts.dropFirst().joined(separator: " ")
             let city = cityName(for: spec.location)
             let country = spec.userId == "billy-001" ? "Netherlands" : "United Kingdom"
+            let sexString = spec.gender == .female ? "F" : "M"
+            let dobComponents = DateComponents(
+                calendar: .current,
+                year: Calendar.current.component(.year, from: Date()) - spec.ageYears,
+                month: 6,
+                day: 15
+            )
+            let dateOfBirth = dobComponents.date
 
             return User(
                 id: spec.userId,
@@ -214,8 +226,8 @@ enum MockData {
                         profileImageURL: nil,
                         city: city,
                         country: country,
-                        sex: "M",
-                        dateOfBirth: nil
+                        sex: sexString,
+                        dateOfBirth: dateOfBirth
                     )
                 ),
                 wallet: Wallet(
@@ -235,8 +247,8 @@ enum MockData {
                     createdAt: Date().addingTimeInterval(-86400 * Double(Int(rng.next() % 335) + 30)),
                     updatedAt: Date()
                 ),
-                dateOfBirth: nil,
-                gender: nil,
+                dateOfBirth: dateOfBirth,
+                gender: spec.gender,
                 profileImageURL: nil,
                 createdAt: Date().addingTimeInterval(-86400 * Double(Int(rng.next() % 340) + 60)),
                 updatedAt: Date()

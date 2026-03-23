@@ -14,7 +14,7 @@ final class AppState: ObservableObject {
             switch preferredColorScheme {
             case .light:  UserDefaults.standard.set("light", forKey: "preferredColorScheme")
             case .dark:   UserDefaults.standard.set("dark",  forKey: "preferredColorScheme")
-            default:      UserDefaults.standard.removeObject(forKey: "preferredColorScheme")
+            default:      UserDefaults.standard.set("light", forKey: "preferredColorScheme")
             }
         }
     }
@@ -49,9 +49,8 @@ final class AppState: ObservableObject {
 
     init() {
         switch UserDefaults.standard.string(forKey: "preferredColorScheme") {
-        case "light": preferredColorScheme = .light
         case "dark":  preferredColorScheme = .dark
-        default:      preferredColorScheme = nil
+        default:      preferredColorScheme = .light
         }
     }
 

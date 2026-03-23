@@ -228,24 +228,14 @@ struct AccountView: View {
         Section("Appearance") {
             Picker("Theme", selection: Binding(
                 get: {
-                    switch appState.preferredColorScheme {
-                    case .none:  return 0
-                    case .light: return 1
-                    case .dark:  return 2
-                    default:     return 0
-                    }
+                    appState.preferredColorScheme == .dark ? 1 : 0
                 },
                 set: { value in
-                    switch value {
-                    case 1:  appState.preferredColorScheme = .light
-                    case 2:  appState.preferredColorScheme = .dark
-                    default: appState.preferredColorScheme = nil
-                    }
+                    appState.preferredColorScheme = value == 1 ? .dark : .light
                 }
             )) {
-                Text("System").tag(0)
-                Text("Light").tag(1)
-                Text("Dark").tag(2)
+                Text("Light").tag(0)
+                Text("Dark").tag(1)
             }
             .pickerStyle(.segmented)
         }
