@@ -298,7 +298,6 @@ enum MockData {
         var sessions: [Session] = []
         let dayOffsets = [1, 3, 5]
         let isBilly = spec.userId == "billy-001"
-        let isUK = spec.userId != "billy-001"
 
         var firstIntervals15x4Done  = false
         var firstIntervals5x2kmDone = false
@@ -326,7 +325,7 @@ enum MockData {
                 case "5k_single":
                     name = "5k Single Effort"
                     distance = 5000.0
-                    movingTime = spec.best5kTarget + (Double(rng.next()) / Double(UInt64.max)) * (spec.best5kTarget * 1.30 - spec.best5kTarget)
+                    movingTime = spec.best5kTarget + (Double(rng.next()) / Double(UInt64.max)) * (spec.best5kTarget * 0.30)
                     fastest5km = movingTime
                     fastest1km = movingTime / 5.0
                     fastest10km = nil
@@ -340,7 +339,7 @@ enum MockData {
                         f1k = 243.0
                         firstIntervals15x4Done = true
                     } else {
-                        f1k = spec.best1kTarget + (Double(rng.next()) / Double(UInt64.max)) * (spec.best1kTarget * 1.30 - spec.best1kTarget)
+                        f1k = spec.best1kTarget + (Double(rng.next()) / Double(UInt64.max)) * (spec.best1kTarget * 0.30)
                     }
                     fastest1km = f1k
                     fastest5km = f1k * 5.0
@@ -349,7 +348,7 @@ enum MockData {
                 case "10k_long":
                     name = "10k Long Paddle"
                     distance = 10000.0
-                    movingTime = spec.best10kTarget + (Double(rng.next()) / Double(UInt64.max)) * (spec.best10kTarget * 1.30 - spec.best10kTarget)
+                    movingTime = spec.best10kTarget + (Double(rng.next()) / Double(UInt64.max)) * (spec.best10kTarget * 0.30)
                     fastest10km = movingTime
                     fastest5km = movingTime / 2.0
                     fastest1km = movingTime / 10.0
@@ -362,7 +361,7 @@ enum MockData {
                         repTime = 422.0
                         firstIntervals5x2kmDone = true
                     } else {
-                        repTime = spec.best2kTarget + (Double(rng.next()) / Double(UInt64.max)) * (spec.best2kTarget * 1.30 - spec.best2kTarget)
+                        repTime = spec.best2kTarget + (Double(rng.next()) / Double(UInt64.max)) * (spec.best2kTarget * 0.30)
                     }
                     movingTime = 5.0 * repTime
                     fastest5km = movingTime / 2.0
@@ -377,10 +376,11 @@ enum MockData {
                         repTime = 70.0
                         firstIntervals300mDone = true
                     } else {
-                        repTime = spec.best300mTarget + (Double(rng.next()) / Double(UInt64.max)) * (spec.best300mTarget * 1.30 - spec.best300mTarget)
+                        repTime = spec.best300mTarget + (Double(rng.next()) / Double(UInt64.max)) * (spec.best300mTarget * 0.30)
                     }
                     movingTime = 20.0 * repTime
-                    fastest1km = repTime / 0.3
+                    let repDistKm = 0.3 // 300 m expressed in km
+                    fastest1km = repTime / repDistKm
                     fastest5km = nil
                     fastest10km = nil
 
@@ -408,7 +408,7 @@ enum MockData {
                     endLocation: spec.location,
                     polyline: nil,
                     isGPSVerified: true,
-                    isUKSession: isUK,
+                    isUKSession: !isBilly,
                     flagCount: 0,
                     status: .verified,
                     importedAt: startDate.addingTimeInterval(3600),
