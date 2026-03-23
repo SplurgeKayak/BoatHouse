@@ -75,6 +75,9 @@
 		A10000000000000000000088 /* YourGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000088 /* YourGoalsView.swift */; };
 		A10000000000000000000089 /* RoutePreviewShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000089 /* RoutePreviewShape.swift */; };
 		A10000000000000000000090 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000090 /* FlowLayout.swift */; };
+		A10000000000000000000091 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000091 /* AppColors.swift */; };
+		A10000000000000000000092 /* GoalProgressCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000092 /* GoalProgressCalculator.swift */; };
+		A10000000000000000000093 /* GoalProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000093 /* GoalProgressView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -148,6 +151,9 @@
 		B10000000000000000000088 /* YourGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourGoalsView.swift; sourceTree = "<group>"; };
 		B10000000000000000000089 /* RoutePreviewShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePreviewShape.swift; sourceTree = "<group>"; };
 		B10000000000000000000090 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
+		B10000000000000000000091 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		B10000000000000000000092 /* GoalProgressCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalProgressCalculator.swift; sourceTree = "<group>"; };
+		B10000000000000000000093 /* GoalProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalProgressView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,6 +253,7 @@
 				B10000000000000000000084 /* SessionService.swift */,
 				B10000000000000000000085 /* RaceService.swift */,
 				B10000000000000000000087 /* GoalsStore.swift */,
+				B10000000000000000000092 /* GoalProgressCalculator.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -279,6 +286,7 @@
 			isa = PBXGroup;
 			children = (
 				B10000000000000000000088 /* YourGoalsView.swift */,
+				B10000000000000000000093 /* GoalProgressView.swift */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
@@ -416,6 +424,7 @@
 			children = (
 				B10000000000000000000019 /* ButtonStyles.swift */,
 				B10000000000000000000020 /* TextFieldStyles.swift */,
+				B10000000000000000000091 /* AppColors.swift */,
 			);
 			path = Styles;
 			sourceTree = "<group>";
@@ -573,6 +582,9 @@
 				A10000000000000000000088 /* YourGoalsView.swift in Sources */,
 				A10000000000000000000089 /* RoutePreviewShape.swift in Sources */,
 				A10000000000000000000090 /* FlowLayout.swift in Sources */,
+				A10000000000000000000091 /* AppColors.swift in Sources */,
+				A10000000000000000000092 /* GoalProgressCalculator.swift in Sources */,
+				A10000000000000000000093 /* GoalProgressView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
