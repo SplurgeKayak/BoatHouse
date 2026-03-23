@@ -2,6 +2,7 @@ import SwiftUI
 import Combine
 
 /// ViewModel for the Home screen
+@MainActor
 final class HomeViewModel: ObservableObject {
     @Published var sessions: [Session] = []
     @Published var currentLeaderboard: Leaderboard?
