@@ -4,10 +4,11 @@ import CoreLocation
 // ─────────────────────────────────────────────────────────────────────
 // MockData — programmatically generated mock data
 //
-// Athletes: 6 Garmin-connected racers
-//   Billy Butler, Jon, Farley, Andy (logged-in), Tom, Stuart
+// Athletes: 56 (6 benchmark racers + 50 additional)
+//   Benchmarks: Billy Butler, Jon Ogrady, Tom Daniels,
+//               Andy Daniels (logged-in), Farley Wright, Stuart Bennett
 //
-// Sessions: 3 per week × 52 weeks = 156 per athlete = 936 total
+// Sessions: 3 per week × 52 weeks = 156 per athlete = 8736 total
 //   Days 1, 3, 5 of each week, spread backwards from today.
 //
 // RNG: Deterministic SplitMix64 (seed 42 for users, 1337 for
@@ -41,20 +42,149 @@ enum MockData {
         let best1kTarget: TimeInterval
         let best5kTarget: TimeInterval
         let best10kTarget: TimeInterval
+        let best2kTarget: TimeInterval    // best 2 km rep time (seconds)
+        let best300mTarget: TimeInterval  // best 300 m rep time (seconds)
+        let location: Coordinate?         // athlete's home water coordinates
     }
 
-    private static let athleteSpecs: [AthleteSpec] = [
-        AthleteSpec(name: "Billy Butler", userId: "billy-001",  stravaId: 10000001, basePaceSecPerKm: 250, paceVariance: 8,  best1kTarget: 252,  best5kTarget: 1785, best10kTarget: 3885),
-        AthleteSpec(name: "Jon",          userId: "jon-001",    stravaId: 10000002, basePaceSecPerKm: 258, paceVariance: 9,  best1kTarget: 268,  best5kTarget: 1860, best10kTarget: 4020),
-        AthleteSpec(name: "Farley",       userId: "farley-001", stravaId: 10000003, basePaceSecPerKm: 272, paceVariance: 11, best1kTarget: 290,  best5kTarget: 2040, best10kTarget: 4380),
-        AthleteSpec(name: "Andy",         userId: "andy-001",   stravaId: 10000004, basePaceSecPerKm: 275, paceVariance: 12, best1kTarget: 295,  best5kTarget: 2100, best10kTarget: 4500),
-        AthleteSpec(name: "Tom",          userId: "tom-001",    stravaId: 10000005, basePaceSecPerKm: 278, paceVariance: 12, best1kTarget: 300,  best5kTarget: 2145, best10kTarget: 4590),
-        AthleteSpec(name: "Stuart",       userId: "stuart-001", stravaId: 10000006, basePaceSecPerKm: 310, paceVariance: 15, best1kTarget: 355,  best5kTarget: 2390, best10kTarget: 6355),
+    // MARK: - Benchmark Athletes (6)
+
+    private static let benchmarkSpecs: [AthleteSpec] = [
+        AthleteSpec(name: "Billy Butler",   userId: "billy-001",   stravaId: 10000001, basePaceSecPerKm: 243, paceVariance: 8,  best1kTarget: 243, best5kTarget: 1625, best10kTarget: 3371, best2kTarget: 422, best300mTarget: 70.0,  location: Coordinate(latitude: 52.370, longitude:  4.900)),
+        AthleteSpec(name: "Jon Ogrady",     userId: "jon-001",     stravaId: 10000002, basePaceSecPerKm: 255, paceVariance: 9,  best1kTarget: 255, best5kTarget: 1706, best10kTarget: 3540, best2kTarget: 443, best300mTarget: 73.5,  location: Coordinate(latitude: 53.400, longitude: -2.990)),
+        AthleteSpec(name: "Tom Daniels",    userId: "tom-001",     stravaId: 10000005, basePaceSecPerKm: 279, paceVariance: 12, best1kTarget: 279, best5kTarget: 1869, best10kTarget: 3877, best2kTarget: 485, best300mTarget: 80.5,  location: Coordinate(latitude: 51.410, longitude: -0.300)),
+        AthleteSpec(name: "Andy Daniels",   userId: "andy-001",    stravaId: 10000004, basePaceSecPerKm: 282, paceVariance: 12, best1kTarget: 282, best5kTarget: 1885, best10kTarget: 3910, best2kTarget: 490, best300mTarget: 81.2,  location: Coordinate(latitude: 52.950, longitude: -1.150)),
+        AthleteSpec(name: "Farley Wright",  userId: "farley-001",  stravaId: 10000003, basePaceSecPerKm: 316, paceVariance: 11, best1kTarget: 316, best5kTarget: 2113, best10kTarget: 4382, best2kTarget: 549, best300mTarget: 91.0,  location: Coordinate(latitude: 50.720, longitude: -3.530)),
+        AthleteSpec(name: "Stuart Bennett", userId: "stuart-001",  stravaId: 10000006, basePaceSecPerKm: 365, paceVariance: 15, best1kTarget: 365, best5kTarget: 2438, best10kTarget: 5057, best2kTarget: 633, best300mTarget: 105.0, location: Coordinate(latitude: 51.450, longitude: -0.970)),
     ]
+
+    // MARK: - Venue Coordinates (20 UK cities, cycled for additional athletes)
+
+    private static let venueCoordinates: [Coordinate] = [
+        Coordinate(latitude: 52.9500, longitude: -1.1500), // Nottingham
+        Coordinate(latitude: 51.4500, longitude: -0.9700), // Reading
+        Coordinate(latitude: 50.7200, longitude: -3.5300), // Exeter
+        Coordinate(latitude: 51.4100, longitude: -0.3000), // Kingston upon Thames
+        Coordinate(latitude: 53.4000, longitude: -2.9900), // Liverpool
+        Coordinate(latitude: 53.4800, longitude: -2.2400), // Manchester
+        Coordinate(latitude: 51.4550, longitude: -2.5900), // Bristol
+        Coordinate(latitude: 53.8000, longitude: -1.5500), // Leeds
+        Coordinate(latitude: 53.3800, longitude: -1.4700), // Sheffield
+        Coordinate(latitude: 51.4800, longitude: -3.1800), // Cardiff
+        Coordinate(latitude: 55.9500, longitude: -3.1900), // Edinburgh
+        Coordinate(latitude: 55.8600, longitude: -4.2600), // Glasgow
+        Coordinate(latitude: 51.7500, longitude: -1.2600), // Oxford
+        Coordinate(latitude: 52.2000, longitude:  0.1200), // Cambridge
+        Coordinate(latitude: 52.6300, longitude:  1.3000), // Norwich
+        Coordinate(latitude: 50.3800, longitude: -4.1400), // Plymouth
+        Coordinate(latitude: 50.8200, longitude: -0.1400), // Brighton
+        Coordinate(latitude: 50.9000, longitude: -1.4000), // Southampton
+        Coordinate(latitude: 54.9700, longitude: -1.6200), // Newcastle
+        Coordinate(latitude: 51.3800, longitude: -2.3600), // Bath
+    ]
+
+    private static let venueCities: [String] = [
+        "Nottingham", "Reading", "Exeter", "Kingston upon Thames", "Liverpool",
+        "Manchester", "Bristol", "Leeds", "Sheffield", "Cardiff",
+        "Edinburgh", "Glasgow", "Oxford", "Cambridge", "Norwich",
+        "Plymouth", "Brighton", "Southampton", "Newcastle", "Bath",
+    ]
+
+    // MARK: - Additional Athletes (50)
+
+    private static let additionalAthleteNames: [(name: String, userId: String)] = [
+        ("James Weir",        "james-weir"),
+        ("Rachel Cawthorn",   "rachel-cawthorn"),
+        ("Luca Ferretti",     "luca-ferretti"),
+        ("Sophie Mallinson",  "sophie-mallinson"),
+        ("Harry Aldous",      "harry-aldous"),
+        ("Emma Spence",       "emma-spence"),
+        ("Oliver Rowe",       "oliver-rowe"),
+        ("Charlotte Baines",  "charlotte-baines"),
+        ("Ethan Croft",       "ethan-croft"),
+        ("Isabelle Dunn",     "isabelle-dunn"),
+        ("Noah Hartley",      "noah-hartley"),
+        ("Amelia Cross",      "amelia-cross"),
+        ("Finn Gallagher",    "finn-gallagher"),
+        ("Grace Thornton",    "grace-thornton"),
+        ("Callum Brady",      "callum-brady"),
+        ("Megan Sutherland",  "megan-sutherland"),
+        ("Rhys Davies",       "rhys-davies"),
+        ("Hannah Perry",      "hannah-perry"),
+        ("Connor Walsh",      "connor-walsh"),
+        ("Lucy Morton",       "lucy-morton"),
+        ("Aaron Chambers",    "aaron-chambers"),
+        ("Bethany Doyle",     "bethany-doyle"),
+        ("Jack Simmons",      "jack-simmons"),
+        ("Chloe Griffiths",   "chloe-griffiths"),
+        ("Ryan Fletcher",     "ryan-fletcher"),
+        ("Natalie Webb",      "natalie-webb"),
+        ("Sam Holt",          "sam-holt"),
+        ("Zoe Atkinson",      "zoe-atkinson"),
+        ("Luke Patterson",    "luke-patterson"),
+        ("Amy Nolan",         "amy-nolan"),
+        ("Ben Walters",       "ben-walters"),
+        ("Katie Hughes",      "katie-hughes"),
+        ("Josh Blackwood",    "josh-blackwood"),
+        ("Ellie Savage",      "ellie-savage"),
+        ("Marcus Cole",       "marcus-cole"),
+        ("Freya Jennings",    "freya-jennings"),
+        ("Dylan Marsh",       "dylan-marsh"),
+        ("Poppy Lawson",      "poppy-lawson"),
+        ("Jamie Saunders",    "jamie-saunders"),
+        ("Niamh Byrne",       "niamh-byrne"),
+        ("Kieran Lang",       "kieran-lang"),
+        ("Rosie Caldwell",    "rosie-caldwell"),
+        ("Toby Prentice",     "toby-prentice"),
+        ("Amber Scott",       "amber-scott"),
+        ("Liam Donnelly",     "liam-donnelly"),
+        ("Sophia Lane",       "sophia-lane"),
+        ("Alex Garner",       "alex-garner"),
+        ("Molly Farrow",      "molly-farrow"),
+        ("Owen Castle",       "owen-castle"),
+        ("Tara Leigh",        "tara-leigh"),
+    ]
+
+    private static let additionalSpecs: [AthleteSpec] = {
+        (0..<50).map { i in
+            let nameInfo = additionalAthleteNames[i]
+            let factor = 1.05 + Double(i) * (0.45 / 49.0)
+            let venueIndex = i % 20
+            return AthleteSpec(
+                name: nameInfo.name,
+                userId: nameInfo.userId,
+                stravaId: 10000007 + i,
+                basePaceSecPerKm: 243.0 * factor,
+                paceVariance: 10.0,
+                best1kTarget: (243.0  * factor).rounded(),
+                best5kTarget: (1625.0 * factor).rounded(),
+                best10kTarget: (3371.0 * factor).rounded(),
+                best2kTarget: (422.0  * factor).rounded(),
+                best300mTarget: 70.0 * factor,
+                location: venueCoordinates[venueIndex]
+            )
+        }
+    }()
+
+    // MARK: - All Athletes (56 = 6 benchmarks + 50 additional)
+
+    private static let athleteSpecs: [AthleteSpec] = benchmarkSpecs + additionalSpecs
+
+    // MARK: - City / Country Lookup
+
+    private static func cityName(for location: Coordinate?) -> String {
+        guard let location = location else { return "London" }
+        for (i, coord) in venueCoordinates.enumerated() {
+            if coord.latitude == location.latitude && coord.longitude == location.longitude {
+                return venueCities[i]
+            }
+        }
+        return "Amsterdam"
+    }
 
     private static let bankNames = ["HSBC", "Barclays", "Lloyds", "NatWest", "Santander"]
 
-    // MARK: - Users (6)
+    // MARK: - Users (56)
 
     static let users: [User] = {
         var rng = SeededRNG(seed: 42)
@@ -64,6 +194,8 @@ enum MockData {
             let nameParts = spec.name.components(separatedBy: " ")
             let firstName = nameParts.first ?? spec.name
             let lastName = nameParts.dropFirst().joined(separator: " ")
+            let city = cityName(for: spec.location)
+            let country = spec.userId == "billy-001" ? "Netherlands" : "United Kingdom"
 
             return User(
                 id: spec.userId,
@@ -80,8 +212,8 @@ enum MockData {
                         firstName: firstName,
                         lastName: lastName,
                         profileImageURL: nil,
-                        city: "London",
-                        country: "United Kingdom",
+                        city: city,
+                        country: country,
                         sex: "M",
                         dateOfBirth: nil
                     )
@@ -114,7 +246,7 @@ enum MockData {
 
     // MARK: - Convenience Aliases
 
-    /// Andy — the logged-in racer user
+    /// Andy Daniels — the logged-in racer user (index 3)
     static let racerUser: User = users[3]
 
     /// Spectator user — no Garmin, no wallet
@@ -134,7 +266,7 @@ enum MockData {
         )
     }()
 
-    // MARK: - Sessions (936 = 6 athletes x 156 sessions)
+    // MARK: - Sessions (8736 = 56 athletes x 156 sessions)
 
     static let sessions: [Session] = {
         var rng = SeededRNG(seed: 1337)
@@ -150,13 +282,14 @@ enum MockData {
         return result
     }()
 
-    private static let sessionDistancesKm: [Double] = [3.0, 5.0, 7.0, 8.0, 10.0, 12.0, 15.0]
-
-    private static let sessionNames: [String] = [
-        "Easy Paddle", "Intervals", "Race Simulation", "Recovery Paddle", "Technique Session",
+    // [weekIndex % 5][dayIndex 0,1,2]
+    private static let sessionTypeSchedule: [[String]] = [
+        ["5k_single",       "intervals_15x4",  "10k_long"],
+        ["intervals_5x2km", "intervals_300m",   "5k_single"],
+        ["10k_long",        "intervals_15x4",   "intervals_5x2km"],
+        ["intervals_300m",  "5k_single",        "10k_long"],
+        ["intervals_15x4",  "intervals_5x2km",  "intervals_300m"],
     ]
-
-    private static let sessionTypes: [SessionType] = [.kayaking, .canoeing]
 
     private static func generateSessions<RNG: RandomNumberGenerator>(
         for spec: AthleteSpec,
@@ -164,6 +297,12 @@ enum MockData {
     ) -> [Session] {
         var sessions: [Session] = []
         let dayOffsets = [1, 3, 5]
+        let isBilly = spec.userId == "billy-001"
+        let isUK = spec.userId != "billy-001"
+
+        var firstIntervals15x4Done  = false
+        var firstIntervals5x2kmDone = false
+        var firstIntervals300mDone  = false
 
         for weekIndex in 0..<52 {
             for (dayIndex, dayOffset) in dayOffsets.enumerated() {
@@ -171,91 +310,105 @@ enum MockData {
                 let startDate = Date().addingTimeInterval(-secondsAgo)
 
                 let sessionIndex = weekIndex * 3 + dayIndex
-
-                // Distance
-                let distKm = sessionDistancesKm[Int(rng.next() % UInt64(sessionDistancesKm.count))]
-                let distance = distKm * 1000.0
-
-                // Session type
-                let sessionType = sessionTypes[Int(rng.next() % UInt64(sessionTypes.count))]
-
-                // Session name
-                let name = sessionNames[Int(rng.next() % UInt64(sessionNames.count))]
-
-                // Pace (s/km): basePace +/- variance, clamped to 200 s/km minimum
-                let varianceFactor = 2.0 * (Double(rng.next()) / Double(UInt64.max)) - 1.0
-                let pace = max(200.0, spec.basePaceSecPerKm + spec.paceVariance * varianceFactor)
-
-                // Times
-                let movingTime = pace * distKm
-                let elapsedTime = movingTime * 1.05
-
-                // Speed (m/s)
-                let averageSpeed = 1000.0 / pace
-                let maxSpeed = averageSpeed * 1.15
-
-                // Near-PR session approximately every 8th session
-                let isNearPR = sessionIndex % 8 == 0
-
-                // Fastest 1km segment time
-                let fastest1km: TimeInterval?
-                if distKm >= 1.0 {
-                    let noise = Double(rng.next()) / Double(UInt64.max)
-                    if isNearPR {
-                        fastest1km = spec.best1kTarget * (1.0 + noise * 0.03)
-                    } else {
-                        fastest1km = min(spec.best1kTarget * (1.0 + noise * 0.1), pace)
-                    }
-                } else {
-                    fastest1km = nil
-                }
-
-                // Fastest 5km segment time
-                let fastest5km: TimeInterval?
-                if distKm >= 5.0 {
-                    let noise = Double(rng.next()) / Double(UInt64.max)
-                    if isNearPR {
-                        fastest5km = spec.best5kTarget * (1.0 + noise * 0.03)
-                    } else {
-                        fastest5km = min(spec.best5kTarget * (1.0 + noise * 0.1), pace * 5.0)
-                    }
-                } else {
-                    fastest5km = nil
-                }
-
-                // Fastest 10km segment time
-                let fastest10km: TimeInterval?
-                if distKm >= 10.0 {
-                    let noise = Double(rng.next()) / Double(UInt64.max)
-                    if isNearPR {
-                        fastest10km = spec.best10kTarget * (1.0 + noise * 0.03)
-                    } else {
-                        fastest10km = min(spec.best10kTarget * (1.0 + noise * 0.1), pace * 10.0)
-                    }
-                } else {
-                    fastest10km = nil
-                }
-
                 let sessionId = "\(spec.userId)-session-\(String(format: "%03d", sessionIndex + 1))"
                 let stravaId = spec.stravaId * 1000 + sessionIndex + 1
+
+                let typeKey = sessionTypeSchedule[weekIndex % 5][dayIndex]
+
+                var name: String = ""
+                var distance: Double = 0
+                var movingTime: Double = 0
+                var fastest1km: TimeInterval? = nil
+                var fastest5km: TimeInterval? = nil
+                var fastest10km: TimeInterval? = nil
+
+                switch typeKey {
+                case "5k_single":
+                    name = "5k Single Effort"
+                    distance = 5000.0
+                    movingTime = spec.best5kTarget + (Double(rng.next()) / Double(UInt64.max)) * (spec.best5kTarget * 1.30 - spec.best5kTarget)
+                    fastest5km = movingTime
+                    fastest1km = movingTime / 5.0
+                    fastest10km = nil
+
+                case "intervals_15x4":
+                    name = "15 × 4-min Intervals"
+                    distance = 15000.0
+                    movingTime = 3600.0
+                    let f1k: Double
+                    if isBilly && !firstIntervals15x4Done {
+                        f1k = 243.0
+                        firstIntervals15x4Done = true
+                    } else {
+                        f1k = spec.best1kTarget + (Double(rng.next()) / Double(UInt64.max)) * (spec.best1kTarget * 1.30 - spec.best1kTarget)
+                    }
+                    fastest1km = f1k
+                    fastest5km = f1k * 5.0
+                    fastest10km = nil
+
+                case "10k_long":
+                    name = "10k Long Paddle"
+                    distance = 10000.0
+                    movingTime = spec.best10kTarget + (Double(rng.next()) / Double(UInt64.max)) * (spec.best10kTarget * 1.30 - spec.best10kTarget)
+                    fastest10km = movingTime
+                    fastest5km = movingTime / 2.0
+                    fastest1km = movingTime / 10.0
+
+                case "intervals_5x2km":
+                    name = "5 × 2km Intervals"
+                    distance = 10000.0
+                    let repTime: Double
+                    if isBilly && !firstIntervals5x2kmDone {
+                        repTime = 422.0
+                        firstIntervals5x2kmDone = true
+                    } else {
+                        repTime = spec.best2kTarget + (Double(rng.next()) / Double(UInt64.max)) * (spec.best2kTarget * 1.30 - spec.best2kTarget)
+                    }
+                    movingTime = 5.0 * repTime
+                    fastest5km = movingTime / 2.0
+                    fastest1km = movingTime / 10.0
+                    fastest10km = nil
+
+                case "intervals_300m":
+                    name = "300m × 20 Intervals"
+                    distance = 6000.0
+                    let repTime: Double
+                    if isBilly && !firstIntervals300mDone {
+                        repTime = 70.0
+                        firstIntervals300mDone = true
+                    } else {
+                        repTime = spec.best300mTarget + (Double(rng.next()) / Double(UInt64.max)) * (spec.best300mTarget * 1.30 - spec.best300mTarget)
+                    }
+                    movingTime = 20.0 * repTime
+                    fastest1km = repTime / 0.3
+                    fastest5km = nil
+                    fastest10km = nil
+
+                default:
+                    continue
+                }
+
+                let averageSpeed = distance / movingTime
+                let maxSpeed = averageSpeed * 1.15
+                let elapsedTime = movingTime * 1.05
 
                 sessions.append(Session(
                     id: sessionId,
                     stravaId: stravaId,
                     userId: spec.userId,
                     name: name,
-                    sessionType: sessionType,
+                    sessionType: .kayaking,
                     startDate: startDate,
                     elapsedTime: elapsedTime,
                     movingTime: movingTime,
                     distance: distance,
                     maxSpeed: maxSpeed,
                     averageSpeed: averageSpeed,
-                    startLocation: nil,
-                    endLocation: nil,
+                    startLocation: spec.location,
+                    endLocation: spec.location,
                     polyline: nil,
                     isGPSVerified: true,
-                    isUKSession: true,
+                    isUKSession: isUK,
                     flagCount: 0,
                     status: .verified,
                     importedAt: startDate.addingTimeInterval(3600),
@@ -407,11 +560,12 @@ enum MockData {
 
     static let leaderboard: Leaderboard = {
         let lbData: [(userId: String, name: String, score: Double)] = [
-            ("billy-001",  "Billy Butler", 22.4),
-            ("jon-001",    "Jon",          21.8),
-            ("andy-001",   "Andy",         20.5),
-            ("farley-001", "Farley",       19.2),
-            ("tom-001",    "Tom",          17.3),
+            ("billy-001",  "Billy Butler",   26.0),
+            ("jon-001",    "Jon Ogrady",     24.8),
+            ("tom-001",    "Tom Daniels",    21.5),
+            ("andy-001",   "Andy Daniels",   21.1),
+            ("farley-001", "Farley Wright",  16.8),
+            ("stuart-001", "Stuart Bennett", 14.0),
         ]
 
         return Leaderboard(
@@ -437,8 +591,8 @@ enum MockData {
 
     #if DEBUG
     private static func verifyMockData(sessions: [Session]) {
-        assert(sessions.count == 936,
-               "MockData: expected 936 sessions, got \(sessions.count)")
+        assert(sessions.count == 8736,
+               "MockData: expected 8736 sessions, got \(sessions.count)")
 
         for spec in athleteSpecs {
             let uSessions = sessions.filter { $0.userId == spec.userId }
