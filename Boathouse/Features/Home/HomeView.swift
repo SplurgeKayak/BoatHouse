@@ -12,6 +12,7 @@ struct HomeView: View {
         ZStack(alignment: .bottom) {
             NavigationStack {
                 ScrollView {
+
                     VStack(spacing: 0) {
                         // App headers
                         headerSection
@@ -40,6 +41,7 @@ struct HomeView: View {
                         Spacer().frame(height: 80)
                     }
                 }
+                .background(Color.darkNavyBackground)
                 .refreshable {
                     await viewModel.refresh()
                     storyViewModel.updateStories(from: viewModel.sessions)
@@ -64,7 +66,7 @@ struct HomeView: View {
             }
 
             goalsFloatingButton
-                .padding(.bottom, 12)
+                .padding(.bottom, -16)
         }
     }
 
@@ -225,8 +227,13 @@ struct HomeView: View {
         }
         .accessibilityLabel("Goals")
         .sheet(isPresented: $showingGoals) {
-            YourGoalsView()
-                .environmentObject(appState)
+            if GoalsStore.shared.load() != nil {
+                GoalProgressView()
+                    .environmentObject(appState)
+            } else {
+                YourGoalsView()
+                    .environmentObject(appState)
+            }
         }
     }
 }
