@@ -31,12 +31,12 @@ final class HomeViewModel: ObservableObject {
 
     /// Returns the display name for a userId, falling back to the raw ID.
     func userName(for userId: String) -> String {
-        MockData.users.first(where: { $0.id == userId })?.displayName ?? userId
+        Self.displayName(for: userId)
     }
 
     /// Returns the profile image URL for a userId, if available.
     func userAvatarURL(for userId: String) -> URL? {
-        MockData.users.first(where: { $0.id == userId })?.profileImageURL
+        Self.avatarURL(for: userId)
     }
 
     /// Returns the display name for a userId, falling back to the raw ID.

@@ -204,7 +204,7 @@ struct RaceDetailView: View {
 
                     // Full list (positions 6+)
                     if entries.count > 5 {
-                        let remaining = Array(entries.dropFirst(5).filter { $0.userId != currentUserId })
+                        let remaining = Array(entries.dropFirst(5).lazy.filter { $0.userId != currentUserId })
                         ForEach(remaining) { entry in
                             LeaderboardDetailRow(entry: entry, raceType: race.type)
                                 .background(entry.userId == currentUserId ? Color.accentColor.opacity(0.06) : Color.clear)
@@ -253,7 +253,11 @@ struct PodiumRow: View {
                 .fill(medalColor)
                 .frame(width: 32, height: 32)
                 .overlay {
-                    Text(entry.rank <= 3 ? ["🥇", "🥈", "🥉"][entry.rank - 1] : "#\(entry.rank)")
+                    let medals = ["🥇", "🥈", "🥉"]
+                    let label = (entry.rank >= 1 && entry.rank <= 3)
+                        ? medals[entry.rank - 1]
+                        : "#\(entry.rank)"
+                    Text(label)
                         .font(.caption)
                 }
 
