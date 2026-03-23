@@ -69,11 +69,12 @@ struct LeaderboardEntry: Identifiable, Codable, Equatable {
     let score: Double
     let sessionId: String?
     let raceType: RaceType
+    var isGPSVerified: Bool
 
     enum CodingKeys: String, CodingKey {
         case id, rank, userId, userName, userProfileURL, score
         case sessionId = "activityId"
-        case raceType
+        case raceType, isGPSVerified
     }
 
     var formattedScore: String {

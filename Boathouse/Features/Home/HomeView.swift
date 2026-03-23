@@ -8,6 +8,7 @@ struct HomeView: View {
     @EnvironmentObject var appState: AppState
     @Environment(\.colorScheme) private var colorScheme
     @State private var showingGoals = false
+    @State private var selectedSession: Session? = nil
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -27,11 +28,9 @@ struct HomeView: View {
                             Divider()
                         }
 
-                        filterSection
-
                         if viewModel.isLoading {
                             loadingView
-                        } else if viewModel.rankedSessions.isEmpty {
+                        } else if viewModel.chronologicalSessions.isEmpty {
                             emptyStateView
                         } else {
                             sessionFeed
@@ -50,6 +49,14 @@ struct HomeView: View {
                 .task {
                     await viewModel.loadInitialData()
                     storyViewModel.updateStories(from: viewModel.sessions)
+                }
+                .sheet(item: $selectedSession) { session in
+                    SessionDetailSheet(
+                        session: session,
+                        userName: viewModel.userName(for: session.userId),
+                        userAvatarURL: viewModel.userAvatarURL(for: session.userId)
+                    )
+                    .environmentObject(appState)
                 }
                 .fullScreenCover(isPresented: $storyViewModel.isShowingStoryViewer) {
                     if let selectedStory = storyViewModel.selectedStory {
@@ -97,69 +104,18 @@ struct HomeView: View {
         .padding(.bottom, 8)
     }
 
-    // MARK: - Filters
-
-    private var filterSection: some View {
-        VStack(spacing: 12) {
-            Picker("Time Period", selection: $viewModel.selectedDuration) {
-                ForEach(RaceDuration.allCases) { duration in
-                    Text(duration.displayName).tag(duration)
-                }
-            }
-            .pickerStyle(.segmented)
-            .padding(.horizontal)
-            .accessibilityLabel("Time period filter")
-
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    ForEach(RaceType.distanceFilters) { type in
-                        FilterChip(
-                            title: type.shortName,
-                            isSelected: viewModel.selectedRaceType == type,
-                            action: { viewModel.selectedRaceType = type }
-                        )
-                        .accessibilityLabel("Sort by \(type.displayName)")
-                    }
-                }
-                .padding(.horizontal)
-            }
-
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    FilterChip(
-                        title: "All",
-                        isSelected: viewModel.selectedCategory == nil,
-                        action: { viewModel.selectedCategory = nil }
-                    )
-                    .accessibilityLabel("All categories")
-
-                    ForEach(RaceCategory.allCases) { category in
-                        FilterChip(
-                            title: category.shortName,
-                            isSelected: viewModel.selectedCategory == category,
-                            action: { viewModel.selectedCategory = category }
-                        )
-                        .accessibilityLabel("Filter by \(category.displayName)")
-                    }
-                }
-                .padding(.horizontal)
-            }
-        }
-        .padding(.vertical, 8)
-        .background(Color(.systemGray6))
-    }
-
-    // MARK: - Unified session feed
+    // MARK: - Chronological session feed
 
     private var sessionFeed: some View {
-        LazyVStack(spacing: 16) {
-            ForEach(viewModel.rankedSessions, id: \.session.id) { item in
-                SessionCard(
-                    session: item.session,
-                    userName: HomeViewModel.displayName(for: item.session.userId),
-                    userAvatarURL: HomeViewModel.avatarURL(for: item.session.userId),
-                    rank: item.rank
-                )
+        LazyVStack(spacing: 12) {
+            ForEach(viewModel.chronologicalSessions) { session in
+                SessionRow(
+                    session: session,
+                    userName: viewModel.userName(for: session.userId),
+                    userAvatarURL: viewModel.userAvatarURL(for: session.userId)
+                ) {
+                    selectedSession = session
+                }
                 .padding(.horizontal)
             }
         }
@@ -178,8 +134,8 @@ struct HomeView: View {
 
                 NavigationLink("See All") {
                     LeaderboardView(
-                        duration: viewModel.selectedDuration,
-                        raceType: viewModel.selectedRaceType
+                        duration: .weekly,
+                        raceType: .fastest1km
                     )
                 }
                 .font(.subheadline)

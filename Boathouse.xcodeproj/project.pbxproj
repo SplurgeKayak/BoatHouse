@@ -50,6 +50,8 @@
 		A10000000000000000000091 /* GarminOAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000091 /* GarminOAuthViewModel.swift */; };
 		A10000000000000000000092 /* GarminOAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000092 /* GarminOAuthView.swift */; };
 		A10000000000000000000093 /* GarminExplanationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000093 /* GarminExplanationView.swift */; };
+		A10000000000000000000094 /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000094 /* SessionDetailView.swift */; };
+		A10000000000000000000095 /* UserSessionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000095 /* UserSessionsView.swift */; };
 		A10000000000000000000040 /* WalletService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000040 /* WalletService.swift */; };
 		A10000000000000000000041 /* WalletSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000041 /* WalletSetupView.swift */; };
 		A10000000000000000000042 /* AddFundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000042 /* AddFundsView.swift */; };
@@ -125,6 +127,8 @@
 		B10000000000000000000091 /* GarminOAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarminOAuthViewModel.swift; sourceTree = "<group>"; };
 		B10000000000000000000092 /* GarminOAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarminOAuthView.swift; sourceTree = "<group>"; };
 		B10000000000000000000093 /* GarminExplanationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarminExplanationView.swift; sourceTree = "<group>"; };
+		B10000000000000000000094 /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
+		B10000000000000000000095 /* UserSessionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSessionsView.swift; sourceTree = "<group>"; };
 		B10000000000000000000040 /* WalletService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletService.swift; sourceTree = "<group>"; };
 		B10000000000000000000041 /* WalletSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSetupView.swift; sourceTree = "<group>"; };
 		B10000000000000000000042 /* AddFundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFundsView.swift; sourceTree = "<group>"; };
@@ -313,6 +317,8 @@
 				B10000000000000000000029 /* FlagActivityView.swift */,
 				B10000000000000000000081 /* SessionMapView.swift */,
 				B10000000000000000000089 /* RoutePreviewShape.swift */,
+				B10000000000000000000094 /* SessionDetailView.swift */,
+				B10000000000000000000095 /* UserSessionsView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -575,6 +581,8 @@
 				A10000000000000000000081 /* SessionMapView.swift in Sources */,
 				A10000000000000000000082 /* LaunchScreenView.swift in Sources */,
 				A10000000000000000000083 /* HomeComponents.swift in Sources */,
+				A10000000000000000000094 /* SessionDetailView.swift in Sources */,
+				A10000000000000000000095 /* UserSessionsView.swift in Sources */,
 				A10000000000000000000084 /* SessionService.swift in Sources */,
 				A10000000000000000000085 /* RaceService.swift in Sources */,
 				A10000000000000000000086 /* KayakingGoals.swift in Sources */,

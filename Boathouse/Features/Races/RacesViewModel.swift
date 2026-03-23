@@ -5,7 +5,7 @@ import Combine
 final class RacesViewModel: ObservableObject {
     @Published var races: [Race] = []
     @Published var selectedDuration: RaceDuration? = .weekly
-    @Published var selectedRaceType: RaceType?
+    @Published var selectedRaceType: RaceType? = .fastest1km
     @Published var selectedCategory: RaceCategory?
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
@@ -35,6 +35,13 @@ final class RacesViewModel: ObservableObject {
 
     init(raceService: RaceServiceProtocol = RaceService.shared) {
         self.raceService = raceService
+    }
+
+    /// Auto-selects the user's primary eligible category if none is selected.
+    func autoSelectCategory(for user: User?) {
+        if selectedCategory == nil {
+            selectedCategory = user?.eligibleCategories.first
+        }
     }
 
     @MainActor
