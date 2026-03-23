@@ -363,14 +363,14 @@ enum MockData {
                     } else {
                         repTime = spec.best2kTarget + (Double(rng.next()) / Double(UInt64.max)) * (spec.best2kTarget * 0.30)
                     }
-                    movingTime = 5.0 * repTime
-                    fastest5km = movingTime / 2.0
-                    fastest1km = movingTime / 10.0
+                    movingTime = 5.0 * repTime          // 5 reps × repTime
+                    fastest5km = movingTime / 2.0       // first 5 km proxy (half of 10 km total)
+                    fastest1km = movingTime / 10.0      // proportional 1 km pace from 10 km total
                     fastest10km = nil
 
                 case "intervals_300m":
                     name = "300m × 20 Intervals"
-                    distance = 6000.0
+                    distance = 6000.0 // 20 reps × 300 m
                     let repTime: Double
                     if isBilly && !firstIntervals300mDone {
                         repTime = 70.0
@@ -379,8 +379,8 @@ enum MockData {
                         repTime = spec.best300mTarget + (Double(rng.next()) / Double(UInt64.max)) * (spec.best300mTarget * 0.30)
                     }
                     movingTime = 20.0 * repTime
-                    let repDistKm = 0.3 // 300 m expressed in km
-                    fastest1km = repTime / repDistKm
+                    // Extrapolated 1 km pace from 300 m rep time (repTime / 0.3 km)
+                    fastest1km = repTime / 0.3
                     fastest5km = nil
                     fastest10km = nil
 
