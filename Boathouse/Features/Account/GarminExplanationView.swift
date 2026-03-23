@@ -19,7 +19,7 @@ struct GarminExplanationView: View {
         VStack(spacing: 16) {
             Image(systemName: "link.circle.fill")
                 .font(.system(size: 48))
-                .foregroundStyle(.accentColor)
+                .foregroundStyle(.accent)
 
             Text("Garmin Integration")
                 .font(.title2)
