@@ -63,15 +63,15 @@ final class SessionFilterTests: XCTestCase {
         let yesterday = calendar.date(byAdding: .day, value: -1, to: now)!
 
         let sessions = [
-            makeSession(id: "a", startDate: todayMorning),
-            makeSession(id: "b", startDate: todayEvening),
-            makeSession(id: "c", startDate: yesterday),
+            makeSession(id: "a", startDate: todayMorning, fastest1km: 200),
+            makeSession(id: "b", startDate: todayEvening, fastest1km: 200),
+            makeSession(id: "c", startDate: yesterday,    fastest1km: 200),
         ]
 
         let result = HomeViewModel.filterSessions(
             sessions: sessions,
             timeFilter: .daily,
-            distanceFilter: .topSpeed,
+            distanceFilter: .fastest1km,
             now: now,
             calendar: calendar
         )
@@ -81,12 +81,12 @@ final class SessionFilterTests: XCTestCase {
 
     func testDailyFilter_excludesFutureDays() {
         let tomorrow = calendar.date(byAdding: .day, value: 1, to: now)!
-        let sessions = [makeSession(id: "future", startDate: tomorrow)]
+        let sessions = [makeSession(id: "future", startDate: tomorrow, fastest1km: 200)]
 
         let result = HomeViewModel.filterSessions(
             sessions: sessions,
             timeFilter: .daily,
-            distanceFilter: .topSpeed,
+            distanceFilter: .fastest1km,
             now: now,
             calendar: calendar
         )
@@ -103,15 +103,15 @@ final class SessionFilterTests: XCTestCase {
         let lastSunday = calendar.date(byAdding: .day, value: -1, to: now)! // previous week
 
         let sessions = [
-            makeSession(id: "mon", startDate: monday),
-            makeSession(id: "fri", startDate: friday),
-            makeSession(id: "prev", startDate: lastSunday),
+            makeSession(id: "mon",  startDate: monday,      fastest1km: 200),
+            makeSession(id: "fri",  startDate: friday,      fastest1km: 210),
+            makeSession(id: "prev", startDate: lastSunday,  fastest1km: 190),
         ]
 
         let result = HomeViewModel.filterSessions(
             sessions: sessions,
             timeFilter: .weekly,
-            distanceFilter: .topSpeed,
+            distanceFilter: .fastest1km,
             now: now,
             calendar: calendar
         )
@@ -130,15 +130,15 @@ final class SessionFilterTests: XCTestCase {
         let previousMonth = DateComponents(calendar: calendar, year: 2025, month: 5, day: 31, hour: 23).date!
 
         let sessions = [
-            makeSession(id: "early", startDate: earlyMonth),
-            makeSession(id: "late", startDate: lateMonth),
-            makeSession(id: "prev", startDate: previousMonth),
+            makeSession(id: "early", startDate: earlyMonth,     fastest1km: 200),
+            makeSession(id: "late",  startDate: lateMonth,      fastest1km: 210),
+            makeSession(id: "prev",  startDate: previousMonth,  fastest1km: 190),
         ]
 
         let result = HomeViewModel.filterSessions(
             sessions: sessions,
             timeFilter: .monthly,
-            distanceFilter: .topSpeed,
+            distanceFilter: .fastest1km,
             now: now,
             calendar: calendar
         )
@@ -154,15 +154,15 @@ final class SessionFilterTests: XCTestCase {
         let lastYear = DateComponents(calendar: calendar, year: 2024, month: 12, day: 31).date!
 
         let sessions = [
-            makeSession(id: "jan", startDate: january),
-            makeSession(id: "dec", startDate: december),
-            makeSession(id: "old", startDate: lastYear),
+            makeSession(id: "jan", startDate: january,  fastest1km: 200),
+            makeSession(id: "dec", startDate: december, fastest1km: 210),
+            makeSession(id: "old", startDate: lastYear, fastest1km: 190),
         ]
 
         let result = HomeViewModel.filterSessions(
             sessions: sessions,
             timeFilter: .yearly,
-            distanceFilter: .topSpeed,
+            distanceFilter: .fastest1km,
             now: now,
             calendar: calendar
         )
@@ -232,28 +232,6 @@ final class SessionFilterTests: XCTestCase {
         XCTAssertEqual(result.map(\.id), ["a", "b", "c"])
     }
 
-    // MARK: - Distance filter: topSpeed / furthestDistance (default sort)
-
-    func testTopSpeed_sortsByDateDescending() {
-        let early = calendar.date(bySettingHour: 8, minute: 0, second: 0, of: now)!
-        let late = calendar.date(bySettingHour: 18, minute: 0, second: 0, of: now)!
-
-        let sessions = [
-            makeSession(id: "early", startDate: early),
-            makeSession(id: "late", startDate: late),
-        ]
-
-        let result = HomeViewModel.filterSessions(
-            sessions: sessions,
-            timeFilter: .daily,
-            distanceFilter: .topSpeed,
-            now: now,
-            calendar: calendar
-        )
-
-        XCTAssertEqual(result.map(\.id), ["late", "early"])
-    }
-
     // MARK: - Combined: time + distance filters compose
 
     func testCombinedFilters_timeAndDistanceCompose() {
@@ -300,7 +278,7 @@ final class SessionFilterTests: XCTestCase {
         let result = HomeViewModel.filterSessions(
             sessions: sessions,
             timeFilter: .daily,
-            distanceFilter: .topSpeed,
+            distanceFilter: .fastest1km,
             now: now,
             calendar: calendar
         )

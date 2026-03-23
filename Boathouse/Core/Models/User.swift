@@ -44,8 +44,10 @@ struct User: Identifiable, Codable, Equatable {
     var eligibleCategories: [RaceCategory] {
         guard let age = age, let gender = gender else { return [] }
         switch (gender, age) {
-        case (.female, ..<18): return [.juniorWomen]
-        case (.male,   ..<18): return [.juniorMen]
+        case (.female, ..<18):  return [.juniorWomen]
+        case (.male,   ..<18):  return [.juniorMen]
+        case (.female, 18..<23): return [.u23Women]
+        case (.male,   18..<23): return [.u23Men]
         case (.female, _):     return [.seniorWomen]
         case (.male,   _):     return [.seniorMen]
         default:               return []

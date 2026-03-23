@@ -5,20 +5,31 @@ import CoreLocation
 
 struct SessionCard: View {
     let session: Session
+    var userName: String? = nil
+    var userAvatarURL: URL? = nil
+    var rank: Int? = nil
+
+    private var displayName: String { userName ?? session.userId }
+
+    private var avatarInitials: String {
+        let result = displayName
+            .split(separator: " ")
+            .prefix(2)
+            .compactMap { $0.first }
+            .map { String($0) }
+            .joined()
+            .uppercased()
+        return result.isEmpty ? "?" : result
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Circle()
-                    .fill(Color.accentColor.opacity(0.2))
-                    .frame(width: 40, height: 40)
-                    .overlay {
-                        Image(systemName: session.sessionType.icon)
-                            .foregroundStyle(.accent)
-                    }
+            // Header: avatar + name + date + optional rank badge
+            HStack(spacing: 12) {
+                AvatarView(url: userAvatarURL, initials: avatarInitials, id: session.userId, size: 44)
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(session.name)
+                    Text(displayName)
                         .font(.headline)
 
                     Text(session.startDate, style: .relative)
@@ -27,6 +38,16 @@ struct SessionCard: View {
                 }
 
                 Spacer()
+
+                if let rank {
+                    Text("#\(rank)")
+                        .font(.caption.weight(.bold))
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 4)
+                        .background(Color.accentColor)
+                        .foregroundStyle(.white)
+                        .clipShape(Capsule())
+                }
 
                 if session.isFlagged {
                     Image(systemName: "flag.fill")
@@ -40,11 +61,11 @@ struct SessionCard: View {
                 StatView(title: "Duration", value: session.formattedDuration)
             }
 
-            // Segment times (only rows that have data)
-            let segments = segmentStats
-            if !segments.isEmpty {
+            // Pace metrics — only shown for distances actually covered
+            let paceStats = paceSegmentStats
+            if !paceStats.isEmpty {
                 HStack(spacing: 20) {
-                    ForEach(segments, id: \.title) { stat in
+                    ForEach(paceStats, id: \.title) { stat in
                         StatView(title: stat.title, value: stat.value)
                     }
                 }
@@ -85,11 +106,11 @@ struct SessionCard: View {
         .shadow(color: .black.opacity(0.05), radius: 8, y: 4)
     }
 
-    private var segmentStats: [(title: String, value: String)] {
+    private var paceSegmentStats: [(title: String, value: String)] {
         var stats: [(title: String, value: String)] = []
-        if let t = session.formattedFastest1km  { stats.append(("Fastest 1km", t)) }
-        if let t = session.formattedFastest5km  { stats.append(("Fastest 5km", t)) }
-        if let t = session.formattedFastest10km { stats.append(("Fastest 10km", t)) }
+        if let t = session.formattedFastest1km  { stats.append(("1km Pace", t)) }
+        if let t = session.formattedFastest5km  { stats.append(("5km Pace", t)) }
+        if let t = session.formattedFastest10km { stats.append(("10km Pace", t)) }
         return stats
     }
 }
