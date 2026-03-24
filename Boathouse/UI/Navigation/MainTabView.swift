@@ -18,7 +18,7 @@ struct MainTabView: View {
                 }
                 .tag(AppState.Tab.races)
 
-            EntryView()
+            MyGoalsView()
                 .tabItem {
                     Label(AppState.Tab.entry.title, systemImage: AppState.Tab.entry.icon)
                 }

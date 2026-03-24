@@ -5,7 +5,6 @@ import Combine
 final class RacesViewModel: ObservableObject {
     @Published var races: [Race] = []
     @Published var selectedDuration: RaceDuration? = .weekly
-    @Published var selectedRaceType: RaceType? = .fastest1km
     @Published var selectedCategory: RaceCategory?
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
@@ -13,24 +12,26 @@ final class RacesViewModel: ObservableObject {
     private let raceService: RaceServiceProtocol
     private var cancellables = Set<AnyCancellable>()
 
+    /// Races filtered by duration + category, sorted by distance (1km → 5km → 10km).
     var filteredRaces: [Race] {
-        races.filter { race in
-            var matches = true
-
-            if let duration = selectedDuration {
-                matches = matches && race.duration == duration
+        let typeOrder: [RaceType] = [.fastest1km, .fastest5km, .fastest10km]
+        return races
+            .filter { race in
+                var matches = true
+                if let duration = selectedDuration {
+                    matches = matches && race.duration == duration
+                }
+                if let category = selectedCategory {
+                    matches = matches && race.category == category
+                }
+                return matches
             }
-
-            if let type = selectedRaceType {
-                matches = matches && race.type == type
+            .sorted { lhs, rhs in
+                let li = typeOrder.firstIndex(of: lhs.type) ?? 99
+                let ri = typeOrder.firstIndex(of: rhs.type) ?? 99
+                if li != ri { return li < ri }
+                return lhs.category.rawValue < rhs.category.rawValue
             }
-
-            if let category = selectedCategory {
-                matches = matches && race.category == category
-            }
-
-            return matches
-        }
     }
 
     init(raceService: RaceServiceProtocol = RaceService.shared) {

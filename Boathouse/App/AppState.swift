@@ -32,7 +32,7 @@ final class AppState: ObservableObject {
             switch self {
             case .home: return "Club Room"
             case .races: return "Races"
-            case .entry: return "My Entries"
+            case .entry: return "My Goals"
             case .account: return "Account"
             }
         }
@@ -41,7 +41,7 @@ final class AppState: ObservableObject {
             switch self {
             case .home: return "house.fill"
             case .races: return "flag.checkered"
-            case .entry: return "list.bullet.clipboard"
+            case .entry: return "chart.line.uptrend.xyaxis"
             case .account: return "person.fill"
             }
         }
