@@ -14,6 +14,7 @@ struct RacePopoutView: View {
                 VStack(spacing: 20) {
                     headerSection
                     statsSection
+                    performanceChartSection
                     leaderboardSection
 
                     if race.canEnter, appState.isRacer {
@@ -50,6 +51,37 @@ struct RacePopoutView: View {
     }
 
     // MARK: - Sections
+
+    private var performanceChartSection: some View {
+        let distance = GoalDistance(raceType: race.type)
+        let userId = appState.currentUser?.id ?? ""
+        let userSessions = MockData.sessions.filter { $0.userId == userId }
+        let pts = GoalProgressCalculator.dataPoints(for: distance, from: userSessions)
+        let goals = GoalsStore.shared.load() ?? KayakingGoals()
+        let goalPace = GoalProgressCalculator.goalPace(for: distance, goals: goals)
+        let benchmark = BenchmarkService.categoryBenchmark(
+            for: distance,
+            category: race.category,
+            allSessions: MockData.sessions,
+            allUsers: MockData.users
+        )
+
+        return VStack(alignment: .leading, spacing: 8) {
+            Text("Your Performance History")
+                .font(.headline)
+            RacePerformanceChart(
+                distanceLabel: race.type.shortName,
+                dataPoints: pts,
+                goalPace: goalPace,
+                categoryBenchmark: benchmark
+            )
+            .frame(height: 200)
+            .clipShape(RoundedRectangle(cornerRadius: 14))
+        }
+        .padding()
+        .background(Color(.systemGray6))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
 
     private var headerSection: some View {
         VStack(spacing: 12) {

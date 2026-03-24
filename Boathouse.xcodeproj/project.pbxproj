@@ -87,6 +87,12 @@
 		A20000000000000000000006 /* MyGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000006 /* MyGoalsView.swift */; };
 		A10000000000000000000098 /* NewsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000098 /* NewsDetailView.swift */; };
 		A20000000000000000000007 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000007 /* Strings.swift */; };
+		A30000000000000000000001 /* RacePerformanceDataPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000001 /* RacePerformanceDataPoint.swift */; };
+		A30000000000000000000002 /* CategoryBenchmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000002 /* CategoryBenchmark.swift */; };
+		A30000000000000000000003 /* User+RaceCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000003 /* User+RaceCategory.swift */; };
+		A30000000000000000000004 /* PaceChartDataBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000004 /* PaceChartDataBuilder.swift */; };
+		A30000000000000000000005 /* BenchmarkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000005 /* BenchmarkService.swift */; };
+		A30000000000000000000006 /* RacePerformanceChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000006 /* RacePerformanceChart.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -172,6 +178,12 @@
 		B20000000000000000000006 /* MyGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGoalsView.swift; sourceTree = "<group>"; };
 		B10000000000000000000098 /* NewsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailView.swift; sourceTree = "<group>"; };
 		B20000000000000000000007 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		B30000000000000000000001 /* RacePerformanceDataPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacePerformanceDataPoint.swift; sourceTree = "<group>"; };
+		B30000000000000000000002 /* CategoryBenchmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryBenchmark.swift; sourceTree = "<group>"; };
+		B30000000000000000000003 /* User+RaceCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User+RaceCategory.swift; sourceTree = "<group>"; };
+		B30000000000000000000004 /* PaceChartDataBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaceChartDataBuilder.swift; sourceTree = "<group>"; };
+		B30000000000000000000005 /* BenchmarkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenchmarkService.swift; sourceTree = "<group>"; };
+		B30000000000000000000006 /* RacePerformanceChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacePerformanceChart.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -263,6 +275,9 @@
 				B10000000000000000000007 /* Entry.swift */,
 				B10000000000000000000008 /* Wallet.swift */,
 				B10000000000000000000086 /* KayakingGoals.swift */,
+				B30000000000000000000001 /* RacePerformanceDataPoint.swift */,
+				B30000000000000000000002 /* CategoryBenchmark.swift */,
+				B30000000000000000000003 /* User+RaceCategory.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -282,6 +297,8 @@
 				B10000000000000000000087 /* GoalsStore.swift */,
 				B20000000000000000000002 /* GoalProgressCalculator.swift */,
 				B20000000000000000000004 /* ExternalNewsService.swift */,
+				B30000000000000000000004 /* PaceChartDataBuilder.swift */,
+				B30000000000000000000005 /* BenchmarkService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -433,6 +450,7 @@
 				D10000000000000000000023 /* Styles */,
 				D10000000000000000000051 /* Layouts */,
 				B10000000000000000000071 /* AvatarView.swift */,
+				B30000000000000000000006 /* RacePerformanceChart.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -629,6 +647,12 @@
 				A20000000000000000000006 /* MyGoalsView.swift in Sources */,
 				A10000000000000000000098 /* NewsDetailView.swift in Sources */,
 				A20000000000000000000007 /* Strings.swift in Sources */,
+				A30000000000000000000001 /* RacePerformanceDataPoint.swift in Sources */,
+				A30000000000000000000002 /* CategoryBenchmark.swift in Sources */,
+				A30000000000000000000003 /* User+RaceCategory.swift in Sources */,
+				A30000000000000000000004 /* PaceChartDataBuilder.swift in Sources */,
+				A30000000000000000000005 /* BenchmarkService.swift in Sources */,
+				A30000000000000000000006 /* RacePerformanceChart.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
