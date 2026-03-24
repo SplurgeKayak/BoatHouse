@@ -9,10 +9,11 @@ final class HomeViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
     @Published var feedItems: [FeedItem] = []
-    @Published var followedUserIds: Set<String> = {
-        let saved = UserDefaults.standard.stringArray(forKey: "followedUserIds") ?? []
+    @Published var subscribedUserIds: Set<String> = {
+        let saved = UserDefaults.standard.stringArray(forKey: "subscribedUserIds") ?? []
         return Set(saved)
     }()
+    @Published var focusedUserId: String? = UserDefaults.standard.string(forKey: "focusedUserId")
     @Published var newsUnavailable: Bool = false
 
     private let sessionService: SessionServiceProtocol
@@ -128,15 +129,29 @@ final class HomeViewModel: ObservableObject {
         }
     }
 
-    // MARK: - Follow/Unfollow
+    // MARK: - Subscribe / Unsubscribe
 
-    func toggleFollow(userId: String) {
-        if followedUserIds.contains(userId) {
-            followedUserIds.remove(userId)
+    func toggleSubscription(userId: String) {
+        if subscribedUserIds.contains(userId) {
+            subscribedUserIds.remove(userId)
         } else {
-            followedUserIds.insert(userId)
+            subscribedUserIds.insert(userId)
         }
-        UserDefaults.standard.set(Array(followedUserIds), forKey: "followedUserIds")
+        UserDefaults.standard.set(Array(subscribedUserIds), forKey: "subscribedUserIds")
+        rebuildFeed(sessions: sessions, newsItems: feedItems.compactMap {
+            if case .news(let n) = $0 { return n } else { return nil }
+        })
+    }
+
+    // MARK: - Focus
+
+    func setFocus(userId: String?) {
+        focusedUserId = userId
+        if let userId {
+            UserDefaults.standard.set(userId, forKey: "focusedUserId")
+        } else {
+            UserDefaults.standard.removeObject(forKey: "focusedUserId")
+        }
         rebuildFeed(sessions: sessions, newsItems: feedItems.compactMap {
             if case .news(let n) = $0 { return n } else { return nil }
         })
@@ -146,33 +161,51 @@ final class HomeViewModel: ObservableObject {
 
     private func rebuildFeed(sessions: [Session], newsItems: [ExternalNewsItem]) {
         let sortedSessions = sessions.sorted { $0.startDate > $1.startDate }
-        let followedSessions = sortedSessions.filter { followedUserIds.contains($0.userId) }
-        let otherSessions = sortedSessions.filter { !followedUserIds.contains($0.userId) }
-
+        let sortedNews = newsItems.sorted { $0.publishedAt > $1.publishedAt }
         var result: [FeedItem] = []
 
-        // Followed users' sessions first
-        for session in followedSessions {
-            result.append(.session(session, userName: userName(for: session.userId), userAvatarURL: userAvatarURL(for: session.userId)))
-        }
-
-        // Interleave news every ~3 non-followed session cards
-        var newsQueue = newsItems.sorted { $0.publishedAt > $1.publishedAt }
-        var sessionBuffer: [FeedItem] = otherSessions.map {
-            .session($0, userName: userName(for: $0.userId), userAvatarURL: userAvatarURL(for: $0.userId))
-        }
-
-        var idx = 0
-        while !sessionBuffer.isEmpty {
-            result.append(sessionBuffer.removeFirst())
-            idx += 1
-            if idx % 3 == 0, !newsQueue.isEmpty {
-                result.append(.news(newsQueue.removeFirst()))
+        if let focusId = focusedUserId {
+            // Focus mode: show only one athlete's sessions, interleaving news every 3 items
+            let focusedSessions = sortedSessions.filter { $0.userId == focusId }
+            var sessionBuffer: [FeedItem] = focusedSessions.map {
+                .session($0, userName: userName(for: $0.userId), userAvatarURL: userAvatarURL(for: $0.userId))
             }
-        }
-        // Append any remaining news
-        for item in newsQueue {
-            result.append(.news(item))
+            var remaining = sortedNews
+            var idx = 0
+            while !sessionBuffer.isEmpty {
+                result.append(sessionBuffer.removeFirst())
+                idx += 1
+                if idx % 3 == 0, !remaining.isEmpty {
+                    result.append(.news(remaining.removeFirst()))
+                }
+            }
+            for item in remaining {
+                result.append(.news(item))
+            }
+        } else {
+            // Standard feed: when subscribedUserIds is empty show all; otherwise show only subscribed.
+            let visibleSessions: [Session]
+            if subscribedUserIds.isEmpty {
+                visibleSessions = sortedSessions
+            } else {
+                visibleSessions = sortedSessions.filter { subscribedUserIds.contains($0.userId) }
+            }
+
+            var sessionBuffer: [FeedItem] = visibleSessions.map {
+                .session($0, userName: userName(for: $0.userId), userAvatarURL: userAvatarURL(for: $0.userId))
+            }
+            var remaining = sortedNews
+            var idx = 0
+            while !sessionBuffer.isEmpty {
+                result.append(sessionBuffer.removeFirst())
+                idx += 1
+                if idx % 3 == 0, !remaining.isEmpty {
+                    result.append(.news(remaining.removeFirst()))
+                }
+            }
+            for item in remaining {
+                result.append(.news(item))
+            }
         }
 
         feedItems = result

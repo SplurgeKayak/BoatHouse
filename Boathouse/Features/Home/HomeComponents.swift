@@ -7,9 +7,12 @@ struct InstagramSessionCard: View {
     let session: Session
     let userName: String
     let userAvatarURL: URL?
-    let isFollowed: Bool
+    let isSubscribed: Bool
+    let isFocused: Bool
     let onTap: () -> Void
-    let onToggleFollow: () -> Void
+    let onToggleSubscription: () -> Void
+    let onSetFocus: () -> Void
+    let onClearFocus: () -> Void
 
     private var avatarInitials: String {
         let result = userName
@@ -90,14 +93,16 @@ struct InstagramSessionCard: View {
                             .foregroundStyle(.green)
                     }
 
-                    // Follow button
-                    Button(action: onToggleFollow) {
-                        Image(systemName: isFollowed ? "person.badge.checkmark.fill" : "person.badge.plus")
+                    // Subscribe button
+                    Button(action: onToggleSubscription) {
+                        Image(systemName: isSubscribed ? "person.badge.checkmark.fill" : "person.badge.plus")
                             .font(.system(size: 18))
-                            .foregroundStyle(isFollowed ? Color.accentColor : Color.secondary)
+                            .foregroundStyle(isSubscribed ? Color.accentColor : Color.secondary)
                     }
                     .buttonStyle(.plain)
-                    .accessibilityLabel(isFollowed ? "Unfollow \(userName)" : "Follow \(userName)")
+                    .accessibilityLabel(isSubscribed
+                        ? String(format: Strings.Feed.unsubscribeFromAthlete, userName)
+                        : String(format: Strings.Feed.subscribeToAthlete, userName))
                 }
             }
             .padding()
@@ -106,6 +111,32 @@ struct InstagramSessionCard: View {
             .shadow(color: .black.opacity(0.05), radius: 8, y: 4)
         }
         .buttonStyle(.plain)
+        .contextMenu {
+            Button {
+                onToggleSubscription()
+            } label: {
+                Label(
+                    isSubscribed
+                        ? String(format: Strings.Feed.unsubscribeFromAthlete, userName)
+                        : String(format: Strings.Feed.subscribeToAthlete, userName),
+                    systemImage: isSubscribed ? "person.badge.minus" : "person.badge.plus"
+                )
+            }
+
+            Button {
+                onSetFocus()
+            } label: {
+                Label(String(format: Strings.Feed.focusOnAthlete, userName), systemImage: "scope")
+            }
+
+            if isFocused {
+                Button {
+                    onClearFocus()
+                } label: {
+                    Label(Strings.Feed.showAllAthletes, systemImage: "person.3")
+                }
+            }
+        }
     }
 
     private var paceSegmentStats: [(title: String, value: String)] {
@@ -121,16 +152,11 @@ struct InstagramSessionCard: View {
 
 struct NewsCard: View {
     let item: ExternalNewsItem
-    @Environment(\.openURL) private var openURL
+    let onTap: () -> Void
 
     var body: some View {
-        let card = cardContent
-        if let url = item.link {
-            Button { openURL(url) } label: { card }
-                .buttonStyle(.plain)
-        } else {
-            card
-        }
+        Button(action: onTap) { cardContent }
+            .buttonStyle(.plain)
     }
 
     private var cardContent: some View {
@@ -173,7 +199,7 @@ struct NewsCard: View {
             if item.link != nil {
                 HStack {
                     Spacer()
-                    Label("Read more", systemImage: "arrow.up.right.square")
+                    Label(Strings.Feed.readMore, systemImage: "arrow.up.right.square")
                         .font(.caption)
                         .foregroundStyle(item.source.accentColor)
                 }

@@ -45,6 +45,41 @@ final class RaceEngine {
         }
     }
 
+    /// Deduplicates entries to one per user (keeping the best/lowest score),
+    /// then re-ranks sorted ascending by score.
+    func calculateRankingsDeduplicatedByUser(entries: [Entry], raceType: RaceType) -> [Entry] {
+        // 1. Filter to scored entries only
+        let scoredEntries = entries.filter { $0.score != nil }
+
+        // 2. Group by userId, keeping the entry with the lowest score per user
+        var bestByUser: [String: Entry] = [:]
+        for entry in scoredEntries {
+            guard let score = entry.score else { continue }
+            if let existing = bestByUser[entry.userId], let existingScore = existing.score {
+                if score < existingScore || (score == existingScore && entry.id < existing.id) {
+                    bestByUser[entry.userId] = entry
+                }
+            } else {
+                bestByUser[entry.userId] = entry
+            }
+        }
+
+        // 3. Sort ascending by score, with deterministic tiebreaker on entry.id
+        let sorted = bestByUser.values.sorted { a, b in
+            let aScore = a.score ?? .infinity
+            let bScore = b.score ?? .infinity
+            if aScore != bScore { return aScore < bScore }
+            return a.id < b.id
+        }
+
+        // 4. Re-assign ranks 1, 2, 3, ...
+        return sorted.enumerated().map { index, entry in
+            var ranked = entry
+            ranked.rank = index + 1
+            return ranked
+        }
+    }
+
     /// Calculate prize distribution for race winners
     func distributePrizes(race: Race, rankedEntries: [Entry]) -> [(entry: Entry, prize: Decimal)] {
         let prizes = race.calculatePrizes()

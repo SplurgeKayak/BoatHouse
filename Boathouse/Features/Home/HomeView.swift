@@ -8,6 +8,7 @@ struct HomeView: View {
     @EnvironmentObject var appState: AppState
     @Environment(\.colorScheme) private var colorScheme
     @State private var selectedSession: Session? = nil
+    @State private var selectedNewsItem: ExternalNewsItem? = nil
 
     var body: some View {
         NavigationStack {
@@ -54,6 +55,9 @@ struct HomeView: View {
                     userAvatarURL: viewModel.userAvatarURL(for: session.userId)
                 )
                 .environmentObject(appState)
+            }
+            .sheet(item: $selectedNewsItem) { item in
+                NewsDetailView(item: item)
             }
             .fullScreenCover(isPresented: $storyViewModel.isShowingStoryViewer) {
                 if let selectedStory = storyViewModel.selectedStory {
@@ -112,6 +116,24 @@ struct HomeView: View {
                 .padding(.horizontal)
             }
 
+            // Focus banner
+            if let focusId = viewModel.focusedUserId {
+                HStack {
+                    Text(String(format: Strings.Feed.focusBannerFormat, viewModel.userName(for: focusId)))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    Button(Strings.Feed.clearFocus) {
+                        viewModel.setFocus(userId: nil)
+                    }
+                    .font(.caption)
+                    .buttonStyle(.borderless)
+                }
+                .padding(.horizontal)
+                .padding(.vertical, 6)
+                .background(Color(.systemGray6))
+            }
+
             ForEach(viewModel.feedItems) { item in
                 switch item {
                 case .session(let session, let name, let avatarURL):
@@ -119,14 +141,17 @@ struct HomeView: View {
                         session: session,
                         userName: name,
                         userAvatarURL: avatarURL,
-                        isFollowed: viewModel.followedUserIds.contains(session.userId),
+                        isSubscribed: viewModel.subscribedUserIds.contains(session.userId),
+                        isFocused: viewModel.focusedUserId == session.userId,
                         onTap: { selectedSession = session },
-                        onToggleFollow: { viewModel.toggleFollow(userId: session.userId) }
+                        onToggleSubscription: { viewModel.toggleSubscription(userId: session.userId) },
+                        onSetFocus: { viewModel.setFocus(userId: session.userId) },
+                        onClearFocus: { viewModel.setFocus(userId: nil) }
                     )
                     .padding(.horizontal)
 
                 case .news(let newsItem):
-                    NewsCard(item: newsItem)
+                    NewsCard(item: newsItem, onTap: { selectedNewsItem = newsItem })
                         .padding(.horizontal)
                 }
             }
