@@ -9,6 +9,15 @@ final class AppState: ObservableObject {
     @Published var isLoading: Bool = true
     @Published var showOnboarding: Bool = false
     @Published var hasCompletedGoals: Bool = GoalsStore.shared.hasCompletedGoals
+    @Published var preferredColorScheme: ColorScheme? {
+        didSet {
+            switch preferredColorScheme {
+            case .light:  UserDefaults.standard.set("light", forKey: "preferredColorScheme")
+            case .dark:   UserDefaults.standard.set("dark",  forKey: "preferredColorScheme")
+            default:      UserDefaults.standard.set("light", forKey: "preferredColorScheme")
+            }
+        }
+    }
 
     /// Goals overlay visible — starts true on cold launch (session-only, not persisted).
     /// Driven by the center target button in the custom bottom nav.
@@ -27,7 +36,7 @@ final class AppState: ObservableObject {
             switch self {
             case .home: return "Club Room"
             case .races: return "Races"
-            case .entry: return "My Entries"
+            case .entry: return "My Goals"
             case .account: return "Account"
             }
         }
@@ -36,14 +45,17 @@ final class AppState: ObservableObject {
             switch self {
             case .home: return "house.fill"
             case .races: return "flag.checkered"
-            case .entry: return "list.bullet.clipboard"
+            case .entry: return "chart.line.uptrend.xyaxis"
             case .account: return "person.fill"
             }
         }
     }
 
     init() {
-        // Default initialization
+        switch UserDefaults.standard.string(forKey: "preferredColorScheme") {
+        case "dark":  preferredColorScheme = .dark
+        default:      preferredColorScheme = .light
+        }
     }
 
     var isRacer: Bool {

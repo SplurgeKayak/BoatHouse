@@ -41,18 +41,26 @@
 		A10000000000000000000031 /* RacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000031 /* RacesViewModel.swift */; };
 		A10000000000000000000032 /* RaceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000032 /* RaceDetailView.swift */; };
 		A10000000000000000000033 /* RaceDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000033 /* RaceDetailViewModel.swift */; };
+		A10000000000000000000096 /* RacePopoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000096 /* RacePopoutView.swift */; };
+		A10000000000000000000097 /* RaceSessionStoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000097 /* RaceSessionStoryView.swift */; };
 		A10000000000000000000034 /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000034 /* EntryView.swift */; };
 		A10000000000000000000035 /* EntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000035 /* EntryViewModel.swift */; };
 		A10000000000000000000036 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000036 /* AccountView.swift */; };
 		A10000000000000000000037 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000037 /* AccountViewModel.swift */; };
 		A10000000000000000000038 /* StravaExplanationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000038 /* StravaExplanationView.swift */; };
 		A10000000000000000000039 /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000039 /* NotificationSettingsView.swift */; };
+		A10000000000000000000091 /* GarminOAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000091 /* GarminOAuthViewModel.swift */; };
+		A10000000000000000000092 /* GarminOAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000092 /* GarminOAuthView.swift */; };
+		A10000000000000000000093 /* GarminExplanationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000093 /* GarminExplanationView.swift */; };
+		A10000000000000000000094 /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000094 /* SessionDetailView.swift */; };
+		A10000000000000000000095 /* UserSessionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000095 /* UserSessionsView.swift */; };
 		A10000000000000000000040 /* WalletService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000040 /* WalletService.swift */; };
 		A10000000000000000000041 /* WalletSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000041 /* WalletSetupView.swift */; };
 		A10000000000000000000042 /* AddFundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000042 /* AddFundsView.swift */; };
 		A10000000000000000000043 /* TransactionHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000043 /* TransactionHistoryView.swift */; };
 		A10000000000000000000044 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000044 /* OnboardingView.swift */; };
 		A10000000000000000000045 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000045 /* Assets.xcassets */; };
+		A10000000000000000000046 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000046 /* Preview Assets.xcassets */; };
 		A10000000000000000000060 /* SeenActivityStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000060 /* SeenActivityStore.swift */; };
 		A10000000000000000000061 /* StoryFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000061 /* StoryFeedViewModel.swift */; };
 		A10000000000000000000062 /* StoryBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000062 /* StoryBubbleView.swift */; };
@@ -71,20 +79,20 @@
 		A10000000000000000000088 /* YourGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000088 /* YourGoalsView.swift */; };
 		A10000000000000000000089 /* RoutePreviewShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000089 /* RoutePreviewShape.swift */; };
 		A10000000000000000000090 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000090 /* FlowLayout.swift */; };
-		A10000000000000000000091 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000091 /* Goal.swift */; };
-		A10000000000000000000092 /* GoalProgressService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000092 /* GoalProgressService.swift */; };
-		A10000000000000000000093 /* GoalsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000093 /* GoalsViewModel.swift */; };
-		A10000000000000000000094 /* GaugeChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000094 /* GaugeChartView.swift */; };
-		A10000000000000000000095 /* GoalCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000095 /* GoalCardView.swift */; };
-		A10000000000000000000096 /* GoalsDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000096 /* GoalsDashboardView.swift */; };
-		A10000000000000000000097 /* ActivityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000097 /* ActivityDetailView.swift */; };
-		A10000000000000000000098 /* GoalsSplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000098 /* GoalsSplashView.swift */; };
-		A10000000000000000000099 /* DummyUserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000099 /* DummyUserStore.swift */; };
-		A10000000000000000000100 /* GoalsOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000100 /* GoalsOverlayView.swift */; };
-		A10000000000000000000101 /* ActivityStoryPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000101 /* ActivityStoryPopup.swift */; };
-		A10000000000000000000102 /* WhatIsRacepaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000102 /* WhatIsRacepaceView.swift */; };
-		A10000000000000000000103 /* ConnectGarminHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000103 /* ConnectGarminHelpView.swift */; };
-		A10000000000000000000104 /* WithdrawFundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000104 /* WithdrawFundsView.swift */; };
+		A20000000000000000000001 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000001 /* AppColors.swift */; };
+		A20000000000000000000002 /* GoalProgressCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000002 /* GoalProgressCalculator.swift */; };
+		A20000000000000000000003 /* GoalProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000003 /* GoalProgressView.swift */; };
+		A20000000000000000000004 /* ExternalNewsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000004 /* ExternalNewsService.swift */; };
+		A20000000000000000000005 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000005 /* FeedItem.swift */; };
+		A20000000000000000000006 /* MyGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000006 /* MyGoalsView.swift */; };
+		A10000000000000000000098 /* NewsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000098 /* NewsDetailView.swift */; };
+		A20000000000000000000007 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000007 /* Strings.swift */; };
+		A30000000000000000000001 /* RacePerformanceDataPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000001 /* RacePerformanceDataPoint.swift */; };
+		A30000000000000000000002 /* CategoryBenchmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000002 /* CategoryBenchmark.swift */; };
+		A30000000000000000000003 /* User+RaceCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000003 /* User+RaceCategory.swift */; };
+		A30000000000000000000004 /* PaceChartDataBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000004 /* PaceChartDataBuilder.swift */; };
+		A30000000000000000000005 /* BenchmarkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000005 /* BenchmarkService.swift */; };
+		A30000000000000000000006 /* RacePerformanceChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000006 /* RacePerformanceChart.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -123,18 +131,26 @@
 		B10000000000000000000031 /* RacesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacesViewModel.swift; sourceTree = "<group>"; };
 		B10000000000000000000032 /* RaceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceDetailView.swift; sourceTree = "<group>"; };
 		B10000000000000000000033 /* RaceDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceDetailViewModel.swift; sourceTree = "<group>"; };
+		B10000000000000000000096 /* RacePopoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacePopoutView.swift; sourceTree = "<group>"; };
+		B10000000000000000000097 /* RaceSessionStoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceSessionStoryView.swift; sourceTree = "<group>"; };
 		B10000000000000000000034 /* EntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryView.swift; sourceTree = "<group>"; };
 		B10000000000000000000035 /* EntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewModel.swift; sourceTree = "<group>"; };
 		B10000000000000000000036 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		B10000000000000000000037 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		B10000000000000000000038 /* StravaExplanationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaExplanationView.swift; sourceTree = "<group>"; };
 		B10000000000000000000039 /* NotificationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsView.swift; sourceTree = "<group>"; };
+		B10000000000000000000091 /* GarminOAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarminOAuthViewModel.swift; sourceTree = "<group>"; };
+		B10000000000000000000092 /* GarminOAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarminOAuthView.swift; sourceTree = "<group>"; };
+		B10000000000000000000093 /* GarminExplanationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarminExplanationView.swift; sourceTree = "<group>"; };
+		B10000000000000000000094 /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
+		B10000000000000000000095 /* UserSessionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSessionsView.swift; sourceTree = "<group>"; };
 		B10000000000000000000040 /* WalletService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletService.swift; sourceTree = "<group>"; };
 		B10000000000000000000041 /* WalletSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSetupView.swift; sourceTree = "<group>"; };
 		B10000000000000000000042 /* AddFundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFundsView.swift; sourceTree = "<group>"; };
 		B10000000000000000000043 /* TransactionHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionHistoryView.swift; sourceTree = "<group>"; };
 		B10000000000000000000044 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		B10000000000000000000045 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B10000000000000000000046 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B10000000000000000000047 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B10000000000000000000060 /* SeenActivityStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeenActivityStore.swift; sourceTree = "<group>"; };
 		B10000000000000000000061 /* StoryFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryFeedViewModel.swift; sourceTree = "<group>"; };
@@ -154,20 +170,20 @@
 		B10000000000000000000088 /* YourGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourGoalsView.swift; sourceTree = "<group>"; };
 		B10000000000000000000089 /* RoutePreviewShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePreviewShape.swift; sourceTree = "<group>"; };
 		B10000000000000000000090 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
-		B10000000000000000000091 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
-		B10000000000000000000092 /* GoalProgressService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalProgressService.swift; sourceTree = "<group>"; };
-		B10000000000000000000093 /* GoalsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewModel.swift; sourceTree = "<group>"; };
-		B10000000000000000000094 /* GaugeChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeChartView.swift; sourceTree = "<group>"; };
-		B10000000000000000000095 /* GoalCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCardView.swift; sourceTree = "<group>"; };
-		B10000000000000000000096 /* GoalsDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsDashboardView.swift; sourceTree = "<group>"; };
-		B10000000000000000000097 /* ActivityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailView.swift; sourceTree = "<group>"; };
-		B10000000000000000000098 /* GoalsSplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsSplashView.swift; sourceTree = "<group>"; };
-		B10000000000000000000099 /* DummyUserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyUserStore.swift; sourceTree = "<group>"; };
-		B10000000000000000000100 /* GoalsOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsOverlayView.swift; sourceTree = "<group>"; };
-		B10000000000000000000101 /* ActivityStoryPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityStoryPopup.swift; sourceTree = "<group>"; };
-		B10000000000000000000102 /* WhatIsRacepaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatIsRacepaceView.swift; sourceTree = "<group>"; };
-		B10000000000000000000103 /* ConnectGarminHelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectGarminHelpView.swift; sourceTree = "<group>"; };
-		B10000000000000000000104 /* WithdrawFundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawFundsView.swift; sourceTree = "<group>"; };
+		B20000000000000000000001 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		B20000000000000000000002 /* GoalProgressCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalProgressCalculator.swift; sourceTree = "<group>"; };
+		B20000000000000000000003 /* GoalProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalProgressView.swift; sourceTree = "<group>"; };
+		B20000000000000000000004 /* ExternalNewsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalNewsService.swift; sourceTree = "<group>"; };
+		B20000000000000000000005 /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
+		B20000000000000000000006 /* MyGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGoalsView.swift; sourceTree = "<group>"; };
+		B10000000000000000000098 /* NewsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailView.swift; sourceTree = "<group>"; };
+		B20000000000000000000007 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		B30000000000000000000001 /* RacePerformanceDataPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacePerformanceDataPoint.swift; sourceTree = "<group>"; };
+		B30000000000000000000002 /* CategoryBenchmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryBenchmark.swift; sourceTree = "<group>"; };
+		B30000000000000000000003 /* User+RaceCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User+RaceCategory.swift; sourceTree = "<group>"; };
+		B30000000000000000000004 /* PaceChartDataBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaceChartDataBuilder.swift; sourceTree = "<group>"; };
+		B30000000000000000000005 /* BenchmarkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenchmarkService.swift; sourceTree = "<group>"; };
+		B30000000000000000000006 /* RacePerformanceChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacePerformanceChart.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,8 +253,17 @@
 				D10000000000000000000005 /* Models */,
 				D10000000000000000000006 /* Services */,
 				D10000000000000000000007 /* MockData */,
+				D10000000000000000000060 /* Utilities */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000060 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000007 /* Strings.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		D10000000000000000000005 /* Models */ = {
@@ -250,7 +275,9 @@
 				B10000000000000000000007 /* Entry.swift */,
 				B10000000000000000000008 /* Wallet.swift */,
 				B10000000000000000000086 /* KayakingGoals.swift */,
-				B10000000000000000000091 /* Goal.swift */,
+				B30000000000000000000001 /* RacePerformanceDataPoint.swift */,
+				B30000000000000000000002 /* CategoryBenchmark.swift */,
+				B30000000000000000000003 /* User+RaceCategory.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -268,8 +295,10 @@
 				B10000000000000000000084 /* SessionService.swift */,
 				B10000000000000000000085 /* RaceService.swift */,
 				B10000000000000000000087 /* GoalsStore.swift */,
-				B10000000000000000000092 /* GoalProgressService.swift */,
-				B10000000000000000000099 /* DummyUserStore.swift */,
+				B20000000000000000000002 /* GoalProgressCalculator.swift */,
+				B20000000000000000000004 /* ExternalNewsService.swift */,
+				B30000000000000000000004 /* PaceChartDataBuilder.swift */,
+				B30000000000000000000005 /* BenchmarkService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -302,12 +331,8 @@
 			isa = PBXGroup;
 			children = (
 				B10000000000000000000088 /* YourGoalsView.swift */,
-				B10000000000000000000093 /* GoalsViewModel.swift */,
-				B10000000000000000000094 /* GaugeChartView.swift */,
-				B10000000000000000000095 /* GoalCardView.swift */,
-				B10000000000000000000096 /* GoalsDashboardView.swift */,
-				B10000000000000000000098 /* GoalsSplashView.swift */,
-				B10000000000000000000100 /* GoalsOverlayView.swift */,
+				B20000000000000000000003 /* GoalProgressView.swift */,
+				B20000000000000000000006 /* MyGoalsView.swift */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
@@ -330,11 +355,14 @@
 				B10000000000000000000026 /* HomeView.swift */,
 				B10000000000000000000083 /* HomeComponents.swift */,
 				B10000000000000000000027 /* HomeViewModel.swift */,
+				B10000000000000000000098 /* NewsDetailView.swift */,
 				B10000000000000000000028 /* LeaderboardView.swift */,
 				B10000000000000000000029 /* FlagActivityView.swift */,
 				B10000000000000000000081 /* SessionMapView.swift */,
 				B10000000000000000000089 /* RoutePreviewShape.swift */,
-				B10000000000000000000097 /* ActivityDetailView.swift */,
+				B10000000000000000000094 /* SessionDetailView.swift */,
+				B10000000000000000000095 /* UserSessionsView.swift */,
+				B20000000000000000000005 /* FeedItem.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -346,6 +374,8 @@
 				B10000000000000000000031 /* RacesViewModel.swift */,
 				B10000000000000000000032 /* RaceDetailView.swift */,
 				B10000000000000000000033 /* RaceDetailViewModel.swift */,
+				B10000000000000000000096 /* RacePopoutView.swift */,
+				B10000000000000000000097 /* RaceSessionStoryView.swift */,
 			);
 			path = Races;
 			sourceTree = "<group>";
@@ -366,8 +396,9 @@
 				B10000000000000000000037 /* AccountViewModel.swift */,
 				B10000000000000000000038 /* StravaExplanationView.swift */,
 				B10000000000000000000039 /* NotificationSettingsView.swift */,
-				B10000000000000000000102 /* WhatIsRacepaceView.swift */,
-				B10000000000000000000103 /* ConnectGarminHelpView.swift */,
+				B10000000000000000000091 /* GarminOAuthViewModel.swift */,
+				B10000000000000000000092 /* GarminOAuthView.swift */,
+				B10000000000000000000093 /* GarminExplanationView.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -379,7 +410,6 @@
 				B10000000000000000000041 /* WalletSetupView.swift */,
 				B10000000000000000000042 /* AddFundsView.swift */,
 				B10000000000000000000043 /* TransactionHistoryView.swift */,
-				B10000000000000000000104 /* WithdrawFundsView.swift */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -420,7 +450,7 @@
 				D10000000000000000000023 /* Styles */,
 				D10000000000000000000051 /* Layouts */,
 				B10000000000000000000071 /* AvatarView.swift */,
-				B10000000000000000000101 /* ActivityStoryPopup.swift */,
+				B30000000000000000000006 /* RacePerformanceChart.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -447,6 +477,7 @@
 			children = (
 				B10000000000000000000019 /* ButtonStyles.swift */,
 				B10000000000000000000020 /* TextFieldStyles.swift */,
+				B20000000000000000000001 /* AppColors.swift */,
 			);
 			path = Styles;
 			sourceTree = "<group>";
@@ -455,8 +486,17 @@
 			isa = PBXGroup;
 			children = (
 				B10000000000000000000045 /* Assets.xcassets */,
+				D10000000000000000000031 /* Preview Content */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000031 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000046 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -517,6 +557,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A10000000000000000000046 /* Preview Assets.xcassets in Resources */,
 				A10000000000000000000045 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -562,12 +603,17 @@
 				A10000000000000000000031 /* RacesViewModel.swift in Sources */,
 				A10000000000000000000032 /* RaceDetailView.swift in Sources */,
 				A10000000000000000000033 /* RaceDetailViewModel.swift in Sources */,
+				A10000000000000000000096 /* RacePopoutView.swift in Sources */,
+				A10000000000000000000097 /* RaceSessionStoryView.swift in Sources */,
 				A10000000000000000000034 /* EntryView.swift in Sources */,
 				A10000000000000000000035 /* EntryViewModel.swift in Sources */,
 				A10000000000000000000036 /* AccountView.swift in Sources */,
 				A10000000000000000000037 /* AccountViewModel.swift in Sources */,
 				A10000000000000000000038 /* StravaExplanationView.swift in Sources */,
 				A10000000000000000000039 /* NotificationSettingsView.swift in Sources */,
+				A10000000000000000000091 /* GarminOAuthViewModel.swift in Sources */,
+				A10000000000000000000092 /* GarminOAuthView.swift in Sources */,
+				A10000000000000000000093 /* GarminExplanationView.swift in Sources */,
 				A10000000000000000000040 /* WalletService.swift in Sources */,
 				A10000000000000000000041 /* WalletSetupView.swift in Sources */,
 				A10000000000000000000042 /* AddFundsView.swift in Sources */,
@@ -584,6 +630,8 @@
 				A10000000000000000000081 /* SessionMapView.swift in Sources */,
 				A10000000000000000000082 /* LaunchScreenView.swift in Sources */,
 				A10000000000000000000083 /* HomeComponents.swift in Sources */,
+				A10000000000000000000094 /* SessionDetailView.swift in Sources */,
+				A10000000000000000000095 /* UserSessionsView.swift in Sources */,
 				A10000000000000000000084 /* SessionService.swift in Sources */,
 				A10000000000000000000085 /* RaceService.swift in Sources */,
 				A10000000000000000000086 /* KayakingGoals.swift in Sources */,
@@ -591,20 +639,20 @@
 				A10000000000000000000088 /* YourGoalsView.swift in Sources */,
 				A10000000000000000000089 /* RoutePreviewShape.swift in Sources */,
 				A10000000000000000000090 /* FlowLayout.swift in Sources */,
-				A10000000000000000000091 /* Goal.swift in Sources */,
-				A10000000000000000000092 /* GoalProgressService.swift in Sources */,
-				A10000000000000000000093 /* GoalsViewModel.swift in Sources */,
-				A10000000000000000000094 /* GaugeChartView.swift in Sources */,
-				A10000000000000000000095 /* GoalCardView.swift in Sources */,
-				A10000000000000000000096 /* GoalsDashboardView.swift in Sources */,
-				A10000000000000000000097 /* ActivityDetailView.swift in Sources */,
-				A10000000000000000000098 /* GoalsSplashView.swift in Sources */,
-				A10000000000000000000099 /* DummyUserStore.swift in Sources */,
-				A10000000000000000000100 /* GoalsOverlayView.swift in Sources */,
-				A10000000000000000000101 /* ActivityStoryPopup.swift in Sources */,
-				A10000000000000000000102 /* WhatIsRacepaceView.swift in Sources */,
-				A10000000000000000000103 /* ConnectGarminHelpView.swift in Sources */,
-				A10000000000000000000104 /* WithdrawFundsView.swift in Sources */,
+				A20000000000000000000001 /* AppColors.swift in Sources */,
+				A20000000000000000000002 /* GoalProgressCalculator.swift in Sources */,
+				A20000000000000000000003 /* GoalProgressView.swift in Sources */,
+				A20000000000000000000004 /* ExternalNewsService.swift in Sources */,
+				A20000000000000000000005 /* FeedItem.swift in Sources */,
+				A20000000000000000000006 /* MyGoalsView.swift in Sources */,
+				A10000000000000000000098 /* NewsDetailView.swift in Sources */,
+				A20000000000000000000007 /* Strings.swift in Sources */,
+				A30000000000000000000001 /* RacePerformanceDataPoint.swift in Sources */,
+				A30000000000000000000002 /* CategoryBenchmark.swift in Sources */,
+				A30000000000000000000003 /* User+RaceCategory.swift in Sources */,
+				A30000000000000000000004 /* PaceChartDataBuilder.swift in Sources */,
+				A30000000000000000000005 /* BenchmarkService.swift in Sources */,
+				A30000000000000000000006 /* RacePerformanceChart.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -737,6 +785,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Boathouse/Resources/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				EXECUTABLE_NAME = Boathouse;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -774,6 +823,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Boathouse/Resources/Preview Content\"";
 				ENABLE_PREVIEWS = NO;
 				EXECUTABLE_NAME = Boathouse;
 				GENERATE_INFOPLIST_FILE = YES;

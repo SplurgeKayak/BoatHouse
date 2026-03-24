@@ -26,7 +26,7 @@ struct StoriesStripView: View {
             }
         }
         .padding(.vertical, 12)
-        .background(Color(.systemBackground))
+        .background(Color.clear)
     }
 }
 

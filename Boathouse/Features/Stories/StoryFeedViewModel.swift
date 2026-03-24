@@ -30,10 +30,14 @@ struct AthleteStory: Identifiable, Equatable {
 }
 
 /// ViewModel for managing the Stories strip on the Home screen
+@MainActor
 final class StoryFeedViewModel: ObservableObject {
     @Published var stories: [AthleteStory] = []
     @Published var selectedStory: AthleteStory?
     @Published var isShowingStoryViewer: Bool = false
+
+    /// Maximum number of unseen sessions shown per athlete story bubble.
+    static let maxStorySessions = 5
 
     private let seenStore: SeenSessionStore
     private var cancellables = Set<AnyCancellable>()
@@ -68,8 +72,9 @@ final class StoryFeedViewModel: ObservableObject {
         var newStories: [AthleteStory] = []
 
         for (userId, userSessions) in groupedByUser {
-            let unseenSessions = seenStore.unseenSessions(from: userSessions)
+            let unseenSessions = Array(seenStore.unseenSessions(from: userSessions)
                 .sorted { $0.startDate > $1.startDate }
+                .prefix(StoryFeedViewModel.maxStorySessions))
 
             guard !unseenSessions.isEmpty else { continue }
 

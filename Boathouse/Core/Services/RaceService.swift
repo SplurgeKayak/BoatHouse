@@ -24,7 +24,62 @@ final class RaceService: RaceServiceProtocol {
 
     func fetchActiveRaces() async throws -> [Race] {
         // TODO: Replace with actual API call
-        return MockData.races
+        let base = MockData.races
+        return ensureAllDistances(
+            races: base,
+            for: RaceDuration.allCases,
+            categories: RaceCategory.allCases
+        )
+    }
+
+    /// Ensures every (duration, category, raceType) triple has at least one race.
+    /// Missing combinations are filled with a placeholder race (entryCount == 0).
+    func ensureAllDistances(races: [Race], for durations: [RaceDuration], categories: [RaceCategory]) -> [Race] {
+        var result = races
+        let now = Date()
+
+        for duration in durations {
+            for category in categories {
+                for raceType in RaceType.allCases {
+                    let exists = races.contains {
+                        $0.duration == duration && $0.category == category && $0.type == raceType
+                    }
+                    guard !exists else { continue }
+
+                    let start: Date
+                    let end: Date
+                    switch duration {
+                    case .daily:
+                        start = Calendar.current.startOfDay(for: now)
+                        end   = Calendar.current.date(byAdding: .day, value: 1, to: start) ?? now
+                    case .weekly:
+                        start = Calendar.current.date(byAdding: .day, value: -7, to: now) ?? now
+                        end   = Calendar.current.date(byAdding: .day, value: 7, to: now) ?? now
+                    case .monthly:
+                        start = Calendar.current.date(byAdding: .month, value: -1, to: now) ?? now
+                        end   = Calendar.current.date(byAdding: .month, value: 1, to: now) ?? now
+                    case .yearly:
+                        start = Calendar.current.date(byAdding: .year, value: -1, to: now) ?? now
+                        end   = Calendar.current.date(byAdding: .year, value: 1, to: now) ?? now
+                    }
+
+                    let placeholder = Race(
+                        id: "placeholder-\(duration.rawValue)-\(category.rawValue)-\(raceType.rawValue)",
+                        type: raceType,
+                        duration: duration,
+                        category: category,
+                        startDate: start,
+                        endDate: end,
+                        entryCount: 0,
+                        prizePool: 0,
+                        status: .active,
+                        createdAt: now
+                    )
+                    result.append(placeholder)
+                }
+            }
+        }
+        return result
     }
 
     func fetchRace(id: String) async throws -> Race {

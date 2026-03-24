@@ -111,4 +111,44 @@ final class GoalsTests: XCTestCase {
         XCTAssertNil(store.load())
         XCTAssertFalse(store.hasCompletedGoals)
     }
+
+    // MARK: - GoalProgressCalculator
+
+    func testGoalProgressCalculator_aheadOfGoal() {
+        let sessions = [makeSession(best1k: 230)]   // faster than goal of 240
+        XCTAssertEqual(GoalProgressCalculator.status(goal: 240, best: GoalProgressCalculator.best1k(from: sessions)), .aheadOfGoal)
+    }
+
+    func testGoalProgressCalculator_needsImprovement() {
+        let sessions = [makeSession(best1k: 270)]   // slower than goal of 240
+        XCTAssertEqual(GoalProgressCalculator.status(goal: 240, best: GoalProgressCalculator.best1k(from: sessions)), .needsImprovement)
+    }
+
+    // Helper — create a minimal Session with a given fastest1kmTime
+    private func makeSession(best1k: TimeInterval) -> Session {
+        Session(
+            id: UUID().uuidString,
+            stravaId: 0,
+            userId: "andy-001",
+            name: "Test",
+            sessionType: .kayaking,
+            startDate: Date(),
+            elapsedTime: 3600,
+            movingTime: 3600,
+            distance: 10000,
+            maxSpeed: nil,
+            averageSpeed: nil,
+            startLocation: nil,
+            endLocation: nil,
+            polyline: nil,
+            isGPSVerified: true,
+            isUKSession: true,
+            flagCount: 0,
+            status: .verified,
+            importedAt: Date(),
+            fastest1kmTime: best1k,
+            fastest5kmTime: nil,
+            fastest10kmTime: nil
+        )
+    }
 }

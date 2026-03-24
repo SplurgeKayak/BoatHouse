@@ -68,7 +68,7 @@ struct StravaExplanationView: View {
                 StepRow(number: 4, title: "Auto Updates", description: "New sessions sync each time you open the app")
             }
 
-            Text("We never see your Garmin password. You can revoke access at any time from your Garmin Connect settings.")
+            Text("We never see your Garmin credentials. You can revoke access at any time from your Garmin Connect settings.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .padding()

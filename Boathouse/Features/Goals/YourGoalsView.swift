@@ -98,7 +98,7 @@ struct YourGoalsView: View {
 
     private var distanceGoalSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Label("Weekly Distance", systemImage: "figure.rowing")
+            Label("Weekly Distance", systemImage: "figure.water.fitness")
                 .font(.headline)
 
             HStack {

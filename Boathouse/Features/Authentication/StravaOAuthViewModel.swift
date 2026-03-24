@@ -1,6 +1,7 @@
 import SwiftUI
 
 /// ViewModel for Strava OAuth2 authentication flow
+@MainActor
 final class StravaOAuthViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var showError: Bool = false
@@ -68,8 +69,8 @@ final class StravaOAuthViewModel: ObservableObject {
         do {
             let tokenResponse = try await stravaService.exchangeCodeForToken(code: code)
 
-            keychainService.saveToken(tokenResponse.accessToken, for: .stravaAccessToken)
-            keychainService.saveToken(tokenResponse.refreshToken, for: .stravaRefreshToken)
+            keychainService.saveToken(tokenResponse.accessToken, for: .garminAccessToken)
+            keychainService.saveToken(tokenResponse.refreshToken, for: .garminRefreshToken)
 
             let athlete = try await stravaService.fetchAthleteProfile(accessToken: tokenResponse.accessToken)
 
@@ -88,28 +89,28 @@ final class StravaOAuthViewModel: ObservableObject {
 
     /// Refreshes the Strava access token if expired
     func refreshTokenIfNeeded() async throws {
-        guard let refreshToken = keychainService.retrieveToken(for: .stravaRefreshToken) else {
+        guard let refreshToken = keychainService.retrieveToken(for: .garminRefreshToken) else {
             throw StravaError.notAuthenticated
         }
 
         let tokenResponse = try await stravaService.refreshAccessToken(refreshToken: refreshToken)
 
-        keychainService.saveToken(tokenResponse.accessToken, for: .stravaAccessToken)
-        keychainService.saveToken(tokenResponse.refreshToken, for: .stravaRefreshToken)
+        keychainService.saveToken(tokenResponse.accessToken, for: .garminAccessToken)
+        keychainService.saveToken(tokenResponse.refreshToken, for: .garminRefreshToken)
     }
 
     func disconnect() async {
         isLoading = true
 
-        if let accessToken = keychainService.retrieveToken(for: .stravaAccessToken) {
+        if let accessToken = keychainService.retrieveToken(for: .garminAccessToken) {
             try? await stravaService.deauthorize(accessToken: accessToken)
         }
 
-        keychainService.deleteToken(for: .stravaAccessToken)
-        keychainService.deleteToken(for: .stravaRefreshToken)
+        keychainService.deleteToken(for: .garminAccessToken)
+        keychainService.deleteToken(for: .garminRefreshToken)
 
         await MainActor.run {
-            AppState.shared?.currentUser?.stravaConnection = nil
+            AppState.shared?.currentUser?.garminConnection = nil
         }
 
         isConnected = false
@@ -125,7 +126,7 @@ final class StravaOAuthViewModel: ObservableObject {
         tokenResponse: StravaTokenResponse,
         athlete: StravaAthleteProfile
     ) async {
-        let connection = StravaConnection(
+        let connection = GarminConnection(
             athleteId: athlete.id,
             accessToken: tokenResponse.accessToken,
             refreshToken: tokenResponse.refreshToken,
@@ -134,7 +135,7 @@ final class StravaOAuthViewModel: ObservableObject {
         )
 
         await MainActor.run {
-            AppState.shared?.currentUser?.stravaConnection = connection
+            AppState.shared?.currentUser?.garminConnection = connection
             if let dob = athlete.dateOfBirth {
                 AppState.shared?.currentUser?.dateOfBirth = dob
             }
