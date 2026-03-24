@@ -41,6 +41,8 @@
 		A10000000000000000000031 /* RacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000031 /* RacesViewModel.swift */; };
 		A10000000000000000000032 /* RaceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000032 /* RaceDetailView.swift */; };
 		A10000000000000000000033 /* RaceDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000033 /* RaceDetailViewModel.swift */; };
+		A10000000000000000000096 /* RacePopoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000096 /* RacePopoutView.swift */; };
+		A10000000000000000000097 /* RaceSessionStoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000097 /* RaceSessionStoryView.swift */; };
 		A10000000000000000000034 /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000034 /* EntryView.swift */; };
 		A10000000000000000000035 /* EntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000035 /* EntryViewModel.swift */; };
 		A10000000000000000000036 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000036 /* AccountView.swift */; };
@@ -121,6 +123,8 @@
 		B10000000000000000000031 /* RacesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacesViewModel.swift; sourceTree = "<group>"; };
 		B10000000000000000000032 /* RaceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceDetailView.swift; sourceTree = "<group>"; };
 		B10000000000000000000033 /* RaceDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceDetailViewModel.swift; sourceTree = "<group>"; };
+		B10000000000000000000096 /* RacePopoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacePopoutView.swift; sourceTree = "<group>"; };
+		B10000000000000000000097 /* RaceSessionStoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceSessionStoryView.swift; sourceTree = "<group>"; };
 		B10000000000000000000034 /* EntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryView.swift; sourceTree = "<group>"; };
 		B10000000000000000000035 /* EntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewModel.swift; sourceTree = "<group>"; };
 		B10000000000000000000036 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
@@ -339,6 +343,8 @@
 				B10000000000000000000031 /* RacesViewModel.swift */,
 				B10000000000000000000032 /* RaceDetailView.swift */,
 				B10000000000000000000033 /* RaceDetailViewModel.swift */,
+				B10000000000000000000096 /* RacePopoutView.swift */,
+				B10000000000000000000097 /* RaceSessionStoryView.swift */,
 			);
 			path = Races;
 			sourceTree = "<group>";
@@ -565,6 +571,8 @@
 				A10000000000000000000031 /* RacesViewModel.swift in Sources */,
 				A10000000000000000000032 /* RaceDetailView.swift in Sources */,
 				A10000000000000000000033 /* RaceDetailViewModel.swift in Sources */,
+				A10000000000000000000096 /* RacePopoutView.swift in Sources */,
+				A10000000000000000000097 /* RaceSessionStoryView.swift in Sources */,
 				A10000000000000000000034 /* EntryView.swift in Sources */,
 				A10000000000000000000035 /* EntryViewModel.swift in Sources */,
 				A10000000000000000000036 /* AccountView.swift in Sources */,
