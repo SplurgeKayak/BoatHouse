@@ -4,7 +4,6 @@ import SwiftUI
 struct RacesView: View {
     @StateObject private var viewModel = RacesViewModel()
     @EnvironmentObject var appState: AppState
-    @State private var selectedRace: Race? = nil
 
     var body: some View {
         NavigationStack {
@@ -19,63 +18,42 @@ struct RacesView: View {
                     raceList
                 }
             }
-            .navigationTitle("")
-            .navigationBarHidden(false)
+            .navigationTitle("Races")
             .task {
-                viewModel.autoSelectCategory(for: appState.currentUser)
                 await viewModel.loadRaces()
             }
             .refreshable {
                 await viewModel.loadRaces()
             }
-            .sheet(item: $selectedRace) { race in
-                RacePopoutView(race: race)
-                    .environmentObject(appState)
-            }
         }
     }
 
     private var filterSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            // Orange title + subtitle header
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Races")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color(red: 252/255, green: 76/255, blue: 2/255))
-
-                Text("Filter when and what distance to race to see how your sessions stack up against paddlers like you.")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .padding(.bottom, 8)
-            }
-            .padding(.horizontal)
-            .padding(.top, 12)
-
+        VStack(spacing: 12) {
             Picker("Duration", selection: $viewModel.selectedDuration) {
                 ForEach(RaceDuration.allCases) { duration in
-                    Text(duration.displayName).tag(Optional(duration))
+                    Text(duration.displayName).tag(duration)
                 }
             }
             .pickerStyle(.segmented)
             .padding(.horizontal)
 
-            // Category chips — all categories shown
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    Text("Category:")
+            if let user = appState.currentUser, let category = user.eligibleCategories.first {
+                HStack(spacing: 6) {
+                    Image(systemName: "person.fill")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(.accent)
 
-                    ForEach(RaceCategory.allCases) { category in
-                        FilterChip(
-                            title: category.shortName,
-                            isSelected: viewModel.selectedCategory == category,
-                            action: { viewModel.selectedCategory = category }
-                        )
-                    }
+                    Text("Your Category: \(category.displayName)")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
                 }
                 .padding(.horizontal)
+
+                Text("Races are automatically filtered based on your profile.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal)
             }
         }
         .padding(.vertical, 12)
@@ -86,8 +64,8 @@ struct RacesView: View {
         ScrollView {
             LazyVStack(spacing: 16) {
                 ForEach(viewModel.filteredRaces) { race in
-                    Button {
-                        selectedRace = race
+                    NavigationLink {
+                        RaceDetailView(race: race)
                     } label: {
                         RaceCard(race: race)
                     }
@@ -130,44 +108,12 @@ struct RacesView: View {
 
 struct RaceCard: View {
     let race: Race
-
-    /// Fastest time for this race's type from mock sessions within the race's window.
-    private var fastestTime: String? {
-        let now = Date()
-        let windowStart: Date
-        switch race.duration {
-        case .daily:   windowStart = Calendar.current.startOfDay(for: now)
-        case .weekly:  windowStart = Calendar.current.date(byAdding: .day, value: -7, to: now) ?? now
-        case .monthly: windowStart = Calendar.current.date(byAdding: .month, value: -1, to: now) ?? now
-        case .yearly:  windowStart = Calendar.current.date(byAdding: .year, value: -1, to: now) ?? now
-        }
-
-        let filtered = MockData.sessions.filter {
-            $0.startDate >= windowStart && $0.startDate <= now
-        }
-
-        let best: TimeInterval?
-        switch race.type {
-        case .fastest1km:  best = filtered.compactMap(\.fastest1kmTime).min()
-        case .fastest5km:  best = filtered.compactMap(\.fastest5kmTime).min()
-        case .fastest10km: best = filtered.compactMap(\.fastest10kmTime).min()
-        }
-
-        guard let t = best else { return nil }
-        let minutes = Int(t) / 60
-        let seconds = Int(t) % 60
-        return String(format: "%d:%02d", minutes, seconds)
-    }
+    @EnvironmentObject var appState: AppState
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Image(systemName: race.type.icon)
-                    .font(.title2)
-                    .foregroundStyle(.accent)
-                    .frame(width: 44, height: 44)
-                    .background(Color.accentColor.opacity(0.1))
-                    .clipShape(Circle())
+                RaceTypeIcon(type: race.type, size: 44)
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(race.type.displayName)
@@ -183,27 +129,63 @@ struct RaceCard: View {
                 }
 
                 Spacer()
-            }
 
-            if race.entryCount == 0 {
-                Text(Strings.Race.noEntriesYet)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(.vertical, 8)
-            } else {
-                HStack(spacing: 20) {
-                    StatColumn(title: "Entries", value: "\(race.entryCount)")
-                    StatColumn(title: "Fastest", value: fastestTime ?? "—")
-                    StatColumn(title: "Ends In", value: formatTimeRemaining(race.timeRemaining))
+                HStack(spacing: 10) {
+                    if let winner = race.currentWinner {
+                        HStack(spacing: 6) {
+                            AsyncImage(url: winner.avatarURL) { image in
+                                image.resizable().scaledToFill()
+                            } placeholder: {
+                                Circle()
+                                    .fill(Color(.systemGray5))
+                                    .overlay {
+                                        Text(String(winner.username.prefix(1)))
+                                            .font(.caption2)
+                                            .fontWeight(.medium)
+                                    }
+                            }
+                            .frame(width: 28, height: 28)
+                            .clipShape(Circle())
+
+                            Text(winner.username)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .lineLimit(1)
+                        }
+                    }
+
+                    VStack(alignment: .trailing, spacing: 4) {
+                        Text(race.formattedPrizePool)
+                            .font(.headline)
+                            .foregroundStyle(.accent)
+
+                        Text("Prize Pool")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
 
-            Text("Ends \(race.endDate, style: .relative)")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            HStack(spacing: 20) {
+                StatColumn(title: "Entries", value: "\(race.entryCount)")
+                StatColumn(title: "Entry Fee", value: race.formattedEntryFee)
+                StatColumn(title: "Ends In", value: formatTimeRemaining(race.timeRemaining))
+            }
 
-            if !race.canEnter {
+            if race.canEnter && appState.isRacer {
+                Button {
+                    // Navigation handled by NavigationLink
+                } label: {
+                    Text("View & Enter")
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(Color.accentColor)
+                        .foregroundStyle(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
+            } else if !race.canEnter {
                 HStack {
                     Image(systemName: "clock.badge.xmark")
                     Text("Entry closed")
@@ -254,6 +236,38 @@ struct StatColumn: View {
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity)
+    }
+}
+
+/// Reusable race type icon: Text-in-Circle for distance races, SF Symbol for furthest distance
+struct RaceTypeIcon: View {
+    let type: RaceType
+    var size: CGFloat = 44
+
+    var body: some View {
+        Group {
+            switch type {
+            case .fastest1km:
+                Text("1")
+                    .font(.system(size: size * 0.45, weight: .bold, design: .rounded))
+                    .foregroundStyle(.accent)
+            case .fastest5km:
+                Text("5")
+                    .font(.system(size: size * 0.45, weight: .bold, design: .rounded))
+                    .foregroundStyle(.accent)
+            case .fastest10km:
+                Text("10")
+                    .font(.system(size: size * 0.4, weight: .bold, design: .rounded))
+                    .foregroundStyle(.accent)
+            case .furthestDistance:
+                Image(systemName: type.icon)
+                    .font(.system(size: size * 0.4))
+                    .foregroundStyle(.accent)
+            }
+        }
+        .frame(width: size, height: size)
+        .background(Color.accentColor.opacity(0.1))
+        .clipShape(Circle())
     }
 }
 

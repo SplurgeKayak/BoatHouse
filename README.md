@@ -1,6 +1,6 @@
 # Racepace - Digital Canoe & Kayak Racing
 
-A UK-based digital racing platform where users compete using their Strava canoe and kayaking activities for real prize money.
+A UK-based digital racing platform where users compete using their Garmin canoe and kayaking activities for real prize money.
 
 ## Architecture Overview
 
@@ -15,7 +15,7 @@ A UK-based digital racing platform where users compete using their Strava canoe 
 1. **Real-time leaderboards** - Firestore's real-time listeners provide instant updates
 2. **Complex queries** - Better support for filtering races by multiple criteria
 3. **Server-side logic** - Cloud Functions for prize distribution and anti-cheat
-4. **Custom auth** - Seamless integration with Strava OAuth
+4. **Custom auth** - Seamless integration with Garmin OAuth
 5. **Scalability** - Optimized for high-read scenarios
 
 ## Project Structure
@@ -34,7 +34,7 @@ Boathouse/
 │   │   └── Wallet.swift
 │   ├── Services/                   # Business logic services
 │   │   ├── AuthService.swift
-│   │   ├── StravaService.swift
+│   │   ├── GarminService.swift
 │   │   ├── KeychainService.swift
 │   │   ├── RaceEngine.swift
 │   │   ├── LocationService.swift
@@ -42,7 +42,7 @@ Boathouse/
 │   └── MockData/
 │       └── MockData.swift          # Test/preview data
 ├── Features/
-│   ├── Authentication/             # Login, register, Strava OAuth
+│   ├── Authentication/             # Login, register, Garmin OAuth
 │   ├── Home/                       # Activity feed, rankings
 │   ├── Races/                      # Race listings, detail view
 │   ├── Entry/                      # User's race entries
@@ -65,7 +65,7 @@ Boathouse/
 
 ### User Types
 - **Spectator**: View-only access to races and leaderboards
-- **Racer**: Full access with Strava connection and wallet
+- **Racer**: Full access with Garmin connection and wallet
 
 ### Race Types
 - Top Speed (highest max speed)
@@ -99,14 +99,14 @@ Boathouse/
 
 ## Setup Instructions
 
-### 1. Strava API Configuration
+### 1. Garmin API Configuration
 
-1. Create a Strava API application at https://www.strava.com/settings/api
-2. Set the callback domain to `boathouse://strava-callback`
+1. Create a Garmin Connect IQ application at https://developer.garmin.com
+2. Set the callback domain to `boathouse://garmin-callback`
 3. Update credentials in `Configuration/AppConfig.swift`:
 ```swift
-static let stravaClientId = "YOUR_CLIENT_ID"
-static let stravaClientSecret = "YOUR_CLIENT_SECRET"
+static let garminClientId = "YOUR_CLIENT_ID"
+static let garminClientSecret = "YOUR_CLIENT_SECRET"
 ```
 
 ### 2. URL Scheme Configuration
@@ -156,7 +156,7 @@ The app requires a backend API with the following endpoints:
 ### Users
 - `GET /users/:id` - Get user profile
 - `PUT /users/:id` - Update user profile
-- `PUT /users/:id/strava` - Update Strava connection
+- `PUT /users/:id/garmin` - Update Garmin connection
 
 ### Races
 - `GET /races` - List active races (with filters)
@@ -171,7 +171,7 @@ The app requires a backend API with the following endpoints:
 ### Activities
 - `GET /activities` - List activities feed
 - `GET /users/:id/activities` - Get user's activities
-- `POST /activities` - Import activity from Strava
+- `POST /activities` - Import activity from Garmin
 - `POST /activities/:id/flag` - Flag an activity
 
 ### Wallet
@@ -185,12 +185,12 @@ The app requires a backend API with the following endpoints:
 - `GET /moderation/flagged` - Get flagged activities
 - `POST /moderation/review` - Review flagged activity
 
-## Strava OAuth Flow
+## Garmin OAuth Flow
 
-1. User taps "Connect Strava"
-2. App opens Strava authorization URL in WebView
+1. User taps "Connect Garmin"
+2. App opens Garmin authorization URL in WebView
 3. User logs in and grants permissions
-4. Strava redirects to `boathouse://strava-callback?code=XXX`
+4. Garmin redirects to `boathouse://garmin-callback?code=XXX`
 5. App exchanges code for access/refresh tokens
 6. Tokens stored securely in Keychain
 7. App fetches athlete profile
@@ -204,7 +204,7 @@ The app requires a backend API with the following endpoints:
 ### Token Refresh
 - Access tokens expire after ~6 hours
 - Refresh tokens used to obtain new access tokens
-- Automatic refresh handled by `StravaService`
+- Automatic refresh handled by `GarminService`
 
 ## Activity Eligibility Rules
 

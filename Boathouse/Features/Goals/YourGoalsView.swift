@@ -8,6 +8,10 @@ struct YourGoalsView: View {
     @State private var time5k = ""
     @State private var time10k = ""
     @State private var distancePerWeek = ""
+    @State private var rank1km = ""
+    @State private var rank5km = ""
+    @State private var rank10km = ""
+    @State private var rankDistance = ""
     @State private var selectedCategories: Set<RaceCategory> = []
     @State private var rankingTarget = "10"
     @State private var showValidationError = false
@@ -21,6 +25,7 @@ struct YourGoalsView: View {
                     headerSection
                     timeGoalsSection
                     distanceGoalSection
+                    rankTargetSection
                     rankingGoalSection
 
                     saveButton
@@ -111,6 +116,48 @@ struct YourGoalsView: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
+    // MARK: - Rank Targets
+
+    private var rankTargetSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("Rank Targets", systemImage: "chart.line.uptrend.xyaxis")
+                .font(.headline)
+
+            Text("Your target ranking vs all users over the last month")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                rankField(label: "1km Target Rank", text: $rank1km)
+                rankField(label: "5km Target Rank", text: $rank5km)
+                rankField(label: "10km Target Rank", text: $rank10km)
+                rankField(label: "Distance Rank", text: $rankDistance)
+            }
+        }
+        .padding()
+        .background(Color(.systemGray6))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
+    private func rankField(label: String, text: Binding<String>) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(label)
+                .font(.caption)
+                .fontWeight(.medium)
+                .foregroundStyle(.secondary)
+
+            HStack(spacing: 4) {
+                Text("Top")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+
+                TextField("10", text: text)
+                    .keyboardType(.numberPad)
+                    .textFieldStyle(.roundedBorder)
+            }
+        }
+    }
+
     // MARK: - Ranking Goals
 
     private var rankingGoalSection: some View {
@@ -190,28 +237,60 @@ struct YourGoalsView: View {
     }
 
     private func saveGoals() {
-        var goals = KayakingGoals()
-
-        goals.timeGoal1k = KayakingGoals.parseTimeString(time1k)
-        goals.timeGoal5k = KayakingGoals.parseTimeString(time5k)
-        goals.timeGoal10k = KayakingGoals.parseTimeString(time10k)
+        // Build legacy model for backward compat
+        var legacyGoals = KayakingGoals()
+        legacyGoals.timeGoal1k = KayakingGoals.parseTimeString(time1k)
+        legacyGoals.timeGoal5k = KayakingGoals.parseTimeString(time5k)
+        legacyGoals.timeGoal10k = KayakingGoals.parseTimeString(time10k)
 
         if let dist = Double(distancePerWeek), dist > 0 {
-            goals.distancePerWeekKm = dist
+            legacyGoals.distancePerWeekKm = dist
         }
+
+        if let r = Int(rank1km), r > 0 { legacyGoals.rankTarget1km = r }
+        if let r = Int(rank5km), r > 0 { legacyGoals.rankTarget5km = r }
+        if let r = Int(rank10km), r > 0 { legacyGoals.rankTarget10km = r }
+        if let r = Int(rankDistance), r > 0 { legacyGoals.rankTargetDistance = r }
 
         if let target = Int(rankingTarget), target > 0 {
             for category in selectedCategories {
-                goals.rankingGoals[category.rawValue] = target
+                legacyGoals.rankingGoals[category.rawValue] = target
             }
         }
 
-        guard goals.hasAnyGoal else {
+        guard legacyGoals.hasAnyGoal else {
             showValidationError = true
             return
         }
 
-        store.save(goals)
+        // Save legacy format
+        store.save(legacyGoals)
+
+        // Also save as Goal array so overlay/dashboard can display them
+        var goalArray: [Goal] = []
+        if let t = legacyGoals.timeGoal1k {
+            goalArray.append(Goal(category: .fastest1km, targetTime: t))
+        }
+        if let t = legacyGoals.timeGoal5k {
+            goalArray.append(Goal(category: .fastest5km, targetTime: t))
+        }
+        if let t = legacyGoals.timeGoal10k {
+            goalArray.append(Goal(category: .fastest10km, targetTime: t))
+        }
+        if let r = legacyGoals.rankTarget1km {
+            goalArray.append(Goal(category: .rank1km, targetTime: Double(r)))
+        }
+        if let r = legacyGoals.rankTarget5km {
+            goalArray.append(Goal(category: .rank5km, targetTime: Double(r)))
+        }
+        if let r = legacyGoals.rankTarget10km {
+            goalArray.append(Goal(category: .rank10km, targetTime: Double(r)))
+        }
+        if let r = legacyGoals.rankTargetDistance {
+            goalArray.append(Goal(category: .rankDistance, targetTime: Double(r)))
+        }
+        store.saveGoals(goalArray)
+
         appState.hasCompletedGoals = true
     }
 }

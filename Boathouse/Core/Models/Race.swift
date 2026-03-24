@@ -1,5 +1,13 @@
 import Foundation
 
+/// Current winner of a race
+struct RaceWinner: Codable, Equatable {
+    let id: String
+    let username: String
+    let avatarURL: URL?
+    let stravaProfileURL: URL?
+}
+
 /// Race model representing a competition event
 struct Race: Identifiable, Codable, Equatable {
     let id: String
@@ -12,17 +20,18 @@ struct Race: Identifiable, Codable, Equatable {
     var prizePool: Decimal
     var status: RaceStatus
     let createdAt: Date
+    var currentWinner: RaceWinner?
 
     var entryFee: Decimal {
         duration.entryFee
     }
 
     var entryDeadline: Date {
-        endDate.addingTimeInterval(-3 * 60 * 60)
+        endDate.addingTimeInterval(-48 * 60 * 60)
     }
 
     var canEnter: Bool {
-        entryCount > 0 && status == .active && Date() < entryDeadline
+        status == .active && Date() < entryDeadline
     }
 
     var timeRemaining: TimeInterval {
@@ -82,6 +91,7 @@ struct PrizeDistribution: Codable, Equatable {
 }
 
 enum RaceType: String, Codable, CaseIterable, Identifiable {
+    case furthestDistance = "furthest_distance"
     case fastest1km = "fastest_1km"
     case fastest5km = "fastest_5km"
     case fastest10km = "fastest_10km"
@@ -90,14 +100,16 @@ enum RaceType: String, Codable, CaseIterable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .fastest1km: return "Fastest 1km"
-        case .fastest5km: return "Fastest 5km"
-        case .fastest10km: return "Fastest 10km"
+        case .furthestDistance: return "Furthest Distance"
+        case .fastest1km: return "1km"
+        case .fastest5km: return "5km"
+        case .fastest10km: return "10km"
         }
     }
 
     var shortName: String {
         switch self {
+        case .furthestDistance: return "Distance"
         case .fastest1km: return "1km"
         case .fastest5km: return "5km"
         case .fastest10km: return "10km"
@@ -106,6 +118,7 @@ enum RaceType: String, Codable, CaseIterable, Identifiable {
 
     var icon: String {
         switch self {
+        case .furthestDistance: return "arrow.left.and.right"
         case .fastest1km: return "1.circle.fill"
         case .fastest5km: return "5.circle.fill"
         case .fastest10km: return "10.circle.fill"
@@ -114,80 +127,77 @@ enum RaceType: String, Codable, CaseIterable, Identifiable {
 
     var unit: String {
         switch self {
+        case .furthestDistance: return "km"
         case .fastest1km, .fastest5km, .fastest10km: return "min"
         }
     }
 
     /// Distance filter options shown on the Club Room screen
     static var distanceFilters: [RaceType] {
-        allCases
+        [.fastest1km, .fastest5km, .fastest10km]
     }
 }
 
 enum RaceDuration: String, Codable, CaseIterable, Identifiable {
-    case daily
     case weekly
     case monthly
-    case yearly
 
     var id: String { rawValue }
 
     var displayName: String {
         switch self {
-        case .daily: return "Day"
         case .weekly: return "Week"
         case .monthly: return "Month"
-        case .yearly: return "This Year"
         }
     }
 
     var entryFee: Decimal {
         switch self {
-        case .daily: return 1.00
         case .weekly: return 4.99
         case .monthly: return 15.99
-        case .yearly: return 15.99
         }
     }
 
     var icon: String {
         switch self {
-        case .daily: return "sun.max.fill"
         case .weekly: return "calendar"
-        case .monthly, .yearly: return "calendar.badge.clock"
+        case .monthly: return "calendar.badge.clock"
         }
     }
 }
 
 enum RaceCategory: String, Codable, CaseIterable, Identifiable {
-    case juniorMen   = "JM"
-    case juniorWomen = "JW"
-    case u23Men      = "U23M"
-    case u23Women    = "U23W"
-    case seniorMen   = "SM"
-    case seniorWomen = "SW"
+    case juniorMen = "junior_men"
+    case juniorWomen = "junior_women"
+    case seniorMen = "senior_men"
+    case seniorWomen = "senior_women"
 
     var id: String { rawValue }
 
     var displayName: String {
         switch self {
-        case .juniorMen:   return "Junior Men"
-        case .juniorWomen: return "Junior Women"
-        case .u23Men:      return "U23 Men"
-        case .u23Women:    return "U23 Women"
-        case .seniorMen:   return "Senior Men"
-        case .seniorWomen: return "Senior Women"
+        case .juniorMen: return "Under 18 Men"
+        case .juniorWomen: return "Under 18 Women"
+        case .seniorMen: return "Over 18 Men"
+        case .seniorWomen: return "Over 18 Women"
         }
     }
 
     var shortName: String {
         switch self {
-        case .juniorMen:   return "JM"
+        case .juniorMen: return "JM"
         case .juniorWomen: return "JW"
-        case .u23Men:      return "U23M"
-        case .u23Women:    return "U23W"
-        case .seniorMen:   return "SM"
+        case .seniorMen: return "SM"
         case .seniorWomen: return "SW"
+        }
+    }
+
+    var isMaleCategory: Bool {
+        switch self {
+        case .juniorMen, .seniorMen:
+            return true
+        case .juniorWomen, .seniorWomen:
+            return false
         }
     }
 }

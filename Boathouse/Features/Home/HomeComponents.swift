@@ -1,392 +1,179 @@
 import SwiftUI
 import CoreLocation
 
-// MARK: - Instagram Session Card (full-card feed item)
+// MARK: - Session Card (Redesigned)
 
-struct InstagramSessionCard: View {
-    let session: Session
-    let userName: String
-    let userAvatarURL: URL?
-    let isSubscribed: Bool
-    let isFocused: Bool
-    let onTap: () -> Void
-    let onToggleSubscription: () -> Void
-    let onSetFocus: () -> Void
-    let onClearFocus: () -> Void
-
-    private var avatarInitials: String {
-        let result = userName
-            .split(separator: " ")
-            .prefix(2)
-            .compactMap { $0.first }
-            .map { String($0) }
-            .joined()
-            .uppercased()
-        return result.isEmpty ? "?" : result
-    }
-
-    var body: some View {
-        Button(action: onTap) {
-            VStack(alignment: .leading, spacing: 12) {
-                // Title
-                Text(session.name)
-                    .font(.title3)
-                    .fontWeight(.bold)
-                    .foregroundStyle(.primary)
-                    .lineLimit(2)
-
-                // Secondary stats row
-                HStack(spacing: 16) {
-                    Label(session.sessionType.displayName, systemImage: session.sessionType.icon)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-
-                    Label(session.formattedDuration, systemImage: "timer")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-
-                    Label(session.formattedDistance, systemImage: "arrow.left.and.right")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-
-                // Route preview
-                if !session.decodedRouteCoordinates.isEmpty {
-                    RoutePreviewShape(coordinates: session.decodedRouteCoordinates)
-                        .frame(height: 140)
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                }
-
-                // Pace metrics
-                let paceStats = paceSegmentStats
-                if !paceStats.isEmpty {
-                    HStack(spacing: 16) {
-                        ForEach(paceStats, id: \.title) { stat in
-                            StatView(title: stat.title, value: stat.value)
-                        }
-                    }
-                }
-
-                Divider()
-
-                // Meta row: avatar, name, time, follow button
-                HStack(spacing: 10) {
-                    AvatarView(url: userAvatarURL, initials: avatarInitials, id: session.userId, size: 32)
-
-                    VStack(alignment: .leading, spacing: 1) {
-                        Text(userName)
-                            .font(.subheadline)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.primary)
-
-                        Text(session.startDate, style: .relative)
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
-                    }
-
-                    Spacer()
-
-                    // Verification badges
-                    if session.isGPSVerified {
-                        Image(systemName: "checkmark.shield.fill")
-                            .font(.caption)
-                            .foregroundStyle(.green)
-                    }
-
-                    // Subscribe button
-                    Button(action: onToggleSubscription) {
-                        Image(systemName: isSubscribed ? "person.badge.checkmark.fill" : "person.badge.plus")
-                            .font(.system(size: 18))
-                            .foregroundStyle(isSubscribed ? Color.accentColor : Color.secondary)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(isSubscribed
-                        ? String(format: Strings.Feed.unsubscribeFromAthlete, userName)
-                        : String(format: Strings.Feed.subscribeToAthlete, userName))
-                }
-            }
-            .padding()
-            .background(Color(.systemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 16))
-            .shadow(color: .black.opacity(0.05), radius: 8, y: 4)
-        }
-        .buttonStyle(.plain)
-        .contextMenu {
-            Button {
-                onToggleSubscription()
-            } label: {
-                Label(
-                    isSubscribed
-                        ? String(format: Strings.Feed.unsubscribeFromAthlete, userName)
-                        : String(format: Strings.Feed.subscribeToAthlete, userName),
-                    systemImage: isSubscribed ? "person.badge.minus" : "person.badge.plus"
-                )
-            }
-
-            Button {
-                onSetFocus()
-            } label: {
-                Label(String(format: Strings.Feed.focusOnAthlete, userName), systemImage: "scope")
-            }
-
-            if isFocused {
-                Button {
-                    onClearFocus()
-                } label: {
-                    Label(Strings.Feed.showAllAthletes, systemImage: "person.3")
-                }
-            }
-        }
-    }
-
-    private var paceSegmentStats: [(title: String, value: String)] {
-        var stats: [(title: String, value: String)] = []
-        if let t = session.formattedFastest1km  { stats.append(("1km", t)) }
-        if let t = session.formattedFastest5km  { stats.append(("5km", t)) }
-        if let t = session.formattedFastest10km { stats.append(("10km", t)) }
-        return stats
-    }
-}
-
-// MARK: - News Card
-
-struct NewsCard: View {
-    let item: ExternalNewsItem
-    let onTap: () -> Void
-
-    var body: some View {
-        Button(action: onTap) { cardContent }
-            .buttonStyle(.plain)
-    }
-
-    private var cardContent: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            // Source badge
-            HStack(spacing: 6) {
-                Image(systemName: item.source.iconName)
-                    .font(.caption)
-                    .foregroundStyle(item.source.accentColor)
-
-                Text(item.source.rawValue)
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(item.source.accentColor)
-
-                Spacer()
-
-                Text(item.publishedAt, style: .relative)
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-            }
-            .padding(.horizontal, 10)
-            .padding(.vertical, 6)
-            .background(item.source.accentColor.opacity(0.08))
-            .clipShape(RoundedRectangle(cornerRadius: 8))
-
-            // Title
-            Text(item.title)
-                .font(.headline)
-                .foregroundStyle(.primary)
-                .lineLimit(3)
-
-            // Snippet
-            Text(item.snippet)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .lineLimit(3)
-
-            // "Read more" hint
-            if item.link != nil {
-                HStack {
-                    Spacer()
-                    Label(Strings.Feed.readMore, systemImage: "arrow.up.right.square")
-                        .font(.caption)
-                        .foregroundStyle(item.source.accentColor)
-                }
-            }
-        }
-        .padding()
-        .background(Color(.systemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .overlay(alignment: .leading) {
-            RoundedRectangle(cornerRadius: 4)
-                .fill(item.source.accentColor)
-                .frame(width: 4)
-                .padding(.vertical, 8)
-        }
-        .shadow(color: .black.opacity(0.05), radius: 8, y: 4)
-    }
-}
-
-// MARK: - Session Row (compact tappable row for home feed)
-
-struct SessionRow: View {
-    let session: Session
-    let userName: String
-    let userAvatarURL: URL?
-    let onTap: () -> Void
-
-    private var avatarInitials: String {
-        let result = userName
-            .split(separator: " ")
-            .prefix(2)
-            .compactMap { $0.first }
-            .map { String($0) }
-            .joined()
-            .uppercased()
-        return result.isEmpty ? "?" : result
-    }
-
-    var body: some View {
-        Button(action: onTap) {
-            HStack(spacing: 12) {
-                AvatarView(url: userAvatarURL, initials: avatarInitials, id: session.userId, size: 40)
-
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(userName)
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.primary)
-
-                    Text(session.startDate, style: .relative)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-
-                Spacer()
-
-                VStack(alignment: .trailing, spacing: 2) {
-                    Text(session.formattedDistance)
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                        .foregroundStyle(.primary)
-
-                    Text(session.formattedDuration)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-            }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 10)
-            .background(Color(.systemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .shadow(color: .black.opacity(0.04), radius: 4, y: 2)
-        }
-        .buttonStyle(.plain)
-    }
-}
-
-// MARK: - Session Card
-
+/// Activity card with visual hierarchy:
+/// 1) Header: avatar + name/title + filtered metric badge (top-right)
+/// 2) Recorded timestamp
+/// 3) Secondary details (de-emphasized)
+/// 4) Route preview + badges
+/// 5) Tappable → opens full activity detail
 struct SessionCard: View {
     let session: Session
-    var userName: String? = nil
-    var userAvatarURL: URL? = nil
-    var rank: Int? = nil
+    var activeFilter: RaceType? = nil
 
-    private var displayName: String { userName ?? session.userId }
+    /// Looked-up user for avatar display
+    private var user: User? { MockData.user(for: session.userId) }
 
-    private var avatarInitials: String {
-        let result = displayName
-            .split(separator: " ")
-            .prefix(2)
-            .compactMap { $0.first }
-            .map { String($0) }
-            .joined()
-            .uppercased()
-        return result.isEmpty ? "?" : result
+    private var userInitials: String {
+        let name = user?.displayName ?? session.userId
+        let parts = name.components(separatedBy: " ")
+        if parts.count >= 2 {
+            return String(parts[0].prefix(1) + parts[1].prefix(1)).uppercased()
+        }
+        return String(name.prefix(2)).uppercased()
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            // Header: avatar + name + date + optional rank badge
-            HStack(spacing: 12) {
-                AvatarView(url: userAvatarURL, initials: avatarInitials, id: session.userId, size: 44)
+        VStack(alignment: .leading, spacing: 10) {
+            // 1) Header: avatar + user context + filtered metric badge
+            HStack(alignment: .top) {
+                // Profile picture (replaces old Circle placeholder)
+                AvatarView(
+                    url: user?.profileImageURL,
+                    initials: userInitials,
+                    id: session.userId,
+                    size: 36
+                )
 
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(displayName)
-                        .font(.headline)
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(user?.displayName ?? session.userId.replacingOccurrences(of: "user-", with: "Athlete "))
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
 
-                    Text(session.startDate, style: .relative)
+                    Text(session.name)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
 
                 Spacer()
 
-                if let rank {
-                    Text("#\(rank)")
-                        .font(.caption.weight(.bold))
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 4)
-                        .background(Color.accentColor)
-                        .foregroundStyle(.white)
-                        .clipShape(Capsule())
-                }
-
-                if session.isFlagged {
+                // Filtered metric badge in header-right ("green area")
+                if let metric = filterAwareMetric, isDistanceFilter {
+                    FilteredMetricBadge(label: metric.label, value: metric.value)
+                } else if session.isFlagged {
                     Image(systemName: "flag.fill")
                         .foregroundStyle(.orange)
+                        .font(.caption)
                 }
             }
 
-            // Core stats
-            HStack(spacing: 20) {
+            // 2) Recorded timestamp
+            Text("Recorded: \(session.startDate.formatted(date: .abbreviated, time: .shortened))")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            // 3) Key metric (only when NOT a distance filter — avoids duplication)
+            if !isDistanceFilter, let metric = filterAwareMetric {
+                HStack(alignment: .firstTextBaseline) {
+                    Text(metric.value)
+                        .font(.system(size: 28, weight: .bold, design: .rounded))
+                        .foregroundStyle(AppColors.accent)
+
+                    Text(metric.label)
+                        .font(.caption)
+                        .foregroundStyle(AppColors.accent.opacity(0.8))
+                }
+            }
+
+            // 4) Secondary details (de-emphasized)
+            HStack(spacing: 16) {
                 StatView(title: "Distance", value: session.formattedDistance)
                 StatView(title: "Duration", value: session.formattedDuration)
-            }
-
-            // Pace metrics — only shown for distances actually covered
-            let paceStats = paceSegmentStats
-            if !paceStats.isEmpty {
-                HStack(spacing: 20) {
-                    ForEach(paceStats, id: \.title) { stat in
-                        StatView(title: stat.title, value: stat.value)
-                    }
+                if let speed = session.averageSpeedKmh {
+                    StatView(title: "Avg Speed", value: String(format: "%.1f km/h", speed))
                 }
             }
+            .foregroundStyle(.secondary)
 
-            // Route preview (lightweight Canvas instead of MapKit)
+            // Route preview
             if !session.decodedRouteCoordinates.isEmpty {
                 RoutePreviewShape(coordinates: session.decodedRouteCoordinates)
-                    .frame(height: 160)
+                    .frame(height: 120)
             }
 
-            HStack {
+            // Badges
+            HStack(spacing: 8) {
                 if session.isGPSVerified {
-                    Label("GPS Verified", systemImage: "checkmark.shield.fill")
-                        .font(.caption)
+                    Label("GPS", systemImage: "checkmark.shield.fill")
+                        .font(.caption2)
                         .foregroundStyle(.green)
                 }
-
                 if session.isUKSession {
                     Label("UK", systemImage: "location.fill")
-                        .font(.caption)
+                        .font(.caption2)
                         .foregroundStyle(.accent)
                 }
-
                 Spacer()
-
-                Button {
-                    // TODO: Implement flag action
-                } label: {
-                    Image(systemName: "flag")
-                }
-                .buttonStyle(.plain)
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
             }
         }
         .padding()
         .background(Color(.systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .shadow(color: .black.opacity(0.05), radius: 8, y: 4)
+        .contentShape(Rectangle())
     }
 
-    private var paceSegmentStats: [(title: String, value: String)] {
-        var stats: [(title: String, value: String)] = []
-        if let t = session.formattedFastest1km  { stats.append(("1km Pace", t)) }
-        if let t = session.formattedFastest5km  { stats.append(("5km Pace", t)) }
-        if let t = session.formattedFastest10km { stats.append(("10km Pace", t)) }
-        return stats
+    /// Whether the active filter is a distance-specific filter (1km/5km/10km)
+    private var isDistanceFilter: Bool {
+        switch activeFilter {
+        case .fastest1km, .fastest5km, .fastest10km: return true
+        default: return false
+        }
+    }
+
+    /// Extract the key metric based on active filter.
+    private var filterAwareMetric: (label: String, value: String)? {
+        switch activeFilter {
+        case .fastest1km:
+            guard let t = session.formattedFastest1km else { return nil }
+            return ("Fastest 1km", t)
+        case .fastest5km:
+            guard let t = session.formattedFastest5km else { return nil }
+            return ("Fastest 5km", t)
+        case .fastest10km:
+            guard let t = session.formattedFastest10km else { return nil }
+            return ("Fastest 10km", t)
+        default:
+            return ("Duration", session.formattedDuration)
+        }
+    }
+}
+
+// MARK: - Filtered Metric Badge
+
+/// Prominent Strava-orange badge shown in the top-right of the activity card header
+/// when a distance filter (1km/5km/10km) is active.
+struct FilteredMetricBadge: View {
+    let label: String
+    let value: String
+
+    var body: some View {
+        VStack(spacing: 2) {
+            // Strava-orange icon container
+            ZStack {
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(AppColors.accent)
+                    .frame(width: 32, height: 32)
+                    .shadow(color: AppColors.accent.opacity(0.3), radius: 4, y: 2)
+
+                Image(systemName: "flame.fill")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(.white)
+            }
+
+            Text(value)
+                .font(.system(size: 14, weight: .bold, design: .rounded))
+                .foregroundStyle(AppColors.accent)
+
+            Text(label)
+                .font(.system(size: 9))
+                .foregroundStyle(.secondary)
+        }
     }
 }
 
@@ -430,10 +217,36 @@ struct FilterChip: View {
     }
 }
 
+// MARK: - Circular Filter Button
+
+struct CircularFilterButton: View {
+    let title: String
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Text(title)
+                .font(.headline)
+                .fontWeight(.bold)
+                .frame(width: 64, height: 64)
+                .background(isSelected ? Color.accentColor : Color(.systemGray5))
+                .foregroundStyle(isSelected ? .white : .primary)
+                .clipShape(Circle())
+                .shadow(color: isSelected ? Color.accentColor.opacity(0.4) : .clear, radius: 6, y: 3)
+        }
+    }
+}
+
 // MARK: - Leaderboard Row
 
 struct LeaderboardRow: View {
     let entry: LeaderboardEntry
+    @EnvironmentObject var appState: AppState
+
+    private var isCurrentUser: Bool {
+        entry.userId == appState.currentUser?.id
+    }
 
     var body: some View {
         HStack(spacing: 12) {
@@ -452,6 +265,16 @@ struct LeaderboardRow: View {
             Text(entry.userName)
                 .font(.subheadline)
 
+            if isCurrentUser {
+                Text("You")
+                    .font(.caption)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(AppColors.accent)
+                    .foregroundStyle(.white)
+                    .clipShape(Capsule())
+            }
+
             Spacer()
 
             Text(entry.formattedScore)
@@ -459,6 +282,9 @@ struct LeaderboardRow: View {
                 .fontWeight(.medium)
         }
         .padding(.vertical, 8)
+        .padding(.horizontal, isCurrentUser ? 8 : 0)
+        .background(isCurrentUser ? AppColors.accent.opacity(0.08) : Color.clear)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
     private var medalColor: Color {

@@ -1,20 +1,19 @@
 import SwiftUI
 import CoreLocation
 
-/// Home screen with Instagram/Strava inspired session feed
+/// Home screen: Club Room activity feed with stories, filters, and rankings.
+/// Goals are shown via the GoalsOverlayView (center target button in bottom nav).
 struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
     @StateObject private var storyViewModel = StoryFeedViewModel()
     @EnvironmentObject var appState: AppState
-    @Environment(\.colorScheme) private var colorScheme
-    @State private var selectedSession: Session? = nil
-    @State private var selectedNewsItem: ExternalNewsItem? = nil
+    @State private var selectedSession: Session?
+    @State private var selectedLeaderboardSession: Session?
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 0) {
-                    // App headers
                     headerSection
 
                     // Stories strip
@@ -22,24 +21,25 @@ struct HomeView: View {
                         StoriesStripView(stories: storyViewModel.stories) { story in
                             storyViewModel.selectStory(story)
                         }
-
                         Divider()
                     }
 
+                    // Filters
+                    filterSection
+
+                    // Activity feed
                     if viewModel.isLoading {
                         loadingView
-                    } else if viewModel.feedItems.isEmpty {
+                    } else if viewModel.filteredSessions.isEmpty {
                         emptyStateView
                     } else {
-                        mixedFeed
+                        sessionFeed
                     }
 
+                    // Rankings
                     rankingSection
-
-                    Spacer().frame(height: 80)
                 }
             }
-            .background(colorScheme == .dark ? Color.darkNavyBackground : Color.lightBackground)
             .refreshable {
                 await viewModel.refresh()
                 storyViewModel.updateStories(from: viewModel.sessions)
@@ -48,29 +48,28 @@ struct HomeView: View {
                 await viewModel.loadInitialData()
                 storyViewModel.updateStories(from: viewModel.sessions)
             }
-            .sheet(item: $selectedSession) { session in
-                SessionDetailSheet(
+            .fullScreenCover(item: $selectedSession) { session in
+                ActivityDetailView(
                     session: session,
-                    userName: viewModel.userName(for: session.userId),
-                    userAvatarURL: viewModel.userAvatarURL(for: session.userId)
+                    activeFilter: viewModel.selectedRaceType
                 )
-                .environmentObject(appState)
-            }
-            .sheet(item: $selectedNewsItem) { item in
-                NewsDetailView(item: item)
             }
             .fullScreenCover(isPresented: $storyViewModel.isShowingStoryViewer) {
                 if let selectedStory = storyViewModel.selectedStory {
                     StoryViewerView(
                         story: selectedStory,
-                        onDismiss: {
-                            storyViewModel.dismissStoryViewer()
-                        },
-                        onMarkSeen: { sessionIds in
-                            storyViewModel.markSessionsAsSeen(sessionIds, sessions: viewModel.sessions)
-                        }
+                        onDismiss: { storyViewModel.dismissStoryViewer() },
+                        onMarkSeen: { ids in storyViewModel.markSessionsAsSeen(ids, sessions: viewModel.sessions) }
                     )
                 }
+            }
+            .fullScreenCover(item: $selectedLeaderboardSession) { session in
+                let user = MockData.user(for: session.userId)
+                ActivityStoryPopup(
+                    session: session,
+                    athleteName: user?.displayName ?? "Athlete",
+                    athleteAvatarURL: user?.profileImageURL
+                )
             }
         }
     }
@@ -78,81 +77,66 @@ struct HomeView: View {
     // MARK: - Header
 
     private var headerSection: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text("Race Pace")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .foregroundStyle(colorScheme == .dark ? Color.darkTitleText : Color.lightTitleText)
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Race Pace")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
 
-            Text("Club Room")
-                .font(.title2)
-                .fontWeight(.semibold)
-                .foregroundStyle(.secondary)
+                Text("Club Room")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.secondary)
+            }
 
-            Text("Race Pace lets you share your sessions, race & compare efforts with the community to see how you stack up and improve against paddlers like you.")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(.top, 6)
+            Spacer()
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal)
         .padding(.top, 12)
         .padding(.bottom, 8)
     }
 
-    // MARK: - Mixed feed (sessions + news)
+    // MARK: - Filters
 
-    private var mixedFeed: some View {
-        LazyVStack(spacing: 12) {
-            if viewModel.newsUnavailable && !viewModel.sessions.isEmpty {
-                HStack {
-                    Image(systemName: "exclamationmark.triangle")
-                        .foregroundStyle(.orange)
-                    Text("News temporarily unavailable")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+    private var filterSection: some View {
+        VStack(spacing: 16) {
+            Picker("Time Period", selection: $viewModel.selectedDuration) {
+                ForEach(RaceDuration.allCases) { duration in
+                    Text(duration.displayName).tag(duration)
                 }
-                .padding(.horizontal)
             }
+            .pickerStyle(.segmented)
+            .padding(.horizontal)
 
-            // Focus banner
-            if let focusId = viewModel.focusedUserId {
-                HStack {
-                    Text(String(format: Strings.Feed.focusBannerFormat, viewModel.userName(for: focusId)))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    Spacer()
-                    Button(Strings.Feed.clearFocus) {
-                        viewModel.setFocus(userId: nil)
-                    }
-                    .font(.caption)
-                    .buttonStyle(.borderless)
-                }
-                .padding(.horizontal)
-                .padding(.vertical, 6)
-                .background(Color(.systemGray6))
-            }
-
-            ForEach(viewModel.feedItems) { item in
-                switch item {
-                case .session(let session, let name, let avatarURL):
-                    InstagramSessionCard(
-                        session: session,
-                        userName: name,
-                        userAvatarURL: avatarURL,
-                        isSubscribed: viewModel.subscribedUserIds.contains(session.userId),
-                        isFocused: viewModel.focusedUserId == session.userId,
-                        onTap: { selectedSession = session },
-                        onToggleSubscription: { viewModel.toggleSubscription(userId: session.userId) },
-                        onSetFocus: { viewModel.setFocus(userId: session.userId) },
-                        onClearFocus: { viewModel.setFocus(userId: nil) }
+            HStack {
+                Spacer()
+                ForEach(RaceType.distanceFilters) { type in
+                    CircularFilterButton(
+                        title: type.shortName,
+                        isSelected: viewModel.selectedRaceType == type,
+                        action: { viewModel.selectedRaceType = type }
                     )
-                    .padding(.horizontal)
+                    Spacer()
+                }
+            }
+            .padding(.horizontal)
+        }
+        .padding(.vertical, 12)
+        .background(Color(.systemGray6))
+    }
 
-                case .news(let newsItem):
-                    NewsCard(item: newsItem, onTap: { selectedNewsItem = newsItem })
-                        .padding(.horizontal)
+    // MARK: - Redesigned session feed
+
+    private var sessionFeed: some View {
+        LazyVStack(spacing: 16) {
+            ForEach(viewModel.filteredSessions) { session in
+                SessionCard(
+                    session: session,
+                    activeFilter: viewModel.selectedRaceType
+                )
+                .padding(.horizontal)
+                .onTapGesture {
+                    selectedSession = session
                 }
             }
         }
@@ -166,13 +150,11 @@ struct HomeView: View {
             HStack {
                 Text("Rankings")
                     .font(.headline)
-
                 Spacer()
-
                 NavigationLink("See All") {
                     LeaderboardView(
-                        duration: .weekly,
-                        raceType: .fastest1km
+                        duration: viewModel.selectedDuration,
+                        raceType: viewModel.selectedRaceType
                     )
                 }
                 .font(.subheadline)
@@ -182,7 +164,14 @@ struct HomeView: View {
             if let leaderboard = viewModel.currentLeaderboard {
                 VStack(spacing: 8) {
                     ForEach(leaderboard.topThree) { entry in
-                        LeaderboardRow(entry: entry)
+                        Button {
+                            if let sessionId = entry.sessionId {
+                                selectedLeaderboardSession = MockData.session(for: sessionId)
+                            }
+                        } label: {
+                            LeaderboardRow(entry: entry)
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
                 .padding(.horizontal)
@@ -206,26 +195,174 @@ struct HomeView: View {
 
     private var emptyStateView: some View {
         VStack(spacing: 16) {
-            Image(systemName: "figure.water.fitness")
+            Image(systemName: "figure.rowing")
                 .font(.system(size: 48))
                 .foregroundStyle(.secondary)
-
             Text("No Sessions Yet")
                 .font(.headline)
-
-            if appState.isRacer {
-                Text("Connect Garmin to import your canoe and kayak sessions")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-            } else {
-                Text("Follow racers to see their sessions here")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-            }
+            Text("Connect Strava to import your canoe and kayak sessions")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
         }
         .padding(40)
+    }
+}
+
+// MARK: - Goal Entry Sheet
+
+/// Sheet wrapper for goal entry that creates Goal objects.
+struct GoalEntrySheet: View {
+    let onSave: ([Goal]) -> Void
+    @Environment(\.dismiss) private var dismiss
+
+    @State private var time1k = ""
+    @State private var time5k = ""
+    @State private var time10k = ""
+    @State private var rank1km = ""
+    @State private var rank5km = ""
+    @State private var rank10km = ""
+    @State private var rankDistance = ""
+    @State private var showError = false
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 24) {
+                    VStack(spacing: 8) {
+                        Image(systemName: "flag.checkered")
+                            .font(.system(size: 44))
+                            .foregroundStyle(AppColors.accent)
+
+                        Text("Set your paddling goals")
+                            .font(.title2)
+                            .fontWeight(.bold)
+
+                        Text("Enter target times as M:SS (e.g. 4:30)")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    VStack(alignment: .leading, spacing: 12) {
+                        Label("Time Goals", systemImage: "timer")
+                            .font(.headline)
+
+                        HStack(spacing: 12) {
+                            goalField(label: "1km", text: $time1k)
+                            goalField(label: "5km", text: $time5k)
+                            goalField(label: "10km", text: $time10k)
+                        }
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+
+                    VStack(alignment: .leading, spacing: 12) {
+                        Label("Rank Targets", systemImage: "chart.line.uptrend.xyaxis")
+                            .font(.headline)
+
+                        Text("Your target ranking vs all users over the last month")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+
+                        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                            rankGoalField(label: "1km Target Rank", text: $rank1km)
+                            rankGoalField(label: "5km Target Rank", text: $rank5km)
+                            rankGoalField(label: "10km Target Rank", text: $rank10km)
+                            rankGoalField(label: "Distance Rank", text: $rankDistance)
+                        }
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+
+                    Button {
+                        save()
+                    } label: {
+                        Text("Save Goals")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(AppColors.accent)
+                    .alert("Enter at least one goal time.", isPresented: $showError) {
+                        Button("OK", role: .cancel) {}
+                    }
+                }
+                .padding()
+            }
+            .navigationTitle("Your Goals")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Cancel") { dismiss() }
+                }
+            }
+        }
+    }
+
+    private func goalField(label: String, text: Binding<String>) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(label)
+                .font(.caption)
+                .fontWeight(.medium)
+                .foregroundStyle(.secondary)
+            TextField("M:SS", text: text)
+                .keyboardType(.numbersAndPunctuation)
+                .textFieldStyle(.roundedBorder)
+        }
+    }
+
+    private func rankGoalField(label: String, text: Binding<String>) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(label)
+                .font(.caption)
+                .fontWeight(.medium)
+                .foregroundStyle(.secondary)
+            HStack(spacing: 4) {
+                Text("Top")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                TextField("10", text: text)
+                    .keyboardType(.numberPad)
+                    .textFieldStyle(.roundedBorder)
+            }
+        }
+    }
+
+    private func save() {
+        var goals: [Goal] = []
+
+        if let t = KayakingGoals.parseTimeString(time1k) {
+            goals.append(Goal(category: .fastest1km, targetTime: t))
+        }
+        if let t = KayakingGoals.parseTimeString(time5k) {
+            goals.append(Goal(category: .fastest5km, targetTime: t))
+        }
+        if let t = KayakingGoals.parseTimeString(time10k) {
+            goals.append(Goal(category: .fastest10km, targetTime: t))
+        }
+        if let r = Int(rank1km), r > 0 {
+            goals.append(Goal(category: .rank1km, targetTime: Double(r)))
+        }
+        if let r = Int(rank5km), r > 0 {
+            goals.append(Goal(category: .rank5km, targetTime: Double(r)))
+        }
+        if let r = Int(rank10km), r > 0 {
+            goals.append(Goal(category: .rank10km, targetTime: Double(r)))
+        }
+        if let r = Int(rankDistance), r > 0 {
+            goals.append(Goal(category: .rankDistance, targetTime: Double(r)))
+        }
+
+        guard !goals.isEmpty else {
+            showError = true
+            return
+        }
+
+        onSave(goals)
+        dismiss()
     }
 }
 

@@ -12,19 +12,35 @@ struct KayakingGoals: Codable, Equatable {
     var distancePerWeekKm: Double?
     /// Ranking goals by race category (e.g. "seniorMen" → top-10)
     var rankingGoals: [String: Int]
+    /// Target rank for fastest 1km (e.g. top 10)
+    var rankTarget1km: Int?
+    /// Target rank for fastest 5km
+    var rankTarget5km: Int?
+    /// Target rank for fastest 10km
+    var rankTarget10km: Int?
+    /// Target rank for total distance
+    var rankTargetDistance: Int?
 
     init(
         timeGoal1k: TimeInterval? = nil,
         timeGoal5k: TimeInterval? = nil,
         timeGoal10k: TimeInterval? = nil,
         distancePerWeekKm: Double? = nil,
-        rankingGoals: [String: Int] = [:]
+        rankingGoals: [String: Int] = [:],
+        rankTarget1km: Int? = nil,
+        rankTarget5km: Int? = nil,
+        rankTarget10km: Int? = nil,
+        rankTargetDistance: Int? = nil
     ) {
         self.timeGoal1k = timeGoal1k
         self.timeGoal5k = timeGoal5k
         self.timeGoal10k = timeGoal10k
         self.distancePerWeekKm = distancePerWeekKm
         self.rankingGoals = rankingGoals
+        self.rankTarget1km = rankTarget1km
+        self.rankTarget5km = rankTarget5km
+        self.rankTarget10km = rankTarget10km
+        self.rankTargetDistance = rankTargetDistance
     }
 
     // MARK: - Time string helpers
@@ -60,6 +76,10 @@ struct KayakingGoals: Codable, Equatable {
         timeGoal5k != nil ||
         timeGoal10k != nil ||
         distancePerWeekKm != nil ||
-        !rankingGoals.isEmpty
+        !rankingGoals.isEmpty ||
+        rankTarget1km != nil ||
+        rankTarget5km != nil ||
+        rankTarget10km != nil ||
+        rankTargetDistance != nil
     }
 }
