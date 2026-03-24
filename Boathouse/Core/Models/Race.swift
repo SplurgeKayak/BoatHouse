@@ -22,7 +22,7 @@ struct Race: Identifiable, Codable, Equatable {
     }
 
     var canEnter: Bool {
-        status == .active && Date() < entryDeadline
+        entryCount > 0 && status == .active && Date() < entryDeadline
     }
 
     var timeRemaining: TimeInterval {

@@ -185,10 +185,18 @@ struct RaceCard: View {
                 Spacer()
             }
 
-            HStack(spacing: 20) {
-                StatColumn(title: "Entries", value: "\(race.entryCount)")
-                StatColumn(title: "Fastest", value: fastestTime ?? "—")
-                StatColumn(title: "Ends In", value: formatTimeRemaining(race.timeRemaining))
+            if race.entryCount == 0 {
+                Text(Strings.Race.noEntriesYet)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.vertical, 8)
+            } else {
+                HStack(spacing: 20) {
+                    StatColumn(title: "Entries", value: "\(race.entryCount)")
+                    StatColumn(title: "Fastest", value: fastestTime ?? "—")
+                    StatColumn(title: "Ends In", value: formatTimeRemaining(race.timeRemaining))
+                }
             }
 
             Text("Ends \(race.endDate, style: .relative)")

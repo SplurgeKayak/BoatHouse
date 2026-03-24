@@ -85,6 +85,8 @@
 		A20000000000000000000004 /* ExternalNewsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000004 /* ExternalNewsService.swift */; };
 		A20000000000000000000005 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000005 /* FeedItem.swift */; };
 		A20000000000000000000006 /* MyGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000006 /* MyGoalsView.swift */; };
+		A10000000000000000000098 /* NewsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000098 /* NewsDetailView.swift */; };
+		A20000000000000000000007 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000007 /* Strings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -168,6 +170,8 @@
 		B20000000000000000000004 /* ExternalNewsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalNewsService.swift; sourceTree = "<group>"; };
 		B20000000000000000000005 /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
 		B20000000000000000000006 /* MyGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGoalsView.swift; sourceTree = "<group>"; };
+		B10000000000000000000098 /* NewsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailView.swift; sourceTree = "<group>"; };
+		B20000000000000000000007 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,8 +241,17 @@
 				D10000000000000000000005 /* Models */,
 				D10000000000000000000006 /* Services */,
 				D10000000000000000000007 /* MockData */,
+				D10000000000000000000060 /* Utilities */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000060 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000007 /* Strings.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		D10000000000000000000005 /* Models */ = {
@@ -325,6 +338,7 @@
 				B10000000000000000000026 /* HomeView.swift */,
 				B10000000000000000000083 /* HomeComponents.swift */,
 				B10000000000000000000027 /* HomeViewModel.swift */,
+				B10000000000000000000098 /* NewsDetailView.swift */,
 				B10000000000000000000028 /* LeaderboardView.swift */,
 				B10000000000000000000029 /* FlagActivityView.swift */,
 				B10000000000000000000081 /* SessionMapView.swift */,
@@ -613,6 +627,8 @@
 				A20000000000000000000004 /* ExternalNewsService.swift in Sources */,
 				A20000000000000000000005 /* FeedItem.swift in Sources */,
 				A20000000000000000000006 /* MyGoalsView.swift in Sources */,
+				A10000000000000000000098 /* NewsDetailView.swift in Sources */,
+				A20000000000000000000007 /* Strings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

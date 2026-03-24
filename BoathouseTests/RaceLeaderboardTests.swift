@@ -84,6 +84,75 @@ final class RaceLeaderboardTests: XCTestCase {
         XCTAssertEqual(userEntry?.rank, 4)
     }
 
+    // MARK: - Deduplication tests
+
+    func testDeduplication_oneRowPerUser() {
+        // Two entries for the same user — only the faster one should appear
+        let entries = [
+            makeRaceEntry(id: "e1", userId: "u1", score: 200),
+            makeRaceEntry(id: "e2", userId: "u1", score: 180), // faster
+            makeRaceEntry(id: "e3", userId: "u2", score: 190),
+        ]
+        let result = RaceEngine.shared.calculateRankingsDeduplicatedByUser(entries: entries, raceType: .fastest1km)
+        XCTAssertEqual(result.count, 2, "Should have exactly one entry per user")
+        let u1Entry = result.first(where: { $0.userId == "u1" })
+        XCTAssertEqual(u1Entry?.score, 180, "Should keep the faster entry for u1")
+    }
+
+    func testDeduplication_sortedAscending() {
+        let entries = [
+            makeRaceEntry(id: "e1", userId: "u1", score: 250),
+            makeRaceEntry(id: "e2", userId: "u2", score: 180),
+            makeRaceEntry(id: "e3", userId: "u3", score: 210),
+        ]
+        let result = RaceEngine.shared.calculateRankingsDeduplicatedByUser(entries: entries, raceType: .fastest1km)
+        XCTAssertEqual(result.map(\.userId), ["u2", "u3", "u1"], "Leaderboard must be sorted ascending by score")
+        XCTAssertEqual(result.map(\.rank), [1, 2, 3])
+    }
+
+    func testDeduplication_multipleDistances() {
+        // Works for 5km and 10km as well
+        for raceType in RaceType.allCases {
+            let entries = [
+                makeRaceEntry(id: "a", userId: "u1", score: 500),
+                makeRaceEntry(id: "b", userId: "u1", score: 490), // faster
+                makeRaceEntry(id: "c", userId: "u2", score: 480),
+            ]
+            let result = RaceEngine.shared.calculateRankingsDeduplicatedByUser(entries: entries, raceType: raceType)
+            XCTAssertEqual(result.count, 2, "One row per user for raceType \(raceType)")
+            XCTAssertEqual(result.first?.userId, "u2", "Fastest user first for \(raceType)")
+        }
+    }
+
+    func testDeduplication_tiebreaker() {
+        // Same score for two users — deterministic ordering by entry.id
+        let entries = [
+            makeRaceEntry(id: "z-entry", userId: "u1", score: 200),
+            makeRaceEntry(id: "a-entry", userId: "u2", score: 200),
+        ]
+        let result = RaceEngine.shared.calculateRankingsDeduplicatedByUser(entries: entries, raceType: .fastest1km)
+        XCTAssertEqual(result.count, 2)
+        // "a-entry" < "z-entry" alphabetically → u2 should be rank 1
+        XCTAssertEqual(result.first?.userId, "u2", "Tiebreaker should use entry.id lexicographic order")
+    }
+
+    // MARK: - Extended helpers
+
+    private func makeRaceEntry(id: String, userId: String, score: Double) -> Entry {
+        Entry(
+            id: id,
+            userId: userId,
+            raceId: "race-1",
+            sessionId: nil,
+            enteredAt: Date(),
+            score: score,
+            rank: nil,
+            status: .active,
+            prizeWon: nil,
+            transactionId: nil
+        )
+    }
+
     // MARK: - Helper
 
     private func makeEntry(rank: Int, userId: String, userName: String, score: Double) -> LeaderboardEntry {
