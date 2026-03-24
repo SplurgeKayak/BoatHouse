@@ -80,6 +80,9 @@
 		A20000000000000000000001 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000001 /* AppColors.swift */; };
 		A20000000000000000000002 /* GoalProgressCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000002 /* GoalProgressCalculator.swift */; };
 		A20000000000000000000003 /* GoalProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000003 /* GoalProgressView.swift */; };
+		A20000000000000000000004 /* ExternalNewsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000004 /* ExternalNewsService.swift */; };
+		A20000000000000000000005 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000005 /* FeedItem.swift */; };
+		A20000000000000000000006 /* MyGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000006 /* MyGoalsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -158,6 +161,9 @@
 		B20000000000000000000001 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		B20000000000000000000002 /* GoalProgressCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalProgressCalculator.swift; sourceTree = "<group>"; };
 		B20000000000000000000003 /* GoalProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalProgressView.swift; sourceTree = "<group>"; };
+		B20000000000000000000004 /* ExternalNewsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalNewsService.swift; sourceTree = "<group>"; };
+		B20000000000000000000005 /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
+		B20000000000000000000006 /* MyGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGoalsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,6 +264,7 @@
 				B10000000000000000000085 /* RaceService.swift */,
 				B10000000000000000000087 /* GoalsStore.swift */,
 				B20000000000000000000002 /* GoalProgressCalculator.swift */,
+				B20000000000000000000004 /* ExternalNewsService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -291,6 +298,7 @@
 			children = (
 				B10000000000000000000088 /* YourGoalsView.swift */,
 				B20000000000000000000003 /* GoalProgressView.swift */,
+				B20000000000000000000006 /* MyGoalsView.swift */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
@@ -319,6 +327,7 @@
 				B10000000000000000000089 /* RoutePreviewShape.swift */,
 				B10000000000000000000094 /* SessionDetailView.swift */,
 				B10000000000000000000095 /* UserSessionsView.swift */,
+				B20000000000000000000005 /* FeedItem.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -593,6 +602,9 @@
 				A20000000000000000000001 /* AppColors.swift in Sources */,
 				A20000000000000000000002 /* GoalProgressCalculator.swift in Sources */,
 				A20000000000000000000003 /* GoalProgressView.swift in Sources */,
+				A20000000000000000000004 /* ExternalNewsService.swift in Sources */,
+				A20000000000000000000005 /* FeedItem.swift in Sources */,
+				A20000000000000000000006 /* MyGoalsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
