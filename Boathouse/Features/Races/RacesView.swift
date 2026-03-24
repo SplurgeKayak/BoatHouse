@@ -4,6 +4,7 @@ import SwiftUI
 struct RacesView: View {
     @StateObject private var viewModel = RacesViewModel()
     @EnvironmentObject var appState: AppState
+    @State private var selectedRace: Race? = nil
 
     var body: some View {
         NavigationStack {
@@ -26,6 +27,10 @@ struct RacesView: View {
             }
             .refreshable {
                 await viewModel.loadRaces()
+            }
+            .sheet(item: $selectedRace) { race in
+                RacePopoutView(race: race)
+                    .environmentObject(appState)
             }
         }
     }
@@ -55,42 +60,22 @@ struct RacesView: View {
             .pickerStyle(.segmented)
             .padding(.horizontal)
 
+            // Category chips — all categories shown
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
-                    FilterChip(
-                        title: "All Types",
-                        isSelected: viewModel.selectedRaceType == nil,
-                        action: { viewModel.selectedRaceType = nil }
-                    )
+                    Text("Category:")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
 
-                    ForEach(RaceType.allCases) { type in
+                    ForEach(RaceCategory.allCases) { category in
                         FilterChip(
-                            title: type.displayName,
-                            isSelected: viewModel.selectedRaceType == type,
-                            action: { viewModel.selectedRaceType = type }
+                            title: category.shortName,
+                            isSelected: viewModel.selectedCategory == category,
+                            action: { viewModel.selectedCategory = category }
                         )
                     }
                 }
                 .padding(.horizontal)
-            }
-
-            if appState.isRacer, let user = appState.currentUser {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
-                        Text("Categories:")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-
-                        ForEach(user.eligibleCategories) { category in
-                            FilterChip(
-                                title: category.shortName,
-                                isSelected: viewModel.selectedCategory == category,
-                                action: { viewModel.selectedCategory = category }
-                            )
-                        }
-                    }
-                    .padding(.horizontal)
-                }
             }
         }
         .padding(.vertical, 12)
@@ -101,8 +86,8 @@ struct RacesView: View {
         ScrollView {
             LazyVStack(spacing: 16) {
                 ForEach(viewModel.filteredRaces) { race in
-                    NavigationLink {
-                        RaceDetailView(race: race)
+                    Button {
+                        selectedRace = race
                     } label: {
                         RaceCard(race: race)
                     }

@@ -7,74 +7,67 @@ struct HomeView: View {
     @StateObject private var storyViewModel = StoryFeedViewModel()
     @EnvironmentObject var appState: AppState
     @Environment(\.colorScheme) private var colorScheme
-    @State private var showingGoals = false
     @State private var selectedSession: Session? = nil
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            NavigationStack {
-                ScrollView {
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 0) {
+                    // App headers
+                    headerSection
 
-                    VStack(spacing: 0) {
-                        // App headers
-                        headerSection
-
-                        // Stories strip
-                        if storyViewModel.hasStories {
-                            StoriesStripView(stories: storyViewModel.stories) { story in
-                                storyViewModel.selectStory(story)
-                            }
-
-                            Divider()
+                    // Stories strip
+                    if storyViewModel.hasStories {
+                        StoriesStripView(stories: storyViewModel.stories) { story in
+                            storyViewModel.selectStory(story)
                         }
 
-                        if viewModel.isLoading {
-                            loadingView
-                        } else if viewModel.chronologicalSessions.isEmpty {
-                            emptyStateView
-                        } else {
-                            sessionFeed
-                        }
-
-                        rankingSection
-
-                        Spacer().frame(height: 80)
+                        Divider()
                     }
-                }
-                .background(colorScheme == .dark ? Color.darkNavyBackground : Color.lightBackground)
-                .refreshable {
-                    await viewModel.refresh()
-                    storyViewModel.updateStories(from: viewModel.sessions)
-                }
-                .task {
-                    await viewModel.loadInitialData()
-                    storyViewModel.updateStories(from: viewModel.sessions)
-                }
-                .sheet(item: $selectedSession) { session in
-                    SessionDetailSheet(
-                        session: session,
-                        userName: viewModel.userName(for: session.userId),
-                        userAvatarURL: viewModel.userAvatarURL(for: session.userId)
-                    )
-                    .environmentObject(appState)
-                }
-                .fullScreenCover(isPresented: $storyViewModel.isShowingStoryViewer) {
-                    if let selectedStory = storyViewModel.selectedStory {
-                        StoryViewerView(
-                            story: selectedStory,
-                            onDismiss: {
-                                storyViewModel.dismissStoryViewer()
-                            },
-                            onMarkSeen: { sessionIds in
-                                storyViewModel.markSessionsAsSeen(sessionIds, sessions: viewModel.sessions)
-                            }
-                        )
+
+                    if viewModel.isLoading {
+                        loadingView
+                    } else if viewModel.feedItems.isEmpty && viewModel.chronologicalSessions.isEmpty {
+                        emptyStateView
+                    } else {
+                        mixedFeed
                     }
+
+                    rankingSection
+
+                    Spacer().frame(height: 80)
                 }
             }
-
-            goalsFloatingButton
-                .padding(.bottom, 8)
+            .background(colorScheme == .dark ? Color.darkNavyBackground : Color.lightBackground)
+            .refreshable {
+                await viewModel.refresh()
+                storyViewModel.updateStories(from: viewModel.sessions)
+            }
+            .task {
+                await viewModel.loadInitialData()
+                storyViewModel.updateStories(from: viewModel.sessions)
+            }
+            .sheet(item: $selectedSession) { session in
+                SessionDetailSheet(
+                    session: session,
+                    userName: viewModel.userName(for: session.userId),
+                    userAvatarURL: viewModel.userAvatarURL(for: session.userId)
+                )
+                .environmentObject(appState)
+            }
+            .fullScreenCover(isPresented: $storyViewModel.isShowingStoryViewer) {
+                if let selectedStory = storyViewModel.selectedStory {
+                    StoryViewerView(
+                        story: selectedStory,
+                        onDismiss: {
+                            storyViewModel.dismissStoryViewer()
+                        },
+                        onMarkSeen: { sessionIds in
+                            storyViewModel.markSessionsAsSeen(sessionIds, sessions: viewModel.sessions)
+                        }
+                    )
+                }
+            }
         }
     }
 
@@ -104,19 +97,38 @@ struct HomeView: View {
         .padding(.bottom, 8)
     }
 
-    // MARK: - Chronological session feed
+    // MARK: - Mixed feed (sessions + news)
 
-    private var sessionFeed: some View {
+    private var mixedFeed: some View {
         LazyVStack(spacing: 12) {
-            ForEach(viewModel.chronologicalSessions) { session in
-                SessionRow(
-                    session: session,
-                    userName: viewModel.userName(for: session.userId),
-                    userAvatarURL: viewModel.userAvatarURL(for: session.userId)
-                ) {
-                    selectedSession = session
+            if viewModel.newsUnavailable && !viewModel.sessions.isEmpty {
+                HStack {
+                    Image(systemName: "exclamationmark.triangle")
+                        .foregroundStyle(.orange)
+                    Text("News temporarily unavailable")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
                 .padding(.horizontal)
+            }
+
+            ForEach(viewModel.feedItems) { item in
+                switch item {
+                case .session(let session, let name, let avatarURL):
+                    InstagramSessionCard(
+                        session: session,
+                        userName: name,
+                        userAvatarURL: avatarURL,
+                        isFollowed: viewModel.followedUserIds.contains(session.userId),
+                        onTap: { selectedSession = session },
+                        onToggleFollow: { viewModel.toggleFollow(userId: session.userId) }
+                    )
+                    .padding(.horizontal)
+
+                case .news(let newsItem):
+                    NewsCard(item: newsItem)
+                        .padding(.horizontal)
+                }
             }
         }
         .padding(.vertical)
@@ -189,37 +201,6 @@ struct HomeView: View {
             }
         }
         .padding(40)
-    }
-
-    // MARK: - Goals Floating Button
-
-    private var goalsFloatingButton: some View {
-        Button {
-            showingGoals = true
-        } label: {
-            VStack(spacing: 4) {
-                Image(systemName: "target")
-                    .font(.system(size: 22, weight: .semibold))
-                Text("Goals")
-                    .font(.caption.weight(.semibold))
-            }
-            .foregroundStyle(.white)
-            .frame(width: 72, height: 56)
-            .background(Color.accentColor.opacity(0.5))
-            .clipShape(Capsule())
-            .shadow(color: .black.opacity(0.25), radius: 8, x: 0, y: 4)
-        }
-        .accessibilityLabel("Goals")
-        .accessibilityValue("Primary action")
-        .sheet(isPresented: $showingGoals) {
-            if GoalsStore.shared.load() != nil {
-                GoalProgressView()
-                    .environmentObject(appState)
-            } else {
-                YourGoalsView()
-                    .environmentObject(appState)
-            }
-        }
     }
 }
 
