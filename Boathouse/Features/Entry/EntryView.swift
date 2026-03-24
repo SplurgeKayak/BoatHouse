@@ -94,7 +94,11 @@ struct EntryView: View {
                         NavigationLink {
                             RaceDetailView(race: race)
                         } label: {
-                            EntryCard(entry: entry, race: race)
+                            EntryCard(
+                                entry: entry,
+                                race: race,
+                                currentRank: viewModel.userRank(for: entry)
+                            )
                         }
                     }
                 }
@@ -119,12 +123,12 @@ struct EntryView: View {
 struct EntryCard: View {
     let entry: Entry
     let race: Race
+    var currentRank: Int? = nil
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Image(systemName: race.type.icon)
-                    .foregroundStyle(.accent)
+                RaceTypeIcon(type: race.type, size: 28)
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(race.type.displayName)
@@ -166,6 +170,26 @@ struct EntryCard: View {
                         icon: "chart.line.uptrend.xyaxis"
                     )
                 }
+            }
+
+            if let rank = currentRank {
+                HStack(spacing: 6) {
+                    Image(systemName: "chart.bar.fill")
+                        .font(.caption)
+                        .foregroundStyle(.accent)
+                    Text("Your Rank:")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                    Text("#\(rank)")
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.accent)
+                    Spacer()
+                }
+                .padding(.vertical, 6)
+                .padding(.horizontal, 10)
+                .background(Color.accentColor.opacity(0.08))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
             }
 
             if let prize = entry.formattedPrize {
@@ -228,6 +252,8 @@ struct EntryCard: View {
 
     private func formatScore(_ score: Double, for type: RaceType) -> String {
         switch type {
+        case .furthestDistance:
+            return String(format: "%.2f km", score)
         case .fastest1km, .fastest5km, .fastest10km:
             let minutes = Int(score) / 60
             let seconds = Int(score) % 60

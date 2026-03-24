@@ -4,6 +4,7 @@ import SwiftUI
 final class EntryViewModel: ObservableObject {
     @Published var entries: [Entry] = []
     @Published var races: [Race] = []
+    @Published var leaderboards: [String: Leaderboard] = [:]
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
@@ -34,6 +35,13 @@ final class EntryViewModel: ObservableObject {
 
             entries = fetchedEntries
             races = fetchedRaces
+
+            // Fetch leaderboards for active entries to show current rank
+            for entry in fetchedEntries where entry.status == .active {
+                if let lb = try? await raceService.fetchRaceLeaderboard(raceId: entry.raceId) {
+                    leaderboards[entry.raceId] = lb
+                }
+            }
         } catch {
             errorMessage = "Failed to load entries"
         }
@@ -41,5 +49,9 @@ final class EntryViewModel: ObservableObject {
 
     func getRace(for entry: Entry) -> Race? {
         races.first { $0.id == entry.raceId }
+    }
+
+    func userRank(for entry: Entry) -> Int? {
+        leaderboards[entry.raceId]?.rank(for: entry.userId)
     }
 }

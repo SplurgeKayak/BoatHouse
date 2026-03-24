@@ -2,71 +2,31 @@ import SwiftUI
 import Combine
 
 /// ViewModel for the Home screen
-@MainActor
 final class HomeViewModel: ObservableObject {
     @Published var sessions: [Session] = []
     @Published var currentLeaderboard: Leaderboard?
+    @Published var selectedDuration: RaceDuration = .weekly
+    @Published var selectedRaceType: RaceType = .fastest1km
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
-    @Published var feedItems: [FeedItem] = []
-    @Published var subscribedUserIds: Set<String> = {
-        let saved = UserDefaults.standard.stringArray(forKey: "subscribedUserIds") ?? []
-        return Set(saved)
-    }()
-    @Published var focusedUserId: String? = UserDefaults.standard.string(forKey: "focusedUserId")
-    @Published var newsUnavailable: Bool = false
+
+    /// Cached filtered result — updated only when sessions or filters change.
+    @Published private(set) var filteredSessions: [Session] = []
 
     private let sessionService: SessionServiceProtocol
     private let raceService: RaceServiceProtocol
-    private let newsService: ExternalNewsServiceProtocol
+    private var cancellables = Set<AnyCancellable>()
 
     init(
         sessionService: SessionServiceProtocol = SessionService.shared,
-        raceService: RaceServiceProtocol = RaceService.shared,
-        newsService: ExternalNewsServiceProtocol = MockExternalNewsService()
+        raceService: RaceServiceProtocol = RaceService.shared
     ) {
         self.sessionService = sessionService
         self.raceService = raceService
-        self.newsService = newsService
+        setupBindings()
     }
 
-    // MARK: - Chronological feed
-
-    /// All sessions sorted newest first, with no filtering.
-    var chronologicalSessions: [Session] {
-        sessions.sorted { $0.startDate > $1.startDate }
-    }
-
-    // MARK: - User helpers
-
-    /// Returns the display name for a userId, falling back to the raw ID.
-    func userName(for userId: String) -> String {
-        Self.displayName(for: userId)
-    }
-
-    /// Returns the profile image URL for a userId, if available.
-    func userAvatarURL(for userId: String) -> URL? {
-        Self.avatarURL(for: userId)
-    }
-
-    /// Returns the display name for a userId, falling back to the raw ID.
-    static func displayName(for userId: String) -> String {
-        MockData.users.first(where: { $0.id == userId })?.displayName ?? userId
-    }
-
-    /// Returns the profile image URL for a userId, if available.
-    static func avatarURL(for userId: String) -> URL? {
-        MockData.users.first(where: { $0.id == userId })?.profileImageURL
-    }
-
-    /// Returns all userIds whose eligible categories include the given category.
-    static func usersInCategory(_ category: RaceCategory) -> [String] {
-        MockData.users
-            .filter { $0.eligibleCategories.contains(category) }
-            .map(\.id)
-    }
-
-    // MARK: - Filtered sessions (kept for backward compatibility with tests)
+    // MARK: - Filtered sessions
 
     /// Pure function for filtering and sorting sessions.
     /// Testable independently of the ViewModel.
@@ -74,33 +34,20 @@ final class HomeViewModel: ObservableObject {
         sessions: [Session],
         timeFilter: RaceDuration,
         distanceFilter: RaceType,
-        categoryFilter: RaceCategory? = nil,
-        currentUserCategory: RaceCategory? = nil,
         now: Date,
         calendar: Calendar
     ) -> [Session] {
         // 1. Time-period filter
-        var timeFiltered = sessions.filter { session in
+        let timeFiltered = sessions.filter { session in
             switch timeFilter {
-            case .daily:
-                return calendar.isDateInToday(session.startDate)
             case .weekly:
                 return calendar.isDate(session.startDate, equalTo: now, toGranularity: .weekOfYear)
             case .monthly:
                 return calendar.isDate(session.startDate, equalTo: now, toGranularity: .month)
-            case .yearly:
-                return calendar.isDate(session.startDate, equalTo: now, toGranularity: .year)
             }
         }
 
-        // 2. Category filter — applies selected category (or current user's if set)
-        let effectiveCategory = categoryFilter ?? currentUserCategory
-        if let category = effectiveCategory {
-            let categoryUserIds = Set(usersInCategory(category))
-            timeFiltered = timeFiltered.filter { categoryUserIds.contains($0.userId) }
-        }
-
-        // 3. Distance filter + sort (ascending = fastest first) with deterministic tiebreaker
+        // 2. Distance filter + sort (ascending = fastest first) with deterministic tiebreaker
         switch distanceFilter {
         case .fastest1km:
             return timeFiltered
@@ -126,92 +73,40 @@ final class HomeViewModel: ObservableObject {
                     let bt = b.fastest10kmTime ?? .infinity
                     return at != bt ? at < bt : a.id < b.id
                 }
+        case .furthestDistance:
+            return timeFiltered.sorted { $0.startDate > $1.startDate }
         }
-    }
-
-    // MARK: - Subscribe / Unsubscribe
-
-    func toggleSubscription(userId: String) {
-        if subscribedUserIds.contains(userId) {
-            subscribedUserIds.remove(userId)
-        } else {
-            subscribedUserIds.insert(userId)
-        }
-        UserDefaults.standard.set(Array(subscribedUserIds), forKey: "subscribedUserIds")
-        rebuildFeed(sessions: sessions, newsItems: feedItems.compactMap {
-            if case .news(let n) = $0 { return n } else { return nil }
-        })
-    }
-
-    // MARK: - Focus
-
-    func setFocus(userId: String?) {
-        focusedUserId = userId
-        if let userId {
-            UserDefaults.standard.set(userId, forKey: "focusedUserId")
-        } else {
-            UserDefaults.standard.removeObject(forKey: "focusedUserId")
-        }
-        rebuildFeed(sessions: sessions, newsItems: feedItems.compactMap {
-            if case .news(let n) = $0 { return n } else { return nil }
-        })
-    }
-
-    // MARK: - Feed building
-
-    private func rebuildFeed(sessions: [Session], newsItems: [ExternalNewsItem]) {
-        let sortedSessions = sessions.sorted { $0.startDate > $1.startDate }
-        let sortedNews = newsItems.sorted { $0.publishedAt > $1.publishedAt }
-        var result: [FeedItem] = []
-
-        if let focusId = focusedUserId {
-            // Focus mode: show only one athlete's sessions, interleaving news every 3 items
-            let focusedSessions = sortedSessions.filter { $0.userId == focusId }
-            var sessionBuffer: [FeedItem] = focusedSessions.map {
-                .session($0, userName: userName(for: $0.userId), userAvatarURL: userAvatarURL(for: $0.userId))
-            }
-            var remaining = sortedNews
-            var idx = 0
-            while !sessionBuffer.isEmpty {
-                result.append(sessionBuffer.removeFirst())
-                idx += 1
-                if idx % 3 == 0, !remaining.isEmpty {
-                    result.append(.news(remaining.removeFirst()))
-                }
-            }
-            for item in remaining {
-                result.append(.news(item))
-            }
-        } else {
-            // Standard feed: when subscribedUserIds is empty show all; otherwise show only subscribed.
-            let visibleSessions: [Session]
-            if subscribedUserIds.isEmpty {
-                visibleSessions = sortedSessions
-            } else {
-                visibleSessions = sortedSessions.filter { subscribedUserIds.contains($0.userId) }
-            }
-
-            var sessionBuffer: [FeedItem] = visibleSessions.map {
-                .session($0, userName: userName(for: $0.userId), userAvatarURL: userAvatarURL(for: $0.userId))
-            }
-            var remaining = sortedNews
-            var idx = 0
-            while !sessionBuffer.isEmpty {
-                result.append(sessionBuffer.removeFirst())
-                idx += 1
-                if idx % 3 == 0, !remaining.isEmpty {
-                    result.append(.news(remaining.removeFirst()))
-                }
-            }
-            for item in remaining {
-                result.append(.news(item))
-            }
-        }
-
-        feedItems = result
     }
 
     // MARK: - Data loading
+
+    private func setupBindings() {
+        // Recompute filtered list whenever sessions or filters change
+        $sessions
+            .combineLatest($selectedDuration, $selectedRaceType)
+            .map { sessions, duration, raceType in
+                Self.filterSessions(
+                    sessions: sessions,
+                    timeFilter: duration,
+                    distanceFilter: raceType,
+                    now: Date(),
+                    calendar: .current
+                )
+            }
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$filteredSessions)
+
+        // Reload leaderboard when filters change (debounced)
+        $selectedDuration
+            .combineLatest($selectedRaceType)
+            .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
+            .sink { [weak self] _, _ in
+                Task { @MainActor [weak self] in
+                    await self?.loadLeaderboard()
+                }
+            }
+            .store(in: &cancellables)
+    }
 
     @MainActor
     func loadInitialData() async {
@@ -219,13 +114,8 @@ final class HomeViewModel: ObservableObject {
 
         async let sessionsTask: Void = loadSessions()
         async let leaderboardTask: Void = loadLeaderboard()
-        async let newsTask = newsService.fetchNews()
 
-        let fetchedNews = await newsTask
         _ = await (sessionsTask, leaderboardTask)
-
-        newsUnavailable = fetchedNews.isEmpty
-        rebuildFeed(sessions: sessions, newsItems: fetchedNews)
 
         isLoading = false
     }
@@ -245,8 +135,8 @@ final class HomeViewModel: ObservableObject {
     private func loadLeaderboard() async {
         do {
             currentLeaderboard = try await raceService.fetchLeaderboard(
-                duration: .weekly,
-                raceType: .fastest1km
+                duration: selectedDuration,
+                raceType: selectedRaceType
             )
         } catch {
             // Silently fail for leaderboard

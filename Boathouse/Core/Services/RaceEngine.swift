@@ -9,20 +9,116 @@ final class RaceEngine {
         guard session.isEligibleForRaces else { return nil }
 
         switch raceType {
+        case .furthestDistance:
+            return session.distanceKm
+
         case .fastest1km:
-            return session.best1kmTime()
+            return session.fastest1kmTime
 
         case .fastest5km:
-            return session.best5kmTime()
+            return session.fastest5kmTime
 
         case .fastest10km:
-            return session.best10kmTime()
+            return session.fastest10kmTime
         }
+    }
+
+    // MARK: - Leaderboard Computation (single source of truth)
+
+    /// Build a complete leaderboard for a race from entries + sessions.
+    ///
+    /// Ranking rules:
+    ///   - `.fastest1km/5km/10km`: best (lowest) split time from ANY session in race window → rank ascending
+    ///   - `.furthestDistance`: SUM of distance across ALL sessions in race window → rank descending
+    ///
+    /// Both the "Current Leaders & Prizes" card and the full leaderboard view
+    /// call this, so rankings are always consistent.
+    func buildLeaderboard(for race: Race, entries: [Entry], sessions: [Session]) -> Leaderboard {
+        let enteredUserIds = Set(entries.map(\.userId))
+
+        // Filter sessions to those inside the race time window and eligible
+        let eligibleSessions = sessions.filter { session in
+            enteredUserIds.contains(session.userId)
+                && session.startDate >= race.startDate
+                && session.startDate <= race.endDate
+                && session.isEligibleForRaces
+        }
+
+        // Group eligible sessions by userId
+        let sessionsByUser = Dictionary(grouping: eligibleSessions, by: \.userId)
+
+        // Compute score per user
+        var userScores: [(userId: String, score: Double, bestSessionId: String?)] = []
+
+        for userId in enteredUserIds {
+            let userSessions = sessionsByUser[userId] ?? []
+
+            switch race.type {
+            case .fastest1km:
+                if let best = userSessions.compactMap({ $0.fastest1kmTime }).min() {
+                    let bestSession = userSessions.first { $0.fastest1kmTime == best }
+                    userScores.append((userId, best, bestSession?.id))
+                }
+
+            case .fastest5km:
+                if let best = userSessions.compactMap({ $0.fastest5kmTime }).min() {
+                    let bestSession = userSessions.first { $0.fastest5kmTime == best }
+                    userScores.append((userId, best, bestSession?.id))
+                }
+
+            case .fastest10km:
+                if let best = userSessions.compactMap({ $0.fastest10kmTime }).min() {
+                    let bestSession = userSessions.first { $0.fastest10kmTime == best }
+                    userScores.append((userId, best, bestSession?.id))
+                }
+
+            case .furthestDistance:
+                let totalKm = userSessions.reduce(0.0) { $0 + $1.distanceKm }
+                if totalKm > 0 {
+                    let bestSession = userSessions.max(by: { $0.distance < $1.distance })
+                    userScores.append((userId, totalKm, bestSession?.id))
+                }
+            }
+        }
+
+        // Sort
+        let sorted: [(userId: String, score: Double, bestSessionId: String?)]
+        switch race.type {
+        case .fastest1km, .fastest5km, .fastest10km:
+            sorted = userScores.sorted { $0.score < $1.score }
+        case .furthestDistance:
+            sorted = userScores.sorted { $0.score > $1.score }
+        }
+
+        // Build LeaderboardEntry array
+        let leaderboardEntries = sorted.enumerated().map { index, item -> LeaderboardEntry in
+            let user = MockData.user(for: item.userId)
+            return LeaderboardEntry(
+                id: "lb-\(race.id)-\(String(format: "%03d", index + 1))",
+                rank: index + 1,
+                userId: item.userId,
+                userName: user?.displayName ?? "Unknown",
+                userProfileURL: user?.profileImageURL,
+                score: item.score,
+                sessionId: item.bestSessionId,
+                raceType: race.type
+            )
+        }
+
+        return Leaderboard(
+            id: "leaderboard-\(race.id)",
+            raceId: race.id,
+            entries: leaderboardEntries,
+            updatedAt: Date()
+        )
     }
 
     /// Determine if a higher or lower score is better
     func isBetterScore(_ score1: Double, than score2: Double, for raceType: RaceType) -> Bool {
         switch raceType {
+        case .furthestDistance:
+            return score1 > score2
+
         case .fastest1km, .fastest5km, .fastest10km:
             return score1 < score2
         }
@@ -34,6 +130,8 @@ final class RaceEngine {
 
         let sorted: [Entry]
         switch raceType {
+        case .furthestDistance:
+            sorted = scoredEntries.sorted { ($0.score ?? 0) > ($1.score ?? 0) }
         case .fastest1km, .fastest5km, .fastest10km:
             sorted = scoredEntries.sorted { ($0.score ?? .infinity) < ($1.score ?? .infinity) }
         }
@@ -42,41 +140,6 @@ final class RaceEngine {
             var rankedEntry = entry
             rankedEntry.rank = index + 1
             return rankedEntry
-        }
-    }
-
-    /// Deduplicates entries to one per user (keeping the best/lowest score),
-    /// then re-ranks sorted ascending by score.
-    func calculateRankingsDeduplicatedByUser(entries: [Entry], raceType: RaceType) -> [Entry] {
-        // 1. Filter to scored entries only
-        let scoredEntries = entries.filter { $0.score != nil }
-
-        // 2. Group by userId, keeping the entry with the lowest score per user
-        var bestByUser: [String: Entry] = [:]
-        for entry in scoredEntries {
-            guard let score = entry.score else { continue }
-            if let existing = bestByUser[entry.userId], let existingScore = existing.score {
-                if score < existingScore || (score == existingScore && entry.id < existing.id) {
-                    bestByUser[entry.userId] = entry
-                }
-            } else {
-                bestByUser[entry.userId] = entry
-            }
-        }
-
-        // 3. Sort ascending by score, with deterministic tiebreaker on entry.id
-        let sorted = bestByUser.values.sorted { a, b in
-            let aScore = a.score ?? .infinity
-            let bScore = b.score ?? .infinity
-            if aScore != bScore { return aScore < bScore }
-            return a.id < b.id
-        }
-
-        // 4. Re-assign ranks 1, 2, 3, ...
-        return sorted.enumerated().map { index, entry in
-            var ranked = entry
-            ranked.rank = index + 1
-            return ranked
         }
     }
 
@@ -139,6 +202,8 @@ final class RaceEngine {
             guard session.distanceKm >= 10.0 else {
                 return .ineligible(reason: "Session must be at least 10km")
             }
+        case .furthestDistance:
+            break
         }
 
         return .eligible

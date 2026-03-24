@@ -12,19 +12,18 @@ struct AccountView: View {
                 profileSection
 
                 if appState.isRacer {
-                    garminSection
+                    stravaSection
                     walletSection
                     categorySection
                 }
 
-                appearanceSection
                 settingsSection
 
                 logoutSection
             }
             .navigationTitle("Account")
-            .sheet(isPresented: $viewModel.showingGarminOAuth) {
-                GarminOAuthView()
+            .sheet(isPresented: $viewModel.showingStravaOAuth) {
+                StravaOAuthView()
             }
             .sheet(isPresented: $viewModel.showingWalletSetup) {
                 WalletSetupView()
@@ -32,21 +31,32 @@ struct AccountView: View {
             .sheet(isPresented: $viewModel.showingTransactionHistory) {
                 TransactionHistoryView()
             }
+            .sheet(isPresented: $viewModel.showingConnectGarminHelp) {
+                NavigationStack {
+                    ConnectGarminHelpView {
+                        viewModel.showingConnectGarminHelp = false
+                        viewModel.showingStravaOAuth = true
+                    }
+                }
+            }
+            .sheet(isPresented: $viewModel.showingWithdraw) {
+                NavigationStack {
+                    WithdrawFundsView()
+                        .environmentObject(appState)
+                }
+            }
         }
     }
 
     private var profileSection: some View {
         Section {
             HStack(spacing: 16) {
-                Circle()
-                    .fill(Color.accentColor.opacity(0.2))
-                    .frame(width: 60, height: 60)
-                    .overlay {
-                        Text(initials)
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.accent)
-                    }
+                AvatarView(
+                    url: appState.currentUser?.profileImageURL,
+                    initials: initials,
+                    id: appState.currentUser?.id ?? "",
+                    size: 60
+                )
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(appState.currentUser?.displayName ?? "User")
@@ -69,9 +79,9 @@ struct AccountView: View {
         }
     }
 
-    private var garminSection: some View {
+    private var stravaSection: some View {
         Section("Garmin Connection") {
-            if let connection = appState.currentUser?.garminConnection {
+            if let connection = appState.currentUser?.stravaConnection {
                 HStack {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundStyle(.green)
@@ -91,7 +101,7 @@ struct AccountView: View {
 
                     Button("Disconnect") {
                         Task {
-                            await viewModel.disconnectGarmin()
+                            await viewModel.disconnectStrava()
                         }
                     }
                     .font(.subheadline)
@@ -99,7 +109,7 @@ struct AccountView: View {
                 }
             } else {
                 Button {
-                    viewModel.showingGarminOAuth = true
+                    viewModel.showingConnectGarminHelp = true
                 } label: {
                     HStack {
                         Image(systemName: "link")
@@ -112,11 +122,20 @@ struct AccountView: View {
             }
 
             NavigationLink {
-                GarminExplanationView()
+                WhatIsRacepaceView()
+            } label: {
+                HStack {
+                    Image(systemName: "info.circle")
+                    Text("What is Racepace?")
+                }
+            }
+
+            NavigationLink {
+                StravaExplanationView()
             } label: {
                 HStack {
                     Image(systemName: "questionmark.circle")
-                    Text("Why connect Garmin?")
+                    Text("Why connect your Garmin")
                 }
             }
         }
@@ -150,6 +169,18 @@ struct AccountView: View {
                     get: { wallet.autoPayoutEnabled },
                     set: { _ in Task { await viewModel.toggleAutoPayout() } }
                 ))
+
+                Button {
+                    viewModel.showingWithdraw = true
+                } label: {
+                    HStack {
+                        Image(systemName: "arrow.up.circle")
+                        Text("Withdraw prize funds")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .foregroundStyle(.secondary)
+                    }
+                }
 
                 Button {
                     viewModel.showingTransactionHistory = true
@@ -224,31 +255,14 @@ struct AccountView: View {
         }
     }
 
-    private var appearanceSection: some View {
-        Section("Appearance") {
-            Picker("Theme", selection: Binding(
-                get: {
-                    appState.preferredColorScheme == .dark ? 1 : 0
-                },
-                set: { value in
-                    appState.preferredColorScheme = value == 1 ? .dark : .light
-                }
-            )) {
-                Text("Light").tag(0)
-                Text("Dark").tag(1)
-            }
-            .pickerStyle(.segmented)
-        }
-    }
-
     private var settingsSection: some View {
         Section("Settings") {
             if appState.isSpectator {
                 Button {
-                    viewModel.showingGarminOAuth = true
+                    viewModel.showingStravaOAuth = true
                 } label: {
                     HStack {
-                        Image(systemName: "figure.water.fitness")
+                        Image(systemName: "figure.rowing")
                         Text("Upgrade to Racer")
                         Spacer()
                         Image(systemName: "chevron.right")

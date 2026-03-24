@@ -6,6 +6,7 @@ protocol RaceServiceProtocol {
     func fetchActiveRaces() async throws -> [Race]
     func fetchRace(id: String) async throws -> Race
     func fetchUserEntries(userId: String) async throws -> [Entry]
+    func fetchUserEntry(raceId: String, userId: String) async throws -> Entry?
     func enterRace(raceId: String, userId: String) async throws -> Entry
     func fetchLeaderboard(duration: RaceDuration, raceType: RaceType) async throws -> Leaderboard
     func fetchRaceLeaderboard(raceId: String) async throws -> Leaderboard
@@ -94,6 +95,20 @@ final class RaceService: RaceServiceProtocol {
         return MockData.entries.filter { $0.userId == userId }
     }
 
+    func fetchUserEntry(raceId: String, userId: String) async throws -> Entry? {
+        // TODO: Replace with actual API call
+        guard var entry = MockData.entries.first(where: { $0.raceId == raceId && $0.userId == userId }) else {
+            return nil
+        }
+        // Enrich with dynamically computed rank + score from leaderboard
+        if let leaderboard = MockData.leaderboard(for: raceId),
+           let lbEntry = leaderboard.entry(for: userId) {
+            entry.rank = lbEntry.rank
+            entry.score = lbEntry.score
+        }
+        return entry
+    }
+
     func enterRace(raceId: String, userId: String) async throws -> Entry {
         // TODO: Replace with actual API call
         // This would:
@@ -120,12 +135,20 @@ final class RaceService: RaceServiceProtocol {
 
     func fetchLeaderboard(duration: RaceDuration, raceType: RaceType) async throws -> Leaderboard {
         // TODO: Replace with actual API call
-        return MockData.leaderboard
+        // Find the matching race and compute its leaderboard
+        if let race = MockData.races.first(where: { $0.duration == duration && $0.type == raceType }),
+           let lb = MockData.leaderboard(for: race.id) {
+            return lb
+        }
+        throw RaceError.notFound
     }
 
     func fetchRaceLeaderboard(raceId: String) async throws -> Leaderboard {
         // TODO: Replace with actual API call
-        return MockData.leaderboard
+        guard let lb = MockData.leaderboard(for: raceId) else {
+            throw RaceError.notFound
+        }
+        return lb
     }
 }
 

@@ -3,7 +3,8 @@ import os.signpost
 
 private let launchLog = OSLog(subsystem: "com.boathouse.app", category: "Launch")
 
-/// Main content view that handles navigation based on auth state
+/// Main content view that handles navigation based on auth state.
+/// Goals overlay is now inside MainTabView, not a separate splash phase.
 struct ContentView: View {
     @EnvironmentObject var appState: AppState
     @EnvironmentObject var authViewModel: AuthViewModel
@@ -16,8 +17,6 @@ struct ContentView: View {
                 AuthenticationView()
             } else if appState.showOnboarding {
                 OnboardingView()
-            } else if !appState.hasCompletedGoals {
-                YourGoalsView()
             } else {
                 MainTabView()
             }

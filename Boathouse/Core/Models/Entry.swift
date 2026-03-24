@@ -69,16 +69,17 @@ struct LeaderboardEntry: Identifiable, Codable, Equatable {
     let score: Double
     let sessionId: String?
     let raceType: RaceType
-    var isGPSVerified: Bool
 
     enum CodingKeys: String, CodingKey {
         case id, rank, userId, userName, userProfileURL, score
         case sessionId = "activityId"
-        case raceType, isGPSVerified
+        case raceType
     }
 
     var formattedScore: String {
         switch raceType {
+        case .furthestDistance:
+            return String(format: "%.2f km", score)
         case .fastest1km, .fastest5km, .fastest10km:
             let minutes = Int(score) / 60
             let seconds = Int(score) % 60

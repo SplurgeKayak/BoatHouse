@@ -19,6 +19,10 @@ final class AppState: ObservableObject {
         }
     }
 
+    /// Goals overlay visible — starts true on cold launch (session-only, not persisted).
+    /// Driven by the center target button in the custom bottom nav.
+    @Published var isGoalsVisible: Bool = true
+
     /// Shared instance for global access
     static var shared: AppState?
 
