@@ -69,8 +69,17 @@ struct MyGoalsView: View {
     // MARK: - Chart
 
     private var chartSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Weekly Progress")
+        let pts = GoalProgressCalculator.dataPoints(for: selectedDistance, from: andySessions)
+        let goalPace = GoalProgressCalculator.goalPace(for: selectedDistance, goals: goals)
+        let benchmark = BenchmarkService.categoryBenchmark(
+            for: selectedDistance,
+            category: appState.currentUser?.raceCategory ?? .seniorMen,
+            allSessions: MockData.sessions,
+            allUsers: MockData.users
+        )
+
+        return VStack(alignment: .leading, spacing: 12) {
+            Text("Performance History")
                 .font(.headline)
 
             Picker("Distance", selection: $selectedDistance) {
@@ -80,8 +89,14 @@ struct MyGoalsView: View {
             }
             .pickerStyle(.segmented)
 
-            WeeklyProgressChartView(sessions: andySessions, distance: selectedDistance)
-                .frame(height: 200)
+            RacePerformanceChart(
+                distanceLabel: selectedDistance.label,
+                dataPoints: pts,
+                goalPace: goalPace,
+                categoryBenchmark: benchmark
+            )
+            .frame(height: 240)
+            .clipShape(RoundedRectangle(cornerRadius: 14))
         }
     }
 
@@ -184,113 +199,13 @@ enum GoalDistance: CaseIterable {
         case .tenKm:  return "10 km"
         }
     }
-}
 
-// MARK: - WeeklyProgressChartView
-
-/// Pure-SwiftUI scatter chart: best pace per week for a chosen distance.
-struct WeeklyProgressChartView: View {
-    let sessions: [Session]
-    let distance: GoalDistance
-
-    private struct WeekPoint: Identifiable {
-        let id: Int           // week index (0 = oldest)
-        let weekLabel: String
-        let bestTime: TimeInterval
-    }
-
-    private var points: [WeekPoint] {
-        let cal = Calendar.current
-        let now = Date()
-        var result: [WeekPoint] = []
-        for offset in stride(from: -5, through: 0, by: 1) {
-            guard let weekStart = cal.date(byAdding: .weekOfYear, value: offset, to: now) else { continue }
-            let weekSessions = sessions.filter {
-                cal.isDate($0.startDate, equalTo: weekStart, toGranularity: .weekOfYear)
-            }
-            let times: [TimeInterval] = weekSessions.compactMap { s in
-                switch distance {
-                case .oneKm:  return s.fastest1kmTime
-                case .fiveKm: return s.fastest5kmTime
-                case .tenKm:  return s.fastest10kmTime
-                }
-            }
-            if let best = times.min() {
-                let formatter = DateFormatter()
-                formatter.dateFormat = "d/M"
-                result.append(WeekPoint(id: offset + 5, weekLabel: formatter.string(from: weekStart), bestTime: best))
-            }
+    init(raceType: RaceType) {
+        switch raceType {
+        case .fastest1km:  self = .oneKm
+        case .fastest5km:  self = .fiveKm
+        case .fastest10km: self = .tenKm
         }
-        return result
-    }
-
-    var body: some View {
-        GeometryReader { geo in
-            let pts = points
-            if pts.isEmpty {
-                Text("No data for selected distance")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else {
-                let times = pts.map(\.bestTime)
-                let minT = (times.min() ?? 0) * 0.95
-                let maxT = (times.max() ?? 1) * 1.05
-                let w = geo.size.width
-                let h = geo.size.height - 24 // leave room for labels
-
-                ZStack {
-                    // Grid lines
-                    ForEach(0..<4) { i in
-                        let y = h * CGFloat(i) / 3
-                        Path { p in
-                            p.move(to: CGPoint(x: 0, y: y))
-                            p.addLine(to: CGPoint(x: w, y: y))
-                        }
-                        .stroke(Color(.systemGray5), lineWidth: 1)
-                    }
-
-                    // Connecting line
-                    Path { p in
-                        for (i, pt) in pts.enumerated() {
-                            let x = xPos(index: i, count: pts.count, width: w)
-                            let y = yPos(time: pt.bestTime, minT: minT, maxT: maxT, height: h)
-                            if i == 0 { p.move(to: CGPoint(x: x, y: y)) }
-                            else { p.addLine(to: CGPoint(x: x, y: y)) }
-                        }
-                    }
-                    .stroke(Color.accentColor.opacity(0.5), lineWidth: 2)
-
-                    // Dots + week labels
-                    ForEach(pts) { pt in
-                        let i = pt.id
-                        let x = xPos(index: i, count: pts.count, width: w)
-                        let y = yPos(time: pt.bestTime, minT: minT, maxT: maxT, height: h)
-                        Circle()
-                            .fill(Color.accentColor)
-                            .frame(width: 8, height: 8)
-                            .position(x: x, y: y)
-
-                        Text(pt.weekLabel)
-                            .font(.system(size: 9))
-                            .foregroundStyle(.secondary)
-                            .position(x: x, y: h + 12)
-                    }
-                }
-            }
-        }
-    }
-
-    private func xPos(index: Int, count: Int, width: CGFloat) -> CGFloat {
-        guard count > 1 else { return width / 2 }
-        return width * CGFloat(index) / CGFloat(count - 1)
-    }
-
-    private func yPos(time: TimeInterval, minT: TimeInterval, maxT: TimeInterval, height: CGFloat) -> CGFloat {
-        guard maxT > minT else { return height / 2 }
-        // Faster (lower time) = higher on chart = smaller y
-        let ratio = CGFloat((time - minT) / (maxT - minT))
-        return height * (1 - ratio)
     }
 }
 
