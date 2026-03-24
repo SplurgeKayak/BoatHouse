@@ -30,6 +30,8 @@ struct WeeklyProgressChartView: View {
             .sorted { $0.week < $1.week }
     }
 
+    private let yPadding: CGFloat = 20
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             // Distance selector
@@ -66,7 +68,7 @@ struct WeeklyProgressChartView: View {
             let yRange = yAxisRange
 
             let xScale = (xRange.1 == xRange.0) ? width - padding : (width - padding) / Double(xRange.1 - xRange.0)
-            let yScale = (yRange.1 == yRange.0) ? height - 20    : (height - 20) / Double(yRange.1 - yRange.0)
+            let yScale = (yRange.1 == yRange.0) ? height - yPadding : (height - yPadding) / Double(yRange.1 - yRange.0)
 
             func xPos(_ week: Int) -> CGFloat {
                 padding + CGFloat(week - xRange.0) * xScale

@@ -9,7 +9,10 @@ struct MyGoalsView: View {
     private let store = GoalsStore.shared
     private var goals: KayakingGoals { store.load() ?? KayakingGoals() }
 
-    private var currentUserId: String { appState.currentUser?.id ?? "andy-001" }
+    private var currentUserId: String {
+        // Fall back to the first mock user if no one is logged in
+        appState.currentUser?.id ?? MockData.users.first?.id ?? ""
+    }
 
     private var userSessions: [Session] {
         MockData.sessions.filter { $0.userId == currentUserId }

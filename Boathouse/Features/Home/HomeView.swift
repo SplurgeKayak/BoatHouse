@@ -27,7 +27,7 @@ struct HomeView: View {
 
                     if viewModel.isLoading {
                         loadingView
-                    } else if viewModel.feedItems.isEmpty && viewModel.chronologicalSessions.isEmpty {
+                    } else if viewModel.feedItems.isEmpty {
                         emptyStateView
                     } else {
                         mixedFeed

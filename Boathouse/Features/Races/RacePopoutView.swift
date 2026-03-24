@@ -209,7 +209,7 @@ struct RacePopoutView: View {
     private func medalColor(for rank: Int) -> Color {
         switch rank {
         case 1: return .yellow
-        case 2: return .gray
+        case 2: return Color(red: 0.75, green: 0.75, blue: 0.75) // silver
         case 3: return .orange
         default: return .primary
         }
