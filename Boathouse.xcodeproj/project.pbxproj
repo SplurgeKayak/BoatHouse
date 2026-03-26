@@ -180,8 +180,8 @@
 		B20000000000000000000007 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		B30000000000000000000001 /* RacePerformanceDataPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacePerformanceDataPoint.swift; sourceTree = "<group>"; };
 		B30000000000000000000002 /* CategoryBenchmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryBenchmark.swift; sourceTree = "<group>"; };
-		B30000000000000000000003 /* User+RaceCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User+RaceCategory.swift; sourceTree = "<group>"; };
-		B30000000000000000000004 /* PaceChartDataBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaceChartDataBuilder.swift; sourceTree = "<group>"; };
+		B30000000000000000000003 /* User+RaceCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+RaceCategory.swift; sourceTree = "<group>"; };
+		B30000000000000000000004 /* PaceChartDataBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaceChartDataBuilder.swift"; sourceTree = "<group>"; };
 		B30000000000000000000005 /* BenchmarkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenchmarkService.swift; sourceTree = "<group>"; };
 		B30000000000000000000006 /* RacePerformanceChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacePerformanceChart.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
