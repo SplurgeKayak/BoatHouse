@@ -604,21 +604,6 @@
 			files = (
 				A10000000000000000000046 /* Preview Assets.xcassets in Resources */,
 				A10000000000000000000045 /* Assets.xcassets in Resources */,
-							A40000000000000000000001 /* ActivityStoryPopup.swift in Sources */,
-				A40000000000000000000002 /* WeeklyProgressChartView.swift in Sources */,
-				A40000000000000000000003 /* ActivityDetailView.swift in Sources */,
-				A40000000000000000000004 /* ConnectGarminHelpView.swift in Sources */,
-				A40000000000000000000005 /* WhatIsRacepaceView.swift in Sources */,
-				A40000000000000000000006 /* WithdrawFundsView.swift in Sources */,
-				A40000000000000000000007 /* GaugeChartView.swift in Sources */,
-				A40000000000000000000008 /* GoalCardView.swift in Sources */,
-				A40000000000000000000009 /* GoalsSplashView.swift in Sources */,
-				A40000000000000000000010 /* GoalsOverlayView.swift in Sources */,
-				A40000000000000000000011 /* GoalsViewModel.swift in Sources */,
-				A40000000000000000000012 /* GoalsDashboardView.swift in Sources */,
-				A40000000000000000000013 /* Goal.swift in Sources */,
-				A40000000000000000000014 /* DummyUserStore.swift in Sources */,
-				A40000000000000000000015 /* GoalProgressService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -713,6 +698,21 @@
 				A30000000000000000000004 /* PaceChartDataBuilder.swift in Sources */,
 				A30000000000000000000005 /* BenchmarkService.swift in Sources */,
 				A30000000000000000000006 /* RacePerformanceChart.swift in Sources */,
+				A40000000000000000000001 /* ActivityStoryPopup.swift in Sources */,
+				A40000000000000000000002 /* WeeklyProgressChartView.swift in Sources */,
+				A40000000000000000000003 /* ActivityDetailView.swift in Sources */,
+				A40000000000000000000004 /* ConnectGarminHelpView.swift in Sources */,
+				A40000000000000000000005 /* WhatIsRacepaceView.swift in Sources */,
+				A40000000000000000000006 /* WithdrawFundsView.swift in Sources */,
+				A40000000000000000000007 /* GaugeChartView.swift in Sources */,
+				A40000000000000000000008 /* GoalCardView.swift in Sources */,
+				A40000000000000000000009 /* GoalsSplashView.swift in Sources */,
+				A40000000000000000000010 /* GoalsOverlayView.swift in Sources */,
+				A40000000000000000000011 /* GoalsViewModel.swift in Sources */,
+				A40000000000000000000012 /* GoalsDashboardView.swift in Sources */,
+				A40000000000000000000013 /* Goal.swift in Sources */,
+				A40000000000000000000014 /* DummyUserStore.swift in Sources */,
+				A40000000000000000000015 /* GoalProgressService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
