@@ -38,6 +38,11 @@ jobs:
           CODE_SIGNING_ALLOWED=NO \
           2>&1 | tee build.log
 
+    - name: Boot Simulator
+      run: |
+        xcrun simctl boot "iPhone 16" 2>/dev/null || true
+        sleep 5
+
     - name: Run Tests
       run: |
         set -o pipefail
@@ -50,11 +55,6 @@ jobs:
           -resultBundlePath ./TestResultBundle.xcresult \
           CODE_SIGNING_ALLOWED=NO \
           2>&1 | tee test.log
-
-    - name: Boot Simulator
-      run: |
-        xcrun simctl boot "iPhone 16" 2>/dev/null || true
-        sleep 5
 
     - name: Install App
       run: |
