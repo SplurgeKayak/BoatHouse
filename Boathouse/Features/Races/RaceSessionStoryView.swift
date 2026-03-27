@@ -229,7 +229,7 @@ struct RaceSessionStoryView: View {
             id: "e1", rank: 1, userId: "billy-001",
             userName: "Billy Butler", userProfileURL: nil,
             score: 243, sessionId: nil,
-            raceType: .fastest1km, isGPSVerified: true
+            raceType: .fastest1km
         ),
         race: MockData.races[0],
         sessions: MockData.sessions.filter { $0.userId == "billy-001" }.prefix(3).map { $0 }
