@@ -1,7 +1,8 @@
+
 ---
-
-
-name: Swift Bug Fixer 
+name: Swift Bug Fixer
+description: Diagnose Xcode/Swift build failures and propose minimal fixes in JSON.
+---
 ---
 
 # My Agent
