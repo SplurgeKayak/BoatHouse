@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     runs-on: macos-15
-    timeout-minutes: 10
+    timeout-minutes: 20
 
     steps:
     - name: Checkout code
@@ -37,6 +37,19 @@ jobs:
           -resultBundlePath ./ResultBundle.xcresult \
           CODE_SIGNING_ALLOWED=NO \
           2>&1 | tee build.log
+
+    - name: Run Tests
+      run: |
+        set -o pipefail
+        xcodebuild test \
+          -project Boathouse.xcodeproj \
+          -scheme Boathouse \
+          -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.2' \
+          -configuration Debug \
+          -derivedDataPath ./DerivedData \
+          -resultBundlePath ./TestResultBundle.xcresult \
+          CODE_SIGNING_ALLOWED=NO \
+          2>&1 | tee test.log
 
     - name: Boot Simulator
       run: |
@@ -67,14 +80,27 @@ jobs:
         # Full xcodebuild log (already captured via tee)
         cp build.log diagnostics/build.log 2>/dev/null || echo "No build.log found" > diagnostics/build.log
 
+        # Test log
+        cp test.log diagnostics/test.log 2>/dev/null || echo "No test.log found" > diagnostics/test.log
+
         # Xcode build logs from DerivedData
         if [ -d "./DerivedData/Logs/Build" ]; then
           cp -R ./DerivedData/Logs/Build diagnostics/xcode-build-logs
         fi
 
+        # Test logs from DerivedData
+        if [ -d "./DerivedData/Logs/Test" ]; then
+          cp -R ./DerivedData/Logs/Test diagnostics/xcode-test-logs
+        fi
+
         # Result bundle (contains structured build diagnostics)
         if [ -d "./ResultBundle.xcresult" ]; then
           cp -R ./ResultBundle.xcresult diagnostics/ResultBundle.xcresult
+        fi
+
+        # Test result bundle
+        if [ -d "./TestResultBundle.xcresult" ]; then
+          cp -R ./TestResultBundle.xcresult diagnostics/TestResultBundle.xcresult
         fi
 
         # Simulator system log (last 500 lines — crash/launch clues)
@@ -103,3 +129,10 @@ jobs:
       with:
         name: build-log
         path: build.log
+
+    - name: Upload test log
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-log
+        path: test.log
