@@ -93,6 +93,21 @@
 		A30000000000000000000004 /* PaceChartDataBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000004 /* PaceChartDataBuilder.swift */; };
 		A30000000000000000000005 /* BenchmarkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000005 /* BenchmarkService.swift */; };
 		A30000000000000000000006 /* RacePerformanceChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000006 /* RacePerformanceChart.swift */; };
+		A40000000000000000000001 /* ActivityStoryPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40000000000000000000001 /* ActivityStoryPopup.swift */; };
+		A40000000000000000000002 /* WeeklyProgressChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40000000000000000000002 /* WeeklyProgressChartView.swift */; };
+		A40000000000000000000003 /* ActivityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40000000000000000000003 /* ActivityDetailView.swift */; };
+		A40000000000000000000004 /* ConnectGarminHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40000000000000000000004 /* ConnectGarminHelpView.swift */; };
+		A40000000000000000000005 /* WhatIsRacepaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40000000000000000000005 /* WhatIsRacepaceView.swift */; };
+		A40000000000000000000006 /* WithdrawFundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40000000000000000000006 /* WithdrawFundsView.swift */; };
+		A40000000000000000000007 /* GaugeChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40000000000000000000007 /* GaugeChartView.swift */; };
+		A40000000000000000000008 /* GoalCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40000000000000000000008 /* GoalCardView.swift */; };
+		A40000000000000000000009 /* GoalsSplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40000000000000000000009 /* GoalsSplashView.swift */; };
+		A40000000000000000000010 /* GoalsOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40000000000000000000010 /* GoalsOverlayView.swift */; };
+		A40000000000000000000011 /* GoalsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40000000000000000000011 /* GoalsViewModel.swift */; };
+		A40000000000000000000012 /* GoalsDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40000000000000000000012 /* GoalsDashboardView.swift */; };
+		A40000000000000000000013 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40000000000000000000013 /* Goal.swift */; };
+		A40000000000000000000014 /* DummyUserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40000000000000000000014 /* DummyUserStore.swift */; };
+		A40000000000000000000015 /* GoalProgressService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40000000000000000000015 /* GoalProgressService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -184,6 +199,21 @@
 		B30000000000000000000004 /* PaceChartDataBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaceChartDataBuilder.swift; sourceTree = "<group>"; };
 		B30000000000000000000005 /* BenchmarkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenchmarkService.swift; sourceTree = "<group>"; };
 		B30000000000000000000006 /* RacePerformanceChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacePerformanceChart.swift; sourceTree = "<group>"; };
+		B40000000000000000000001 /* ActivityStoryPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityStoryPopup.swift; sourceTree = "<group>"; };
+		B40000000000000000000002 /* WeeklyProgressChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyProgressChartView.swift; sourceTree = "<group>"; };
+		B40000000000000000000003 /* ActivityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailView.swift; sourceTree = "<group>"; };
+		B40000000000000000000004 /* ConnectGarminHelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectGarminHelpView.swift; sourceTree = "<group>"; };
+		B40000000000000000000005 /* WhatIsRacepaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatIsRacepaceView.swift; sourceTree = "<group>"; };
+		B40000000000000000000006 /* WithdrawFundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawFundsView.swift; sourceTree = "<group>"; };
+		B40000000000000000000007 /* GaugeChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeChartView.swift; sourceTree = "<group>"; };
+		B40000000000000000000008 /* GoalCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCardView.swift; sourceTree = "<group>"; };
+		B40000000000000000000009 /* GoalsSplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsSplashView.swift; sourceTree = "<group>"; };
+		B40000000000000000000010 /* GoalsOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsOverlayView.swift; sourceTree = "<group>"; };
+		B40000000000000000000011 /* GoalsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewModel.swift; sourceTree = "<group>"; };
+		B40000000000000000000012 /* GoalsDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsDashboardView.swift; sourceTree = "<group>"; };
+		B40000000000000000000013 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
+		B40000000000000000000014 /* DummyUserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyUserStore.swift; sourceTree = "<group>"; };
+		B40000000000000000000015 /* GoalProgressService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalProgressService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +265,7 @@
 			isa = PBXGroup;
 			children = (
 				B10000000000000000000002 /* AppState.swift */,
+							B40000000000000000000001 /* ActivityStoryPopup.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -262,6 +293,9 @@
 			isa = PBXGroup;
 			children = (
 				B20000000000000000000007 /* Strings.swift */,
+							B40000000000000000000013 /* Goal.swift */,
+							B40000000000000000000014 /* DummyUserStore.swift */,
+				B40000000000000000000015 /* GoalProgressService.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -333,6 +367,17 @@
 				B10000000000000000000088 /* YourGoalsView.swift */,
 				B20000000000000000000003 /* GoalProgressView.swift */,
 				B20000000000000000000006 /* MyGoalsView.swift */,
+							B40000000000000000000002 /* WeeklyProgressChartView.swift */,
+							B40000000000000000000003 /* ActivityDetailView.swift */,
+							B40000000000000000000004 /* ConnectGarminHelpView.swift */,
+				B40000000000000000000005 /* WhatIsRacepaceView.swift */,
+							B40000000000000000000006 /* WithdrawFundsView.swift */,
+							B40000000000000000000007 /* GaugeChartView.swift */,
+				B40000000000000000000008 /* GoalCardView.swift */,
+				B40000000000000000000009 /* GoalsSplashView.swift */,
+				B40000000000000000000010 /* GoalsOverlayView.swift */,
+				B40000000000000000000011 /* GoalsViewModel.swift */,
+				B40000000000000000000012 /* GoalsDashboardView.swift */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
@@ -559,6 +604,21 @@
 			files = (
 				A10000000000000000000046 /* Preview Assets.xcassets in Resources */,
 				A10000000000000000000045 /* Assets.xcassets in Resources */,
+							A40000000000000000000001 /* ActivityStoryPopup.swift in Sources */,
+				A40000000000000000000002 /* WeeklyProgressChartView.swift in Sources */,
+				A40000000000000000000003 /* ActivityDetailView.swift in Sources */,
+				A40000000000000000000004 /* ConnectGarminHelpView.swift in Sources */,
+				A40000000000000000000005 /* WhatIsRacepaceView.swift in Sources */,
+				A40000000000000000000006 /* WithdrawFundsView.swift in Sources */,
+				A40000000000000000000007 /* GaugeChartView.swift in Sources */,
+				A40000000000000000000008 /* GoalCardView.swift in Sources */,
+				A40000000000000000000009 /* GoalsSplashView.swift in Sources */,
+				A40000000000000000000010 /* GoalsOverlayView.swift in Sources */,
+				A40000000000000000000011 /* GoalsViewModel.swift in Sources */,
+				A40000000000000000000012 /* GoalsDashboardView.swift in Sources */,
+				A40000000000000000000013 /* Goal.swift in Sources */,
+				A40000000000000000000014 /* DummyUserStore.swift in Sources */,
+				A40000000000000000000015 /* GoalProgressService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
