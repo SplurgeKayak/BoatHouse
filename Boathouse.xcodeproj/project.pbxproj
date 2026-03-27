@@ -265,7 +265,6 @@
 			isa = PBXGroup;
 			children = (
 				B10000000000000000000002 /* AppState.swift */,
-							B40000000000000000000001 /* ActivityStoryPopup.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -293,9 +292,6 @@
 			isa = PBXGroup;
 			children = (
 				B20000000000000000000007 /* Strings.swift */,
-							B40000000000000000000013 /* Goal.swift */,
-							B40000000000000000000014 /* DummyUserStore.swift */,
-				B40000000000000000000015 /* GoalProgressService.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -312,6 +308,7 @@
 				B30000000000000000000001 /* RacePerformanceDataPoint.swift */,
 				B30000000000000000000002 /* CategoryBenchmark.swift */,
 				B30000000000000000000003 /* User+RaceCategory.swift */,
+				B40000000000000000000013 /* Goal.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -333,6 +330,8 @@
 				B20000000000000000000004 /* ExternalNewsService.swift */,
 				B30000000000000000000004 /* PaceChartDataBuilder.swift */,
 				B30000000000000000000005 /* BenchmarkService.swift */,
+				B40000000000000000000014 /* DummyUserStore.swift */,
+				B40000000000000000000015 /* GoalProgressService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -367,12 +366,7 @@
 				B10000000000000000000088 /* YourGoalsView.swift */,
 				B20000000000000000000003 /* GoalProgressView.swift */,
 				B20000000000000000000006 /* MyGoalsView.swift */,
-							B40000000000000000000002 /* WeeklyProgressChartView.swift */,
-							B40000000000000000000003 /* ActivityDetailView.swift */,
-							B40000000000000000000004 /* ConnectGarminHelpView.swift */,
-				B40000000000000000000005 /* WhatIsRacepaceView.swift */,
-							B40000000000000000000006 /* WithdrawFundsView.swift */,
-							B40000000000000000000007 /* GaugeChartView.swift */,
+				B40000000000000000000007 /* GaugeChartView.swift */,
 				B40000000000000000000008 /* GoalCardView.swift */,
 				B40000000000000000000009 /* GoalsSplashView.swift */,
 				B40000000000000000000010 /* GoalsOverlayView.swift */,
@@ -408,6 +402,7 @@
 				B10000000000000000000094 /* SessionDetailView.swift */,
 				B10000000000000000000095 /* UserSessionsView.swift */,
 				B20000000000000000000005 /* FeedItem.swift */,
+				B40000000000000000000003 /* ActivityDetailView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -430,6 +425,7 @@
 			children = (
 				B10000000000000000000034 /* EntryView.swift */,
 				B10000000000000000000035 /* EntryViewModel.swift */,
+				B40000000000000000000002 /* WeeklyProgressChartView.swift */,
 			);
 			path = Entry;
 			sourceTree = "<group>";
@@ -444,6 +440,8 @@
 				B10000000000000000000091 /* GarminOAuthViewModel.swift */,
 				B10000000000000000000092 /* GarminOAuthView.swift */,
 				B10000000000000000000093 /* GarminExplanationView.swift */,
+				B40000000000000000000004 /* ConnectGarminHelpView.swift */,
+				B40000000000000000000005 /* WhatIsRacepaceView.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -455,6 +453,7 @@
 				B10000000000000000000041 /* WalletSetupView.swift */,
 				B10000000000000000000042 /* AddFundsView.swift */,
 				B10000000000000000000043 /* TransactionHistoryView.swift */,
+				B40000000000000000000006 /* WithdrawFundsView.swift */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -496,6 +495,7 @@
 				D10000000000000000000051 /* Layouts */,
 				B10000000000000000000071 /* AvatarView.swift */,
 				B30000000000000000000006 /* RacePerformanceChart.swift */,
+				B40000000000000000000001 /* ActivityStoryPopup.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
