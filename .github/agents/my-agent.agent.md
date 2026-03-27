@@ -1,8 +1,7 @@
 ---
 
 
-name:
-Swift Bug Fixer 
+name: Swift Bug Fixer 
 ---
 
 # My Agent
